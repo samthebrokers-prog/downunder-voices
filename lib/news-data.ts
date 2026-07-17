@@ -330,37 +330,5 @@ export function formatDate(iso: string): string {
     month: 'long',
     year: 'numeric',
   })
-}  {
-    id: 'sams-view-cost-of-living',
-    title: "Sam's View: The Real Cost of Living Isn't Just About Money",
-    category: 'sams-view',
-    date: '2026-06-28',
-    summary:
-      'When we only measure the cost of living in dollars, we miss the toll on time, community and peace of mind. Here is why that matters.',
-    sourceName: 'Downunder Voices',
-    sourceUrl: 'https://downundervoices.com/',
-    image: '/news/sams-view-costofliving.png',
-    communityAngle:
-      'An honest take on what families are really carrying right now — and why community connection is part of the answer.',
-    author: 'Sam',
-  },
-
-  {
-    id: 'pauline-hanson-white-australia-policy',
-    title:
-      'Pauline Hanson Criticised After Linking Migration Problems to End of White Australia Policy',
-    category: 'politics',
-    date: '2026-07-18',
-    summary:
-      'One Nation leader Pauline Hanson has faced criticism after linking Australia’s migration problems to the end of the White Australia policy and making unsupported claims about Muslim participation in the NDIS.',
-    sourceName: 'ABC News',
-    sourceUrl:
-      'https://www.abc.net.au/news/2026-07-17/pauline-hanson-tommy-robinson-podcast/106926030',
-    image: '/news/politics-leaders.png',
-    communityAngle:
-      'Australia should be able to debate immigration, housing and public spending openly. However, serious claims about migrant or religious communities must be supported by reliable evidence, not fear or division.',
-    author: 'Sam',
-    status: 'published',
-    publishedAt: '2026-07-18',
-  },
-]
+}
+}
