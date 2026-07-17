@@ -1,0 +1,10 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/import-news",
+      "schedule": "0 21 * * *"
+    }
+  ],
+  "buildCommand": "npm run build",
+  "installCommand": "npm install --no-audit --no-fund"
+}
