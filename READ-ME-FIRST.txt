@@ -1,0 +1,9 @@
+DOWNUNDER VOICES - CLEAN NODE 20 DEPLOYMENT
+
+1. Extract All. Do not run from inside the ZIP.
+2. Open the extracted downunder-node20-clean folder.
+3. Double-click DEPLOY-NODE20.cmd.
+4. If asked whether to proceed, type y and press Enter.
+5. Wait for SUCCESS.
+
+This package removes the old package-lock file that referred to a private build registry and pins Vercel to Node.js 20.x to avoid npm's "Exit handler never called" bug on Node 22/24.
