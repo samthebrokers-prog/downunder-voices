@@ -331,4 +331,3 @@ export function formatDate(iso: string): string {
     year: 'numeric',
   })
 }
-}
