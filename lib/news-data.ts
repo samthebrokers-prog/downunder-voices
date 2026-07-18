@@ -9,7 +9,7 @@ export type CategorySlug =
   | 'business'
   | 'community'
   | 'sports'
-  | 'sams-view'
+  | 'Editorial View '
 
 export interface Category {
   slug: CategorySlug
@@ -72,8 +72,8 @@ export const categories: Category[] = [
       'Grassroots and community sport across New Zealand, Australia and the Pacific.',
   },
   {
-    slug: 'sams-view',
-    name: "Sam's View",
+    slug: '| 'editorial-view',
+    name: "| 'editorial-view'",
     description:
       'Opinion and commentary on the issues shaping our communities.',
   },
