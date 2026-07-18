@@ -72,12 +72,10 @@ export const categories: Category[] = [
       'Grassroots and community sport across New Zealand, Australia and the Pacific.',
   },
   {
-{
-  slug: 'editorial-view',
-  name: 'Editorial View',
-  description:
-    'Editorials and commentary on the issues shaping our communities.',
-},
+    slug: 'editorial-view',
+    name: 'Editorial View',
+    description:
+      'Editorials and commentary on the issues shaping our communities.',
   },
 ]
 
@@ -251,34 +249,34 @@ export const stories: Story[] = [
       'Women’s community sport often goes uncovered. We are proud to put these players and their supporters front and centre.',
   },
 
-  // ---------------------------------------------------------------- Sam's View
+  // ---------------------------------------------------------------- Editorial View
   {
-    id: 'sams-view-community-voices',
-    title: "Sam's View: Why Community Voices Matter More Than Ever",
-    category: 'sams-view',
+    id: 'editorial-community-voices',
+    title: 'Why Community Voices Matter More Than Ever',
+    category: 'editorial-view',
     date: '2026-07-02',
     summary:
       'In a noisy media landscape, the quiet, honest voices of ordinary communities are the ones we should be listening to hardest.',
     sourceName: 'Downunder Voices',
     sourceUrl: 'https://downundervoices.com/',
-    image: '/news/sams-view-voices.png',
+    image: '/default.svg',
     communityAngle:
-      'This column is opinion. It is here to spark conversation and give a platform to the people the big headlines often overlook.',
-    author: 'Sam',
+      'This editorial encourages constructive discussion and gives a platform to voices often overlooked by larger media organisations.',
+    author: 'Downunder Voices Editorial Team',
   },
   {
-    id: 'sams-view-cost-of-living',
-    title: "Sam's View: The Real Cost of Living Isn't Just About Money",
-    category: 'sams-view',
+    id: 'editorial-cost-of-living',
+    title: "The Real Cost of Living Isn't Just About Money",
+    category: 'editorial-view',
     date: '2026-06-28',
     summary:
-      'When we only measure the cost of living in dollars, we miss the toll on time, community and peace of mind. Here is why that matters.',
+      'When we measure the cost of living only in dollars, we miss the toll on time, community and peace of mind.',
     sourceName: 'Downunder Voices',
     sourceUrl: 'https://downundervoices.com/',
-    image: '/news/sams-view-costofliving.png',
+    image: '/default.svg',
     communityAngle:
-      'An honest take on what families are really carrying right now — and why community connection is part of the answer.',
-    author: 'Sam',
+      'An editorial perspective on what families are carrying and why stronger community connections matter.',
+    author: 'Downunder Voices Editorial Team',
   },
 ]
 
@@ -301,7 +299,7 @@ export function getAllStoriesSorted(): Story[] {
 }
 
 // A mixed, de-duplicated latest feed for the homepage.
-// Ensures we don't show the same category (e.g. sports) over and over at the top.
+// Ensures we don't show the same category repeatedly at the top.
 export function getMixedLatest(limit?: number): Story[] {
   const sorted = getAllStoriesSorted()
   const seenFirstPass = new Set<CategorySlug>()
@@ -326,7 +324,8 @@ export function getCategoryName(slug: CategorySlug): string {
 }
 
 export function formatDate(iso: string): string {
-  const date = new Date(iso + 'T00:00:00')
+  const date = new Date(`${iso}T00:00:00`)
+
   return date.toLocaleDateString('en-NZ', {
     day: 'numeric',
     month: 'long',
