@@ -6,7 +6,10 @@ import { Menu, X } from 'lucide-react'
 import { categories } from '@/lib/news-data'
 
 const navLinks = [
-  ...categories.map((c) => ({ href: `/category/${c.slug}`, label: c.name })),
+  ...categories.map((c) => ({
+    href: `/category/${c.slug}`,
+    label: c.name === "Sam's View" ? 'Opinion' : c.name,
+  })),
   { href: '/submit', label: 'Submit Your Story' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
@@ -35,6 +38,7 @@ export function SiteHeader() {
           <span className="hidden sm:inline" suppressHydrationWarning>
             {today}
           </span>
+
           <span className="font-medium uppercase tracking-wide">
             NZ &middot; Australia &middot; Pacific
           </span>
@@ -42,15 +46,23 @@ export function SiteHeader() {
       </div>
 
       {/* Masthead */}
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-6">
-        <Link href="/" className="group flex flex-col">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-5">
+        <Link href="/" className="group flex shrink-0 flex-col">
           <span className="font-serif text-3xl font-bold leading-none tracking-tight text-foreground sm:text-4xl">
             Downunder <span className="text-primary">Voices</span>
           </span>
+
           <span className="mt-1 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
             Community News &amp; Views
           </span>
         </Link>
+
+        <p className="hidden max-w-xl text-right text-xs leading-relaxed text-muted-foreground lg:block">
+          Downunder Voices acknowledges the Traditional Custodians of Country
+          throughout Australia and recognises their continuing connection to
+          land, waters and community. We pay our respects to Aboriginal and
+          Torres Strait Islander peoples and to Elders past and present.
+        </p>
 
         <button
           type="button"
@@ -64,7 +76,7 @@ export function SiteHeader() {
         </button>
       </div>
 
-      {/* Primary nav (desktop) */}
+      {/* Primary navigation */}
       <nav
         aria-label="Primary"
         className="hidden border-t border-border bg-foreground lg:block"
@@ -83,7 +95,7 @@ export function SiteHeader() {
         </ul>
       </nav>
 
-      {/* Mobile nav */}
+      {/* Mobile navigation */}
       {open && (
         <nav
           aria-label="Mobile"
