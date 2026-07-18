@@ -32,7 +32,17 @@ export function StoryImage({
     return fallbackImages[category] || '/default.svg'
   }, [category])
 
-  const [source, setSource] = useState(src?.trim() || fallback)
+  const original = src?.trim() || ''
+
+  const isPlaceholder =
+    !original ||
+    original.includes('placeholder.svg') ||
+    original.includes('placeholder.jpg') ||
+    original.includes('placeholder.png')
+
+  const [source, setSource] = useState(
+    isPlaceholder ? fallback : original,
+  )
 
   return (
     <Image
