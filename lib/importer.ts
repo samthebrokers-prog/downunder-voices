@@ -209,6 +209,6 @@ export async function runNewsImport(): Promise<ImportResult[]> {
     })
   }
 
-  return results
+return results
 }
 }
