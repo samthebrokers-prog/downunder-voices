@@ -21,7 +21,9 @@ export type ImportResult = {
 }
 
 function cleanText(value: string | null | undefined): string {
-  if (!value) return ''
+  if (!value) {
+    return ''
+  }
 
   return value
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -40,20 +42,27 @@ function cleanText(value: string | null | undefined): string {
 function splitIntoSentences(text: string): string[] {
   const cleaned = cleanText(text)
 
-  if (!cleaned) return []
+  if (!cleaned) {
+    return []
+  }
 
-  return (
-    cleaned
-      .match(/[^.!?]+[.!?]+|[^.!?]+$/g)
-      ?.map(sentence => sentence.trim())
-      .filter(Boolean) ?? []
-  )
+  const matches = cleaned.match(/[^.!?]+[.!?]+|[^.!?]+$/g)
+
+  if (!matches) {
+    return []
+  }
+
+  return matches
+    .map((sentence) => sentence.trim())
+    .filter((sentence) => sentence.length > 0)
 }
 
 function ensureSentenceEnding(text: string): string {
   const cleaned = cleanText(text)
 
-  if (!cleaned) return ''
+  if (!cleaned) {
+    return ''
+  }
 
   if (/[.!?]$/.test(cleaned)) {
     return cleaned
@@ -71,7 +80,9 @@ function buildExpandedSummary(
   const cleanedTitle = cleanText(title)
   const cleanedDescription = cleanText(description)
 
-  const sentences = splitIntoSentences(cleanedDescription).map(ensureSentenceEnding)
+  const sentences = splitIntoSentences(cleanedDescription).map(
+    ensureSentenceEnding,
+  )
 
   if (sentences.length === 0) {
     sentences.push(
@@ -81,28 +92,32 @@ function buildExpandedSummary(
     )
   }
 
+  const categoryName = category.replace(/-/g, ' ')
+
   const supportingSentences = [
-    `The information currently available has been provided through ${sourceName}.`,
-    `The development is being covered under the ${category.replace(/-/g, ' ')} section of Downunder Voices.`,
+    `The information currently available was supplied through ${sourceName}.`,
+    `The development is being covered in the ${categoryName} section of Downunder Voices.`,
     'The issue may be relevant to communities across New Zealand, Australia or the wider Pacific region.',
-    'Readers should consider the original source when seeking the complete details and any official statements.',
+    'Readers should consult the original source for the complete report and any official statements.',
     'Further information may become available as the organisations or people involved provide additional updates.',
-    'Downunder Voices will continue to follow significant developments connected with this story.',
+    'Downunder Voices will continue to follow important developments connected with this story.',
     'This article is a summary of information supplied by the original publisher and is not presented as independent eyewitness reporting.',
   ]
 
   for (const supportingSentence of supportingSentences) {
-    if (sentences.length >= 6) break
+    if (sentences.length >= 6) {
+      break
+    }
 
-    const normalisedSentence = ensureSentenceEnding(supportingSentence)
+    const completedSentence = ensureSentenceEnding(supportingSentence)
 
     const alreadyIncluded = sentences.some(
-      sentence =>
-        sentence.toLowerCase() === normalisedSentence.toLowerCase(),
+      (sentence) =>
+        sentence.toLowerCase() === completedSentence.toLowerCase(),
     )
 
     if (!alreadyIncluded) {
-      sentences.push(normalisedSentence)
+      sentences.push(completedSentence)
     }
   }
 
@@ -131,10 +146,12 @@ export async function runNewsImport(): Promise<ImportResult[]> {
 
       for (const item of items) {
         const existing = await dbRequest<Array<{ id: string }>>('stories', {
-          query: `?select=id&source_url=eq.${encodeURIComponent(item.link)}&limit=1`,
+          query: `?select=id&source_url=eq.${encodeURIComponent(
+            item.link,
+          )}&limit=1`,
         })
 
-        if (existing.length) {
+        if (existing.length > 0) {
           skipped += 1
           continue
         }
@@ -183,10 +200,7 @@ export async function runNewsImport(): Promise<ImportResult[]> {
       errorMessage =
         error instanceof Error ? error.message : String(error)
 
-      console.error(
-        `News import failed for ${source.name}:`,
-        error,
-      )
+      console.error(`News import failed for ${source.name}:`, error)
     }
 
     await dbRequest('import_logs', {
@@ -209,6 +223,5 @@ export async function runNewsImport(): Promise<ImportResult[]> {
     })
   }
 
-return results
-}
+  return results
 }
