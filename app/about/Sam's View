@@ -29,6 +29,7 @@ export default function AboutPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
           Our Story
         </p>
+
         <h1 className="mt-1 font-serif text-4xl font-bold text-foreground text-balance">
           About Downunder Voices
         </h1>
@@ -42,15 +43,19 @@ export default function AboutPage() {
               Zealand, Australia and Pacific communities. We exist to amplify
               the stories that big headlines often overlook — the local hero,
               the struggling small business, the volunteer keeping a food bank
-              stocked, the family navigating the cost of living.
+              stocked, and the family navigating the cost of living.
             </p>
+
             <p>
               We cover politics, business, sport, community and the everyday
-              issues shaping life across the region. Alongside the news, our
-              opinion column,{' '}
-              <span className="font-semibold text-primary">Sam&apos;s View</span>,
-              offers honest commentary designed to spark conversation.
+              issues shaping life across the region. Alongside the news, our{' '}
+              <span className="font-semibold text-primary">
+                Editorial View
+              </span>{' '}
+              section offers honest commentary designed to encourage informed
+              discussion.
             </p>
+
             <p>
               We believe journalism is stronger when the community helps tell
               it. That is why anyone can submit a story, and why every summary
@@ -76,17 +81,19 @@ export default function AboutPage() {
         <h2 className="border-b-2 border-primary pb-2 font-serif text-2xl font-bold text-foreground">
           What we stand for
         </h2>
+
         <div className="mt-6 grid gap-6 sm:grid-cols-3">
-          {values.map((v) => (
+          {values.map((value) => (
             <div
-              key={v.title}
+              key={value.title}
               className="rounded-lg border border-border bg-card p-5"
             >
               <h3 className="font-serif text-lg font-bold text-foreground">
-                {v.title}
+                {value.title}
               </h3>
+
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {v.body}
+                {value.body}
               </p>
             </div>
           ))}
