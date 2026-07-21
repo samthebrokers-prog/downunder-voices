@@ -1,0 +1,68 @@
+import type { CategorySlug } from '@/lib/news-data'
+
+export type TopicImageKey =
+  | 'prison'
+  | 'police'
+  | 'courts'
+  | 'politics-nz'
+  | 'politics-au'
+  | 'economy'
+  | 'business'
+  | 'farming'
+  | 'flood-weather'
+  | 'health'
+  | 'education'
+  | 'immigration'
+  | 'housing'
+  | 'pacific'
+  | 'sport'
+  | 'community'
+  | 'editorial'
+
+const topicRules: Array<{ key: TopicImageKey; words: string[] }> = [
+  { key: 'prison', words: ['prison', 'inmate', 'jail', 'corrections', 'contraband', 'custody', 'detention centre'] },
+  { key: 'police', words: ['police', 'crime', 'charged', 'arrest', 'shooting', 'homicide', 'murder', 'robbery', 'assault', 'missing person', 'investigation'] },
+  { key: 'courts', words: ['court', 'judge', 'justice', 'trial', 'sentence', 'sentencing', 'appeal', 'tribunal', 'lawsuit', 'legal'] },
+  { key: 'flood-weather', words: ['flood', 'storm', 'cyclone', 'weather', 'rain', 'warning', 'earthquake', 'landslide', 'bushfire', 'wildfire', 'drought', 'snow'] },
+  { key: 'health', words: ['hospital', 'health', 'doctor', 'nurse', 'patient', 'medical', 'disease', 'virus', 'medicine', 'ambulance', 'clinic'] },
+  { key: 'education', words: ['school', 'student', 'teacher', 'university', 'education', 'college', 'classroom', 'graduate'] },
+  { key: 'immigration', words: ['immigration', 'migrant', 'visa', 'refugee', 'border', 'passport', 'deport', 'asylum', 'citizenship'] },
+  { key: 'housing', words: ['housing', 'home', 'homes', 'rent', 'rental', 'mortgage', 'property', 'house prices', 'homeless'] },
+  { key: 'farming', words: ['farm', 'farmer', 'farming', 'dairy', 'sheep', 'cattle', 'agriculture', 'rural', 'crop', 'horticulture'] },
+  { key: 'economy', words: ['economy', 'inflation', 'interest rate', 'reserve bank', 'unemployment', 'budget', 'cost of living', 'recession', 'gdp', 'tax'] },
+  { key: 'business', words: ['business', 'company', 'market', 'trade', 'export', 'import', 'bank', 'retail', 'jobs', 'employment'] },
+  { key: 'politics-nz', words: ['beehive', 'new zealand election', 'nz election', 'chris hipkins', 'luxon', 'winston peters', 'te pāti māori', 'act party', 'green party nz'] },
+  { key: 'politics-au', words: ['albanese', 'australian election', 'canberra', 'parliament house', 'one nation', 'pauline hanson', 'coalition', 'labor government'] },
+  { key: 'pacific', words: ['pacific', 'fiji', 'samoa', 'tonga', 'vanuatu', 'solomon islands', 'papua new guinea', 'cook islands', 'niue', 'kiribati'] },
+  { key: 'sport', words: ['sport', 'rugby', 'football', 'soccer', 'cricket', 'netball', 'afl', 'league', 'match', 'tournament', 'olympic'] },
+]
+
+export function detectTopicImage(title: string, category?: CategorySlug | string | null): TopicImageKey {
+  const haystack = title.toLowerCase()
+
+  for (const rule of topicRules) {
+    if (rule.words.some((word) => haystack.includes(word))) return rule.key
+  }
+
+  switch (category) {
+    case 'politics':
+      return /australia|canberra|albanese|labor|coalition/.test(haystack) ? 'politics-au' : 'politics-nz'
+    case 'australia':
+      return 'politics-au'
+    case 'business':
+      return 'business'
+    case 'community':
+      return 'community'
+    case 'sports':
+      return 'sport'
+    case 'editorial-view':
+      return 'editorial'
+    case 'nz-pacific':
+    default:
+      return 'pacific'
+  }
+}
+
+export function getTopicImagePath(title: string, category?: CategorySlug | string | null): string {
+  return `/news-fallbacks/${detectTopicImage(title, category)}.svg`
+}

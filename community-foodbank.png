@@ -1,0 +1,42 @@
+'use client'
+
+import Image from 'next/image'
+import { useEffect, useMemo, useState } from 'react'
+import { getTopicImagePath } from '@/lib/topic-image'
+
+type StoryImageProps = {
+  src?: string | null
+  alt: string
+  sizes: string
+  className?: string
+  category?: string | null
+}
+
+export function StoryImage({ src, alt, sizes, className = '', category }: StoryImageProps) {
+  const fallback = useMemo(() => getTopicImagePath(alt, category), [alt, category])
+  const original = src?.trim() || ''
+  const isPlaceholder =
+    !original ||
+    original.includes('placeholder.svg') ||
+    original.includes('placeholder.jpg') ||
+    original.includes('placeholder.png') ||
+    original.includes('/default.svg')
+
+  const [source, setSource] = useState(isPlaceholder ? fallback : original)
+
+  useEffect(() => {
+    setSource(isPlaceholder ? fallback : original)
+  }, [fallback, isPlaceholder, original])
+
+  return (
+    <Image
+      src={source}
+      alt={alt}
+      fill
+      unoptimized
+      className={className}
+      sizes={sizes}
+      onError={() => setSource(fallback)}
+    />
+  )
+}
