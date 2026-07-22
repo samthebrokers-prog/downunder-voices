@@ -1,11 +1,25 @@
-import type { Metadata } from 'next'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { ArrowLeft, ArrowUpRight } from 'lucide-react'
-import { StoryImage } from '@/components/story-image'
-import { formatDate, getCategoryName } from '@/lib/news-data'
-import { getStoryBySlug } from '@/lib/story-service'
-
-export const revalidate = 300
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> { const { slug } = await params; const story = await getStoryBySlug(slug); return story ? { title: story.title, description: story.summary, openGraph: { title: story.title, description: story.summary, images: story.image ? [story.image] : [] } } : { title: 'Story not found' } }
-export default async function StoryPage({ params }: { params: Promise<{ slug: string }> }) { const { slug } = await params; const story = await getStoryBySlug(slug); if (!story) notFound(); return <article className="mx-auto max-w-4xl px-4 py-10"><Link href={`/category/${story.category}`} className="inline-flex items-center gap-2 text-sm font-semibold text-primary"><ArrowLeft className="size-4" />{getCategoryName(story.category)}</Link><header className="mt-5"><p className="text-xs font-semibold uppercase tracking-wide text-primary">{getCategoryName(story.category)} · {formatDate(story.date)}</p><h1 className="mt-3 font-serif text-4xl font-bold leading-tight text-balance sm:text-5xl">{story.title}</h1>{story.author && <p className="mt-3 text-sm text-muted-foreground">By {story.author}</p>}</header><div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-lg border border-border"><StoryImage src={story.image} alt={story.title} sizes="(max-width: 900px) 100vw, 900px" className="object-cover" category={story.category} /></div><div className="mt-8 grid gap-8 md:grid-cols-[1fr_260px]"><div><p className="text-lg leading-8 text-foreground/90">{story.summary}</p><div className="mt-8 rounded-lg border-l-4 border-accent bg-secondary p-5"><h2 className="font-serif text-xl font-bold">Why this matters</h2><p className="mt-2 leading-7 text-foreground/80">{story.communityAngle}</p></div><p className="mt-8 text-sm leading-6 text-muted-foreground">Downunder Voices provides an independently written summary and community perspective. The original publisher remains responsible for the source reporting.</p></div><aside className="h-fit rounded-lg border border-border bg-card p-5"><p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Original reporting</p><p className="mt-2 font-semibold">{story.sourceName}</p><a href={story.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">Read original source<ArrowUpRight className="size-4" /></a></aside></div></article> }
+{
+  "name": "downunder-voices",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "lucide-react": "^0.468.0",
+    "next": "15.1.4",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "rss-parser": "^3.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "typescript": "^5.7.2"
+  }
+}
