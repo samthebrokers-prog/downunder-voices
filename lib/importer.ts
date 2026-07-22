@@ -39,91 +39,6 @@ function cleanText(value: string | null | undefined): string {
     .trim()
 }
 
-function splitIntoSentences(text: string): string[] {
-  const cleaned = cleanText(text)
-
-  if (!cleaned) {
-    return []
-  }
-
-  const matches = cleaned.match(/[^.!?]+[.!?]+|[^.!?]+$/g)
-
-  if (!matches) {
-    return []
-  }
-
-  return matches
-    .map((sentence) => sentence.trim())
-    .filter((sentence) => sentence.length > 0)
-}
-
-function ensureSentenceEnding(text: string): string {
-  const cleaned = cleanText(text)
-
-  if (!cleaned) {
-    return ''
-  }
-
-  if (/[.!?]$/.test(cleaned)) {
-    return cleaned
-  }
-
-  return `${cleaned}.`
-}
-
-function buildExpandedSummary(
-  title: string,
-  description: string | null | undefined,
-  sourceName: string,
-  category: CategorySlug,
-): string {
-  const cleanedTitle = cleanText(title)
-  const cleanedDescription = cleanText(description)
-
-  const sentences = splitIntoSentences(cleanedDescription).map(
-    ensureSentenceEnding,
-  )
-
-  if (sentences.length === 0) {
-    sentences.push(
-      ensureSentenceEnding(
-        `${sourceName} has released an update concerning ${cleanedTitle}`,
-      ),
-    )
-  }
-
-  const categoryName = category.replace(/-/g, ' ')
-
-  const supportingSentences = [
-    `The information currently available was supplied through ${sourceName}.`,
-    `The development is being covered in the ${categoryName} section of Downunder Voices.`,
-    'The issue may be relevant to communities across New Zealand, Australia or the wider Pacific region.',
-    'Readers should consult the original source for the complete report and any official statements.',
-    'Further information may become available as the organisations or people involved provide additional updates.',
-    'Downunder Voices will continue to follow important developments connected with this story.',
-    'This article is a summary of information supplied by the original publisher and is not presented as independent eyewitness reporting.',
-  ]
-
-  for (const supportingSentence of supportingSentences) {
-    if (sentences.length >= 6) {
-      break
-    }
-
-    const completedSentence = ensureSentenceEnding(supportingSentence)
-
-    const alreadyIncluded = sentences.some(
-      (sentence) =>
-        sentence.toLowerCase() === completedSentence.toLowerCase(),
-    )
-
-    if (!alreadyIncluded) {
-      sentences.push(completedSentence)
-    }
-  }
-
-  return sentences.join(' ')
-}
-
 export async function runNewsImport(): Promise<ImportResult[]> {
   if (!isDatabaseConfigured()) {
     throw new Error('Database is not configured')
@@ -167,25 +82,17 @@ export async function runNewsImport(): Promise<ImportResult[]> {
             ? 'published'
             : 'draft'
 
-        const expandedSummary = buildExpandedSummary(
-          item.title,
-          item.description,
-          source.name,
-          category,
-        )
-
         await dbRequest('stories', {
           method: 'POST',
           body: {
             slug: uniqueSlug(item.title, item.link),
             title: cleanText(item.title),
             category,
-            summary: expandedSummary,
+            summary: cleanText(item.description),
             source_name: source.name,
             source_url: item.link,
             image_url: item.imageUrl || null,
-            community_angle:
-              'This update may affect communities across New Zealand, Australia or the Pacific. Readers can visit the original publisher for the complete report, official documents and any later corrections.',
+            community_angle: '',
             status,
             published_at:
               status === 'published' ? item.publishedAt : null,
