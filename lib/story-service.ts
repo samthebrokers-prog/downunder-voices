@@ -291,9 +291,7 @@ function rowToStory(row: StoryRow): Story {
     image:
       row.image_url?.trim() ||
       createFallbackImage(row.category, row.title),
-    communityAngle:
-      row.community_angle ||
-      'This story is included because it may matter to communities across New Zealand, Australia and the Pacific.',
+    communityAngle: row.community_angle || '',
     author: row.author || undefined,
     status: row.status,
     publishedAt: row.published_at || undefined,
