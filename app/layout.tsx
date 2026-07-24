@@ -1,16 +1,21 @@
-import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
 
 const siteUrl = 'https://downundervoices.com'
-const productionReady = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
+
+const productionReady = Boolean(
+  process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
+)
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Downunder Voices — Community News for New Zealand, Australia & the Pacific',
+    default:
+      'Downunder Voices — Community News for New Zealand, Australia & the Pacific',
     template: '%s | Downunder Voices',
   },
   description:
@@ -25,7 +30,9 @@ export const metadata: Metadata = {
     'cost of living',
     'politics',
   ],
-  robots: productionReady ? { index: true, follow: true } : { index: false, follow: false },
+  robots: productionReady
+    ? { index: true, follow: true }
+    : { index: false, follow: false },
   openGraph: {
     title: 'Downunder Voices',
     description:
@@ -47,15 +54,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="en"
-      className="bg-background"
-    >
+    <html lang="en" className="bg-background">
       <body className="font-sans antialiased flex min-h-screen flex-col">
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
-        {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
   )
