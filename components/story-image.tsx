@@ -16,46 +16,31 @@ const fallbackImages: Record<string, string> = {
   business: '/business.svg',
   australia: '/australia.svg',
   'nz-pacific': '/nz-pacific.svg',
-  'new-zealand': '/nz-pacific.svg',
-  pacific: '/nz-pacific.svg',
   community: '/community.svg',
   sports: '/sports.svg',
 }
 
-function isUsableSource(value: string): boolean {
-  if (!value) return false
-
+function usableSource(value: string) {
   const lower = value.toLowerCase()
-
-  return !(
-    lower.includes('placeholder.svg') ||
-    lower.includes('placeholder.jpg') ||
-    lower.includes('placeholder.jpeg') ||
-    lower.includes('placeholder.png') ||
-    lower === 'null' ||
-    lower === 'undefined'
-  )
+  return Boolean(value) &&
+    !lower.includes('placeholder.svg') &&
+    !lower.includes('placeholder.jpg') &&
+    !lower.includes('placeholder.jpeg') &&
+    !lower.includes('placeholder.png') &&
+    lower !== 'null' &&
+    lower !== 'undefined'
 }
 
-export function StoryImage({
-  src,
-  alt,
-  sizes,
-  className = '',
-  category,
-}: StoryImageProps) {
+export function StoryImage({ src, alt, sizes, className = '', category }: StoryImageProps) {
   const fallback = useMemo(
     () => fallbackImages[category || ''] || '/default.svg',
     [category],
   )
-
   const original = src?.trim() || ''
-  const preferred = isUsableSource(original) ? original : fallback
+  const preferred = usableSource(original) ? original : fallback
   const [source, setSource] = useState(preferred)
 
-  useEffect(() => {
-    setSource(preferred)
-  }, [preferred])
+  useEffect(() => setSource(preferred), [preferred])
 
   return (
     <Image
@@ -65,11 +50,7 @@ export function StoryImage({
       unoptimized
       className={className}
       sizes={sizes}
-      onError={() => {
-        if (source !== fallback) {
-          setSource(fallback)
-        }
-      }}
+      onError={() => setSource(fallback)}
     />
   )
 }
