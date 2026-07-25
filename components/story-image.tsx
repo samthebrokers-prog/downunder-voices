@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 type StoryImageProps = {
   src?: string | null
@@ -16,8 +16,25 @@ const fallbackImages: Record<string, string> = {
   business: '/business.svg',
   australia: '/australia.svg',
   'nz-pacific': '/nz-pacific.svg',
+  'new-zealand': '/nz-pacific.svg',
+  pacific: '/nz-pacific.svg',
   community: '/community.svg',
   sports: '/sports.svg',
+}
+
+function isUsableSource(value: string): boolean {
+  if (!value) return false
+
+  const lower = value.toLowerCase()
+
+  return !(
+    lower.includes('placeholder.svg') ||
+    lower.includes('placeholder.jpg') ||
+    lower.includes('placeholder.jpeg') ||
+    lower.includes('placeholder.png') ||
+    lower === 'null' ||
+    lower === 'undefined'
+  )
 }
 
 export function StoryImage({
@@ -27,22 +44,18 @@ export function StoryImage({
   className = '',
   category,
 }: StoryImageProps) {
-  const fallback = useMemo(() => {
-    if (!category) return '/default.svg'
-    return fallbackImages[category] || '/default.svg'
-  }, [category])
+  const fallback = useMemo(
+    () => fallbackImages[category || ''] || '/default.svg',
+    [category],
+  )
 
   const original = src?.trim() || ''
+  const preferred = isUsableSource(original) ? original : fallback
+  const [source, setSource] = useState(preferred)
 
-  const isPlaceholder =
-    !original ||
-    original.includes('placeholder.svg') ||
-    original.includes('placeholder.jpg') ||
-    original.includes('placeholder.png')
-
-  const [source, setSource] = useState(
-    isPlaceholder ? fallback : original,
-  )
+  useEffect(() => {
+    setSource(preferred)
+  }, [preferred])
 
   return (
     <Image
