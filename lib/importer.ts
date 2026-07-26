@@ -47,7 +47,10 @@ function removeFeedNoise(value: string): string {
     .replace(/Get our breaking news email[^.]*\.?/gi, ' ')
     .replace(/Continue reading\.{0,3}/gi, ' ')
     .replace(/Read more\.{0,3}/gi, ' ')
-    .replace(/The information currently available was supplied through[\s\S]*$/i, ' ')
+    .replace(
+      /The information currently available was supplied through[\s\S]*$/i,
+      ' ',
+    )
     .replace(/\s+/g, ' ')
     .trim()
 }
@@ -89,7 +92,9 @@ function metaContent(html: string, key: string): string {
   return ''
 }
 
-async function fetchArticleMetadata(url: string): Promise<ArticleMetadata> {
+async function fetchArticleMetadata(
+  url: string,
+): Promise<ArticleMetadata> {
   try {
     const response = await fetch(url, {
       headers: {
@@ -104,7 +109,9 @@ async function fetchArticleMetadata(url: string): Promise<ArticleMetadata> {
     if (!response.ok) return { description: '' }
 
     const contentType = response.headers.get('content-type') || ''
-    if (!contentType.includes('text/html')) return { description: '' }
+    if (!contentType.includes('text/html')) {
+      return { description: '' }
+    }
 
     const html = (await response.text()).slice(0, 400_000)
 
@@ -122,7 +129,9 @@ async function fetchArticleMetadata(url: string): Promise<ArticleMetadata> {
     return {
       description: firstFiveSentences(description),
       imageUrl:
-        imageUrl && /^https?:\/\//i.test(imageUrl) ? imageUrl : undefined,
+        imageUrl && /^https?:\/\//i.test(imageUrl)
+          ? imageUrl
+          : undefined,
     }
   } catch {
     return { description: '' }
@@ -150,6 +159,20 @@ export async function runNewsImport(): Promise<ImportResult[]> {
       const items = (await fetchFeed(source.feed_url)).slice(0, 20)
 
       for (const item of items) {
+        const existing = await dbRequest<Array<{ id: string }>>(
+          'stories',
+          {
+            query: `?select=id&source_url=eq.${encodeURIComponent(
+              item.link,
+            )}&limit=1`,
+          },
+        )
+
+        if (existing.length > 0) {
+          skipped += 1
+          continue
+        }
+
         let summary = firstFiveSentences(item.description)
         let imageUrl = item.imageUrl
 
@@ -167,36 +190,6 @@ export async function runNewsImport(): Promise<ImportResult[]> {
 
         if (!summary) {
           summary = firstFiveSentences(item.title)
-        }
-
-        const existing = await dbRequest<
-          Array<{ id: string; summary: string | null; image_url: string | null }>
-        >('stories', {
-          query: `?select=id,summary,image_url&source_url=eq.${encodeURIComponent(
-            item.link,
-          )}&limit=1`,
-        })
-
-        if (existing.length > 0) {
-          const current = existing[0]
-          const shouldUpdateSummary = summary.length > (current.summary?.length ?? 0)
-          const shouldUpdateImage = !current.image_url && Boolean(imageUrl)
-
-          if (shouldUpdateSummary || shouldUpdateImage) {
-            await dbRequest('stories', {
-              method: 'PATCH',
-              query: `?id=eq.${encodeURIComponent(current.id)}`,
-              body: {
-                ...(shouldUpdateSummary ? { summary } : {}),
-                ...(shouldUpdateImage ? { image_url: imageUrl } : {}),
-              },
-            })
-            imported += 1
-          } else {
-            skipped += 1
-          }
-
-          continue
         }
 
         const category = classifyCategory(
@@ -235,7 +228,10 @@ export async function runNewsImport(): Promise<ImportResult[]> {
       errorMessage =
         error instanceof Error ? error.message : String(error)
 
-      console.error(`News import failed for ${source.name}:`, error)
+      console.error(
+        `News import failed for ${source.name}:`,
+        error,
+      )
     }
 
     await dbRequest('import_logs', {
