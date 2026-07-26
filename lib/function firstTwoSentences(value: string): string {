@@ -51,7 +51,21 @@ function removeFeedNoise(value: string): string {
     .trim()
 }
 
-function firstTwoSentences(value: string): string {
+function firstFiveSentences(value: string): string {
+  const text = removeFeedNoise(cleanText(value))
+  if (!text) return ''
+
+  const sentences =
+    text.match(/[^.!?]+[.!?]+(?:["'’”)]*)|[^.!?]+$/g) ?? [text]
+
+  return sentences
+    .map((sentence) => sentence.trim())
+    .filter(Boolean)
+    .slice(0, 5)
+    .join(' ')
+    .slice(0, 1000)
+    .trim()
+}
   const text = removeFeedNoise(cleanText(value))
   if (!text) return ''
 
