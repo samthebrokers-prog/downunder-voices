@@ -1,43 +1,148 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { StoryImage } from '@/components/story-image'
-import { type Story, getCategoryName, formatDate } from '@/lib/news-data'
+import {
+  type Story,
+  getCategoryName,
+  formatDate,
+} from '@/lib/news-data'
 
-function CategoryTag({ category }: { category: Story['category'] }) {
-  return <span className="inline-block bg-primary px-2 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-primary-foreground">{getCategoryName(category)}</span>
+function CategoryTag({
+  category,
+}: {
+  category: Story['category']
+}) {
+  return (
+    <span className="inline-block rounded-sm bg-primary px-2 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-primary-foreground">
+      {getCategoryName(category)}
+    </span>
+  )
 }
 
-export function StoryCard({ story, variant = 'default' }: { story: Story; variant?: 'default' | 'compact' | 'feature' }) {
+export function StoryCard({
+  story,
+  variant = 'default',
+}: {
+  story: Story
+  variant?: 'default' | 'compact' | 'feature'
+}) {
   const href = `/story/${story.slug ?? story.id}`
 
-  if (variant === 'compact') return (
-    <article className="flex gap-4 border-b border-border pb-4 last:border-b-0">
-      <Link href={href} className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-md sm:w-28">
-        <StoryImage src={story.image} alt={story.title} sizes="112px" className="object-cover" category={story.category} />
-      </Link>
-      <div className="min-w-0">
-        <Link href={`/category/${story.category}`}><CategoryTag category={story.category} /></Link>
-        <h3 className="mt-2 font-serif text-base font-semibold leading-snug"><Link href={href} className="hover:text-primary">{story.title}</Link></h3>
-        <p className="mt-1 text-xs text-muted-foreground">{formatDate(story.date)}</p>
-      </div>
-    </article>
-  )
+  if (variant === 'compact') {
+    return (
+      <article className="flex gap-4 border-b border-border pb-4 last:border-b-0">
+        <Link
+          href={href}
+          className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-md sm:w-28"
+        >
+          <StoryImage
+            src={story.image}
+            alt={story.title}
+            sizes="112px"
+            className="object-cover"
+            category={story.category}
+          />
+        </Link>
+
+        <div className="min-w-0">
+          <Link href={`/category/${story.category}`}>
+            <CategoryTag category={story.category} />
+          </Link>
+
+          <h3 className="mt-2 line-clamp-3 font-serif text-base font-semibold leading-snug">
+            <Link href={href} className="hover:text-primary">
+              {story.title}
+            </Link>
+          </h3>
+
+          <p className="mt-2 text-xs text-muted-foreground">
+            {formatDate(story.date)}
+          </p>
+        </div>
+      </article>
+    )
+  }
 
   const feature = variant === 'feature'
+
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card">
-      <div className={`relative w-full overflow-hidden ${feature ? 'aspect-[16/9]' : 'aspect-[3/2]'}`}>
+    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow duration-300 hover:shadow-md">
+      <div
+        className={`relative w-full overflow-hidden ${
+          feature ? 'aspect-[16/9]' : 'aspect-[3/2]'
+        }`}
+      >
         <Link href={href} className="absolute inset-0">
-          <StoryImage src={story.image} alt={story.title} sizes={feature ? '(max-width: 768px) 100vw, 66vw' : '(max-width: 768px) 100vw, 33vw'} className="object-cover transition-transform duration-300 group-hover:scale-105" category={story.category} />
+          <StoryImage
+            src={story.image}
+            alt={story.title}
+            sizes={
+              feature
+                ? '(max-width: 768px) 100vw, 66vw'
+                : '(max-width: 768px) 100vw, 33vw'
+            }
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            category={story.category}
+          />
         </Link>
-        <Link href={`/category/${story.category}`} className="absolute left-3 top-3"><CategoryTag category={story.category} /></Link>
+
+        <Link
+          href={`/category/${story.category}`}
+          className="absolute left-3 top-3"
+        >
+          <CategoryTag category={story.category} />
+        </Link>
       </div>
+
       <div className="flex flex-1 flex-col p-5">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{formatDate(story.date)}{story.author ? ` · By ${story.author}` : ''}</p>
-        <h3 className={`mt-2 font-serif font-bold leading-tight text-balance ${feature ? 'text-2xl sm:text-3xl' : 'text-xl'}`}><Link href={href} className="hover:text-primary">{story.title}</Link></h3>
-        {story.summary && <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{story.summary}</p>}
-        {story.communityAngle && <div className="mt-4 rounded-md border-l-2 border-accent bg-secondary p-3"><p className="text-xs font-semibold uppercase tracking-wide text-accent">Community Angle</p><p className="mt-1 text-sm leading-relaxed text-foreground/80">{story.communityAngle}</p></div>}
-        <div className="mt-4 flex items-center justify-between border-t border-border pt-4"><span className="text-xs text-muted-foreground">Source: {story.sourceName}</span><a href={story.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">Original source<ArrowUpRight className="size-4" /></a></div>
+        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+          {formatDate(story.date)}
+          {story.author ? ` · By ${story.author}` : ''}
+        </p>
+
+        <h3
+          className={`mt-2 line-clamp-3 font-serif font-bold leading-tight ${
+            feature ? 'text-2xl sm:text-3xl' : 'text-xl'
+          }`}
+        >
+          <Link href={href} className="hover:text-primary">
+            {story.title}
+          </Link>
+        </h3>
+
+        {story.summary && (
+          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+            {story.summary}
+          </p>
+        )}
+
+        {story.communityAngle && (
+          <div className="mt-4 rounded-md border-l-2 border-accent bg-secondary p-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-accent">
+              Community Angle
+            </p>
+
+            <p className="mt-1 line-clamp-3 text-sm leading-relaxed text-foreground/80">
+              {story.communityAngle}
+            </p>
+          </div>
+        )}
+
+        <div className="mt-auto flex items-center justify-between gap-3 border-t border-border pt-4">
+          <span className="line-clamp-1 text-xs text-muted-foreground">
+            Source: {story.sourceName}
+          </span>
+
+          <a
+            href={story.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-primary hover:underline"
+          >
+            Original source
+            <ArrowUpRight className="size-4" />
+          </a>
+        </div>
       </div>
     </article>
   )
