@@ -6,10 +6,12 @@ import { Menu, X } from 'lucide-react'
 import { categories } from '@/lib/news-data'
 
 const navLinks = [
-  ...categories.map((c) => ({
-    href: `/category/${c.slug}`,
-    label: c.name === "Sam's View" ? 'Opinion' : c.name,
-  })),
+  ...categories
+    .filter((category) => category.slug !== 'editorial-view')
+    .map((category) => ({
+      href: `/category/${category.slug}`,
+      label: category.name,
+    })),
   { href: '/submit', label: 'Submit Your Story' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
@@ -32,7 +34,6 @@ export function SiteHeader() {
 
   return (
     <header className="border-b border-border bg-background">
-      {/* Top strip */}
       <div className="border-b border-border bg-secondary">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2 text-xs text-muted-foreground">
           <span className="hidden sm:inline" suppressHydrationWarning>
@@ -45,7 +46,6 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {/* Masthead */}
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-5">
         <Link href="/" className="group flex shrink-0 flex-col">
           <span className="font-serif text-3xl font-bold leading-none tracking-tight text-foreground sm:text-4xl">
@@ -66,7 +66,7 @@ export function SiteHeader() {
 
         <button
           type="button"
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => setOpen((value) => !value)}
           className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm font-medium lg:hidden"
           aria-expanded={open}
           aria-label="Toggle navigation menu"
@@ -76,7 +76,6 @@ export function SiteHeader() {
         </button>
       </div>
 
-      {/* Primary navigation */}
       <nav
         aria-label="Primary"
         className="hidden border-t border-border bg-foreground lg:block"
@@ -95,7 +94,6 @@ export function SiteHeader() {
         </ul>
       </nav>
 
-      {/* Mobile navigation */}
       {open && (
         <nav
           aria-label="Mobile"
