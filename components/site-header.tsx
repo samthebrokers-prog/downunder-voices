@@ -10,7 +10,7 @@ const navLinks = [
     .filter((category) => category.slug !== 'editorial-view')
     .map((category) => ({
       href: `/category/${category.slug}`,
-      label: category.name,
+      label: category.name === "Sam's View" ? 'Opinion' : category.name,
     })),
   { href: '/submit', label: 'Submit Your Story' },
   { href: '/about', label: 'About' },
@@ -34,84 +34,99 @@ export function SiteHeader() {
 
   return (
     <header className="border-b border-border bg-background">
-      <div className="border-b border-border bg-secondary">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2 text-xs text-muted-foreground">
-          <span className="hidden sm:inline" suppressHydrationWarning>
-            {today}
-          </span>
+      <div className="border-b border-border bg-secondary/60">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 text-xs text-muted-foreground sm:px-6 lg:px-8">
+          <span>{today}</span>
 
-          <span className="font-medium uppercase tracking-wide">
-            NZ &middot; Australia &middot; Pacific
-          </span>
+          <Link
+            href="/advertise"
+            className="font-semibold text-primary hover:underline"
+          >
+            Advertise with us
+          </Link>
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-5">
-        <Link href="/" className="group flex shrink-0 flex-col">
-          <span className="font-serif text-3xl font-bold leading-none tracking-tight text-foreground sm:text-4xl">
-            Downunder <span className="text-primary">Voices</span>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
+        <Link href="/" className="block" onClick={() => setOpen(false)}>
+          <span className="font-serif text-2xl font-bold tracking-tight sm:text-3xl">
+            Downunder Voices
           </span>
 
-          <span className="mt-1 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            Community News &amp; Views
+          <span className="mt-1 block text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            New Zealand · Australia · Pacific
           </span>
         </Link>
 
-        <p className="hidden max-w-xl text-right text-xs leading-relaxed text-muted-foreground lg:block">
-          Downunder Voices acknowledges the Traditional Custodians of Country
-          throughout Australia and recognises their continuing connection to
-          land, waters and community. We pay our respects to Aboriginal and
-          Torres Strait Islander peoples and to Elders past and present.
-        </p>
-
         <button
           type="button"
-          onClick={() => setOpen((value) => !value)}
-          className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm font-medium lg:hidden"
+          aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={open}
-          aria-label="Toggle navigation menu"
+          onClick={() => setOpen((current) => !current)}
+          className="inline-flex size-10 items-center justify-center rounded-md border border-border lg:hidden"
         >
-          {open ? <X className="size-4" /> : <Menu className="size-4" />}
-          Menu
+          {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
       </div>
 
-      <nav
-        aria-label="Primary"
-        className="hidden border-t border-border bg-foreground lg:block"
-      >
-        <ul className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 px-4">
+      <nav className="hidden border-t border-border lg:block">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3 sm:px-6 lg:px-8">
+          <Link
+            href="/"
+            className="text-sm font-semibold transition-colors hover:text-primary"
+          >
+            Home
+          </Link>
+
+          <Link
+            href="/latest"
+            className="text-sm font-semibold transition-colors hover:text-primary"
+          >
+            Latest
+          </Link>
+
           {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="inline-block py-3 text-sm font-medium text-background/80 transition-colors hover:text-background"
-              >
-                {link.label}
-              </Link>
-            </li>
+            <Link
+              key={`${link.href}-${link.label}`}
+              href={link.href}
+              className="text-sm font-semibold transition-colors hover:text-primary"
+            >
+              {link.label}
+            </Link>
           ))}
-        </ul>
+        </div>
       </nav>
 
       {open && (
-        <nav
-          aria-label="Mobile"
-          className="border-t border-border bg-background lg:hidden"
-        >
-          <ul className="mx-auto flex max-w-6xl flex-col px-4 py-2">
+        <nav className="border-t border-border bg-background lg:hidden">
+          <div className="mx-auto flex max-w-7xl flex-col px-4 py-3 sm:px-6">
+            <Link
+              href="/"
+              onClick={() => setOpen(false)}
+              className="border-b border-border py-3 text-sm font-semibold"
+            >
+              Home
+            </Link>
+
+            <Link
+              href="/latest"
+              onClick={() => setOpen(false)}
+              className="border-b border-border py-3 text-sm font-semibold"
+            >
+              Latest
+            </Link>
+
             {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="block border-b border-border py-3 text-sm font-medium text-foreground last:border-b-0"
-                >
-                  {link.label}
-                </Link>
-              </li>
+              <Link
+                key={`mobile-${link.href}-${link.label}`}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="border-b border-border py-3 text-sm font-semibold last:border-b-0"
+              >
+                {link.label}
+              </Link>
             ))}
-          </ul>
+          </div>
         </nav>
       )}
     </header>
