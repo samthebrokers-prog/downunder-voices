@@ -35,18 +35,56 @@ export default async function HomePage() {
           Downunder Voices — news from New Zealand, Australia and the Pacific
         </h1>
 
-        <section
-          aria-label="Advertising"
-          className="mb-8 flex min-h-24 items-center justify-center rounded-md border border-dashed border-border bg-muted/30 px-4 text-center"
-        >
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Advertisement
-            </p>
+        <section className="mb-8 overflow-hidden rounded-lg border border-border bg-secondary">
+          <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.6fr_1fr] lg:items-center">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+                Featured Partner
+              </p>
 
-            <p className="mt-1 text-sm text-muted-foreground">
-              Advertising space available
-            </p>
+              <h2 className="mt-2 font-serif text-2xl font-bold sm:text-3xl">
+                Importing or exporting across New Zealand and Australia?
+              </h2>
+
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+                Cusmode Customs provides professional customs clearance,
+                freight support and import-export assistance for businesses and
+                individuals across New Zealand and Australia.
+              </p>
+
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a
+                  href="https://cusmode.co.nz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+                >
+                  Visit Cusmode NZ
+                </a>
+
+                <a
+                  href="https://cusmode.com.au"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-md border border-border bg-background px-5 py-3 text-sm font-semibold transition-colors hover:bg-muted"
+                >
+                  Visit Cusmode Australia
+                </a>
+              </div>
+            </div>
+
+            <div className="rounded-md border border-border bg-background p-5">
+              <p className="text-sm font-semibold">
+                Customs clearance support
+              </p>
+
+              <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                <li>New Zealand and Australian customs clearance</li>
+                <li>Commercial and personal imports</li>
+                <li>Vehicle and machinery imports</li>
+                <li>Freight and border compliance support</li>
+              </ul>
+            </div>
           </div>
         </section>
 
@@ -110,27 +148,33 @@ export default async function HomePage() {
           </section>
         )}
 
-        <section
-          aria-label="Advertising"
-          className="my-14 flex min-h-28 items-center justify-center rounded-md border border-dashed border-border bg-muted/30 px-4 text-center"
-        >
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Advertisement
-            </p>
+        <section className="my-14 overflow-hidden rounded-lg border border-border bg-secondary/70">
+          <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+                Promote your business
+              </p>
 
-            <p className="mt-1 text-sm text-muted-foreground">
-              Promote your business across Australia, New Zealand and the
-              Pacific
-            </p>
+              <h2 className="mt-2 font-serif text-2xl font-bold">
+                Reach readers across Australia, New Zealand and the Pacific
+              </h2>
 
-            <Link
-              href="/advertise"
-              className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
-            >
-              Advertise with us
-              <ArrowRight className="size-4" />
-            </Link>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
+                Downunder Voices offers advertising opportunities for
+                businesses, community organisations, events and professional
+                services.
+              </p>
+            </div>
+
+            <div className="flex lg:justify-end">
+              <Link
+                href="/advertise"
+                className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                Advertise with us
+                <ArrowRight className="size-4" />
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -178,7 +222,7 @@ export default async function HomePage() {
 
           <div className="flex flex-col justify-center gap-3 sm:flex-row lg:flex-col">
             <Link
-              href="/submit-your-story"
+              href="/submit"
               className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
               Submit your story
