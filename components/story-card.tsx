@@ -104,9 +104,9 @@ export function StoryCard({
           <CategoryTag category={story.category} />
         </Link>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/95 via-black/75 to-transparent px-4 pb-4 pt-16 sm:px-5 sm:pb-5">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-4 pb-4 pt-20 sm:px-5 sm:pb-5">
           <h3
-            className={`line-clamp-4 font-serif font-bold leading-tight text-white drop-shadow-md ${
+            className={`line-clamp-4 font-serif font-bold leading-tight text-white drop-shadow-lg ${
               feature
                 ? 'text-2xl sm:text-3xl lg:text-4xl'
                 : 'text-xl sm:text-[1.35rem]'
@@ -117,14 +117,14 @@ export function StoryCard({
 
           <div className="mt-3 flex items-end justify-between gap-3">
             {story.author ? (
-              <p className="line-clamp-1 text-xs text-white/80">
+              <p className="line-clamp-1 text-xs text-white/90">
                 By {story.author}
               </p>
             ) : (
               <span />
             )}
 
-            <p className="shrink-0 text-right text-[0.68rem] font-medium uppercase tracking-wide text-white/80">
+            <p className="shrink-0 text-right text-[0.68rem] font-medium uppercase tracking-wide text-white/90">
               {formatDate(story.date)}
             </p>
           </div>
