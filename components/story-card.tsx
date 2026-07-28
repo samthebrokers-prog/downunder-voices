@@ -13,7 +13,7 @@ function CategoryTag({
   category: Story['category']
 }) {
   return (
-    <span className="inline-block rounded-sm bg-primary px-2 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-primary-foreground">
+    <span className="inline-flex rounded-sm bg-primary px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-wider text-primary-foreground shadow-sm">
       {getCategoryName(category)}
     </span>
   )
@@ -30,32 +30,39 @@ export function StoryCard({
 
   if (variant === 'compact') {
     return (
-      <article className="flex gap-4 border-b border-border pb-4 last:border-b-0">
+      <article className="group flex gap-4 border-b border-border pb-4 last:border-b-0">
         <Link
           href={href}
-          className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-md sm:w-28"
+          className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-lg bg-muted sm:w-28"
+          aria-label={story.title}
         >
           <StoryImage
             src={story.image}
             alt={story.title}
             sizes="112px"
-            className="object-cover"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
             category={story.category}
           />
         </Link>
 
-        <div className="min-w-0">
-          <Link href={`/category/${story.category}`}>
+        <div className="flex min-w-0 flex-1 flex-col">
+          <Link
+            href={`/category/${story.category}`}
+            className="self-start"
+          >
             <CategoryTag category={story.category} />
           </Link>
 
           <h3 className="mt-2 line-clamp-3 font-serif text-base font-semibold leading-snug">
-            <Link href={href} className="hover:text-primary">
+            <Link
+              href={href}
+              className="transition-colors hover:text-primary"
+            >
               {story.title}
             </Link>
           </h3>
 
-          <p className="mt-2 text-xs text-muted-foreground">
+          <p className="mt-auto pt-2 text-right text-[0.7rem] uppercase tracking-wide text-muted-foreground">
             {formatDate(story.date)}
           </p>
         </div>
@@ -66,52 +73,67 @@ export function StoryCard({
   const feature = variant === 'feature'
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow duration-300 hover:shadow-md">
+    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       <div
-        className={`relative w-full overflow-hidden ${
+        className={`relative w-full overflow-hidden bg-muted ${
           feature ? 'aspect-[16/9]' : 'aspect-[3/2]'
         }`}
       >
-        <Link href={href} className="absolute inset-0">
-          <StoryImage
-            src={story.image}
-            alt={story.title}
-            sizes={
-              feature
-                ? '(max-width: 768px) 100vw, 66vw'
-                : '(max-width: 768px) 100vw, 33vw'
-            }
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            category={story.category}
-          />
-        </Link>
+        <StoryImage
+          src={story.image}
+          alt={story.title}
+          sizes={
+            feature
+              ? '(max-width: 768px) 100vw, 66vw'
+              : '(max-width: 768px) 100vw, 33vw'
+          }
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          category={story.category}
+        />
+
+        <Link
+          href={href}
+          className="absolute inset-0 z-10"
+          aria-label={story.title}
+        />
 
         <Link
           href={`/category/${story.category}`}
-          className="absolute left-3 top-3"
+          className="absolute left-3 top-3 z-30"
         >
           <CategoryTag category={story.category} />
         </Link>
+
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/95 via-black/75 to-transparent px-4 pb-4 pt-16 sm:px-5 sm:pb-5">
+          <h3
+            className={`line-clamp-4 font-serif font-bold leading-tight text-white drop-shadow-md ${
+              feature
+                ? 'text-2xl sm:text-3xl lg:text-4xl'
+                : 'text-xl sm:text-[1.35rem]'
+            }`}
+          >
+            {story.title}
+          </h3>
+
+          <div className="mt-3 flex items-end justify-between gap-3">
+            {story.author ? (
+              <p className="line-clamp-1 text-xs text-white/80">
+                By {story.author}
+              </p>
+            ) : (
+              <span />
+            )}
+
+            <p className="shrink-0 text-right text-[0.68rem] font-medium uppercase tracking-wide text-white/80">
+              {formatDate(story.date)}
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-          {formatDate(story.date)}
-          {story.author ? ` · By ${story.author}` : ''}
-        </p>
-
-        <h3
-          className={`mt-2 line-clamp-3 font-serif font-bold leading-tight ${
-            feature ? 'text-2xl sm:text-3xl' : 'text-xl'
-          }`}
-        >
-          <Link href={href} className="hover:text-primary">
-            {story.title}
-          </Link>
-        </h3>
-
         {story.summary && (
-          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+          <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
             {story.summary}
           </p>
         )}
