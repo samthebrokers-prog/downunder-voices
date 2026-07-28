@@ -11,58 +11,207 @@ type StoryImageProps = {
   category?: string | null
 }
 
-const categoryColours: Record<string, [string, string]> = {
-  politics: ['#172554', '#3b82f6'],
-  business: ['#064e3b', '#10b981'],
-  australia: ['#7c2d12', '#f97316'],
-  'nz-pacific': ['#164e63', '#06b6d4'],
-  community: ['#581c87', '#a855f7'],
-  sports: ['#14532d', '#22c55e'],
-  default: ['#1e293b', '#64748b'],
+const fallbackPhotos: Record<string, string> = {
+  politics:
+    'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=1400&q=80',
+
+  business:
+    'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80',
+
+  australia:
+    'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1400&q=80',
+
+  'nz-pacific':
+    'https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1400&q=80',
+
+  community:
+    'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=80',
+
+  sports:
+    'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1400&q=80',
+
+  default:
+    'https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1400&q=80',
 }
 
-function createFallback(category?: string | null) {
-  const colours =
-    categoryColours[category || 'default'] || categoryColours.default
-
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
-      <defs>
-        <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="${colours[0]}" />
-          <stop offset="100%" stop-color="${colours[1]}" />
-        </linearGradient>
-
-        <radialGradient id="glow" cx="70%" cy="25%" r="65%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28" />
-          <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
-        </radialGradient>
-      </defs>
-
-      <rect width="1200" height="800" fill="url(#background)" />
-      <rect width="1200" height="800" fill="url(#glow)" />
-
-      <circle cx="1050" cy="90" r="250" fill="#ffffff" opacity="0.08" />
-      <circle cx="110" cy="720" r="310" fill="#ffffff" opacity="0.06" />
-
-      <path
-        d="M0 600 C220 500 360 700 590 590 C820 480 970 540 1200 410 L1200 800 L0 800 Z"
-        fill="#ffffff"
-        opacity="0.08"
-      />
-
-      <path
-        d="M0 690 C240 570 410 760 650 650 C880 545 1030 590 1200 510"
-        fill="none"
-        stroke="#ffffff"
-        stroke-width="5"
-        opacity="0.18"
-      />
-    </svg>
-  `
-
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`
-}
+const keywordPhotos: Array<{
+  words: string[]
+  image: string
+}> = [
+  {
+    words: [
+      'parliament',
+      'government',
+      'minister',
+      'premier',
+      'election',
+      'senator',
+      'liberal',
+      'labor',
+      'labour',
+      'one nation',
+      'pauline hanson',
+      'daniel andrews',
+      'jacinta allan',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'money',
+      'bank',
+      'finance',
+      'economy',
+      'interest rate',
+      'inflation',
+      'market',
+      'investment',
+      'budget',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'infrastructure',
+      'construction',
+      'housing',
+      'building',
+      'development',
+      'road',
+      'rail',
+      'transport',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'business',
+      'company',
+      'workplace',
+      'employment',
+      'jobs',
+      'industry',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'court',
+      'judge',
+      'appeal',
+      'legal',
+      'law',
+      'discrimination',
+      'justice',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'police',
+      'crime',
+      'investigation',
+      'arrest',
+      'security',
+      'emergency',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1453873531674-2151bcd01707?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'climate',
+      'environment',
+      'weather',
+      'flood',
+      'storm',
+      'fire',
+      'cyclone',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'health',
+      'hospital',
+      'doctor',
+      'medical',
+      'patient',
+      'medicine',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'school',
+      'education',
+      'student',
+      'university',
+      'teacher',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'sport',
+      'football',
+      'soccer',
+      'rugby',
+      'cricket',
+      'match',
+      'team',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'community',
+      'family',
+      'people',
+      'migrant',
+      'festival',
+      'culture',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'new zealand',
+      'aotearoa',
+      'auckland',
+      'wellington',
+      'christchurch',
+      'māori',
+      'maori',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    words: [
+      'australia',
+      'sydney',
+      'melbourne',
+      'perth',
+      'brisbane',
+      'adelaide',
+      'canberra',
+      'victoria',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1400&q=80',
+  },
+]
 
 function usableSource(value: string) {
   if (!value) return false
@@ -90,6 +239,26 @@ function usableSource(value: string) {
   )
 }
 
+function selectFallbackPhoto(
+  title: string,
+  category?: string | null
+) {
+  const normalisedTitle = title.toLowerCase()
+
+  const keywordMatch = keywordPhotos.find(({ words }) =>
+    words.some((word) => normalisedTitle.includes(word))
+  )
+
+  if (keywordMatch) {
+    return keywordMatch.image
+  }
+
+  return (
+    fallbackPhotos[category || 'default'] ||
+    fallbackPhotos.default
+  )
+}
+
 export function StoryImage({
   src,
   alt,
@@ -97,10 +266,15 @@ export function StoryImage({
   className = '',
   category,
 }: StoryImageProps) {
-  const fallback = useMemo(() => createFallback(category), [category])
+  const fallback = useMemo(
+    () => selectFallbackPhoto(alt, category),
+    [alt, category]
+  )
 
   const original = src?.trim() || ''
-  const preferred = usableSource(original) ? original : fallback
+  const preferred = usableSource(original)
+    ? original
+    : fallback
 
   const [source, setSource] = useState(preferred)
 
@@ -114,9 +288,13 @@ export function StoryImage({
       alt={alt}
       fill
       unoptimized
-      className={className}
       sizes={sizes}
-      onError={() => setSource(fallback)}
+      className={className}
+      onError={() => {
+        if (source !== fallback) {
+          setSource(fallback)
+        }
+      }}
     />
   )
 }
