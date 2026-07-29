@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
+import { BreakingNewsTicker } from '@/components/breaking-news-ticker'
+import { SetupBanner } from '@/components/setup-banner'
 import { StoryCard } from '@/components/story-card'
+import { isDatabaseConfigured } from '@/lib/db'
 import { categories } from '@/lib/news-data'
 import { getPublishedStories } from '@/lib/story-service'
-import { isDatabaseConfigured } from '@/lib/db'
-import { SetupBanner } from '@/components/setup-banner'
 
 export const revalidate = 300
 
@@ -20,7 +21,7 @@ export default async function HomePage() {
   const mixed = mixedLatest(visibleStories)
   const [lead, ...others] = mixed
 
-  const breakingStories = mixed.slice(0, 4)
+  const breakingStories = mixed.slice(0, 6)
   const liveHeadlines = others.slice(0, 5)
   const latest = others.slice(5, 11)
 
@@ -37,42 +38,7 @@ export default async function HomePage() {
           Downunder Voices — news from New Zealand, Australia and the Pacific
         </h1>
 
-        {breakingStories.length > 0 && (
-          <section className="border-b border-red-900 bg-red-700 text-white">
-            <div className="mx-auto flex max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-              <div className="shrink-0 border-r border-red-500 bg-red-800 px-4 py-3 text-xs font-black uppercase tracking-[0.16em]">
-                Breaking
-              </div>
-
-              <div className="min-w-0 flex-1 overflow-hidden px-4 py-3">
-                <div className="flex min-w-max items-center gap-8">
-                  {breakingStories.map((story, index) => (
-                    <span
-                      key={story.id}
-                      className="flex items-center gap-3 whitespace-nowrap text-sm font-semibold"
-                    >
-                      <span className="inline-block size-1.5 rounded-full bg-white" />
-
-                      <span className="text-red-100">
-                        {index === 0 ? 'Latest:' : ''}
-                      </span>
-
-                      <span>{story.title}</span>
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <Link
-                href="/latest"
-                className="hidden shrink-0 items-center gap-1 border-l border-red-500 px-4 py-3 text-xs font-bold uppercase tracking-wide hover:bg-red-800 sm:inline-flex"
-              >
-                All News
-                <ArrowRight className="size-3.5" />
-              </Link>
-            </div>
-          </section>
-        )}
+        <BreakingNewsTicker stories={breakingStories} />
 
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <section className="mb-8 overflow-hidden rounded-lg border border-border bg-secondary">
