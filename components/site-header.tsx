@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Menu, Search, X } from 'lucide-react'
 import { categories } from '@/lib/news-data'
 
@@ -53,7 +54,11 @@ const socialLinks = [
 ]
 
 export function SiteHeader() {
+  const router = useRouter()
+
   const [open, setOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const [today, setToday] = useState('')
 
   useEffect(() => {
@@ -66,6 +71,25 @@ export function SiteHeader() {
       }),
     )
   }, [])
+
+  function submitSearch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const query = searchQuery.trim()
+
+    if (!query) {
+      return
+    }
+
+    setOpen(false)
+    setSearchOpen(false)
+    router.push(`/search?q=${encodeURIComponent(query)}`)
+  }
+
+  function closeMenus() {
+    setOpen(false)
+    setSearchOpen(false)
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 shadow-sm backdrop-blur">
@@ -92,7 +116,7 @@ export function SiteHeader() {
         <Link
           href="/"
           className="min-w-0"
-          onClick={() => setOpen(false)}
+          onClick={closeMenus}
           aria-label="Downunder Voices homepage"
         >
           <span className="block font-serif text-2xl font-black tracking-tight text-slate-950 sm:text-4xl">
@@ -105,43 +129,121 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <div className="hidden items-center gap-2 lg:flex">
-          <Link
-            href="/latest"
-            aria-label="Search and browse latest news"
-            title="Latest news"
-            className="inline-flex size-9 items-center justify-center rounded-full border border-border text-slate-700 transition hover:border-red-700 hover:bg-red-700 hover:text-white"
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            aria-label={
+              searchOpen ? 'Close website search' : 'Search Downunder Voices'
+            }
+            aria-expanded={searchOpen}
+            title="Search Downunder Voices"
+            onClick={() => {
+              setSearchOpen((current) => !current)
+              setOpen(false)
+            }}
+            className="inline-flex size-10 items-center justify-center rounded-full border border-border text-slate-700 transition hover:border-red-700 hover:bg-red-700 hover:text-white"
           >
-            <Search className="size-4" />
-          </Link>
+            {searchOpen ? (
+              <X className="size-4" />
+            ) : (
+              <Search className="size-4" />
+            )}
+          </button>
 
-          <div className="mx-1 h-6 w-px bg-border" />
+          <div className="hidden items-center gap-2 lg:flex">
+            <div className="mx-1 h-6 w-px bg-border" />
 
-          {socialLinks.map((social) => (
-            <a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={social.label}
-              title={social.label}
-              className="inline-flex size-9 items-center justify-center rounded-full border border-border text-xs font-black text-slate-700 transition hover:border-red-700 hover:bg-red-700 hover:text-white"
-            >
-              {social.symbol}
-            </a>
-          ))}
+            {socialLinks.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+                title={social.label}
+                className="inline-flex size-9 items-center justify-center rounded-full border border-border text-xs font-black text-slate-700 transition hover:border-red-700 hover:bg-red-700 hover:text-white"
+              >
+                {social.symbol}
+              </a>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            aria-label={
+              open ? 'Close navigation menu' : 'Open navigation menu'
+            }
+            aria-expanded={open}
+            onClick={() => {
+              setOpen((current) => !current)
+              setSearchOpen(false)
+            }}
+            className="inline-flex size-11 shrink-0 items-center justify-center rounded-md border border-border transition hover:bg-secondary lg:hidden"
+          >
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
         </div>
-
-        <button
-          type="button"
-          aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
-          aria-expanded={open}
-          onClick={() => setOpen((current) => !current)}
-          className="inline-flex size-11 shrink-0 items-center justify-center rounded-md border border-border transition hover:bg-secondary lg:hidden"
-        >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
       </div>
+
+      {searchOpen && (
+        <div className="border-t border-border bg-slate-50">
+          <form
+            onSubmit={submitSearch}
+            className="mx-auto flex max-w-4xl gap-2 px-4 py-4 sm:px-6"
+          >
+            <label htmlFor="site-search" className="sr-only">
+              Search Downunder Voices
+            </label>
+
+            <div className="relative flex-1">
+              <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-400" />
+
+              <input
+                id="site-search"
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search news, topics, countries or keywords..."
+                autoFocus
+                className="h-12 w-full rounded-md border border-slate-300 bg-white pl-12 pr-4 text-base outline-none transition focus:border-red-700 focus:ring-2 focus:ring-red-700/20"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="h-12 rounded-md bg-red-700 px-5 text-sm font-bold text-white transition hover:bg-red-800"
+            >
+              Search
+            </button>
+          </form>
+
+          <div className="mx-auto flex max-w-4xl flex-wrap gap-2 px-4 pb-4 sm:px-6">
+            <span className="mr-1 py-1 text-xs font-bold uppercase tracking-wider text-slate-500">
+              Popular:
+            </span>
+
+            {[
+              'Immigration',
+              'Cost of living',
+              'Housing',
+              'Australia',
+              'New Zealand',
+              'Pacific',
+              'Business',
+              'Artificial intelligence',
+            ].map((topic) => (
+              <Link
+                key={topic}
+                href={`/search?q=${encodeURIComponent(topic)}`}
+                onClick={closeMenus}
+                className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-700 transition hover:border-red-700 hover:text-red-700"
+              >
+                {topic}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <nav className="hidden border-t border-border bg-background lg:block">
         <div className="mx-auto flex max-w-7xl items-center gap-x-6 overflow-x-auto px-4 py-3 sm:px-6 lg:px-8">
@@ -176,7 +278,7 @@ export function SiteHeader() {
           <div className="mx-auto flex max-w-7xl flex-col px-4 py-3 sm:px-6">
             <Link
               href="/"
-              onClick={() => setOpen(false)}
+              onClick={closeMenus}
               className="border-b border-border py-3 text-sm font-bold"
             >
               Home
@@ -184,17 +286,29 @@ export function SiteHeader() {
 
             <Link
               href="/latest"
-              onClick={() => setOpen(false)}
+              onClick={closeMenus}
               className="border-b border-border py-3 text-sm font-bold"
             >
               Latest
             </Link>
 
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false)
+                setSearchOpen(true)
+              }}
+              className="flex items-center gap-3 border-b border-border py-3 text-left text-sm font-bold"
+            >
+              <Search className="size-4" />
+              Search News
+            </button>
+
             {navLinks.map((link) => (
               <Link
                 key={`mobile-${link.href}-${link.label}`}
                 href={link.href}
-                onClick={() => setOpen(false)}
+                onClick={closeMenus}
                 className="border-b border-border py-3 text-sm font-bold"
               >
                 {link.label}
