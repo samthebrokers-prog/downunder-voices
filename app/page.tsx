@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+
 import { StoryCard } from '@/components/story-card'
 import { categories } from '@/lib/news-data'
 import { getPublishedStories } from '@/lib/story-service'
@@ -149,12 +150,12 @@ export default async function HomePage() {
                 </Link>
               </div>
 
-              <div className="grid gap-8 lg:grid-cols-[minmax(0,2.1fr)_minmax(310px,0.9fr)]">
-                <div className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
+              <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,2.1fr)_minmax(310px,0.9fr)]">
+                <div className="self-start overflow-hidden rounded-lg border border-border bg-card shadow-sm">
                   <StoryCard story={lead} variant="feature" />
                 </div>
 
-                <aside className="overflow-hidden rounded-lg border border-border bg-card">
+                <aside className="self-start overflow-hidden rounded-lg border border-border bg-card">
                   <div className="flex items-center justify-between border-b border-border bg-slate-950 px-5 py-4 text-white">
                     <div>
                       <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-red-400">
