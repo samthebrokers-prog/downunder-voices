@@ -73,7 +73,11 @@ export function StoryCard({
   const feature = variant === 'feature'
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <article
+      className={`group flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
+        feature ? '' : 'h-full'
+      }`}
+    >
       <div
         className={`relative w-full overflow-hidden bg-muted ${
           feature ? 'aspect-[16/9]' : 'aspect-[3/2]'
@@ -131,7 +135,11 @@ export function StoryCard({
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
+      <div
+        className={`flex flex-col p-5 ${
+          feature ? '' : 'flex-1'
+        }`}
+      >
         {story.summary && (
           <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
             {story.summary}
@@ -150,7 +158,11 @@ export function StoryCard({
           </div>
         )}
 
-        <div className="mt-auto flex items-center justify-between gap-3 border-t border-border pt-4">
+        <div
+          className={`flex items-center justify-between gap-3 border-t border-border pt-4 ${
+            feature ? 'mt-4' : 'mt-auto'
+          }`}
+        >
           <span className="line-clamp-1 text-xs text-muted-foreground">
             Source: {story.sourceName}
           </span>
