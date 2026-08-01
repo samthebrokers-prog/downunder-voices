@@ -8,18 +8,21 @@ const siteUrl = 'https://downundervoices.com'
 
 const productionReady = Boolean(
   process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
 )
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+
   title: {
     default:
       'Downunder Voices — Community News for New Zealand, Australia & the Pacific',
     template: '%s | Downunder Voices',
   },
+
   description:
     'Downunder Voices is a community news and opinion platform covering New Zealand, Australia and Pacific communities — migrants, small business, sport, cost of living, politics and community voices.',
+
   keywords: [
     'New Zealand news',
     'Australia news',
@@ -30,9 +33,17 @@ export const metadata: Metadata = {
     'cost of living',
     'politics',
   ],
+
   robots: productionReady
-    ? { index: true, follow: true }
-    : { index: false, follow: false },
+    ? {
+        index: true,
+        follow: true,
+      }
+    : {
+        index: false,
+        follow: false,
+      },
+
   openGraph: {
     title: 'Downunder Voices',
     description:
@@ -54,10 +65,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="bg-background">
-      <body className="flex min-h-screen flex-col font-sans antialiased">
+    <html lang="en">
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4637457052016842"
+          crossOrigin="anonymous"
+        />
+      </head>
+
+      <body>
         <MainHeader />
-        <main className="flex-1">{children}</main>
+
+        <main>{children}</main>
+
         <SiteFooter />
       </body>
     </html>
