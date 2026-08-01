@@ -1,63 +1,114 @@
+import { getPublishedStories } from '@/lib/story-service'
+
 const siteUrl = 'https://www.downundervoices.com'
 
-function escapeXml(value: string) {
-  return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&apos;')
+export const dynamic = 'force-dynamic'
+export const revalidate = 300
+
+function escapeXml(value: string | null | undefined): string {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
 }
 
-export const dynamic = 'force-dynamic'
+function getStoryDate(story: {
+  publishedAt?: string
+  importedAt?: string
+  date?: string
+}): Date {
+  const value =
+    story.publishedAt ||
+    story.importedAt ||
+    story.date ||
+    new Date().toISOString()
+
+  const date = new Date(value)
+
+  return Number.isNaN(date.getTime()) ? new Date() : date
+}
+
+function getPublicImageUrl(
+  image: string | null | undefined,
+): string | null {
+  if (!image || image.startsWith('data:')) {
+    return null
+  }
+
+  if (image.startsWith('https://') || image.startsWith('http://')) {
+    return image
+  }
+
+  return `${siteUrl}${image.startsWith('/') ? image : `/${image}`}`
+}
 
 export async function GET() {
-  const stories = [
-    {
-      title: 'Downunder Voices',
-      description:
-        'Independent community news and voices from New Zealand, Australia and the Pacific.',
-      slug: '',
-      publishedAt: new Date().toISOString(),
-    },
-  ]
+  const allStories = await getPublishedStories(50)
+
+  const stories = allStories
+    .filter((story) => story.category !== 'editorial-view')
+    .sort(
+      (a, b) =>
+        getStoryDate(b).getTime() - getStoryDate(a).getTime(),
+    )
 
   const items = stories
     .map((story) => {
-      const link = story.slug
-        ? `${siteUrl}/story/${story.slug}`
-        : siteUrl
+      const slug = story.slug || story.id
+      const link = `${siteUrl}/story/${encodeURIComponent(slug)}`
+      const publishedDate = getStoryDate(story)
+      const imageUrl = getPublicImageUrl(story.image)
+
+      const imageXml = imageUrl
+        ? `
+      <media:content
+        url="${escapeXml(imageUrl)}"
+        medium="image"
+      />`
+        : ''
 
       return `
-        <item>
-          <title>${escapeXml(story.title)}</title>
-          <link>${link}</link>
-          <guid isPermaLink="true">${link}</guid>
-          <description>${escapeXml(story.description)}</description>
-          <pubDate>${new Date(story.publishedAt).toUTCString()}</pubDate>
-        </item>
-      `
+    <item>
+      <title>${escapeXml(story.title)}</title>
+      <link>${escapeXml(link)}</link>
+      <guid isPermaLink="true">${escapeXml(link)}</guid>
+      <description>${escapeXml(story.summary)}</description>
+      <category>${escapeXml(story.category)}</category>
+      <pubDate>${publishedDate.toUTCString()}</pubDate>
+      <author>${escapeXml(
+        story.author || 'Downunder Voices',
+      )}</author>
+      <source url="${escapeXml(story.sourceUrl)}">${escapeXml(
+        story.sourceName,
+      )}</source>${imageXml}
+    </item>`
     })
-    .join('')
+    .join('\n')
 
-  const rss = `<?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0">
+  const rss = `<?xml version="1.0" encoding="UTF-8"?>
+<rss
+  version="2.0"
+  xmlns:media="http://search.yahoo.com/mrss/"
+>
   <channel>
     <title>Downunder Voices</title>
     <link>${siteUrl}</link>
-    <description>
-      Independent community news and voices from New Zealand, Australia and the Pacific.
-    </description>
-    <language>en</language>
+    <description>Independent community news and voices from New Zealand, Australia and the Pacific.</description>
+    <language>en-NZ</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    ${items}
+    <generator>Downunder Voices</generator>
+${items}
   </channel>
 </rss>`
 
   return new Response(rss, {
+    status: 200,
     headers: {
       'Content-Type': 'application/rss+xml; charset=utf-8',
-      'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600',
+      'Cache-Control':
+        'public, s-maxage=300, stale-while-revalidate=900',
     },
   })
 }
