@@ -22,6 +22,26 @@ export const revalidate = 300
 
 const siteUrl = 'https://www.downundervoices.com'
 
+const defaultSocialImage =
+  `${siteUrl}/downunder-default-og.png`
+
+function getSocialImageUrl(
+  image: string | null | undefined,
+): string {
+  if (!image || image.startsWith('data:')) {
+    return defaultSocialImage
+  }
+
+  if (
+    image.startsWith('https://') ||
+    image.startsWith('http://')
+  ) {
+    return image
+  }
+
+  return `${siteUrl}${image.startsWith('/') ? image : `/${image}`}`
+}
+
 type StoryPageProps = {
   params: Promise<{
     slug: string
@@ -41,37 +61,52 @@ export async function generateMetadata({
   }
 
   const storyUrl = `${siteUrl}/story/${story.slug ?? story.id}`
+
   const description =
     story.summary ||
-    `Read the latest coverage from ${getCategoryName(story.category)}.`
+    `Read the latest coverage from ${getCategoryName(
+      story.category,
+    )}.`
+
+  const socialImage = getSocialImageUrl(story.image)
 
   return {
     title: story.title,
     description,
+
     alternates: {
       canonical: storyUrl,
     },
+
     openGraph: {
       type: 'article',
+      siteName: 'Downunder Voices',
+      locale: 'en_NZ',
       url: storyUrl,
       title: story.title,
       description,
       publishedTime: story.date,
       authors: story.author ? [story.author] : undefined,
-      images: story.image
-        ? [
-            {
-              url: story.image,
-              alt: story.title,
-            },
-          ]
-        : [],
+      images: [
+        {
+          url: socialImage,
+          width: 1200,
+          height: 630,
+          alt: story.title,
+        },
+      ],
     },
+
     twitter: {
       card: 'summary_large_image',
       title: story.title,
       description,
-      images: story.image ? [story.image] : [],
+      images: [
+        {
+          url: socialImage,
+          alt: story.title,
+        },
+      ],
     },
   }
 }
