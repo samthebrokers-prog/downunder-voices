@@ -1,4 +1,5 @@
 import { dbRequest, isDatabaseConfigured } from '@/lib/db'
+import { writeArticle } from '@/lib/ai-writer'
 import { classifyCategory, fetchFeed } from '@/lib/rss'
 import { uniqueSlug } from '@/lib/slug'
 import type { CategorySlug } from '@/lib/news-data'
@@ -60,6 +61,7 @@ function removeFeedNoise(value: string): string {
 
 function firstFiveSentences(value: string): string {
   const text = removeFeedNoise(cleanText(value))
+
   if (!text) return ''
 
   const sentences =
@@ -70,7 +72,7 @@ function firstFiveSentences(value: string): string {
     .filter(Boolean)
     .slice(0, 5)
     .join(' ')
-    .slice(0, 1000)
+    .slice(0, 1200)
     .trim()
 }
 
@@ -185,14 +187,17 @@ export async function runNewsImport(): Promise<ImportResult[]> {
           continue
         }
 
-        let summary = firstFiveSentences(item.description)
+        let originalSummary = firstFiveSentences(item.description)
         let imageUrl = item.imageUrl
 
-        if (summary.length < 90 || !imageUrl) {
+        if (originalSummary.length < 90 || !imageUrl) {
           const metadata = await fetchArticleMetadata(item.link)
 
-          if (summary.length < 90 && metadata.description) {
-            summary = metadata.description
+          if (
+            originalSummary.length < 90 &&
+            metadata.description
+          ) {
+            originalSummary = metadata.description
           }
 
           if (!imageUrl && metadata.imageUrl) {
@@ -200,13 +205,15 @@ export async function runNewsImport(): Promise<ImportResult[]> {
           }
         }
 
-        if (!summary) {
-          summary = firstFiveSentences(item.title)
+        if (!originalSummary) {
+          originalSummary = firstFiveSentences(item.title)
         }
 
+        const originalTitle = cleanText(item.title)
+
         const category = classifyCategory(
-          item.title,
-          summary,
+          originalTitle,
+          originalSummary,
           source.default_category,
         )
 
@@ -215,21 +222,60 @@ export async function runNewsImport(): Promise<ImportResult[]> {
             ? 'published'
             : 'draft'
 
+        /*
+         * For the first safe version:
+         *
+         * Official auto-published sources receive an AI-written article.
+         * Commercial sources remain drafts using the original summary.
+         *
+         * This controls API costs and reduces publishing risk while testing.
+         */
+        let finalTitle = originalTitle
+        let finalSummary = originalSummary
+        let communityAngle = ''
+
+        if (status === 'published') {
+          const writtenArticle = await writeArticle({
+            title: originalTitle,
+            summary: originalSummary,
+            sourceName: source.name,
+            sourceUrl: item.link,
+            category,
+          })
+
+          finalTitle = cleanText(writtenArticle.title) || originalTitle
+
+          finalSummary =
+            cleanText(writtenArticle.summary) || originalSummary
+
+          communityAngle = cleanText(
+            writtenArticle.communityAngle,
+          )
+        }
+
+        const finalImageUrl =
+          imageUrl || DEFAULT_NEWS_IMAGE
+
         await dbRequest('stories', {
           method: 'POST',
           body: {
-            slug: uniqueSlug(item.title, item.link),
-            title: cleanText(item.title),
+            slug: uniqueSlug(finalTitle, item.link),
+            title: finalTitle,
             category,
-            summary,
+            summary: finalSummary,
             source_name: source.name,
             source_url: item.link,
-            image_url: imageUrl || DEFAULT_NEWS_IMAGE,
-            community_angle: '',
+            image_url: finalImageUrl,
+            community_angle: communityAngle,
             status,
             published_at:
-              status === 'published' ? item.publishedAt : null,
-            import_method: 'rss',
+              status === 'published'
+                ? item.publishedAt
+                : null,
+            import_method:
+              status === 'published'
+                ? 'rss-ai'
+                : 'rss',
             source_id: source.id,
           },
         })
