@@ -25,6 +25,9 @@ type ArticleMetadata = {
   imageUrl?: string
 }
 
+const DEFAULT_NEWS_IMAGE =
+  'https://www.downundervoices.com/images/downunder-default-news.jpg'
+
 function cleanText(value: string | null | undefined): string {
   if (!value) return ''
 
@@ -73,6 +76,7 @@ function firstFiveSentences(value: string): string {
 
 function metaContent(html: string, key: string): string {
   const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
   const patterns = [
     new RegExp(
       `<meta[^>]+(?:property|name)=["']${escaped}["'][^>]+content=["']([^"']+)["'][^>]*>`,
@@ -86,7 +90,10 @@ function metaContent(html: string, key: string): string {
 
   for (const pattern of patterns) {
     const match = html.match(pattern)
-    if (match?.[1]) return cleanText(match[1])
+
+    if (match?.[1]) {
+      return cleanText(match[1])
+    }
   }
 
   return ''
@@ -106,9 +113,12 @@ async function fetchArticleMetadata(
       redirect: 'follow',
     })
 
-    if (!response.ok) return { description: '' }
+    if (!response.ok) {
+      return { description: '' }
+    }
 
     const contentType = response.headers.get('content-type') || ''
+
     if (!contentType.includes('text/html')) {
       return { description: '' }
     }
@@ -133,7 +143,9 @@ async function fetchArticleMetadata(
           ? imageUrl
           : undefined,
     }
-  } catch {
+  } catch (error) {
+    console.error('Article metadata fetch failed:', error)
+
     return { description: '' }
   }
 }
@@ -212,7 +224,7 @@ export async function runNewsImport(): Promise<ImportResult[]> {
             summary,
             source_name: source.name,
             source_url: item.link,
-            image_url: imageUrl || null,
+            image_url: imageUrl || DEFAULT_NEWS_IMAGE,
             community_angle: '',
             status,
             published_at:
@@ -234,17 +246,24 @@ export async function runNewsImport(): Promise<ImportResult[]> {
       )
     }
 
-    await dbRequest('import_logs', {
-      method: 'POST',
-      body: {
-        source_id: source.id,
-        source_name: source.name,
-        imported_count: imported,
-        skipped_count: skipped,
-        error_message: errorMessage,
-        duration_ms: Date.now() - started,
-      },
-    })
+    try {
+      await dbRequest('import_logs', {
+        method: 'POST',
+        body: {
+          source_id: source.id,
+          source_name: source.name,
+          imported_count: imported,
+          skipped_count: skipped,
+          error_message: errorMessage,
+          duration_ms: Date.now() - started,
+        },
+      })
+    } catch (logError) {
+      console.error(
+        `Import log failed for ${source.name}:`,
+        logError,
+      )
+    }
 
     results.push({
       source: source.name,
