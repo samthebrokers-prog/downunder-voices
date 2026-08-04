@@ -163,14 +163,18 @@ export async function runNewsImport(): Promise<ImportResult[]> {
 
   const results: ImportResult[] = []
 
-  for (const source of sources) {
+  // TEMPORARY TEST:
+  // Use only the first active news source.
+  for (const source of sources.slice(0, 1)) {
     const started = Date.now()
     let imported = 0
     let skipped = 0
     let errorMessage: string | null = null
 
     try {
-      const items = (await fetchFeed(source.feed_url)).slice(0, 20)
+      // TEMPORARY TEST:
+      // Check only one story from the selected source.
+      const items = (await fetchFeed(source.feed_url)).slice(0, 1)
 
       for (const item of items) {
         const existing = await dbRequest<Array<{ id: string }>>(
@@ -222,14 +226,6 @@ export async function runNewsImport(): Promise<ImportResult[]> {
             ? 'published'
             : 'draft'
 
-        /*
-         * For the first safe version:
-         *
-         * Official auto-published sources receive an AI-written article.
-         * Commercial sources remain drafts using the original summary.
-         *
-         * This controls API costs and reduces publishing risk while testing.
-         */
         let finalTitle = originalTitle
         let finalSummary = originalSummary
         let communityAngle = ''
@@ -243,7 +239,8 @@ export async function runNewsImport(): Promise<ImportResult[]> {
             category,
           })
 
-          finalTitle = cleanText(writtenArticle.title) || originalTitle
+          finalTitle =
+            cleanText(writtenArticle.title) || originalTitle
 
           finalSummary =
             cleanText(writtenArticle.summary) || originalSummary
