@@ -161,22 +161,40 @@ export async function runNewsImport(): Promise<ImportResult[]> {
     query: '?select=*&active=eq.true&order=name.asc',
   })
 
+  /*
+   * TEMPORARY CONTROLLED TEST:
+   * Use only one official source that is approved for automatic publishing.
+   */
+  const testSources = sources
+    .filter(
+      (source) =>
+        source.auto_publish &&
+        source.source_type === 'official',
+    )
+    .slice(0, 1)
+
   const results: ImportResult[] = []
 
-  // TEMPORARY TEST:
-  // Use only the first active news source.
-  for (const source of sources.slice(0, 1)) {
+  for (const source of testSources) {
     const started = Date.now()
     let imported = 0
     let skipped = 0
     let errorMessage: string | null = null
 
     try {
-      // TEMPORARY TEST:
-      // Check only one story from the selected source.
-      const items = (await fetchFeed(source.feed_url)).slice(0, 1)
+      /*
+       * Check up to 10 feed items so the importer can move past
+       * stories that are already in the database.
+       *
+       * The loop stops immediately after one new story is imported.
+       */
+      const items = (await fetchFeed(source.feed_url)).slice(0, 10)
 
       for (const item of items) {
+        if (imported >= 1) {
+          break
+        }
+
         const existing = await dbRequest<Array<{ id: string }>>(
           'stories',
           {
@@ -221,34 +239,27 @@ export async function runNewsImport(): Promise<ImportResult[]> {
           source.default_category,
         )
 
-        const status =
-          source.auto_publish && source.source_type === 'official'
-            ? 'published'
-            : 'draft'
+        console.log(
+          `Sending one test article to OpenAI from ${source.name}`,
+        )
 
-        let finalTitle = originalTitle
-        let finalSummary = originalSummary
-        let communityAngle = ''
+        const writtenArticle = await writeArticle({
+          title: originalTitle,
+          summary: originalSummary,
+          sourceName: source.name,
+          sourceUrl: item.link,
+          category,
+        })
 
-        if (status === 'published') {
-          const writtenArticle = await writeArticle({
-            title: originalTitle,
-            summary: originalSummary,
-            sourceName: source.name,
-            sourceUrl: item.link,
-            category,
-          })
+        const finalTitle =
+          cleanText(writtenArticle.title) || originalTitle
 
-          finalTitle =
-            cleanText(writtenArticle.title) || originalTitle
+        const finalSummary =
+          cleanText(writtenArticle.summary) || originalSummary
 
-          finalSummary =
-            cleanText(writtenArticle.summary) || originalSummary
-
-          communityAngle = cleanText(
-            writtenArticle.communityAngle,
-          )
-        }
+        const communityAngle = cleanText(
+          writtenArticle.communityAngle,
+        )
 
         const finalImageUrl =
           imageUrl || DEFAULT_NEWS_IMAGE
@@ -264,20 +275,18 @@ export async function runNewsImport(): Promise<ImportResult[]> {
             source_url: item.link,
             image_url: finalImageUrl,
             community_angle: communityAngle,
-            status,
-            published_at:
-              status === 'published'
-                ? item.publishedAt
-                : null,
-            import_method:
-              status === 'published'
-                ? 'rss-ai'
-                : 'rss',
+            status: 'published',
+            published_at: item.publishedAt,
+            import_method: 'rss-ai',
             source_id: source.id,
           },
         })
 
         imported += 1
+
+        console.log(
+          `AI test article imported successfully: ${finalTitle}`,
+        )
       }
     } catch (error) {
       errorMessage =
