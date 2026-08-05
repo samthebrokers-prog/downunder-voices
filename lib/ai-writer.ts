@@ -12,22 +12,22 @@ export type WrittenArticle = {
   communityAngle: string
 }
 
-function cleanJson(value: string): string {
+function normaliseText(value: string): string {
   return value
-    .replace(/^```json\s*/i, '')
-    .replace(/^```\s*/i, '')
-    .replace(/\s*```$/i, '')
+    .replace(/\s+/g, ' ')
+    .replace(/\s+([,.!?;:])/g, '$1')
     .trim()
 }
 
 function fallbackArticle(
   input: WriteArticleInput,
 ): WrittenArticle {
+  const cleanSummary = normaliseText(input.summary)
+
   return {
-    title: input.title,
-    summary: input.summary,
-    communityAngle:
-      'This story may be relevant to readers across Australia, New Zealand and the Pacific. Please refer to the original source for the full report.',
+    title: normaliseText(input.title).slice(0, 160),
+    summary: cleanSummary.slice(0, 4000),
+    communityAngle: '',
   }
 }
 
@@ -38,7 +38,7 @@ export async function writeArticle(
 
   if (!apiKey) {
     console.warn(
-      'OPENAI_API_KEY is missing. Using the original feed summary.',
+      'OPENAI_API_KEY is missing. Publishing the original feed content.',
     )
 
     return fallbackArticle(input)
@@ -55,50 +55,96 @@ export async function writeArticle(
         },
         body: JSON.stringify({
           model: 'gpt-5-mini',
+
           instructions: `
-You are the news editor for Downunder Voices, an independent digital publication covering Australia, New Zealand and the Pacific.
+You are the editor of Downunder Voices, an independent news publication covering Australia, New Zealand and the Pacific.
 
-Rewrite supplied news material into an original, accurate and neutral news brief.
+Rewrite the supplied source material as a concise, natural news report.
 
-Rules:
-- Do not invent facts, names, dates, figures or quotations.
-- Do not copy sentences from the source.
-- Do not claim direct reporting or interviews.
-- Preserve the factual meaning of the source material.
-- Use clear Australian and New Zealand English.
-- Avoid sensational or promotional language.
-- Keep the article between 180 and 300 words.
-- The title must be factual and no longer than 90 characters.
-- The community angle must be 30 to 70 words.
-- Clearly attribute the information to the named source.
-- Return JSON only.
+Editorial rules:
+
+- Use only facts contained in the supplied title and summary.
+- Never invent names, quotations, dates, figures, locations, causes or outcomes.
+- Never claim that Downunder Voices attended an event, interviewed anyone or independently confirmed the report.
+- Do not copy complete sentences from the source.
+- Use Australian and New Zealand English.
+- Write in a calm, factual newsroom style.
+- Use short paragraphs and active voice.
+- Do not use promotional, dramatic or sensational wording.
+- Do not pad the article to reach a word count.
+- Do not explain that the information was supplied through an RSS feed.
+- Do not tell readers to consult the original source.
+- Do not use phrases such as:
+  "This story may be relevant"
+  "The information currently available"
+  "Readers should consult"
+  "Community angle"
+  "This development highlights"
+  "It is important to note"
+  "In a significant development"
+  "Across Australia, New Zealand and the Pacific"
+- Do not add a generic conclusion.
+- Mention the source naturally once, preferably near the beginning.
+- The article should normally be 120 to 240 words, but may be shorter when limited information is available.
+- The headline must be factual and no longer than 90 characters.
+- The communityAngle field must contain one specific sentence explaining the practical relevance of the story.
+- If there is no clear community relevance in the supplied material, return an empty string for communityAngle.
           `.trim(),
+
           input: `
-Original title:
+SOURCE TITLE:
 ${input.title}
 
-Source:
+SOURCE NAME:
 ${input.sourceName}
 
-Source URL:
+SOURCE URL:
 ${input.sourceUrl}
 
-Category:
+CATEGORY:
 ${input.category}
 
-Available source summary:
+SOURCE SUMMARY:
 ${input.summary}
-
-Return exactly this JSON structure:
-
-{
-  "title": "Rewritten factual headline",
-  "summary": "Original 180 to 300 word news article with source attribution",
-  "communityAngle": "Why this matters to Australia, New Zealand or Pacific readers"
-}
           `.trim(),
-          max_output_tokens: 900,
+
+          text: {
+            format: {
+              type: 'json_schema',
+              name: 'downunder_voices_article',
+              strict: true,
+              schema: {
+                type: 'object',
+                additionalProperties: false,
+                properties: {
+                  title: {
+                    type: 'string',
+                    description:
+                      'A factual news headline no longer than 90 characters.',
+                  },
+                  summary: {
+                    type: 'string',
+                    description:
+                      'A concise original news report based only on the supplied material.',
+                  },
+                  communityAngle: {
+                    type: 'string',
+                    description:
+                      'One specific sentence about practical relevance, or an empty string.',
+                  },
+                },
+                required: [
+                  'title',
+                  'summary',
+                  'communityAngle',
+                ],
+              },
+            },
+          },
+
+          max_output_tokens: 850,
         }),
+
         signal: AbortSignal.timeout(30000),
         cache: 'no-store',
       },
@@ -126,48 +172,39 @@ Return exactly this JSON structure:
     }
 
     const rawText =
-      data.output_text ||
+      data.output_text ??
       data.output
         ?.flatMap((item) => item.content ?? [])
         .find((content) => content.type === 'output_text')
-        ?.text ||
+        ?.text ??
       ''
 
-    if (!rawText) {
+    if (!rawText.trim()) {
       console.error('OpenAI returned no article text')
       return fallbackArticle(input)
     }
 
-    const parsed = JSON.parse(cleanJson(rawText)) as {
-      title?: unknown
-      summary?: unknown
-      communityAngle?: unknown
+    const parsed = JSON.parse(rawText) as {
+      title: string
+      summary: string
+      communityAngle: string
     }
 
-    const title =
-      typeof parsed.title === 'string'
-        ? parsed.title.trim()
-        : ''
-
-    const summary =
-      typeof parsed.summary === 'string'
-        ? parsed.summary.trim()
-        : ''
-
-    const communityAngle =
-      typeof parsed.communityAngle === 'string'
-        ? parsed.communityAngle.trim()
-        : ''
+    const title = normaliseText(parsed.title)
+    const summary = parsed.summary.trim()
+    const communityAngle = normaliseText(
+      parsed.communityAngle,
+    )
 
     if (!title || !summary) {
-      console.error('OpenAI returned incomplete article JSON')
+      console.error('OpenAI returned an incomplete article')
       return fallbackArticle(input)
     }
 
     return {
       title: title.slice(0, 160),
       summary: summary.slice(0, 4000),
-      communityAngle: communityAngle.slice(0, 1000),
+      communityAngle: communityAngle.slice(0, 500),
     }
   } catch (error) {
     console.error('AI article writing failed:', error)
