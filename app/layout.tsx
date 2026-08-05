@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import { Analytics } from '@vercel/analytics/next'
 
 import { MainHeader } from '@/components/main-header'
 import { SiteFooter } from '@/components/site-footer'
@@ -80,6 +81,8 @@ export default function RootLayout({
         <main>{children}</main>
 
         <SiteFooter />
+
+        <Analytics />
       </body>
     </html>
   )
