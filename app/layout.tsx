@@ -4,7 +4,7 @@ import { MainHeader } from '@/components/main-header'
 import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
 
-const siteUrl = 'https://downundervoices.com'
+const siteUrl = 'https://www.downundervoices.com'
 
 const productionReady = Boolean(
   process.env.NEXT_PUBLIC_SUPABASE_URL &&
