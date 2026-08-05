@@ -32,6 +32,96 @@ const DEFAULT_NEWS_IMAGE =
 const MAX_AI_ARTICLES_PER_RUN = 5
 const MAX_ITEMS_PER_SOURCE = 20
 
+function sourceRegion(
+  source: SourceRow,
+): 'australia' | 'nz-pacific' | null {
+  const sourceText = [
+    source.name,
+    source.feed_url,
+    source.site_url || '',
+  ]
+    .join(' ')
+    .toLowerCase()
+
+  const australianSignals = [
+    '.gov.au',
+    '.com.au',
+    '.org.au',
+    'abc.net.au',
+    'sbs.com.au',
+    'australia',
+    'western australia',
+    'new south wales',
+    'victoria',
+    'queensland',
+    'south australia',
+    'tasmania',
+    'northern territory',
+    'act government',
+  ]
+
+  const nzPacificSignals = [
+    '.govt.nz',
+    '.co.nz',
+    '.org.nz',
+    'rnz.co.nz',
+    'beehive.govt.nz',
+    'new zealand',
+    'aotearoa',
+    'fiji',
+    'samoa',
+    'tonga',
+    'nauru',
+    'vanuatu',
+    'solomon islands',
+    'cook islands',
+    'niue',
+    'papua new guinea',
+    'pacific',
+  ]
+
+  if (
+    australianSignals.some((signal) =>
+      sourceText.includes(signal),
+    )
+  ) {
+    return 'australia'
+  }
+
+  if (
+    nzPacificSignals.some((signal) =>
+      sourceText.includes(signal),
+    )
+  ) {
+    return 'nz-pacific'
+  }
+
+  return null
+}
+
+function protectRegionalCategory(
+  category: CategorySlug,
+  source: SourceRow,
+): CategorySlug {
+  const region = sourceRegion(source)
+
+  if (
+    region === 'australia' &&
+    category === 'nz-pacific'
+  ) {
+    return 'australia' as CategorySlug
+  }
+
+  if (
+    region === 'nz-pacific' &&
+    category === 'australia'
+  ) {
+    return 'nz-pacific' as CategorySlug
+  }
+
+  return category
+}
+
 function cleanText(
   value: string | null | undefined,
 ): string {
@@ -253,11 +343,17 @@ export async function runNewsImport(): Promise<
         const originalTitle =
           cleanText(item.title)
 
-        const initialCategory =
+        const classifiedInitialCategory =
           classifyCategory(
             originalTitle,
             originalSummary,
             source.default_category,
+          )
+
+        const initialCategory =
+          protectRegionalCategory(
+            classifiedInitialCategory,
+            source,
           )
 
         const canAutoPublish =
@@ -303,11 +399,18 @@ export async function runNewsImport(): Promise<
             writtenArticle.communityAngle,
           )
 
-          finalCategory = classifyCategory(
-            finalTitle,
-            finalSummary,
-            initialCategory,
-          )
+          const classifiedFinalCategory =
+            classifyCategory(
+              finalTitle,
+              finalSummary,
+              initialCategory,
+            )
+
+          finalCategory =
+            protectRegionalCategory(
+              classifiedFinalCategory,
+              source,
+            )
 
           status = 'published'
           importMethod = 'rss-ai'
@@ -355,11 +458,6 @@ export async function runNewsImport(): Promise<
         console.log(
           `Imported ${status} story: ${finalTitle}`,
         )
-
-        /*
-         * Once five AI articles have been created,
-         * remaining new stories are stored as drafts.
-         */
       }
     } catch (error) {
       errorMessage =
