@@ -6,12 +6,17 @@ import { Menu, X } from 'lucide-react'
 import { categories } from '@/lib/news-data'
 
 const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/latest', label: 'Latest' },
+
   ...categories
     .filter((category) => category.slug !== 'editorial-view')
     .map((category) => ({
       href: `/category/${category.slug}`,
       label: category.name === "Sam's View" ? 'Opinion' : category.name,
     })),
+
+  { href: '/category/editorial-view', label: 'Opinion' },
   { href: '/submit', label: 'Submit Your Story' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
@@ -21,100 +26,65 @@ export function MainHeader() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="border-b border-border bg-background">
-      <div className="border-b border-border bg-secondary/60">
-        <div className="mx-auto flex max-w-7xl items-center justify-end px-4 py-2 text-xs sm:px-6 lg:px-8">
-          <Link
-            href="/advertise"
-            className="font-semibold text-primary hover:underline"
-          >
-            Advertise with us
-          </Link>
-        </div>
-      </div>
-
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
-        <Link href="/" className="block" onClick={() => setOpen(false)}>
-          <span className="font-serif text-2xl font-bold tracking-tight sm:text-3xl">
-            Downunder Voices
-          </span>
-
-          <span className="mt-1 block text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            New Zealand · Australia · Pacific
-          </span>
-        </Link>
-
-        <button
-          type="button"
-          aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
-          aria-expanded={open}
-          onClick={() => setOpen((current) => !current)}
-          className="inline-flex size-10 items-center justify-center rounded-md border border-border lg:hidden"
-        >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
-      </div>
-
-      <nav className="hidden border-t border-border lg:block">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3 sm:px-6 lg:px-8">
+    <header className="border-b border-slate-200 bg-white">
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="flex items-center justify-between py-4">
           <Link
             href="/"
-            className="text-sm font-semibold transition-colors hover:text-primary"
+            className="flex flex-col"
+            onClick={() => setOpen(false)}
           >
-            Home
+            <span className="text-2xl font-bold tracking-tight text-slate-900">
+              Downunder Voices
+            </span>
+
+            <span className="mt-1 text-sm text-slate-500">
+              Australia · New Zealand · World
+            </span>
           </Link>
 
-          <Link
-            href="/latest"
-            className="text-sm font-semibold transition-colors hover:text-primary"
+          <button
+            type="button"
+            onClick={() => setOpen((current) => !current)}
+            className="inline-flex items-center justify-center rounded-md border border-slate-300 p-2 text-slate-700 hover:bg-slate-50 lg:hidden"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
           >
-            Latest
-          </Link>
-
-          {navLinks.map((link) => (
-            <Link
-              key={`${link.href}-${link.label}`}
-              href={link.href}
-              className="text-sm font-semibold transition-colors hover:text-primary"
-            >
-              {link.label}
-            </Link>
-          ))}
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
-      </nav>
 
-      {open && (
-        <nav className="border-t border-border bg-background lg:hidden">
-          <div className="mx-auto flex max-w-7xl flex-col px-4 py-3 sm:px-6">
-            <Link
-              href="/"
-              onClick={() => setOpen(false)}
-              className="border-b border-border py-3 text-sm font-semibold"
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/latest"
-              onClick={() => setOpen(false)}
-              className="border-b border-border py-3 text-sm font-semibold"
-            >
-              Latest
-            </Link>
-
+        <nav className="hidden border-t border-slate-100 lg:block">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 py-3 text-sm font-medium text-slate-700">
             {navLinks.map((link) => (
               <Link
-                key={`mobile-${link.href}-${link.label}`}
+                key={`${link.href}-${link.label}`}
                 href={link.href}
-                onClick={() => setOpen(false)}
-                className="border-b border-border py-3 text-sm font-semibold last:border-b-0"
+                className="transition-colors hover:text-red-600"
               >
                 {link.label}
               </Link>
             ))}
           </div>
         </nav>
-      )}
+
+        {open && (
+          <nav className="border-t border-slate-100 py-4 lg:hidden">
+            <div className="flex flex-col gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={`${link.href}-${link.label}`}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-red-600"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
+        )}
+      </div>
     </header>
   )
 }
