@@ -5,6 +5,7 @@ import {
   Linkedin,
   Youtube,
 } from 'lucide-react'
+
 import { categories } from '@/lib/news-data'
 
 const websiteUrl = 'https://www.downundervoices.com'
@@ -48,37 +49,50 @@ const socialLinks = [
   },
 ]
 
-const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(
-  websiteUrl,
-)}`
+const qrCodeUrl =
+  `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(
+    websiteUrl,
+  )}`
 
 export function SiteFooter() {
   const footerCategories = categories
-    .filter((category) => category.slug !== 'editorial-view')
+    .filter(
+      (category) =>
+        category.slug !== 'editorial-view',
+    )
     .map((category) => ({
       href: `/category/${category.slug}`,
-      label: category.name === "Sam's View" ? 'Opinion' : category.name,
+      label: category.name,
     }))
 
   return (
-    <footer className="mt-16 border-t-4 border-red-700 bg-slate-950 text-white">
-      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_250px]">
-          <div className="min-w-0">
-            <Link href="/" className="inline-block">
-              <span className="block whitespace-nowrap font-serif text-2xl font-black tracking-tight sm:text-3xl">
+    <footer className="mt-16 bg-slate-950 text-white">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <Link
+              href="/"
+              className="inline-flex flex-col"
+            >
+              <span className="font-serif text-2xl font-black tracking-tight">
                 DOWNUNDER
-                <span className="ml-2 text-red-500">VOICES</span>
+              </span>
+
+              <span className="font-serif text-2xl font-black tracking-tight text-red-500">
+                VOICES
               </span>
 
               <span className="mt-2 block text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-400">
-                New Zealand · Australia · Pacific
+                Australia · New Zealand · World
               </span>
             </Link>
 
             <p className="mt-5 max-w-md text-sm leading-6 text-slate-300">
-              Independent news, community stories and diverse views from across
-              New Zealand, Australia and the Pacific.
+              Independent journalism covering Australia,
+              New Zealand and the world, with a focus on
+              social issues, small business, community
+              voices and stories that matter to everyday
+              people.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
@@ -118,6 +132,15 @@ export function SiteFooter() {
                   </Link>
                 </li>
               ))}
+
+              <li>
+                <Link
+                  href="/category/editorial-view"
+                  className="text-slate-300 transition hover:text-white"
+                >
+                  Opinion
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -185,19 +208,26 @@ export function SiteFooter() {
 
         <div className="mt-12 rounded-lg border border-slate-800 bg-slate-900 p-5">
           <p className="text-xs leading-6 text-slate-400">
-            <strong className="text-slate-200">Editorial note:</strong>{' '}
-            Summaries and community commentary do not replace original
-            reporting. Readers should follow the source link for the complete
-            report and any official statements.
+            <strong className="text-slate-200">
+              Editorial note:
+            </strong>{' '}
+            Summaries and community commentary do not
+            replace original reporting. Readers should
+            follow source links for complete reports and
+            official statements where applicable.
           </p>
         </div>
 
         <div className="mt-8 flex flex-col justify-between gap-3 border-t border-slate-800 pt-6 text-xs text-slate-500 sm:flex-row">
           <p>
-            © {new Date().getFullYear()} Downunder Voices. All rights reserved.
+            © {new Date().getFullYear()} Downunder Voices.
+            All rights reserved.
           </p>
 
-          <p>Independent voices. Connected communities.</p>
+          <p>
+            Giving Communities a Voice. Holding Power
+            Accountable.
+          </p>
         </div>
       </div>
     </footer>
