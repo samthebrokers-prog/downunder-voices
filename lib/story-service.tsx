@@ -464,20 +464,96 @@ export async function getStoriesByCategory(
   category: CategorySlug,
   limit = 30,
 ): Promise<Story[]> {
-  const stories =
-    await getPublishedStories(100)
-
   const normalisedCategory =
     normaliseCategorySlug(category)
 
-  return stories
-    .filter(
-      (story) =>
-        normaliseCategorySlug(
-          story.category,
-        ) === normalisedCategory,
+  if (!isDatabaseConfigured()) {
+    return seedSorted()
+      .filter(
+        (story) =>
+          normaliseCategorySlug(
+            story.category,
+          ) === normalisedCategory,
+      )
+      .slice(0, limit)
+  }
+
+  const categoryMap: Record<
+    string,
+    string[]
+  > = {
+    'new-zealand': [
+      'new-zealand',
+      'nz-pacific',
+    ],
+
+    'small-business': [
+      'small-business',
+      'business',
+    ],
+
+    'social-issues': [
+      'social-issues',
+      'politics',
+    ],
+
+    australia: ['australia'],
+
+    world: ['world'],
+
+    'trade-logistics': [
+      'trade-logistics',
+    ],
+
+    community: ['community'],
+
+    sports: ['sports'],
+
+    'editorial-view': [
+      'editorial-view',
+    ],
+  }
+
+  const acceptedCategories =
+    categoryMap[normalisedCategory] ?? [
+      normalisedCategory,
+    ]
+
+  try {
+    const encodedCategories =
+      acceptedCategories
+        .map((value) => `"${value}"`)
+        .join(',')
+
+    const rows =
+      await dbRequest<StoryRow[]>(
+        'stories',
+        {
+          query:
+            '?select=*' +
+            '&status=eq.published' +
+            `&category=in.(${encodedCategories})` +
+            '&order=published_at.desc.nullslast,created_at.desc' +
+            `&limit=${limit}`,
+        },
+      )
+
+    return rows.map(rowToStory)
+  } catch (error) {
+    console.error(
+      `Category lookup failed for ${normalisedCategory}:`,
+      error,
     )
-    .slice(0, limit)
+
+    return seedSorted()
+      .filter(
+        (story) =>
+          normaliseCategorySlug(
+            story.category,
+          ) === normalisedCategory,
+      )
+      .slice(0, limit)
+  }
 }
 
 export async function getStoryBySlug(
