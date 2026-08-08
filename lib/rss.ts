@@ -29,7 +29,10 @@ function stripHtml(value: string): string {
     .trim()
 }
 
-function tag(block: string, names: string[]): string {
+function tag(
+  block: string,
+  names: string[],
+): string {
   for (const name of names) {
     const escaped = name.replace(':', '\\:')
 
@@ -92,7 +95,9 @@ function validImageUrl(
   }
 
   if (
-    /\.(mp3|mp4|m4a|wav|ogg|pdf)(\?|$)/i.test(cleaned)
+    /\.(mp3|mp4|m4a|wav|ogg|pdf)(\?|$)/i.test(
+      cleaned,
+    )
   ) {
     return undefined
   }
@@ -251,7 +256,10 @@ export function classifyCategory(
     /\b(customs|customs clearance|border force|biosecurity|mpi|daff|freight|freight forwarding|freight forwarder|shipping|shipping line|container|containers|cargo|air cargo|sea freight|air freight|logistics|supply chain|port|ports|terminal|import|imports|importing|export|exports|exporting|tariff|customs duty|trade agreement|bill of lading|demurrage|detention|warehouse|warehousing)\b/i
 
   const smallBusinessRule =
-    /\b(small business|small businesses|medium business|medium-sized business|sme|smes|startup|start-up|entrepreneur|entrepreneurs|family business|sole trader|business owner|business owners|business grant|business grants|local business|microbusiness|microenterprise|e-commerce|small retailer)\b/i
+    /\b(small business|small businesses|medium business|medium businesses|medium-sized business|sme|smes|startup|start-up|startups|start-ups|entrepreneur|entrepreneurs|entrepreneurship|family business|family businesses|sole trader|sole traders|business owner|business owners|business grant|business grants|local business|local businesses|microbusiness|microenterprise|micro-enterprise|e-commerce business|small retailer|small retailers|small employer|small employers)\b/i
+
+  const corporateFinanceRule =
+    /\b(earnings call|earnings report|quarterly earnings|q1 earnings|q2 earnings|q3 earnings|q4 earnings|share price|stock price|stock market|shares|shareholder|shareholders|dividend|dividends|market cap|market capitalisation|market capitalization|nasdaq|nyse|asx 200|s&p 500|dow jones|analyst rating|price target|insider sold|insider sale|board member sold|equity stake|securities filing|sec filing)\b/i
 
   const socialIssuesRule =
     /\b(cost of living|housing affordability|housing crisis|homeless|homelessness|rental crisis|rent crisis|mental health|domestic violence|family violence|disability|disabled|aged care|elderly|seniors|poverty|financial hardship|welfare|social services|healthcare|health care|hospital|hospitals|education|international student|international students|university fees|tuition fees|student housing|child protection|youth crime|food insecurity|community safety|consumer rights)\b/i
@@ -268,10 +276,7 @@ export function classifyCategory(
   const worldRule =
     /\b(united states|usa|u\.s\.|america|american|united kingdom|britain|british|england|europe|european union|china|chinese|india|indian|japan|japanese|canada|canadian|germany|france|ukraine|russia|russian|middle east|israel|gaza|iran|iraq|africa|south africa|asia|fiji|fijian|tonga|tongan|samoa|samoan|vanuatu|solomon islands|papua new guinea|cook islands|niue|kiribati|tuvalu|new caledonia|pacific islands)\b/i
 
-  /*
-   * First classify strongly identifiable topics
-   * from the headline.
-   */
+  // Headline first
 
   if (sportsRule.test(cleanTitle)) {
     return 'sports'
@@ -305,10 +310,7 @@ export function classifyCategory(
     return 'world'
   }
 
-  /*
-   * If the headline alone is not enough,
-   * look at headline + description.
-   */
+  // Headline + description
 
   if (sportsRule.test(haystack)) {
     return 'sports'
@@ -342,11 +344,23 @@ export function classifyCategory(
     return 'world'
   }
 
-  /*
-   * Old RSS source defaults such as
-   * business, politics and nz-pacific
-   * are converted to the new public categories.
-   */
+  // Generic listed-company and stock-market stories
+  // should not become Small Business.
+
+  if (corporateFinanceRule.test(haystack)) {
+    return 'world'
+  }
+
+  // Old generic Business feeds should not automatically
+  // become Small Business. Only explicit SME stories above
+  // should enter Small Business.
+
+  if (
+    fallback === 'business' ||
+    fallback === 'small-business'
+  ) {
+    return 'world'
+  }
 
   return normaliseCategorySlug(fallback)
 }
