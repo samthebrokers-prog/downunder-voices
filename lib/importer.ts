@@ -1,5 +1,6 @@
 import { dbRequest, isDatabaseConfigured } from '@/lib/db'
 import { writeArticle } from '@/lib/ai-writer'
+import { shouldImportStory } from '@/lib/news-filter'
 import { classifyCategory, fetchFeed } from '@/lib/rss'
 import { uniqueSlug } from '@/lib/slug'
 import type { CategorySlug } from '@/lib/news-data'
@@ -116,7 +117,7 @@ function protectRegionalCategory(
     region === 'new-zealand-pacific' &&
     category === 'australia'
   ) {
-    return 'nz-pacific' as CategorySlug
+    return 'new-zealand' as CategorySlug
   }
 
   return category
@@ -343,6 +344,29 @@ export async function runNewsImport(): Promise<
         const originalTitle =
           cleanText(item.title)
 
+        /*
+         * Quality gate.
+         *
+         * Stories rejected here never reach
+         * the database.
+         */
+        const allowed = shouldImportStory(
+          originalTitle,
+          originalSummary,
+          source.name,
+          source.feed_url,
+        )
+
+        if (!allowed) {
+          skipped += 1
+
+          console.log(
+            `Quality filter skipped: ${originalTitle}`,
+          )
+
+          continue
+        }
+
         const classifiedInitialCategory =
           classifyCategory(
             originalTitle,
@@ -375,7 +399,7 @@ export async function runNewsImport(): Promise<
 
         if (canUseAi) {
           console.log(
-            `Sending article to OpenAI: ${originalTitle}`,
+            `Preparing article: ${originalTitle}`,
           )
 
           const writtenArticle =
@@ -399,6 +423,29 @@ export async function runNewsImport(): Promise<
             writtenArticle.communityAngle,
           )
 
+          /*
+           * Run the quality filter again after
+           * processing, so unwanted material
+           * cannot re-enter through rewritten text.
+           */
+          const finalAllowed =
+            shouldImportStory(
+              finalTitle,
+              finalSummary,
+              source.name,
+              source.feed_url,
+            )
+
+          if (!finalAllowed) {
+            skipped += 1
+
+            console.log(
+              `Final quality filter skipped: ${finalTitle}`,
+            )
+
+            continue
+          }
+
           const classifiedFinalCategory =
             classifyCategory(
               finalTitle,
@@ -417,12 +464,12 @@ export async function runNewsImport(): Promise<
           aiArticlesCreated += 1
 
           console.log(
-            `AI article prepared: ${finalTitle}`,
+            `Article prepared: ${finalTitle}`,
           )
         } else if (canAutoPublish) {
           /*
            * Official stories beyond the five-article
-           * AI limit remain drafts for later review.
+           * processing limit remain drafts for review.
            */
           status = 'draft'
           importMethod = 'rss'
@@ -499,7 +546,7 @@ export async function runNewsImport(): Promise<
   }
 
   console.log(
-    `News import completed. AI articles created: ${aiArticlesCreated}`,
+    `News import completed. Processed articles created: ${aiArticlesCreated}`,
   )
 
   return results
