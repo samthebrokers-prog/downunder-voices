@@ -5,29 +5,68 @@ import { BreakingNewsTicker } from '@/components/breaking-news-ticker'
 import { SetupBanner } from '@/components/setup-banner'
 import { StoryCard } from '@/components/story-card'
 import { isDatabaseConfigured } from '@/lib/db'
-import { categories } from '@/lib/news-data'
+import {
+  categories,
+  normaliseCategorySlug,
+  type CategorySlug,
+} from '@/lib/news-data'
 import { getPublishedStories } from '@/lib/story-service'
 
 export const revalidate = 300
 
+const homepageCategories: CategorySlug[] = [
+  'australia',
+  'new-zealand',
+  'world',
+  'social-issues',
+  'small-business',
+  'trade-logistics',
+  'community',
+  'sports',
+]
+
+const topics = [
+  'Housing',
+  'Cost of Living',
+  'International Students',
+  'Health',
+  'Education',
+  'Small Business',
+  'Customs',
+  'Biosecurity',
+  'Freight Forwarding',
+  'Shipping',
+  'Ports',
+  'Supply Chains',
+  'International Trade',
+  'Community',
+  'World Affairs',
+]
+
 export default async function HomePage() {
   const configured = isDatabaseConfigured()
-  const allStories = await getPublishedStories(100)
+  const allStories = await getPublishedStories(120)
 
   const visibleStories = allStories.filter(
-    (story) => story.category !== 'editorial-view',
+    (story) =>
+      normaliseCategorySlug(story.category) !==
+      'editorial-view',
   )
 
   const mixed = mixedLatest(visibleStories)
   const [lead, ...others] = mixed
 
   const breakingStories = mixed.slice(0, 6)
-  const liveHeadlines = others.slice(0, 5)
-  const latest = others.slice(5, 11)
+  const topStories = others.slice(0, 4)
+  const latest = others.slice(4, 10)
 
-  const visibleCategories = categories.filter(
-    (category) => category.slug !== 'editorial-view',
-  )
+  const opinionStories = allStories
+    .filter(
+      (story) =>
+        normaliseCategorySlug(story.category) ===
+        'editorial-view',
+    )
+    .slice(0, 3)
 
   return (
     <>
@@ -35,13 +74,202 @@ export default async function HomePage() {
 
       <main>
         <h1 className="sr-only">
-          Downunder Voices — news from New Zealand, Australia and the Pacific
+          Downunder Voices — independent news from Australia,
+          New Zealand and the world
         </h1>
 
         <BreakingNewsTicker stories={breakingStories} />
 
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <section className="mb-8 overflow-hidden rounded-lg border border-border bg-secondary">
+          {lead && (
+            <section>
+              <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b-4 border-red-700 pb-3">
+                <div className="flex items-center gap-3">
+                  <span className="rounded-sm bg-red-700 px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-white">
+                    Top Story
+                  </span>
+
+                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">
+                    News that matters
+                  </span>
+                </div>
+
+                <Link
+                  href="/latest"
+                  className="inline-flex items-center gap-1 text-sm font-bold text-red-700 hover:underline"
+                >
+                  View latest
+                  <ArrowRight className="size-4" />
+                </Link>
+              </div>
+
+              <div className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
+                <StoryCard story={lead} variant="feature" />
+              </div>
+            </section>
+          )}
+
+          {topStories.length > 0 && (
+            <section className="mt-12">
+              <SectionHeading
+                title="Top Stories"
+                href="/latest"
+                linkText="View latest"
+              />
+
+              <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+                {topStories.map((story) => (
+                  <StoryCard key={story.id} story={story} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {latest.length > 0 && (
+            <section className="mt-16">
+              <SectionHeading
+                title="Latest News"
+                href="/latest"
+                linkText="View all"
+              />
+
+              <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+                {latest.map((story) => (
+                  <StoryCard key={story.id} story={story} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {homepageCategories.map((categorySlug) => {
+            const category = categories.find(
+              (item) => item.slug === categorySlug,
+            )
+
+            if (!category) return null
+
+            const sectionStories = visibleStories
+              .filter(
+                (story) =>
+                  normaliseCategorySlug(story.category) ===
+                  categorySlug,
+              )
+              .slice(0, 4)
+
+            if (!sectionStories.length) {
+              return null
+            }
+
+            return (
+              <section
+                key={category.slug}
+                className="mt-16"
+              >
+                <SectionHeading
+                  title={category.name}
+                  description={category.description}
+                  href={`/category/${category.slug}`}
+                  linkText="View all"
+                />
+
+                <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+                  {sectionStories.map((story) => (
+                    <StoryCard
+                      key={story.id}
+                      story={story}
+                    />
+                  ))}
+                </div>
+              </section>
+            )
+          })}
+
+          {opinionStories.length > 0 && (
+            <section className="mt-16">
+              <SectionHeading
+                title="Opinion"
+                description="Independent perspectives on the issues shaping our communities."
+                href="/category/editorial-view"
+                linkText="View all"
+              />
+
+              <div className="grid gap-7 md:grid-cols-3">
+                {opinionStories.map((story) => (
+                  <StoryCard key={story.id} story={story} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section className="mt-16 rounded-lg border border-border bg-secondary/60 p-6 sm:p-8">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">
+              Explore
+            </p>
+
+            <h2 className="mt-2 font-serif text-2xl font-black sm:text-3xl">
+              Topics We Cover
+            </h2>
+
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+              Public-interest reporting, practical information
+              and stories affecting everyday people and small
+              businesses.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              {topics.map((topic) => (
+                <span
+                  key={topic}
+                  className="rounded-full border border-border bg-background px-4 py-2 text-sm font-semibold"
+                >
+                  {topic}
+                </span>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-16 overflow-hidden rounded-lg bg-slate-950 text-white">
+            <div className="grid gap-8 p-7 sm:p-10 lg:grid-cols-[1.5fr_1fr] lg:items-center">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-400">
+                  Downunder Voices
+                </p>
+
+                <h2 className="mt-3 font-serif text-3xl font-black sm:text-4xl">
+                  Giving Communities a Voice. Holding Power
+                  Accountable.
+                </h2>
+
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
+                  Independent journalism covering Australia,
+                  New Zealand and the world, with a focus on
+                  social issues, small business, community
+                  voices and the stories that affect everyday
+                  people.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+                <Link
+                  href="/submit"
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-red-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-800"
+                >
+                  Submit your story
+                  <ArrowRight className="size-4" />
+                </Link>
+
+                <Link
+                  href="/about"
+                  className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
+                >
+                  About Downunder Voices
+                  <ArrowRight className="size-4" />
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          <section className="my-16 overflow-hidden rounded-lg border border-border bg-secondary">
             <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.6fr_1fr] lg:items-center">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
@@ -49,13 +277,15 @@ export default async function HomePage() {
                 </p>
 
                 <h2 className="mt-2 font-serif text-2xl font-bold sm:text-3xl">
-                  Importing or exporting across New Zealand and Australia?
+                  Importing or exporting across New Zealand
+                  and Australia?
                 </h2>
 
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-                  Cusmode Customs provides professional customs clearance,
-                  freight support and import-export assistance for businesses
-                  and individuals across New Zealand and Australia.
+                  Cusmode Customs provides professional customs
+                  clearance, freight support and import-export
+                  assistance for businesses and individuals
+                  across New Zealand and Australia.
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-3">
@@ -85,116 +315,20 @@ export default async function HomePage() {
                 </p>
 
                 <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-                  <li>New Zealand and Australian customs clearance</li>
+                  <li>
+                    New Zealand and Australian customs clearance
+                  </li>
                   <li>Commercial and personal imports</li>
                   <li>Vehicle and machinery imports</li>
-                  <li>Freight and border compliance support</li>
+                  <li>
+                    Freight and border compliance support
+                  </li>
                 </ul>
               </div>
             </div>
           </section>
 
-          {lead && (
-            <section>
-              <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b-4 border-red-700 pb-3">
-                <div className="flex items-center gap-3">
-                  <span className="rounded-sm bg-red-700 px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-white">
-                    Top Story
-                  </span>
-
-                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">
-                    Across the region
-                  </span>
-                </div>
-
-                <Link
-                  href="/latest"
-                  className="inline-flex items-center gap-1 text-sm font-bold text-red-700 hover:underline"
-                >
-                  View latest
-                  <ArrowRight className="size-4" />
-                </Link>
-              </div>
-
-              <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,2.1fr)_minmax(310px,0.9fr)]">
-                <div className="self-start overflow-hidden rounded-lg border border-border bg-card shadow-sm">
-                  <StoryCard story={lead} variant="feature" />
-                </div>
-
-                <aside className="self-start overflow-hidden rounded-lg border border-border bg-card">
-                  <div className="flex items-center justify-between border-b border-border bg-slate-950 px-5 py-4 text-white">
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-red-400">
-                        Newsroom
-                      </p>
-
-                      <h2 className="mt-1 font-serif text-xl font-bold">
-                        Live Headlines
-                      </h2>
-                    </div>
-
-                    <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-red-400">
-                      <span className="relative flex size-2">
-                        <span className="absolute inline-flex size-full animate-ping rounded-full bg-red-500 opacity-75" />
-                        <span className="relative inline-flex size-2 rounded-full bg-red-500" />
-                      </span>
-                      Live
-                    </span>
-                  </div>
-
-                  <div className="divide-y divide-border">
-                    {liveHeadlines.map((story, index) => (
-                      <div
-                        key={story.id}
-                        className="group grid grid-cols-[34px_1fr] gap-3 px-5 py-4 transition hover:bg-muted/50"
-                      >
-                        <span className="font-serif text-2xl font-black text-red-700">
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
-
-                        <StoryCard story={story} variant="compact" />
-                      </div>
-                    ))}
-                  </div>
-
-                  <Link
-                    href="/latest"
-                    className="flex items-center justify-center gap-2 border-t border-border px-5 py-4 text-sm font-bold text-red-700 transition hover:bg-muted"
-                  >
-                    See all latest stories
-                    <ArrowRight className="size-4" />
-                  </Link>
-                </aside>
-              </div>
-            </section>
-          )}
-
-          {latest.length > 0 && (
-            <section className="mt-16">
-              <SectionHeading
-                title="Latest Across the Region"
-                href="/latest"
-                linkText="View latest"
-              />
-
-              <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-                {latest.map((story, index) => (
-                  <div
-                    key={story.id}
-                    className={
-                      index === 0
-                        ? 'sm:col-span-2 lg:col-span-1'
-                        : undefined
-                    }
-                  >
-                    <StoryCard story={story} />
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          <section className="my-16 overflow-hidden rounded-lg border border-border bg-secondary/70">
+          <section className="mb-8 overflow-hidden rounded-lg border border-border bg-secondary/70">
             <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.4fr_1fr] lg:items-center">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
@@ -202,13 +336,15 @@ export default async function HomePage() {
                 </p>
 
                 <h2 className="mt-2 font-serif text-2xl font-bold">
-                  Reach readers across Australia, New Zealand and the Pacific
+                  Reach readers across Australia and New
+                  Zealand
                 </h2>
 
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-                  Downunder Voices offers advertising opportunities for
-                  businesses, community organisations, events and professional
-                  services.
+                  Downunder Voices offers advertising
+                  opportunities for small businesses,
+                  community organisations, events and
+                  professional services.
                 </p>
               </div>
 
@@ -216,73 +352,6 @@ export default async function HomePage() {
                 <Link
                   href="/advertise"
                   className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-                >
-                  Advertise with us
-                  <ArrowRight className="size-4" />
-                </Link>
-              </div>
-            </div>
-          </section>
-
-          {visibleCategories.map((category) => {
-            const stories = visibleStories
-              .filter((story) => story.category === category.slug)
-              .slice(0, 4)
-
-            if (!stories.length) {
-              return null
-            }
-
-            const sectionTitle =
-              category.name === "Sam's View" ? 'Opinion' : category.name
-
-            return (
-              <section key={category.slug} className="mt-16">
-                <SectionHeading
-                  title={sectionTitle}
-                  href={`/category/${category.slug}`}
-                  linkText="View all"
-                />
-
-                <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-                  {stories.map((story) => (
-                    <StoryCard key={story.id} story={story} />
-                  ))}
-                </div>
-              </section>
-            )
-          })}
-
-          <section className="mt-16 overflow-hidden rounded-lg bg-slate-950 text-white">
-            <div className="grid gap-8 p-7 sm:p-10 lg:grid-cols-[1.5fr_1fr] lg:items-center">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-400">
-                  Your community. Your voice.
-                </p>
-
-                <h2 className="mt-3 font-serif text-3xl font-black sm:text-4xl">
-                  News from across our region
-                </h2>
-
-                <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
-                  Follow independent coverage of New Zealand, Australia and
-                  Pacific communities, politics, business, sport and local
-                  developments.
-                </p>
-              </div>
-
-              <div className="flex flex-col justify-center gap-3 sm:flex-row lg:flex-col">
-                <Link
-                  href="/submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-md bg-red-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-800"
-                >
-                  Submit your story
-                  <ArrowRight className="size-4" />
-                </Link>
-
-                <Link
-                  href="/advertise"
-                  className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
                 >
                   Advertise with us
                   <ArrowRight className="size-4" />
@@ -298,12 +367,14 @@ export default async function HomePage() {
 
 type SectionHeadingProps = {
   title: string
+  description?: string
   href: string
   linkText: string
 }
 
 function SectionHeading({
   title,
+  description,
   href,
   linkText,
 }: SectionHeadingProps) {
@@ -312,9 +383,17 @@ function SectionHeading({
       <div className="h-1 w-16 bg-red-700" />
 
       <div className="flex items-end justify-between gap-4 border-b border-border py-3">
-        <h2 className="font-serif text-2xl font-black sm:text-3xl">
-          {title}
-        </h2>
+        <div>
+          <h2 className="font-serif text-2xl font-black sm:text-3xl">
+            {title}
+          </h2>
+
+          {description && (
+            <p className="mt-1 max-w-3xl text-sm leading-6 text-muted-foreground">
+              {description}
+            </p>
+          )}
+        </div>
 
         <Link
           href={href}
@@ -329,15 +408,21 @@ function SectionHeading({
 }
 
 function mixedLatest(
-  stories: Awaited<ReturnType<typeof getPublishedStories>>,
+  stories: Awaited<
+    ReturnType<typeof getPublishedStories>
+  >,
 ) {
   const seen = new Set<string>()
   const primary = []
   const rest = []
 
   for (const story of stories) {
-    if (!seen.has(story.category)) {
-      seen.add(story.category)
+    const category = normaliseCategorySlug(
+      story.category,
+    )
+
+    if (!seen.has(category)) {
+      seen.add(category)
       primary.push(story)
     } else {
       rest.push(story)
