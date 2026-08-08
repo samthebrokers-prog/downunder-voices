@@ -72,9 +72,9 @@ export const categories: Category[] = [
   },
   {
     slug: 'small-business',
-    name: 'Small Business',
+    name: 'Business',
     description:
-      'News, opportunities and challenges for small and medium-sized businesses, entrepreneurs and family enterprises.',
+      'Business, entrepreneurship, the economy, innovation, employment and the issues affecting companies and business owners across Australia and New Zealand.',
   },
   {
     slug: 'trade-logistics',
