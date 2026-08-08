@@ -1,4 +1,5 @@
 import type { CategorySlug } from '@/lib/news-data'
+import { normaliseCategorySlug } from '@/lib/news-data'
 
 export type FeedItem = {
   title: string
@@ -61,7 +62,9 @@ function attribute(
     ),
   )
 
-  return match?.[1] ? decodeEntities(match[1]).trim() : ''
+  return match?.[1]
+    ? decodeEntities(match[1]).trim()
+    : ''
 }
 
 function linkFromBlock(block: string): string {
@@ -71,10 +74,15 @@ function linkFromBlock(block: string): string {
     return direct
   }
 
-  return attribute(block, 'link', 'href') || tag(block, ['guid'])
+  return (
+    attribute(block, 'link', 'href') ||
+    tag(block, ['guid'])
+  )
 }
 
-function validImageUrl(value?: string): string | undefined {
+function validImageUrl(
+  value?: string,
+): string | undefined {
   if (!value) return undefined
 
   const cleaned = decodeEntities(value).trim()
@@ -83,14 +91,18 @@ function validImageUrl(value?: string): string | undefined {
     return undefined
   }
 
-  if (/\.(mp3|mp4|m4a|wav|ogg|pdf)(\?|$)/i.test(cleaned)) {
+  if (
+    /\.(mp3|mp4|m4a|wav|ogg|pdf)(\?|$)/i.test(cleaned)
+  ) {
     return undefined
   }
 
   return cleaned
 }
 
-function imageFromBlock(block: string): string | undefined {
+function imageFromBlock(
+  block: string,
+): string | undefined {
   const rawDescription = tag(block, [
     'content:encoded',
     'description',
@@ -98,9 +110,15 @@ function imageFromBlock(block: string): string | undefined {
     'content',
   ])
 
-  const enclosureType = attribute(block, 'enclosure', 'type')
+  const enclosureType = attribute(
+    block,
+    'enclosure',
+    'type',
+  )
 
-  const enclosureUrl = /image\//i.test(enclosureType)
+  const enclosureUrl = /image\//i.test(
+    enclosureType,
+  )
     ? attribute(block, 'enclosure', 'url')
     : ''
 
@@ -144,24 +162,35 @@ export async function fetchFeed(
   })
 
   if (!response.ok) {
-    throw new Error(`Feed returned ${response.status}`)
+    throw new Error(
+      `Feed returned ${response.status}`,
+    )
   }
 
   const xml = await response.text()
 
   const rssBlocks = [
-    ...xml.matchAll(/<item\b[^>]*>([\s\S]*?)<\/item>/gi),
+    ...xml.matchAll(
+      /<item\b[^>]*>([\s\S]*?)<\/item>/gi,
+    ),
   ].map((match) => match[1])
 
   const atomBlocks = [
-    ...xml.matchAll(/<entry\b[^>]*>([\s\S]*?)<\/entry>/gi),
+    ...xml.matchAll(
+      /<entry\b[^>]*>([\s\S]*?)<\/entry>/gi,
+    ),
   ].map((match) => match[1])
 
-  const blocks = rssBlocks.length ? rssBlocks : atomBlocks
+  const blocks = rssBlocks.length
+    ? rssBlocks
+    : atomBlocks
 
   return blocks
     .map((block) => {
-      const title = stripHtml(tag(block, ['title']))
+      const title = stripHtml(
+        tag(block, ['title']),
+      )
+
       const link = linkFromBlock(block)
 
       const rawDescription = tag(block, [
@@ -171,7 +200,9 @@ export async function fetchFeed(
         'content',
       ])
 
-      const description = stripHtml(rawDescription).slice(0, 1200)
+      const description = stripHtml(
+        rawDescription,
+      ).slice(0, 1200)
 
       const rawDate = stripHtml(
         tag(block, [
@@ -190,13 +221,17 @@ export async function fetchFeed(
         title,
         link,
         description,
-        publishedAt: Number.isNaN(parsedDate.valueOf())
+        publishedAt: Number.isNaN(
+          parsedDate.valueOf(),
+        )
           ? new Date().toISOString()
           : parsedDate.toISOString(),
         imageUrl: imageFromBlock(block),
       }
     })
-    .filter((item) => item.title && item.link)
+    .filter(
+      (item) => item.title && item.link,
+    )
 }
 
 export function classifyCategory(
@@ -205,36 +240,53 @@ export function classifyCategory(
   fallback: CategorySlug,
 ): CategorySlug {
   const cleanTitle = title.toLowerCase()
-  const haystack = `${title} ${description}`.toLowerCase()
+
+  const haystack =
+    `${title} ${description}`.toLowerCase()
 
   const sportsRule =
-    /\b(sport|sports|rugby|cricket|football|soccer|netball|nrl|afl|league|olympic|olympics|tennis|golf|basketball|championship|tournament|match|coach|player|team)\b/i
+    /\b(sport|sports|rugby|cricket|football|soccer|netball|nrl|afl|league|olympic|olympics|tennis|golf|basketball|championship|tournament|match|coach|player|team|all blacks|wallabies)\b/i
 
-  const politicsRule =
-    /\b(government|parliament|prime minister|premier|minister|mp|senator|election|electoral|coalition|opposition|cabinet|policy|political|politics|legislation|bill|referendum|mayor|councillor)\b/i
+  const tradeLogisticsRule =
+    /\b(customs|customs clearance|border force|biosecurity|mpi|daff|freight|freight forwarding|freight forwarder|shipping|shipping line|container|containers|cargo|air cargo|sea freight|air freight|logistics|supply chain|port|ports|terminal|import|imports|importing|export|exports|exporting|tariff|customs duty|trade agreement|bill of lading|demurrage|detention|warehouse|warehousing)\b/i
 
-  const businessRule =
-    /\b(business|economy|economic|company|companies|corporate|market|markets|bank|banking|interest rate|inflation|trade|investment|investor|shares|stock market|asx|nzx|profit|revenue|retail|industry|employment|unemployment)\b/i
+  const smallBusinessRule =
+    /\b(small business|small businesses|medium business|medium-sized business|sme|smes|startup|start-up|entrepreneur|entrepreneurs|family business|sole trader|business owner|business owners|business grant|business grants|local business|microbusiness|microenterprise|e-commerce|small retailer)\b/i
+
+  const socialIssuesRule =
+    /\b(cost of living|housing affordability|housing crisis|homeless|homelessness|rental crisis|rent crisis|mental health|domestic violence|family violence|disability|disabled|aged care|elderly|seniors|poverty|financial hardship|welfare|social services|healthcare|health care|hospital|hospitals|education|international student|international students|university fees|tuition fees|student housing|child protection|youth crime|food insecurity|community safety|consumer rights)\b/i
 
   const communityRule =
-    /\b(community group|volunteer|volunteers|charity|charitable|fundraiser|fundraising|school|schools|student|students|local event|community event|neighbourhood|non-profit|not-for-profit)\b/i
+    /\b(community group|community groups|volunteer|volunteers|charity|charitable|fundraiser|fundraising|local event|community event|neighbourhood|neighborhood|non-profit|not-for-profit|community centre|community center|cultural festival|local club|community organisation|community organization)\b/i
 
   const australiaRule =
-    /\b(australia|australian|new south wales|queensland|victoria|western australia|south australia|tasmania|northern territory|sydney|melbourne|brisbane|perth|adelaide|canberra|darwin|hobart|gold coast)\b/i
+    /\b(australia|australian|new south wales|queensland|victoria|western australia|south australia|tasmania|northern territory|act government|sydney|melbourne|brisbane|perth|adelaide|canberra|darwin|hobart|gold coast)\b/i
 
-  const nzPacificRule =
-    /\b(new zealand|aotearoa|new zealander|kiwi|auckland|wellington|christchurch|hamilton|tauranga|dunedin|rotorua|palmerston north|napier|nelson|fiji|fijian|tonga|tongan|samoa|samoan|vanuatu|solomon islands|papua new guinea|cook islands|niue|kiribati|tuvalu|new caledonia)\b/i
+  const newZealandRule =
+    /\b(new zealand|aotearoa|new zealander|new zealanders|kiwi|kiwis|auckland|wellington|christchurch|hamilton|tauranga|dunedin|rotorua|palmerston north|napier|nelson|queenstown)\b/i
+
+  const worldRule =
+    /\b(united states|usa|u\.s\.|america|american|united kingdom|britain|british|england|europe|european union|china|chinese|india|indian|japan|japanese|canada|canadian|germany|france|ukraine|russia|russian|middle east|israel|gaza|iran|iraq|africa|south africa|asia|fiji|fijian|tonga|tongan|samoa|samoan|vanuatu|solomon islands|papua new guinea|cook islands|niue|kiribati|tuvalu|new caledonia|pacific islands)\b/i
+
+  /*
+   * First classify strongly identifiable topics
+   * from the headline.
+   */
 
   if (sportsRule.test(cleanTitle)) {
     return 'sports'
   }
 
-  if (politicsRule.test(cleanTitle)) {
-    return 'politics'
+  if (tradeLogisticsRule.test(cleanTitle)) {
+    return 'trade-logistics'
   }
 
-  if (businessRule.test(cleanTitle)) {
-    return 'business'
+  if (smallBusinessRule.test(cleanTitle)) {
+    return 'small-business'
+  }
+
+  if (socialIssuesRule.test(cleanTitle)) {
+    return 'social-issues'
   }
 
   if (communityRule.test(cleanTitle)) {
@@ -245,33 +297,56 @@ export function classifyCategory(
     return 'australia'
   }
 
-  if (nzPacificRule.test(cleanTitle)) {
-    return 'nz-pacific'
+  if (newZealandRule.test(cleanTitle)) {
+    return 'new-zealand'
   }
+
+  if (worldRule.test(cleanTitle)) {
+    return 'world'
+  }
+
+  /*
+   * If the headline alone is not enough,
+   * look at headline + description.
+   */
 
   if (sportsRule.test(haystack)) {
     return 'sports'
   }
 
-  if (politicsRule.test(haystack)) {
-    return 'politics'
+  if (tradeLogisticsRule.test(haystack)) {
+    return 'trade-logistics'
   }
 
-  if (businessRule.test(haystack)) {
-    return 'business'
+  if (smallBusinessRule.test(haystack)) {
+    return 'small-business'
   }
 
-  if (australiaRule.test(haystack)) {
-    return 'australia'
-  }
-
-  if (nzPacificRule.test(haystack)) {
-    return 'nz-pacific'
+  if (socialIssuesRule.test(haystack)) {
+    return 'social-issues'
   }
 
   if (communityRule.test(haystack)) {
     return 'community'
   }
 
-  return fallback
+  if (australiaRule.test(haystack)) {
+    return 'australia'
+  }
+
+  if (newZealandRule.test(haystack)) {
+    return 'new-zealand'
+  }
+
+  if (worldRule.test(haystack)) {
+    return 'world'
+  }
+
+  /*
+   * Old RSS source defaults such as
+   * business, politics and nz-pacific
+   * are converted to the new public categories.
+   */
+
+  return normaliseCategorySlug(fallback)
 }
