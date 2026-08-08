@@ -11,6 +11,7 @@ import {
   type CategorySlug,
 } from '@/lib/news-data'
 import { getPublishedStories } from '@/lib/story-service'
+import { sortStoriesByScore } from '@/lib/story-score'
 
 export const revalidate = 300
 
@@ -53,7 +54,18 @@ export default async function HomePage() {
       'editorial-view',
   )
 
-  const mixed = mixedLatest(visibleStories)
+  const rankedStories = sortStoriesByScore(
+    visibleStories.map((story) => ({
+      ...story,
+      category: normaliseCategorySlug(
+        story.category,
+      ),
+      publishedAt:
+        story.publishedAt ?? story.date,
+    })),
+  )
+
+  const mixed = mixedLatest(rankedStories)
   const [lead, ...others] = mixed
 
   const breakingStories = mixed.slice(0, 6)
@@ -104,7 +116,10 @@ export default async function HomePage() {
               </div>
 
               <div className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
-                <StoryCard story={lead} variant="feature" />
+                <StoryCard
+                  story={lead}
+                  variant="feature"
+                />
               </div>
             </section>
           )}
@@ -119,7 +134,10 @@ export default async function HomePage() {
 
               <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
                 {topStories.map((story) => (
-                  <StoryCard key={story.id} story={story} />
+                  <StoryCard
+                    key={story.id}
+                    story={story}
+                  />
                 ))}
               </div>
             </section>
@@ -135,54 +153,68 @@ export default async function HomePage() {
 
               <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
                 {latest.map((story) => (
-                  <StoryCard key={story.id} story={story} />
+                  <StoryCard
+                    key={story.id}
+                    story={story}
+                  />
                 ))}
               </div>
             </section>
           )}
 
-          {homepageCategories.map((categorySlug) => {
-            const category = categories.find(
-              (item) => item.slug === categorySlug,
-            )
-
-            if (!category) return null
-
-            const sectionStories = visibleStories
-              .filter(
-                (story) =>
-                  normaliseCategorySlug(story.category) ===
-                  categorySlug,
+          {homepageCategories.map(
+            (categorySlug) => {
+              const category = categories.find(
+                (item) =>
+                  item.slug === categorySlug,
               )
-              .slice(0, 4)
 
-            if (!sectionStories.length) {
-              return null
-            }
+              if (!category) {
+                return null
+              }
 
-            return (
-              <section
-                key={category.slug}
-                className="mt-16"
-              >
-                <SectionHeading
-                  title={category.name}
-                  description={category.description}
-                  href={`/category/${category.slug}`}
-                  linkText="View all"
-                />
+              const sectionStories =
+                rankedStories
+                  .filter(
+                    (story) =>
+                      normaliseCategorySlug(
+                        story.category,
+                      ) === categorySlug,
+                  )
+                  .slice(0, 4)
 
-                <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-                  {sectionStories.map((story) => (
-                    <StoryCard
-                      key={story.id}
-                      story={story}
-                    />
-                  ))}
-                </div>
-              </section>
-            )
-          })}
+              if (!sectionStories.length) {
+                return null
+              }
+
+              return (
+                <section
+                  key={category.slug}
+                  className="mt-16"
+                >
+                  <SectionHeading
+                    title={category.name}
+                    description={
+                      category.description
+                    }
+                    href={`/category/${category.slug}`}
+                    linkText="View all"
+                  />
+
+                  <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+                    {sectionStories.map(
+                      (story) => (
+                        <StoryCard
+                          key={story.id}
+                          story={story}
+                        />
+                      ),
+                    )}
+                  </div>
+                </section>
+              )
+            },
+          )}
 
           {opinionStories.length > 0 && (
             <section className="mt-16">
@@ -195,7 +227,10 @@ export default async function HomePage() {
 
               <div className="grid gap-7 md:grid-cols-3">
                 {opinionStories.map((story) => (
-                  <StoryCard key={story.id} story={story} />
+                  <StoryCard
+                    key={story.id}
+                    story={story}
+                  />
                 ))}
               </div>
             </section>
@@ -211,9 +246,9 @@ export default async function HomePage() {
             </h2>
 
             <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-              Public-interest reporting, practical information
-              and stories affecting everyday people and small
-              businesses.
+              Public-interest reporting, practical
+              information and stories affecting everyday
+              people and small businesses.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2">
@@ -236,16 +271,16 @@ export default async function HomePage() {
                 </p>
 
                 <h2 className="mt-3 font-serif text-3xl font-black sm:text-4xl">
-                  Giving Communities a Voice. Holding Power
-                  Accountable.
+                  Giving Communities a Voice. Holding
+                  Power Accountable.
                 </h2>
 
                 <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
-                  Independent journalism covering Australia,
-                  New Zealand and the world, with a focus on
-                  social issues, small business, community
-                  voices and the stories that affect everyday
-                  people.
+                  Independent journalism covering
+                  Australia, New Zealand and the world,
+                  with a focus on social issues, small
+                  business, community voices and the
+                  stories that affect everyday people.
                 </p>
               </div>
 
@@ -277,15 +312,16 @@ export default async function HomePage() {
                 </p>
 
                 <h2 className="mt-2 font-serif text-2xl font-bold sm:text-3xl">
-                  Importing or exporting across New Zealand
-                  and Australia?
+                  Importing or exporting across New
+                  Zealand and Australia?
                 </h2>
 
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-                  Cusmode Customs provides professional customs
-                  clearance, freight support and import-export
-                  assistance for businesses and individuals
-                  across New Zealand and Australia.
+                  Cusmode Customs provides professional
+                  customs clearance, freight support and
+                  import-export assistance for businesses
+                  and individuals across New Zealand and
+                  Australia.
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-3">
@@ -316,10 +352,15 @@ export default async function HomePage() {
 
                 <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
                   <li>
-                    New Zealand and Australian customs clearance
+                    New Zealand and Australian customs
+                    clearance
                   </li>
-                  <li>Commercial and personal imports</li>
-                  <li>Vehicle and machinery imports</li>
+                  <li>
+                    Commercial and personal imports
+                  </li>
+                  <li>
+                    Vehicle and machinery imports
+                  </li>
                   <li>
                     Freight and border compliance support
                   </li>
@@ -417,9 +458,10 @@ function mixedLatest(
   const rest = []
 
   for (const story of stories) {
-    const category = normaliseCategorySlug(
-      story.category,
-    )
+    const category =
+      normaliseCategorySlug(
+        story.category,
+      )
 
     if (!seen.has(category)) {
       seen.add(category)
