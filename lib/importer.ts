@@ -34,7 +34,7 @@ const MAX_ITEMS_PER_SOURCE = 20
 
 function sourceRegion(
   source: SourceRow,
-): 'australia' | 'nz-pacific' | null {
+): 'australia' | 'new-zealand-pacific' | null {
   const sourceText = [
     source.name,
     source.feed_url,
@@ -60,7 +60,7 @@ function sourceRegion(
     'act government',
   ]
 
-  const nzPacificSignals = [
+  const newZealandPacificSignals = [
     '.govt.nz',
     '.co.nz',
     '.org.nz',
@@ -89,11 +89,11 @@ function sourceRegion(
   }
 
   if (
-    nzPacificSignals.some((signal) =>
+    newZealandPacificSignals.some((signal) =>
       sourceText.includes(signal),
     )
   ) {
-    return 'nz-pacific'
+    return 'new-zealand-pacific'
   }
 
   return null
@@ -113,7 +113,7 @@ function protectRegionalCategory(
   }
 
   if (
-    region === 'nz-pacific' &&
+    region === 'new-zealand-pacific' &&
     category === 'australia'
   ) {
     return 'nz-pacific' as CategorySlug
