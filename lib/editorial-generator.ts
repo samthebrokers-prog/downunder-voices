@@ -45,10 +45,10 @@ const ALLOWED_CATEGORIES: CategorySlug[] = [
 ]
 
 const AUSTRALIA_PATTERN =
-  /\b(australia|australian|nsw|new south wales|victoria|victorian|queensland|western australia|south australia|tasmania|australian capital territory|northern territory|sydney|melbourne|brisbane|perth|adelaide|hobart|darwin|canberra)\b/i
+  /\b(australia|australian|australians|nsw|new south wales|victoria|victorian|queensland|western australia|south australia|tasmania|australian capital territory|northern territory|sydney|melbourne|brisbane|perth|adelaide|hobart|darwin|canberra)\b/i
 
 const NEW_ZEALAND_PATTERN =
-  /\b(new zealand|new zealander|new zealanders|aotearoa|nz|auckland|wellington|christchurch|hamilton|tauranga|dunedin|queenstown|rotorua|palmerston north|napier|nelson|invercargill)\b/i
+  /\b(new zealand|new zealander|new zealanders|aotearoa|auckland|wellington|christchurch|hamilton|tauranga|dunedin|queenstown|rotorua|palmerston north|napier|nelson|invercargill)\b/i
 
 const PACIFIC_ONLY_PATTERN =
   /\b(fiji|fijian|samoa|samoan|tonga|tongan|vanuatu|solomon islands|papua new guinea|png|kiribati|tuvalu|nauru|cook islands|new caledonia|french polynesia)\b/i
@@ -75,7 +75,9 @@ function validCategory(
   )
 }
 
-function storyText(story: RecentStory): string {
+function storyText(
+  story: RecentStory,
+): string {
   return `${story.title} ${story.summary}`
 }
 
@@ -96,7 +98,9 @@ function looksNewZealand(
 ): boolean {
   const text = storyText(story)
 
-  if (NEW_ZEALAND_PATTERN.test(text)) {
+  if (
+    NEW_ZEALAND_PATTERN.test(text)
+  ) {
     return true
   }
 
@@ -114,17 +118,15 @@ function storiesForCountry(
   stories: RecentStory[],
   country: EditorialCountry,
 ): RecentStory[] {
-  const selected = stories.filter(
-    (story) => {
+  return stories
+    .filter((story) => {
       if (country === 'Australia') {
         return looksAustralian(story)
       }
 
       return looksNewZealand(story)
-    },
-  )
-
-  return selected.slice(0, 24)
+    })
+    .slice(0, 24)
 }
 
 function previousEditorialsForCountry(
@@ -196,8 +198,10 @@ async function findWikimediaImage(
           'User-Agent':
             'DownunderVoicesBot/1.0 (+https://www.downundervoices.com)',
         },
+
         signal:
           AbortSignal.timeout(15000),
+
         cache: 'no-store',
       },
     )
@@ -337,6 +341,7 @@ Facts: ${story.summary}
       headers: {
         Authorization:
           `Bearer ${apiKey}`,
+
         'Content-Type':
           'application/json',
       },
@@ -349,7 +354,7 @@ You are the senior opinion editor for Downunder Voices.
 
 Downunder Voices is an independent digital publication covering Australia and New Zealand.
 
-You must write exactly ONE original OPINION article about ${country}.
+Write exactly ONE original OPINION article about ${country}.
 
 TOPIC SELECTION
 
@@ -480,7 +485,7 @@ Provide one concise sentence explaining how the issue could practically matter t
 
 IMAGE SEARCH
 
-Provide a short, neutral Wikimedia Commons search phrase related to the subject.
+Provide a short, neutral Wikimedia Commons image search phrase related to the subject.
 
 Examples:
 
@@ -519,6 +524,7 @@ ${previousMaterial}
 
             schema: {
               type: 'object',
+
               additionalProperties:
                 false,
 
@@ -537,6 +543,7 @@ ${previousMaterial}
 
                 category: {
                   type: 'string',
+
                   enum: [
                     'politics',
                     'australia',
@@ -561,6 +568,7 @@ ${previousMaterial}
 
                 country: {
                   type: 'string',
+
                   enum: [
                     'Australia',
                     'New Zealand',
@@ -587,6 +595,7 @@ ${previousMaterial}
 
       signal:
         AbortSignal.timeout(60000),
+
       cache: 'no-store',
     },
   )
@@ -622,7 +631,9 @@ ${previousMaterial}
   }
 
   const parsed =
-    JSON.parse(rawText) as GeneratedEditorial
+    JSON.parse(
+      rawText,
+    ) as GeneratedEditorial
 
   const sourceStory =
     newsStories.find(
@@ -638,10 +649,14 @@ ${previousMaterial}
   }
 
   const title =
-    normaliseText(parsed.title)
+    normaliseText(
+      parsed.title,
+    )
 
   const summary =
-    cleanEditorial(parsed.summary)
+    cleanEditorial(
+      parsed.summary,
+    )
 
   if (!title || !summary) {
     throw new Error(
@@ -691,31 +706,31 @@ ${previousMaterial}
 function wordsForDuplicateCheck(
   value: string,
 ): string[] {
-  const ignored = new Set([
-    'about',
-    'after',
-    'again',
-    'against',
-    'australia',
-    'australian',
-    'could',
-    'from',
-    'have',
-    'into',
-    'more',
-    'new',
-    'new zealand',
-    'over',
-    'should',
-    'that',
-    'their',
-    'this',
-    'with',
-    'will',
-    'what',
-    'when',
-    'where',
-  ])
+  const ignored =
+    new Set([
+      'about',
+      'after',
+      'again',
+      'against',
+      'australia',
+      'australian',
+      'could',
+      'from',
+      'have',
+      'into',
+      'more',
+      'new',
+      'over',
+      'should',
+      'that',
+      'their',
+      'this',
+      'with',
+      'will',
+      'what',
+      'when',
+      'where',
+    ])
 
   return normaliseText(value)
     .toLowerCase()
@@ -737,10 +752,14 @@ function looksLikeDuplicateTopic(
 ): boolean {
   const currentWords =
     new Set(
-      wordsForDuplicateCheck(title),
+      wordsForDuplicateCheck(
+        title,
+      ),
     )
 
-  if (currentWords.size === 0) {
+  if (
+    currentWords.size === 0
+  ) {
     return false
   }
 
@@ -755,7 +774,10 @@ function looksLikeDuplicateTopic(
 
       let overlap = 0
 
-      for (const word of currentWords) {
+      for (
+        const word
+        of currentWords
+      ) {
         if (
           previousWords.has(word)
         ) {
@@ -769,12 +791,16 @@ function looksLikeDuplicateTopic(
           previousWords.size,
         )
 
-      if (smallerSize === 0) {
+      if (
+        smallerSize === 0
+      ) {
         return false
       }
 
       return (
-        overlap / smallerSize >= 0.65
+        overlap /
+          smallerSize >=
+        0.65
       )
     },
   )
@@ -808,7 +834,9 @@ async function publishEditorial(
         )}&limit=1`,
     })
 
-  if (existing.length > 0) {
+  if (
+    existing.length > 0
+  ) {
     console.log(
       `Skipping duplicate editorial: ${editorial.title}`,
     )
@@ -822,51 +850,55 @@ async function publishEditorial(
     )) ||
     DEFAULT_EDITORIAL_IMAGE
 
-  await dbRequest('stories', {
-    method: 'POST',
+  await dbRequest(
+    'stories',
+    {
+      method: 'POST',
 
-    body: {
-      slug: uniqueSlug(
-        editorial.title,
-        `${editorial.sourceUrl}-${editorial.country}-${Date.now()}-${index}`,
-      ),
+      body: {
+        slug:
+          uniqueSlug(
+            editorial.title,
+            `${editorial.sourceUrl}-${editorial.country}-${Date.now()}-${index}`,
+          ),
 
-      title:
-        editorial.title,
+        title:
+          editorial.title,
 
-      category:
-        editorial.category,
+        category:
+          editorial.category,
 
-      summary:
-        editorial.summary,
+        summary:
+          editorial.summary,
 
-      source_name:
-        editorial.sourceName ||
-        'Downunder Voices Editorial',
+        source_name:
+          editorial.sourceName ||
+          'Downunder Voices Editorial',
 
-      source_url:
-        editorial.sourceUrl,
+        source_url:
+          editorial.sourceUrl,
 
-      image_url:
-        imageUrl,
+        image_url:
+          imageUrl,
 
-      community_angle:
-        editorial.communityAngle ||
-        null,
+        community_angle:
+          editorial.communityAngle ||
+          null,
 
-      author:
-        'Downunder Voices Editorial',
+        author:
+          'Downunder Voices Editorial',
 
-      status:
-        'published',
+        status:
+          'published',
 
-      published_at:
-        new Date().toISOString(),
+        published_at:
+          new Date().toISOString(),
 
-      import_method:
-        'automated-editorial',
+        import_method:
+          'automated-editorial',
+      },
     },
-  })
+  )
 
   console.log(
     `Published ${editorial.country} automated editorial: ${editorial.title}`,
@@ -876,14 +908,18 @@ async function publishEditorial(
 }
 
 export async function runEditorialGenerator(): Promise<EditorialGenerationResult> {
-  if (!isDatabaseConfigured()) {
+  if (
+    !isDatabaseConfigured()
+  ) {
     throw new Error(
       'Database is not configured',
     )
   }
 
   const recentStories =
-    await dbRequest<RecentStory[]>(
+    await dbRequest<
+      RecentStory[]
+    >(
       'stories',
       {
         query:
@@ -980,8 +1016,8 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
     newZealandEditorial,
   ]
 
-  const createdTitles: string[] =
-    []
+  const createdTitles:
+    string[] = []
 
   for (
     let index = 0;
@@ -990,7 +1026,9 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
     index += 1
   ) {
     const editorial =
-      generatedEditorials[index]
+      generatedEditorials[
+        index
+      ]
 
     const countryPrevious =
       editorial.country ===
