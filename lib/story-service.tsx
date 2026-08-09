@@ -18,6 +18,7 @@ type StoryRow = {
   image_url: string | null
   community_angle: string | null
   author: string | null
+  import_method: string | null
   status: 'draft' | 'published' | 'archived'
   created_at: string
 }
@@ -520,6 +521,46 @@ export async function getStoriesByCategory(
     ]
 
   try {
+    /*
+     * Opinion is a special section.
+     *
+     * Older Opinion stories are stored with
+     * category = editorial-view.
+     *
+     * New automated Opinion stories retain
+     * their geographic/topic category in the
+     * database, while import_method identifies
+     * them as automated editorials.
+     *
+     * This lets the same article remain an
+     * Australian, New Zealand or World story
+     * while also appearing automatically on
+     * the Opinion page.
+     */
+    if (
+      normalisedCategory ===
+      'editorial-view'
+    ) {
+      const rows =
+        await dbRequest<StoryRow[]>(
+          'stories',
+          {
+            query:
+              '?select=*' +
+              '&status=eq.published' +
+              '&or=(category.eq.editorial-view,import_method.eq.automated-editorial)' +
+              '&order=published_at.desc.nullslast,created_at.desc' +
+              `&limit=${limit}`,
+          },
+        )
+
+      return rows.map((row) => ({
+        ...rowToStory(row),
+        category:
+          'editorial-view' as CategorySlug,
+      }))
+    }
+
     const encodedCategories =
       acceptedCategories
         .map((value) => `"${value}"`)
