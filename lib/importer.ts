@@ -33,6 +33,45 @@ const DEFAULT_NEWS_IMAGE =
 const MAX_AI_ARTICLES_PER_RUN = 5
 const MAX_ITEMS_PER_SOURCE = 20
 
+/*
+ * Freshness protection.
+ *
+ * Normal RSS news older than this is rejected before it reaches
+ * the database. This prevents discovery feeds such as Bing News
+ * from resurfacing old stories as current news.
+ */
+const MAX_STORY_AGE_HOURS = 72
+
+function isFreshStory(
+  publishedAt: string | null | undefined,
+): boolean {
+  if (!publishedAt) {
+    return false
+  }
+
+  const publishedTime = new Date(publishedAt).getTime()
+
+  if (!Number.isFinite(publishedTime)) {
+    return false
+  }
+
+  const now = Date.now()
+  const ageMs = now - publishedTime
+  const maxAgeMs =
+    MAX_STORY_AGE_HOURS * 60 * 60 * 1000
+
+  /*
+   * Allow a small amount of clock skew for feeds whose
+   * timestamps are a little ahead of the server clock.
+   */
+  const futureToleranceMs = 2 * 60 * 60 * 1000
+
+  return (
+    ageMs <= maxAgeMs &&
+    ageMs >= -futureToleranceMs
+  )
+}
+
 function sourceRegion(
   source: SourceRow,
 ): 'australia' | 'new-zealand-pacific' | null {
@@ -298,6 +337,22 @@ export async function runNewsImport(): Promise<
       ).slice(0, MAX_ITEMS_PER_SOURCE)
 
       for (const item of items) {
+        /*
+         * Reject old or undated stories before doing any
+         * metadata fetching, AI processing, or database work.
+         */
+        if (!isFreshStory(item.publishedAt)) {
+          skipped += 1
+
+          console.log(
+            `Freshness filter skipped: ${cleanText(
+              item.title,
+            )} (${item.publishedAt || 'no date'})`,
+          )
+
+          continue
+        }
+
         const existing = await dbRequest<
           Array<{ id: string }>
         >('stories', {
