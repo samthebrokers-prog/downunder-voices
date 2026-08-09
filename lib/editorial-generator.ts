@@ -2,7 +2,10 @@ import { dbRequest, isDatabaseConfigured } from '@/lib/db'
 import { uniqueSlug } from '@/lib/slug'
 import type { CategorySlug } from '@/lib/news-data'
 
-type EditorialCountry = 'Australia' | 'New Zealand'
+type EditorialRegion =
+  | 'Australia'
+  | 'New Zealand'
+  | 'World'
 
 type RecentStory = {
   id: string
@@ -24,7 +27,7 @@ type GeneratedEditorial = {
   sourceName: string
   sourceUrl: string
   imageSearch: string
-  country: EditorialCountry
+  region: EditorialRegion
 }
 
 export type EditorialGenerationResult = {
@@ -50,19 +53,35 @@ const AUSTRALIA_PATTERN =
 const NEW_ZEALAND_PATTERN =
   /\b(new zealand|new zealander|new zealanders|aotearoa|auckland|wellington|christchurch|hamilton|tauranga|dunedin|queenstown|rotorua|palmerston north|napier|nelson|invercargill)\b/i
 
-const PACIFIC_ONLY_PATTERN =
-  /\b(fiji|fijian|samoa|samoan|tonga|tongan|vanuatu|solomon islands|papua new guinea|png|kiribati|tuvalu|nauru|cook islands|new caledonia|french polynesia)\b/i
+const HIGH_PRIORITY_PATTERN =
+  /\b(hunger|famine|food insecurity|poverty|poor|inequality|inequity|racism|racist|racial|discrimination|discriminatory|migrant|migrants|migration|immigration|refugee|refugees|asylum|worker|workers|wage theft|underpayment|exploitation|exploited|modern slavery|forced labour|forced labor|human trafficking|housing|homeless|homelessness|rent|rental|cost of living|living costs|healthcare|health care|hospital|education|school|unemployment|employment|layoff|redundancy|war|conflict|civilian|civilians|humanitarian|human rights|corruption|corrupt|abuse of power|social injustice|injustice|indigenous|first nations|māori|maori|child poverty|domestic violence|family violence|crime|justice|prison|detention|deportation|deport|tax|taxation|inflation|food prices|grocery|groceries|energy prices|electricity prices|interest rates|mortgage|wages|salary|union|labour rights|labor rights)\b/i
 
-function normaliseText(value: string): string {
+const MEDIUM_PRIORITY_PATTERN =
+  /\b(government|minister|parliament|election|politics|political|policy|economy|economic|business|trade|infrastructure|transport|public service|public services|regulator|regulation|court|legal|law|climate|environment|disaster|flood|fire|drought|housing supply|health system|education system)\b/i
+
+const LOW_PRIORITY_PATTERN =
+  /\b(celebrity|entertainment|reality tv|masterchef|royal family|fashion|beauty|recipe|travel tips|holiday tips|horoscope|lottery|gaming review|movie review|television review)\b/i
+
+function normaliseText(
+  value: string,
+): string {
   return value
     .replace(/\s+/g, ' ')
-    .replace(/\s+([,.!?;:])/g, '$1')
+    .replace(
+      /\s+([,.!?;:])/g,
+      '$1',
+    )
     .trim()
 }
 
-function cleanEditorial(value: string): string {
+function cleanEditorial(
+  value: string,
+): string {
   return value
-    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(
+      /```[\s\S]*?```/g,
+      ' ',
+    )
     .replace(/\s+/g, ' ')
     .trim()
 }
@@ -81,87 +100,157 @@ function storyText(
   return `${story.title} ${story.summary}`
 }
 
-function looksAustralian(
+function detectRegion(
   story: RecentStory,
-): boolean {
-  if (story.category === 'australia') {
-    return true
+): EditorialRegion {
+  const text =
+    storyText(story)
+
+  if (
+    story.category ===
+      'australia' ||
+    AUSTRALIA_PATTERN.test(text)
+  ) {
+    return 'Australia'
   }
 
-  return AUSTRALIA_PATTERN.test(
-    storyText(story),
-  )
-}
-
-function looksNewZealand(
-  story: RecentStory,
-): boolean {
-  const text = storyText(story)
+  if (
+    story.category ===
+      'nz-pacific' &&
+    NEW_ZEALAND_PATTERN.test(text)
+  ) {
+    return 'New Zealand'
+  }
 
   if (
     NEW_ZEALAND_PATTERN.test(text)
   ) {
-    return true
+    return 'New Zealand'
+  }
+
+  return 'World'
+}
+
+function storyPriorityScore(
+  story: RecentStory,
+  index: number,
+): number {
+  const text =
+    storyText(story)
+
+  let score = 0
+
+  if (
+    HIGH_PRIORITY_PATTERN.test(text)
+  ) {
+    score += 12
   }
 
   if (
-    story.category === 'nz-pacific' &&
-    !PACIFIC_ONLY_PATTERN.test(text)
+    MEDIUM_PRIORITY_PATTERN.test(text)
   ) {
-    return true
+    score += 5
   }
 
-  return false
+  if (
+    LOW_PRIORITY_PATTERN.test(text)
+  ) {
+    score -= 10
+  }
+
+  const region =
+    detectRegion(story)
+
+  if (
+    region === 'Australia' ||
+    region === 'New Zealand'
+  ) {
+    score += 3
+  }
+
+  if (
+    story.category === 'politics'
+  ) {
+    score += 3
+  }
+
+  if (
+    story.category === 'business'
+  ) {
+    score += 2
+  }
+
+  if (
+    story.category === 'community'
+  ) {
+    score += 2
+  }
+
+  if (
+    story.category === 'sports'
+  ) {
+    score -= 4
+  }
+
+  /*
+   * RecentStories arrives newest first.
+   * Give slightly greater weight to
+   * fresher material.
+   */
+  score += Math.max(
+    0,
+    5 - Math.floor(index / 10),
+  )
+
+  return score
 }
 
-function storiesForCountry(
+function rankNewsStories(
   stories: RecentStory[],
-  country: EditorialCountry,
 ): RecentStory[] {
   return stories
-    .filter((story) => {
-      if (country === 'Australia') {
-        return looksAustralian(story)
-      }
-
-      return looksNewZealand(story)
-    })
-    .slice(0, 24)
+    .map(
+      (story, index) => ({
+        story,
+        score:
+          storyPriorityScore(
+            story,
+            index,
+          ),
+      }),
+    )
+    .sort(
+      (a, b) =>
+        b.score - a.score,
+    )
+    .map(
+      (item) => item.story,
+    )
 }
 
-function previousEditorialsForCountry(
-  stories: RecentStory[],
-  country: EditorialCountry,
-): RecentStory[] {
-  return stories
-    .filter((story) => {
-      if (country === 'Australia') {
-        return looksAustralian(story)
-      }
+function extractOutputText(
+  data: {
+    output_text?: string
 
-      return looksNewZealand(story)
-    })
-    .slice(0, 15)
-}
-
-function extractOutputText(data: {
-  output_text?: string
-  output?: Array<{
-    content?: Array<{
-      type?: string
-      text?: string
+    output?: Array<{
+      content?: Array<{
+        type?: string
+        text?: string
+      }>
     }>
-  }>
-}): string {
+  },
+): string {
   return (
     data.output_text ??
     data.output
       ?.flatMap(
-        (item) => item.content ?? [],
+        (item) =>
+          item.content ?? [],
       )
       .find(
         (content) =>
-          content.type === 'output_text',
+          content.type ===
+          'output_text',
       )
       ?.text ??
     ''
@@ -185,26 +274,30 @@ async function findWikimediaImage(
         gsrnamespace: '6',
         gsrlimit: '10',
         prop: 'imageinfo',
-        iiprop: 'url|extmetadata',
+        iiprop:
+          'url|extmetadata',
         iiurlwidth: '1400',
         format: 'json',
         origin: '*',
       })
 
-    const response = await fetch(
-      `https://commons.wikimedia.org/w/api.php?${parameters.toString()}`,
-      {
-        headers: {
-          'User-Agent':
-            'DownunderVoicesBot/1.0 (+https://www.downundervoices.com)',
+    const response =
+      await fetch(
+        `https://commons.wikimedia.org/w/api.php?${parameters.toString()}`,
+        {
+          headers: {
+            'User-Agent':
+              'DownunderVoicesBot/1.0 (+https://www.downundervoices.com)',
+          },
+
+          signal:
+            AbortSignal.timeout(
+              15000,
+            ),
+
+          cache: 'no-store',
         },
-
-        signal:
-          AbortSignal.timeout(15000),
-
-        cache: 'no-store',
-      },
-    )
+      )
 
     if (!response.ok) {
       console.error(
@@ -223,6 +316,7 @@ async function findWikimediaImage(
               imageinfo?: Array<{
                 url?: string
                 thumburl?: string
+
                 extmetadata?: {
                   LicenseShortName?: {
                     value?: string
@@ -234,11 +328,15 @@ async function findWikimediaImage(
         }
       }
 
-    const pages = Object.values(
-      data.query?.pages ?? {},
-    )
+    const pages =
+      Object.values(
+        data.query?.pages ??
+          {},
+      )
 
-    for (const page of pages) {
+    for (
+      const page of pages
+    ) {
       const image =
         page.imageinfo?.[0]
 
@@ -257,8 +355,12 @@ async function findWikimediaImage(
         licence.includes(
           'public domain',
         ) ||
-        licence.includes('cc0') ||
-        licence.includes('cc by') ||
+        licence.includes(
+          'cc0',
+        ) ||
+        licence.includes(
+          'cc by',
+        ) ||
         licence.includes(
           'creative commons',
         )
@@ -289,175 +391,400 @@ async function findWikimediaImage(
   }
 }
 
-async function generateEditorialForCountry(
-  country: EditorialCountry,
-  newsStories: RecentStory[],
-  previousEditorials: RecentStory[],
-): Promise<GeneratedEditorial> {
-  const apiKey =
-    process.env.OPENAI_API_KEY
-
-  if (!apiKey) {
-    throw new Error(
-      'OPENAI_API_KEY is missing. Automated editorials cannot be generated.',
-    )
-  }
-
-  if (newsStories.length < 2) {
-    throw new Error(
-      `Not enough recent ${country} stories to create an editorial.`,
-    )
-  }
-
-  const newsMaterial =
-    newsStories
-      .map(
-        (story, index) => `
+function buildNewsMaterial(
+  stories: RecentStory[],
+): string {
+  return stories
+    .map(
+      (story, index) => `
 STORY ${index + 1}
+Region: ${detectRegion(story)}
 Title: ${story.title}
 Category: ${story.category}
 Source: ${story.source_name}
 Source URL: ${story.source_url}
 Facts: ${story.summary}
-        `.trim(),
-      )
-      .join('\n\n')
+      `.trim(),
+    )
+    .join('\n\n')
+}
+
+function buildPreviousMaterial(
+  previousEditorials: RecentStory[],
+): string {
+  if (
+    previousEditorials.length ===
+    0
+  ) {
+    return (
+      '- No recent automated Opinion articles'
+    )
+  }
+
+  return previousEditorials
+    .map(
+      (story) =>
+        `- ${story.title}`,
+    )
+    .join('\n')
+}
+
+async function generateEditorialCandidates(
+  newsStories: RecentStory[],
+  previousEditorials: RecentStory[],
+): Promise<
+  GeneratedEditorial[]
+> {
+  const apiKey =
+    process.env.OPENAI_API_KEY
+
+  if (!apiKey) {
+    throw new Error(
+      'OPENAI_API_KEY is missing. Automated Opinion articles cannot be generated.',
+    )
+  }
+
+  if (
+    newsStories.length < 4
+  ) {
+    throw new Error(
+      'Not enough recent news stories to create automated Opinion articles.',
+    )
+  }
+
+  const newsMaterial =
+    buildNewsMaterial(
+      newsStories,
+    )
 
   const previousMaterial =
-    previousEditorials.length > 0
-      ? previousEditorials
-          .map(
-            (story) =>
-              `- ${story.title}`,
-          )
-          .join('\n')
-      : '- No recent automated editorials for this country'
+    buildPreviousMaterial(
+      previousEditorials,
+    )
 
-  const response = await fetch(
-    'https://api.openai.com/v1/responses',
-    {
-      method: 'POST',
+  const response =
+    await fetch(
+      'https://api.openai.com/v1/responses',
+      {
+        method: 'POST',
 
-      headers: {
-        Authorization:
-          `Bearer ${apiKey}`,
+        headers: {
+          Authorization:
+            `Bearer ${apiKey}`,
 
-        'Content-Type':
-          'application/json',
-      },
+          'Content-Type':
+            'application/json',
+        },
 
-      body: JSON.stringify({
-        model: 'gpt-5-mini',
+        body:
+          JSON.stringify({
+            model:
+              'gpt-5-mini',
 
-        instructions: `
+            instructions: `
 You are the senior opinion editor for Downunder Voices.
 
-Downunder Voices is an independent digital publication covering Australia and New Zealand.
+Downunder Voices is an independent digital publication based in the Australia-New Zealand region with an international public-interest outlook.
 
-Write exactly ONE original OPINION article about ${country}.
+Your task is to identify the strongest burning issues from the supplied recent news material and prepare THREE ranked Opinion candidates.
+
+Only the best TWO valid and non-duplicate candidates will normally be published.
+
+MISSION
+
+Downunder Voices gives a voice to ordinary people and examines issues affecting dignity, fairness, opportunity, democracy and social justice.
+
+Australia and New Zealand are our home region and should receive strong editorial attention.
+
+However, important world issues must also be covered.
+
+Do not force an Australian or New Zealand topic merely to satisfy geography when a much more important world issue deserves attention.
+
+Likewise, do not ignore a major Australian or New Zealand issue simply because an international story appears more dramatic.
+
+BURNING ISSUES
+
+Give strong priority to current public-interest issues involving:
+
+- hunger
+- famine
+- food insecurity
+- poverty
+- child poverty
+- economic inequality
+- the widening gap between rich and poor
+- racism
+- racial discrimination
+- discrimination against minorities
+- migrant communities
+- migrant worker exploitation
+- temporary worker exploitation
+- wage theft
+- underpayment
+- unsafe working conditions
+- modern slavery
+- forced labour
+- human trafficking
+- refugee treatment
+- asylum seekers
+- immigration policy
+- housing affordability
+- homelessness
+- rent pressure
+- cost of living
+- grocery and food prices
+- electricity and energy costs
+- unemployment
+- insecure employment
+- access to healthcare
+- failures in health services
+- access to education
+- social disadvantage
+- Indigenous and First Nations disadvantage
+- Māori disadvantage
+- human rights
+- social injustice
+- war and civilian suffering
+- humanitarian crises
+- corruption
+- abuse of political or corporate power
+- failures of government accountability
+- significant crime and justice issues
+- major economic policies affecting ordinary households
+- major environmental or climate injustice
+
+These themes are priorities, not an exhaustive list.
 
 TOPIC SELECTION
 
-Choose the strongest, most timely and most important public-interest issue from the supplied recent news material.
+Choose THREE strong candidates ranked from most important to third most important.
 
-The priority is a genuine burning issue attracting national or substantial public attention.
+Candidates must concern THREE genuinely different underlying issues.
 
-Prefer subjects such as:
+Do not simply choose three headlines about the same controversy.
 
-- government and politics
-- cost of living
-- housing
-- employment
-- immigration
-- trade and the economy
-- taxation
-- health services
-- education
-- crime and public safety
-- infrastructure
-- major business developments
-- significant court or regulatory matters
-- major social policy debates
-- major national controversies
+Prefer stories that:
 
-Do not choose a trivial lifestyle story when a more important public-interest story is available.
+1. affect a large number of people;
+2. involve serious human, economic or social consequences;
+3. raise questions of fairness, accountability or public policy;
+4. are current and timely;
+5. have enough factual material supplied to support a responsible Opinion article.
 
-Do not choose a Pacific-only issue.
+Avoid trivial celebrity, entertainment or lifestyle stories when serious public-interest material is available.
 
-The editorial must genuinely concern ${country}.
+SPORT
 
-If several supplied stories concern the same underlying issue, you may use them together to understand the topic.
+Sport should normally not be selected unless the story raises a major public-interest issue such as:
 
-DUPLICATE AVOIDANCE
+- discrimination
+- racism
+- abuse
+- exploitation
+- corruption
+- governance
+- public money
+- gender equality
+- serious safety issues
+- Indigenous rights
+- human rights
 
-Recent Downunder Voices editorial headlines are supplied separately.
+GEOGRAPHIC BALANCE
 
-Do not substantially repeat a topic, argument or angle that has recently been covered.
+Australia, New Zealand and the wider world are all eligible.
 
-A different headline about essentially the same issue still counts as a duplicate.
+Try to maintain geographic variety over time.
 
-Choose a genuinely different issue whenever possible.
+When two issues are similarly important, prefer the Australian or New Zealand issue.
 
-EDITORIAL APPROACH
+Do not manufacture geographic balance.
 
-- Establish what has happened.
-- Explain why the issue matters.
-- Present reasonable competing arguments fairly where relevant.
-- Reach a clear but measured Downunder Voices editorial view.
-- Focus on public interest.
-- Challenge governments, opposition parties, businesses and institutions when justified by the supplied facts.
-- Give credit where justified.
-- Do not campaign for or against a political party or candidate.
-- Do not tell readers how to vote.
-- Do not make personal attacks.
-- Do not blame entire ethnic, religious, migrant or community groups.
-- Do not dismiss legitimate public concerns.
+Do not reject an important world issue merely because it is outside Australia or New Zealand.
+
+EDITORIAL VALUES
+
+Downunder Voices is independent.
+
+Do not endorse or campaign for any political party or candidate.
+
+Do not automatically support governments.
+
+Do not automatically oppose governments.
+
+Do not automatically support opposition parties.
+
+Do not automatically oppose opposition parties.
+
+Judge policies, decisions, institutions and conduct on their merits.
+
+The editorial may criticise:
+
+- governments
+- opposition parties
+- corporations
+- employers
+- unions
+- institutions
+- regulators
+- political leaders
+- international organisations
+
+when criticism is reasonably supported by the supplied facts.
+
+Give credit where it is justified.
+
+Do not dismiss legitimate public concerns.
+
+Do not use racism, xenophobia or hatred as an editorial tool.
+
+Do not blame an entire ethnic, religious, migrant or national community for the conduct of individuals.
+
+Do not make personal attacks.
+
+Do not tell readers how to vote.
+
+FAIRNESS
+
+Where a serious issue has reasonable competing arguments, explain the strongest relevant arguments fairly before reaching the Downunder Voices editorial view.
+
+Do not create false balance where the supplied facts do not support it.
+
+Distinguish clearly between:
+
+- established facts;
+- allegations;
+- claims;
+- political arguments;
+- editorial opinion.
 
 ACCURACY
 
-- Use only facts contained in the supplied recent news material.
-- Do not invent quotations.
-- Do not invent polling numbers.
-- Do not invent dates.
-- Do not invent statistics.
-- Do not invent policies.
-- Do not invent motives.
-- Do not invent events or outcomes.
-- Do not state allegations as proven facts.
-- Clearly distinguish factual reporting from editorial opinion.
-- Do not claim Downunder Voices interviewed anyone.
-- Do not claim Downunder Voices attended an event.
-- Do not claim independent verification that did not occur.
+Use ONLY facts contained in the supplied recent news material.
 
-SOURCE
+Do not invent:
 
-Choose one genuine source URL from the supplied material that directly supports the central issue.
+- quotations
+- names
+- dates
+- polling numbers
+- statistics
+- policies
+- laws
+- motives
+- events
+- outcomes
+- locations
+- financial figures
+- allegations
 
-Never invent or modify a source URL.
+Do not state an allegation as proven fact.
+
+Do not claim Downunder Voices interviewed anyone.
+
+Do not claim Downunder Voices attended an event.
+
+Do not claim independent verification that did not occur.
+
+If the supplied material is too thin to support a statement, leave that statement out.
+
+SOURCE RULE
+
+Each candidate must select ONE genuine Source URL from the supplied recent news material that directly supports the main issue.
+
+Copy the Source URL exactly.
+
+Never invent a Source URL.
+
+Never alter a Source URL.
+
+The sourceName should correspond with that source.
+
+ORIGINALITY
+
+Do not copy complete sentences from source material.
+
+Do not merely rewrite a source article paragraph by paragraph.
+
+Use the available facts to create an original Downunder Voices Opinion piece.
+
+RECENT OPINIONS
+
+Recent Downunder Voices Opinion headlines are supplied separately.
+
+Avoid substantially repeating:
+
+- the same underlying issue;
+- the same editorial argument;
+- the same policy debate;
+- the same central subject.
+
+A different headline about essentially the same issue still counts as repetition.
+
+If one burning issue has already been heavily covered recently, choose another strong issue where possible.
 
 WRITING STYLE
 
-- Use natural Australian and New Zealand newspaper English.
-- Write in a confident independent editorial voice.
-- Sound human and individually written.
-- Use short paragraphs.
-- Use active voice.
-- Avoid corporate language.
-- Avoid academic language.
-- Avoid promotional language.
-- Avoid exaggerated language.
-- Do not use bullet points inside the editorial.
-- Begin directly with the issue.
-- Do not add a generic conclusion simply to finish the article.
-- The editorial should normally be 450 to 750 words.
-- If the available facts do not support that length, write less.
-- Never pad the story.
+Use natural Australian and New Zealand newspaper English.
 
-HEADLINE
+Sound like a thoughtful independent newspaper editorial writer.
 
-Write a strong, responsible headline of no more than 100 characters.
+Write for ordinary readers.
 
-Do not begin the headline with:
+Use clear language.
+
+Use active voice.
+
+Use short paragraphs.
+
+Vary sentence structure.
+
+Begin directly with the issue.
+
+Do not sound like an AI assistant.
+
+Do not sound like an academic essay.
+
+Do not sound like a government press release.
+
+Do not sound like corporate communications.
+
+Do not use bullet points inside the final Opinion article.
+
+Do not add a generic conclusion simply to reach a word count.
+
+Each Opinion article should normally be 450 to 750 words.
+
+If the supplied facts support less, write less.
+
+Never pad an article.
+
+EDITORIAL VIEW
+
+The article must contain a genuine editorial perspective.
+
+It should not simply summarise the news.
+
+Explain:
+
+- why the issue matters;
+- who is affected;
+- what questions need answering;
+- what policy or institutional problem is exposed where supported;
+- what a reasonable response should focus on.
+
+The editorial view should be clear but measured.
+
+HEADLINES
+
+Each headline must:
+
+- be original;
+- be responsible;
+- be no longer than 100 characters;
+- accurately reflect the article;
+- avoid clickbait.
+
+Do not begin headlines with:
 
 "Opinion:"
 "Editorial:"
@@ -478,134 +805,222 @@ Never use:
 "This editorial will examine"
 "At the end of the day"
 "In an ever-changing world"
+"In today's world"
+"The issue at hand"
+"Moving forward"
 
 COMMUNITY ANGLE
 
-Provide one concise sentence explaining how the issue could practically matter to ordinary people in ${country}, but only when supported by the supplied facts.
+For each candidate, provide one concise sentence explaining why the issue matters to ordinary people.
+
+It must be supported by the supplied facts.
 
 IMAGE SEARCH
 
-Provide a short, neutral Wikimedia Commons image search phrase related to the subject.
+For each candidate provide a short, neutral Wikimedia Commons image search phrase.
 
-Examples:
+The search should describe:
 
-Australian Parliament House Canberra
-Sydney housing construction
-New Zealand Parliament Wellington
-Auckland housing
-Australian supermarket
-Wellington city
+- a location;
+- public institution;
+- streetscape;
+- parliament;
+- workplace;
+- housing;
+- community;
+- humanitarian setting;
+- another neutral representation of the issue.
 
-Do not request an insulting, defamatory or manipulated image.
+Do not request:
+
+- humiliating images;
+- insulting images;
+- defamatory images;
+- manipulated images;
+- graphic suffering;
+- images designed to portray a person as guilty.
+
+REGION FIELD
+
+Set region to exactly one of:
+
+Australia
+New Zealand
+World
+
+Use Australia when the central issue concerns Australia.
+
+Use New Zealand when the central issue concerns New Zealand.
+
+Use World for other international issues.
+
+CATEGORY FIELD
+
+Use the most suitable available category from:
+
+politics
+australia
+nz-pacific
+business
+community
+sports
+
+For a World issue:
+
+- use politics for major international political or government matters;
+- use business for international economic, labour or corporate issues;
+- use community for humanitarian, discrimination, poverty, migration or social justice issues;
+- use sports only when the central issue genuinely concerns sport.
+
+Return exactly THREE ranked candidate objects.
+
+Candidate 1 must be your strongest topic.
+
+Candidate 2 must be your second strongest topic.
+
+Candidate 3 is a reserve in case one of the first two cannot be published.
 
 Return only the required JSON.
-        `.trim(),
+            `.trim(),
 
-        input: `
-COUNTRY
-
-${country}
-
+            input: `
 RECENT NEWS MATERIAL
 
 ${newsMaterial}
 
-RECENT DOWNUNDER VOICES EDITORIALS TO AVOID REPEATING
+RECENT DOWNUNDER VOICES OPINION ARTICLES TO AVOID REPEATING
 
 ${previousMaterial}
-        `.trim(),
+            `.trim(),
 
-        text: {
-          format: {
-            type: 'json_schema',
-            name:
-              'downunder_voices_country_editorial',
-            strict: true,
+            text: {
+              format: {
+                type:
+                  'json_schema',
 
-            schema: {
-              type: 'object',
+                name:
+                  'downunder_voices_burning_issue_editorials',
 
-              additionalProperties:
-                false,
+                strict: true,
 
-              properties: {
-                title: {
-                  type: 'string',
-                },
+                schema: {
+                  type: 'object',
 
-                summary: {
-                  type: 'string',
-                },
+                  additionalProperties:
+                    false,
 
-                communityAngle: {
-                  type: 'string',
-                },
+                  properties: {
+                    editorials: {
+                      type: 'array',
 
-                category: {
-                  type: 'string',
+                      minItems: 3,
+                      maxItems: 3,
 
-                  enum: [
-                    'politics',
-                    'australia',
-                    'nz-pacific',
-                    'business',
-                    'community',
-                    'sports',
-                  ],
-                },
+                      items: {
+                        type:
+                          'object',
 
-                sourceName: {
-                  type: 'string',
-                },
+                        additionalProperties:
+                          false,
 
-                sourceUrl: {
-                  type: 'string',
-                },
+                        properties: {
+                          title: {
+                            type:
+                              'string',
+                          },
 
-                imageSearch: {
-                  type: 'string',
-                },
+                          summary: {
+                            type:
+                              'string',
+                          },
 
-                country: {
-                  type: 'string',
+                          communityAngle:
+                            {
+                              type:
+                                'string',
+                            },
 
-                  enum: [
-                    'Australia',
-                    'New Zealand',
+                          category: {
+                            type:
+                              'string',
+
+                            enum: [
+                              'politics',
+                              'australia',
+                              'nz-pacific',
+                              'business',
+                              'community',
+                              'sports',
+                            ],
+                          },
+
+                          sourceName: {
+                            type:
+                              'string',
+                          },
+
+                          sourceUrl: {
+                            type:
+                              'string',
+                          },
+
+                          imageSearch: {
+                            type:
+                              'string',
+                          },
+
+                          region: {
+                            type:
+                              'string',
+
+                            enum: [
+                              'Australia',
+                              'New Zealand',
+                              'World',
+                            ],
+                          },
+                        },
+
+                        required: [
+                          'title',
+                          'summary',
+                          'communityAngle',
+                          'category',
+                          'sourceName',
+                          'sourceUrl',
+                          'imageSearch',
+                          'region',
+                        ],
+                      },
+                    },
+                  },
+
+                  required: [
+                    'editorials',
                   ],
                 },
               },
-
-              required: [
-                'title',
-                'summary',
-                'communityAngle',
-                'category',
-                'sourceName',
-                'sourceUrl',
-                'imageSearch',
-                'country',
-              ],
             },
-          },
-        },
 
-        max_output_tokens: 2200,
-      }),
+            max_output_tokens:
+              6000,
+          }),
 
-      signal:
-        AbortSignal.timeout(60000),
+        signal:
+          AbortSignal.timeout(
+            90000,
+          ),
 
-      cache: 'no-store',
-    },
-  )
+        cache: 'no-store',
+      },
+    )
 
   if (!response.ok) {
     const errorText =
       await response.text()
 
     throw new Error(
-      `OpenAI ${country} editorial generator failed with ${response.status}: ${errorText}`,
+      `OpenAI editorial generator failed with ${response.status}: ${errorText}`,
     )
   }
 
@@ -626,81 +1041,154 @@ ${previousMaterial}
 
   if (!rawText.trim()) {
     throw new Error(
-      `OpenAI returned no ${country} editorial content`,
+      'OpenAI returned no editorial content.',
     )
   }
 
   const parsed =
-    JSON.parse(
-      rawText,
-    ) as GeneratedEditorial
+    JSON.parse(rawText) as {
+      editorials?: GeneratedEditorial[]
+    }
 
-  const sourceStory =
-    newsStories.find(
-      (story) =>
-        story.source_url.trim() ===
-        parsed.sourceUrl.trim(),
-    )
-
-  if (!sourceStory) {
+  if (
+    !Array.isArray(
+      parsed.editorials,
+    ) ||
+    parsed.editorials.length !==
+      3
+  ) {
     throw new Error(
-      `The ${country} editorial returned a source URL that was not in the supplied news material.`,
+      'OpenAI did not return exactly three editorial candidates.',
     )
   }
 
-  const title =
-    normaliseText(
-      parsed.title,
+  const validSourceUrls =
+    new Set(
+      newsStories.map(
+        (story) =>
+          story.source_url.trim(),
+      ),
     )
 
-  const summary =
-    cleanEditorial(
-      parsed.summary,
+  const sourceByUrl =
+    new Map(
+      newsStories.map(
+        (story) => [
+          story.source_url.trim(),
+          story,
+        ],
+      ),
     )
 
-  if (!title || !summary) {
-    throw new Error(
-      `The ${country} editorial was incomplete.`,
+  return parsed.editorials
+    .map(
+      (
+        editorial,
+      ): GeneratedEditorial | null => {
+        const title =
+          normaliseText(
+            editorial.title,
+          )
+
+        const summary =
+          cleanEditorial(
+            editorial.summary,
+          )
+
+        const sourceUrl =
+          editorial.sourceUrl
+            .trim()
+
+        if (
+          !title ||
+          !summary ||
+          !sourceUrl ||
+          !validSourceUrls.has(
+            sourceUrl,
+          )
+        ) {
+          return null
+        }
+
+        const sourceStory =
+          sourceByUrl.get(
+            sourceUrl,
+          )
+
+        if (!sourceStory) {
+          return null
+        }
+
+        const category =
+          validCategory(
+            editorial.category,
+          )
+            ? editorial.category
+            : sourceStory.category
+
+        const region:
+          EditorialRegion =
+          editorial.region ===
+            'Australia' ||
+          editorial.region ===
+            'New Zealand'
+            ? editorial.region
+            : 'World'
+
+        return {
+          title:
+            title.slice(
+              0,
+              220,
+            ),
+
+          summary:
+            summary.slice(
+              0,
+              9000,
+            ),
+
+          communityAngle:
+            normaliseText(
+              editorial.communityAngle,
+            ).slice(
+              0,
+              1200,
+            ),
+
+          category,
+
+          sourceName:
+            normaliseText(
+              sourceStory.source_name ||
+                editorial.sourceName ||
+                'Downunder Voices Editorial',
+            ).slice(
+              0,
+              160,
+            ),
+
+          sourceUrl:
+            sourceStory.source_url,
+
+          imageSearch:
+            normaliseText(
+              editorial.imageSearch,
+            ).slice(
+              0,
+              160,
+            ),
+
+          region,
+        }
+      },
     )
-  }
-
-  return {
-    title:
-      title.slice(0, 220),
-
-    summary:
-      summary.slice(0, 9000),
-
-    communityAngle:
-      normaliseText(
-        parsed.communityAngle,
-      ).slice(0, 1200),
-
-    category:
-      validCategory(
-        parsed.category,
-      )
-        ? parsed.category
-        : country === 'Australia'
-          ? ('australia' as CategorySlug)
-          : ('nz-pacific' as CategorySlug),
-
-    sourceName:
-      normaliseText(
-        sourceStory.source_name ||
-          parsed.sourceName,
-      ).slice(0, 160),
-
-    sourceUrl:
-      sourceStory.source_url,
-
-    imageSearch:
-      normaliseText(
-        parsed.imageSearch,
-      ).slice(0, 160),
-
-    country,
-  }
+    .filter(
+      (
+        editorial,
+      ): editorial is GeneratedEditorial =>
+        editorial !== null,
+    )
 }
 
 function wordsForDuplicateCheck(
@@ -714,12 +1202,14 @@ function wordsForDuplicateCheck(
       'against',
       'australia',
       'australian',
+      'australians',
       'could',
       'from',
       'have',
       'into',
       'more',
       'new',
+      'zealand',
       'over',
       'should',
       'that',
@@ -730,9 +1220,15 @@ function wordsForDuplicateCheck(
       'what',
       'when',
       'where',
+      'world',
+      'needs',
+      'need',
+      'must',
     ])
 
-  return normaliseText(value)
+  return normaliseText(
+    value,
+  )
     .toLowerCase()
     .replace(
       /[^a-z0-9\s]/g,
@@ -746,69 +1242,112 @@ function wordsForDuplicateCheck(
     )
 }
 
-function looksLikeDuplicateTopic(
-  title: string,
-  previousEditorials: RecentStory[],
-): boolean {
-  const currentWords =
+function topicSimilarity(
+  first: string,
+  second: string,
+): number {
+  const firstWords =
     new Set(
       wordsForDuplicateCheck(
-        title,
+        first,
+      ),
+    )
+
+  const secondWords =
+    new Set(
+      wordsForDuplicateCheck(
+        second,
       ),
     )
 
   if (
-    currentWords.size === 0
+    firstWords.size === 0 ||
+    secondWords.size === 0
   ) {
-    return false
+    return 0
   }
 
+  let overlap = 0
+
+  for (
+    const word of firstWords
+  ) {
+    if (
+      secondWords.has(word)
+    ) {
+      overlap += 1
+    }
+  }
+
+  const smallerSize =
+    Math.min(
+      firstWords.size,
+      secondWords.size,
+    )
+
+  if (smallerSize === 0) {
+    return 0
+  }
+
+  return (
+    overlap /
+    smallerSize
+  )
+}
+
+function looksLikeDuplicateTopic(
+  title: string,
+  previousEditorials: RecentStory[],
+): boolean {
   return previousEditorials.some(
-    (previous) => {
-      const previousWords =
-        new Set(
-          wordsForDuplicateCheck(
-            previous.title,
-          ),
-        )
+    (previous) =>
+      topicSimilarity(
+        title,
+        previous.title,
+      ) >= 0.65,
+  )
+}
 
-      let overlap = 0
+function duplicatesCreatedTopic(
+  title: string,
+  createdTitles: string[],
+): boolean {
+  return createdTitles.some(
+    (createdTitle) =>
+      topicSimilarity(
+        title,
+        createdTitle,
+      ) >= 0.6,
+  )
+}
 
-      for (
-        const word
-        of currentWords
-      ) {
-        if (
-          previousWords.has(word)
-        ) {
-          overlap += 1
-        }
-      }
+async function exactTitleExists(
+  title: string,
+): Promise<boolean> {
+  const existing =
+    await dbRequest<
+      Array<{
+        id: string
+      }>
+    >(
+      'stories',
+      {
+        query:
+          `?select=id&title=eq.${encodeURIComponent(
+            title,
+          )}&limit=1`,
+      },
+    )
 
-      const smallerSize =
-        Math.min(
-          currentWords.size,
-          previousWords.size,
-        )
-
-      if (
-        smallerSize === 0
-      ) {
-        return false
-      }
-
-      return (
-        overlap /
-          smallerSize >=
-        0.65
-      )
-    },
+  return (
+    existing.length > 0
   )
 }
 
 async function publishEditorial(
   editorial: GeneratedEditorial,
   previousEditorials: RecentStory[],
+  createdTitles: string[],
   index: number,
 ): Promise<boolean> {
   if (
@@ -818,27 +1357,32 @@ async function publishEditorial(
     )
   ) {
     console.log(
-      `Skipping similar recent editorial: ${editorial.title}`,
+      `Skipping similar recent Opinion topic: ${editorial.title}`,
     )
 
     return false
   }
 
-  const existing =
-    await dbRequest<
-      Array<{ id: string }>
-    >('stories', {
-      query:
-        `?select=id&title=eq.${encodeURIComponent(
-          editorial.title,
-        )}&limit=1`,
-    })
-
   if (
-    existing.length > 0
+    duplicatesCreatedTopic(
+      editorial.title,
+      createdTitles,
+    )
   ) {
     console.log(
-      `Skipping duplicate editorial: ${editorial.title}`,
+      `Skipping similar Opinion candidate from this run: ${editorial.title}`,
+    )
+
+    return false
+  }
+
+  if (
+    await exactTitleExists(
+      editorial.title,
+    )
+  ) {
+    console.log(
+      `Skipping duplicate Opinion headline: ${editorial.title}`,
     )
 
     return false
@@ -859,7 +1403,7 @@ async function publishEditorial(
         slug:
           uniqueSlug(
             editorial.title,
-            `${editorial.sourceUrl}-${editorial.country}-${Date.now()}-${index}`,
+            `${editorial.sourceUrl}-${editorial.region}-${Date.now()}-${index}`,
           ),
 
         title:
@@ -901,7 +1445,7 @@ async function publishEditorial(
   )
 
   console.log(
-    `Published ${editorial.country} automated editorial: ${editorial.title}`,
+    `Published ${editorial.region} automated Opinion: ${editorial.title}`,
   )
 
   return true
@@ -912,7 +1456,7 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
     !isDatabaseConfigured()
   ) {
     throw new Error(
-      'Database is not configured',
+      'Database is not configured.',
     )
   }
 
@@ -923,7 +1467,7 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
       'stories',
       {
         query:
-          '?select=id,title,summary,category,source_name,source_url,image_url,import_method,published_at&status=eq.published&order=published_at.desc&limit=100',
+          '?select=id,title,summary,category,source_name,source_url,image_url,import_method,published_at&status=eq.published&order=published_at.desc&limit=160',
       },
     )
 
@@ -934,7 +1478,10 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
           story.import_method ===
           'automated-editorial',
       )
-      .slice(0, 30)
+      .slice(
+        0,
+        40,
+      )
 
   const newsStories =
     recentStories
@@ -948,73 +1495,65 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
             story.source_url,
           ),
       )
-      .slice(0, 70)
 
-  const australianStories =
-    storiesForCountry(
+  if (
+    newsStories.length < 4
+  ) {
+    throw new Error(
+      'Not enough recent published news stories to create automated Opinion articles.',
+    )
+  }
+
+  const rankedStories =
+    rankNewsStories(
       newsStories,
-      'Australia',
+    ).slice(
+      0,
+      60,
     )
 
-  const newZealandStories =
-    storiesForCountry(
-      newsStories,
-      'New Zealand',
-    )
+  const australiaCount =
+    rankedStories.filter(
+      (story) =>
+        detectRegion(
+          story,
+        ) === 'Australia',
+    ).length
+
+  const newZealandCount =
+    rankedStories.filter(
+      (story) =>
+        detectRegion(
+          story,
+        ) === 'New Zealand',
+    ).length
+
+  const worldCount =
+    rankedStories.filter(
+      (story) =>
+        detectRegion(
+          story,
+        ) === 'World',
+    ).length
 
   console.log(
-    `Editorial candidates: Australia=${australianStories.length}, New Zealand=${newZealandStories.length}`,
+    `Opinion candidates: Australia=${australiaCount}, New Zealand=${newZealandCount}, World=${worldCount}`,
   )
 
-  if (
-    australianStories.length < 2
-  ) {
-    throw new Error(
-      'Not enough recent Australian stories to create an automated opinion article.',
+  const generatedEditorials =
+    await generateEditorialCandidates(
+      rankedStories,
+      previousEditorials,
     )
-  }
 
   if (
-    newZealandStories.length < 2
+    generatedEditorials.length <
+    2
   ) {
     throw new Error(
-      'Not enough recent New Zealand stories to create an automated opinion article.',
+      'The editorial generator did not return at least two valid Opinion candidates.',
     )
   }
-
-  const previousAustralia =
-    previousEditorialsForCountry(
-      previousEditorials,
-      'Australia',
-    )
-
-  const previousNewZealand =
-    previousEditorialsForCountry(
-      previousEditorials,
-      'New Zealand',
-    )
-
-  const [
-    australianEditorial,
-    newZealandEditorial,
-  ] = await Promise.all([
-    generateEditorialForCountry(
-      'Australia',
-      australianStories,
-      previousAustralia,
-    ),
-
-    generateEditorialForCountry(
-      'New Zealand',
-      newZealandStories,
-      previousNewZealand,
-    ),
-  ])
-
-  const generatedEditorials = [
-    australianEditorial,
-    newZealandEditorial,
-  ]
 
   const createdTitles:
     string[] = []
@@ -1022,24 +1561,25 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
   for (
     let index = 0;
     index <
-    generatedEditorials.length;
+      generatedEditorials.length;
     index += 1
   ) {
+    if (
+      createdTitles.length >= 2
+    ) {
+      break
+    }
+
     const editorial =
       generatedEditorials[
         index
       ]
 
-    const countryPrevious =
-      editorial.country ===
-      'Australia'
-        ? previousAustralia
-        : previousNewZealand
-
     const created =
       await publishEditorial(
         editorial,
-        countryPrevious,
+        previousEditorials,
+        createdTitles,
         index,
       )
 
@@ -1048,6 +1588,14 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
         editorial.title,
       )
     }
+  }
+
+  if (
+    createdTitles.length < 2
+  ) {
+    console.warn(
+      `Only ${createdTitles.length} automated Opinion article(s) were published because remaining candidates were duplicates or invalid.`,
+    )
   }
 
   return {
