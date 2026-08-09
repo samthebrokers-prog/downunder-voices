@@ -2,6 +2,8 @@ import { dbRequest, isDatabaseConfigured } from '@/lib/db'
 import { uniqueSlug } from '@/lib/slug'
 import type { CategorySlug } from '@/lib/news-data'
 
+type EditorialCountry = 'Australia' | 'New Zealand'
+
 type RecentStory = {
   id: string
   title: string
@@ -22,6 +24,7 @@ type GeneratedEditorial = {
   sourceName: string
   sourceUrl: string
   imageSearch: string
+  country: EditorialCountry
 }
 
 export type EditorialGenerationResult = {
@@ -40,6 +43,15 @@ const ALLOWED_CATEGORIES: CategorySlug[] = [
   'community',
   'sports',
 ]
+
+const AUSTRALIA_PATTERN =
+  /\b(australia|australian|nsw|new south wales|victoria|victorian|queensland|western australia|south australia|tasmania|australian capital territory|northern territory|sydney|melbourne|brisbane|perth|adelaide|hobart|darwin|canberra)\b/i
+
+const NEW_ZEALAND_PATTERN =
+  /\b(new zealand|new zealander|new zealanders|aotearoa|nz|auckland|wellington|christchurch|hamilton|tauranga|dunedin|queenstown|rotorua|palmerston north|napier|nelson|invercargill)\b/i
+
+const PACIFIC_ONLY_PATTERN =
+  /\b(fiji|fijian|samoa|samoan|tonga|tongan|vanuatu|solomon islands|papua new guinea|png|kiribati|tuvalu|nauru|cook islands|new caledonia|french polynesia)\b/i
 
 function normaliseText(value: string): string {
   return value
@@ -63,6 +75,73 @@ function validCategory(
   )
 }
 
+function storyText(story: RecentStory): string {
+  return `${story.title} ${story.summary}`
+}
+
+function looksAustralian(
+  story: RecentStory,
+): boolean {
+  if (story.category === 'australia') {
+    return true
+  }
+
+  return AUSTRALIA_PATTERN.test(
+    storyText(story),
+  )
+}
+
+function looksNewZealand(
+  story: RecentStory,
+): boolean {
+  const text = storyText(story)
+
+  if (NEW_ZEALAND_PATTERN.test(text)) {
+    return true
+  }
+
+  if (
+    story.category === 'nz-pacific' &&
+    !PACIFIC_ONLY_PATTERN.test(text)
+  ) {
+    return true
+  }
+
+  return false
+}
+
+function storiesForCountry(
+  stories: RecentStory[],
+  country: EditorialCountry,
+): RecentStory[] {
+  const selected = stories.filter(
+    (story) => {
+      if (country === 'Australia') {
+        return looksAustralian(story)
+      }
+
+      return looksNewZealand(story)
+    },
+  )
+
+  return selected.slice(0, 24)
+}
+
+function previousEditorialsForCountry(
+  stories: RecentStory[],
+  country: EditorialCountry,
+): RecentStory[] {
+  return stories
+    .filter((story) => {
+      if (country === 'Australia') {
+        return looksAustralian(story)
+      }
+
+      return looksNewZealand(story)
+    })
+    .slice(0, 15)
+}
+
 function extractOutputText(data: {
   output_text?: string
   output?: Array<{
@@ -75,7 +154,9 @@ function extractOutputText(data: {
   return (
     data.output_text ??
     data.output
-      ?.flatMap((item) => item.content ?? [])
+      ?.flatMap(
+        (item) => item.content ?? [],
+      )
       .find(
         (content) =>
           content.type === 'output_text',
@@ -93,18 +174,20 @@ async function findWikimediaImage(
   }
 
   try {
-    const parameters = new URLSearchParams({
-      action: 'query',
-      generator: 'search',
-      gsrsearch: `${searchTerm} filetype:bitmap`,
-      gsrnamespace: '6',
-      gsrlimit: '10',
-      prop: 'imageinfo',
-      iiprop: 'url|extmetadata',
-      iiurlwidth: '1400',
-      format: 'json',
-      origin: '*',
-    })
+    const parameters =
+      new URLSearchParams({
+        action: 'query',
+        generator: 'search',
+        gsrsearch:
+          `${searchTerm} filetype:bitmap`,
+        gsrnamespace: '6',
+        gsrlimit: '10',
+        prop: 'imageinfo',
+        iiprop: 'url|extmetadata',
+        iiurlwidth: '1400',
+        format: 'json',
+        origin: '*',
+      })
 
     const response = await fetch(
       `https://commons.wikimedia.org/w/api.php?${parameters.toString()}`,
@@ -113,7 +196,8 @@ async function findWikimediaImage(
           'User-Agent':
             'DownunderVoicesBot/1.0 (+https://www.downundervoices.com)',
         },
-        signal: AbortSignal.timeout(15000),
+        signal:
+          AbortSignal.timeout(15000),
         cache: 'no-store',
       },
     )
@@ -126,54 +210,65 @@ async function findWikimediaImage(
       return null
     }
 
-    const data = (await response.json()) as {
-      query?: {
-        pages?: Record<
-          string,
-          {
-            imageinfo?: Array<{
-              url?: string
-              thumburl?: string
-              extmetadata?: {
-                LicenseShortName?: {
-                  value?: string
+    const data =
+      (await response.json()) as {
+        query?: {
+          pages?: Record<
+            string,
+            {
+              imageinfo?: Array<{
+                url?: string
+                thumburl?: string
+                extmetadata?: {
+                  LicenseShortName?: {
+                    value?: string
+                  }
                 }
-              }
-            }>
-          }
-        >
+              }>
+            }
+          >
+        }
       }
-    }
 
     const pages = Object.values(
       data.query?.pages ?? {},
     )
 
     for (const page of pages) {
-      const image = page.imageinfo?.[0]
+      const image =
+        page.imageinfo?.[0]
 
       if (!image) {
         continue
       }
 
       const licence =
-        image.extmetadata?.LicenseShortName?.value
+        image.extmetadata
+          ?.LicenseShortName
+          ?.value
           ?.toLowerCase()
           .trim() ?? ''
 
       const acceptableLicence =
-        licence.includes('public domain') ||
+        licence.includes(
+          'public domain',
+        ) ||
         licence.includes('cc0') ||
         licence.includes('cc by') ||
-        licence.includes('creative commons')
+        licence.includes(
+          'creative commons',
+        )
 
       const imageUrl =
-        image.thumburl || image.url
+        image.thumburl ||
+        image.url
 
       if (
         acceptableLicence &&
         imageUrl &&
-        /^https?:\/\//i.test(imageUrl)
+        /^https?:\/\//i.test(
+          imageUrl,
+        )
       ) {
         return imageUrl
       }
@@ -190,11 +285,13 @@ async function findWikimediaImage(
   }
 }
 
-async function generateEditorials(
+async function generateEditorialForCountry(
+  country: EditorialCountry,
   newsStories: RecentStory[],
   previousEditorials: RecentStory[],
-): Promise<GeneratedEditorial[]> {
-  const apiKey = process.env.OPENAI_API_KEY
+): Promise<GeneratedEditorial> {
+  const apiKey =
+    process.env.OPENAI_API_KEY
 
   if (!apiKey) {
     throw new Error(
@@ -202,27 +299,35 @@ async function generateEditorials(
     )
   }
 
-  const newsMaterial = newsStories
-    .map(
-      (story, index) => `
+  if (newsStories.length < 2) {
+    throw new Error(
+      `Not enough recent ${country} stories to create an editorial.`,
+    )
+  }
+
+  const newsMaterial =
+    newsStories
+      .map(
+        (story, index) => `
 STORY ${index + 1}
 Title: ${story.title}
 Category: ${story.category}
 Source: ${story.source_name}
 Source URL: ${story.source_url}
 Facts: ${story.summary}
-      `.trim(),
-    )
-    .join('\n\n')
+        `.trim(),
+      )
+      .join('\n\n')
 
-  const previousTitles =
+  const previousMaterial =
     previousEditorials.length > 0
       ? previousEditorials
           .map(
-            (story) => `- ${story.title}`,
+            (story) =>
+              `- ${story.title}`,
           )
           .join('\n')
-      : '- No recent automated editorials'
+      : '- No recent automated editorials for this country'
 
   const response = await fetch(
     'https://api.openai.com/v1/responses',
@@ -230,54 +335,127 @@ Facts: ${story.summary}
       method: 'POST',
 
       headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
+        Authorization:
+          `Bearer ${apiKey}`,
+        'Content-Type':
+          'application/json',
       },
 
       body: JSON.stringify({
         model: 'gpt-5-mini',
 
         instructions: `
-You are the senior editorial writer for Downunder Voices, an independent publication covering Australia, New Zealand and the Pacific.
+You are the senior opinion editor for Downunder Voices.
 
-Choose exactly two important and timely topics from the supplied recent news stories.
+Downunder Voices is an independent digital publication covering Australia and New Zealand.
 
-Write two original editorials.
+You must write exactly ONE original OPINION article about ${country}.
 
-EDITORIAL POSITION
+TOPIC SELECTION
 
-- Do not endorse Pauline Hanson, One Nation or any political party.
-- Do not campaign for or against a candidate.
-- Examine political claims critically.
-- Challenge racism, personal attacks and the blaming of entire communities.
-- Recognise legitimate public concerns about housing, migration, infrastructure, public services and cost of living.
-- Do not dismiss voters as ignorant or racist.
-- Focus criticism on policies, statements, leadership and political conduct.
-- Support respectful democratic debate and social cohesion.
+Choose the strongest, most timely and most important public-interest issue from the supplied recent news material.
+
+The priority is a genuine burning issue attracting national or substantial public attention.
+
+Prefer subjects such as:
+
+- government and politics
+- cost of living
+- housing
+- employment
+- immigration
+- trade and the economy
+- taxation
+- health services
+- education
+- crime and public safety
+- infrastructure
+- major business developments
+- significant court or regulatory matters
+- major social policy debates
+- major national controversies
+
+Do not choose a trivial lifestyle story when a more important public-interest story is available.
+
+Do not choose a Pacific-only issue.
+
+The editorial must genuinely concern ${country}.
+
+If several supplied stories concern the same underlying issue, you may use them together to understand the topic.
+
+DUPLICATE AVOIDANCE
+
+Recent Downunder Voices editorial headlines are supplied separately.
+
+Do not substantially repeat a topic, argument or angle that has recently been covered.
+
+A different headline about essentially the same issue still counts as a duplicate.
+
+Choose a genuinely different issue whenever possible.
+
+EDITORIAL APPROACH
+
+- Establish what has happened.
+- Explain why the issue matters.
+- Present reasonable competing arguments fairly where relevant.
+- Reach a clear but measured Downunder Voices editorial view.
+- Focus on public interest.
+- Challenge governments, opposition parties, businesses and institutions when justified by the supplied facts.
+- Give credit where justified.
+- Do not campaign for or against a political party or candidate.
+- Do not tell readers how to vote.
+- Do not make personal attacks.
+- Do not blame entire ethnic, religious, migrant or community groups.
+- Do not dismiss legitimate public concerns.
 
 ACCURACY
 
-- Use only facts contained in the supplied stories.
-- Do not invent quotations, polling numbers, dates, events, policies or personal details.
+- Use only facts contained in the supplied recent news material.
+- Do not invent quotations.
+- Do not invent polling numbers.
+- Do not invent dates.
+- Do not invent statistics.
+- Do not invent policies.
+- Do not invent motives.
+- Do not invent events or outcomes.
 - Do not state allegations as proven facts.
-- Clearly distinguish fact from editorial opinion.
-- Do not claim Downunder Voices interviewed anyone or attended an event.
-- Select a genuine source name and source URL from the supplied material.
-- Never create or alter a source URL.
+- Clearly distinguish factual reporting from editorial opinion.
+- Do not claim Downunder Voices interviewed anyone.
+- Do not claim Downunder Voices attended an event.
+- Do not claim independent verification that did not occur.
+
+SOURCE
+
+Choose one genuine source URL from the supplied material that directly supports the central issue.
+
+Never invent or modify a source URL.
 
 WRITING STYLE
 
-- Use natural Australian and New Zealand English.
+- Use natural Australian and New Zealand newspaper English.
 - Write in a confident independent editorial voice.
-- Avoid artificial or promotional language.
+- Sound human and individually written.
 - Use short paragraphs.
-- Do not use bullet points in the editorial.
-- Do not begin both editorials in the same way.
-- Do not use generic conclusions.
-- Each editorial should be between 350 and 650 words.
-- Each headline must be no longer than 100 characters.
-- The articles must discuss two different topics.
-- Avoid repeating recent editorial headlines or substantially repeating the same argument.
+- Use active voice.
+- Avoid corporate language.
+- Avoid academic language.
+- Avoid promotional language.
+- Avoid exaggerated language.
+- Do not use bullet points inside the editorial.
+- Begin directly with the issue.
+- Do not add a generic conclusion simply to finish the article.
+- The editorial should normally be 450 to 750 words.
+- If the available facts do not support that length, write less.
+- Never pad the story.
+
+HEADLINE
+
+Write a strong, responsible headline of no more than 100 characters.
+
+Do not begin the headline with:
+
+"Opinion:"
+"Editorial:"
 
 BANNED PHRASES
 
@@ -293,197 +471,408 @@ Never use:
 "Underscores the importance"
 "This article explores"
 "This editorial will examine"
+"At the end of the day"
+"In an ever-changing world"
+
+COMMUNITY ANGLE
+
+Provide one concise sentence explaining how the issue could practically matter to ordinary people in ${country}, but only when supported by the supplied facts.
 
 IMAGE SEARCH
 
-For each editorial, provide a short Wikimedia Commons image search phrase.
+Provide a short, neutral Wikimedia Commons search phrase related to the subject.
 
-Use a neutral subject such as:
+Examples:
 
-- Australian Parliament House Canberra
-- multicultural community Australia
-- Parliament House Wellington New Zealand
-- Australian housing construction
-- cost of living supermarket Australia
+Australian Parliament House Canberra
+Sydney housing construction
+New Zealand Parliament Wellington
+Auckland housing
+Australian supermarket
+Wellington city
 
-Do not request a defamatory, insulting or manipulated image.
+Do not request an insulting, defamatory or manipulated image.
 
-Return exactly two editorial objects and only the required JSON.
+Return only the required JSON.
         `.trim(),
 
         input: `
+COUNTRY
+
+${country}
+
 RECENT NEWS MATERIAL
 
 ${newsMaterial}
 
-RECENT EDITORIALS TO AVOID REPEATING
+RECENT DOWNUNDER VOICES EDITORIALS TO AVOID REPEATING
 
-${previousTitles}
+${previousMaterial}
         `.trim(),
 
         text: {
           format: {
             type: 'json_schema',
-            name: 'downunder_voices_editorials',
+            name:
+              'downunder_voices_country_editorial',
             strict: true,
 
             schema: {
               type: 'object',
-              additionalProperties: false,
+              additionalProperties:
+                false,
 
               properties: {
-                editorials: {
-                  type: 'array',
-                  minItems: 2,
-                  maxItems: 2,
+                title: {
+                  type: 'string',
+                },
 
-                  items: {
-                    type: 'object',
-                    additionalProperties: false,
+                summary: {
+                  type: 'string',
+                },
 
-                    properties: {
-                      title: {
-                        type: 'string',
-                      },
+                communityAngle: {
+                  type: 'string',
+                },
 
-                      summary: {
-                        type: 'string',
-                      },
+                category: {
+                  type: 'string',
+                  enum: [
+                    'politics',
+                    'australia',
+                    'nz-pacific',
+                    'business',
+                    'community',
+                    'sports',
+                  ],
+                },
 
-                      communityAngle: {
-                        type: 'string',
-                      },
+                sourceName: {
+                  type: 'string',
+                },
 
-                      category: {
-                        type: 'string',
-                        enum: [
-                          'politics',
-                          'australia',
-                          'nz-pacific',
-                          'business',
-                          'community',
-                          'sports',
-                        ],
-                      },
+                sourceUrl: {
+                  type: 'string',
+                },
 
-                      sourceName: {
-                        type: 'string',
-                      },
+                imageSearch: {
+                  type: 'string',
+                },
 
-                      sourceUrl: {
-                        type: 'string',
-                      },
-
-                      imageSearch: {
-                        type: 'string',
-                      },
-                    },
-
-                    required: [
-                      'title',
-                      'summary',
-                      'communityAngle',
-                      'category',
-                      'sourceName',
-                      'sourceUrl',
-                      'imageSearch',
-                    ],
-                  },
+                country: {
+                  type: 'string',
+                  enum: [
+                    'Australia',
+                    'New Zealand',
+                  ],
                 },
               },
 
-              required: ['editorials'],
+              required: [
+                'title',
+                'summary',
+                'communityAngle',
+                'category',
+                'sourceName',
+                'sourceUrl',
+                'imageSearch',
+                'country',
+              ],
             },
           },
         },
 
-        max_output_tokens: 4000,
+        max_output_tokens: 2200,
       }),
 
-      signal: AbortSignal.timeout(60000),
+      signal:
+        AbortSignal.timeout(60000),
       cache: 'no-store',
     },
   )
 
   if (!response.ok) {
-    const errorText = await response.text()
+    const errorText =
+      await response.text()
 
     throw new Error(
-      `OpenAI editorial generator failed with ${response.status}: ${errorText}`,
+      `OpenAI ${country} editorial generator failed with ${response.status}: ${errorText}`,
     )
   }
 
-  const data = (await response.json()) as {
-    output_text?: string
+  const data =
+    (await response.json()) as {
+      output_text?: string
 
-    output?: Array<{
-      content?: Array<{
-        type?: string
-        text?: string
+      output?: Array<{
+        content?: Array<{
+          type?: string
+          text?: string
+        }>
       }>
-    }>
-  }
+    }
 
-  const rawText = extractOutputText(data)
+  const rawText =
+    extractOutputText(data)
 
   if (!rawText.trim()) {
     throw new Error(
-      'OpenAI returned no editorial content',
+      `OpenAI returned no ${country} editorial content`,
     )
   }
 
-  const parsed = JSON.parse(rawText) as {
-    editorials?: GeneratedEditorial[]
-  }
+  const parsed =
+    JSON.parse(rawText) as GeneratedEditorial
 
-  if (
-    !Array.isArray(parsed.editorials) ||
-    parsed.editorials.length !== 2
-  ) {
+  const sourceStory =
+    newsStories.find(
+      (story) =>
+        story.source_url.trim() ===
+        parsed.sourceUrl.trim(),
+    )
+
+  if (!sourceStory) {
     throw new Error(
-      'OpenAI did not return exactly two editorials',
+      `The ${country} editorial returned a source URL that was not in the supplied news material.`,
     )
   }
 
-  return parsed.editorials
-    .map((editorial) => ({
-      title: normaliseText(
-        editorial.title,
-      ).slice(0, 220),
+  const title =
+    normaliseText(parsed.title)
 
-      summary: cleanEditorial(
-        editorial.summary,
-      ).slice(0, 4000),
+  const summary =
+    cleanEditorial(parsed.summary)
 
-      communityAngle: normaliseText(
-        editorial.communityAngle,
+  if (!title || !summary) {
+    throw new Error(
+      `The ${country} editorial was incomplete.`,
+    )
+  }
+
+  return {
+    title:
+      title.slice(0, 220),
+
+    summary:
+      summary.slice(0, 9000),
+
+    communityAngle:
+      normaliseText(
+        parsed.communityAngle,
       ).slice(0, 1200),
 
-      category: validCategory(
-        editorial.category,
+    category:
+      validCategory(
+        parsed.category,
       )
-        ? editorial.category
-        : ('politics' as CategorySlug),
+        ? parsed.category
+        : country === 'Australia'
+          ? ('australia' as CategorySlug)
+          : ('nz-pacific' as CategorySlug),
 
-      sourceName: normaliseText(
-        editorial.sourceName,
+    sourceName:
+      normaliseText(
+        sourceStory.source_name ||
+          parsed.sourceName,
       ).slice(0, 160),
 
-      sourceUrl:
-        editorial.sourceUrl.trim(),
+    sourceUrl:
+      sourceStory.source_url,
 
-      imageSearch: normaliseText(
-        editorial.imageSearch,
+    imageSearch:
+      normaliseText(
+        parsed.imageSearch,
       ).slice(0, 160),
-    }))
-    .filter(
-      (editorial) =>
-        editorial.title &&
-        editorial.summary &&
-        /^https?:\/\//i.test(
-          editorial.sourceUrl,
-        ),
+
+    country,
+  }
+}
+
+function wordsForDuplicateCheck(
+  value: string,
+): string[] {
+  const ignored = new Set([
+    'about',
+    'after',
+    'again',
+    'against',
+    'australia',
+    'australian',
+    'could',
+    'from',
+    'have',
+    'into',
+    'more',
+    'new',
+    'new zealand',
+    'over',
+    'should',
+    'that',
+    'their',
+    'this',
+    'with',
+    'will',
+    'what',
+    'when',
+    'where',
+  ])
+
+  return normaliseText(value)
+    .toLowerCase()
+    .replace(
+      /[^a-z0-9\s]/g,
+      ' ',
     )
+    .split(/\s+/)
+    .filter(
+      (word) =>
+        word.length >= 4 &&
+        !ignored.has(word),
+    )
+}
+
+function looksLikeDuplicateTopic(
+  title: string,
+  previousEditorials: RecentStory[],
+): boolean {
+  const currentWords =
+    new Set(
+      wordsForDuplicateCheck(title),
+    )
+
+  if (currentWords.size === 0) {
+    return false
+  }
+
+  return previousEditorials.some(
+    (previous) => {
+      const previousWords =
+        new Set(
+          wordsForDuplicateCheck(
+            previous.title,
+          ),
+        )
+
+      let overlap = 0
+
+      for (const word of currentWords) {
+        if (
+          previousWords.has(word)
+        ) {
+          overlap += 1
+        }
+      }
+
+      const smallerSize =
+        Math.min(
+          currentWords.size,
+          previousWords.size,
+        )
+
+      if (smallerSize === 0) {
+        return false
+      }
+
+      return (
+        overlap / smallerSize >= 0.65
+      )
+    },
+  )
+}
+
+async function publishEditorial(
+  editorial: GeneratedEditorial,
+  previousEditorials: RecentStory[],
+  index: number,
+): Promise<boolean> {
+  if (
+    looksLikeDuplicateTopic(
+      editorial.title,
+      previousEditorials,
+    )
+  ) {
+    console.log(
+      `Skipping similar recent editorial: ${editorial.title}`,
+    )
+
+    return false
+  }
+
+  const existing =
+    await dbRequest<
+      Array<{ id: string }>
+    >('stories', {
+      query:
+        `?select=id&title=eq.${encodeURIComponent(
+          editorial.title,
+        )}&limit=1`,
+    })
+
+  if (existing.length > 0) {
+    console.log(
+      `Skipping duplicate editorial: ${editorial.title}`,
+    )
+
+    return false
+  }
+
+  const imageUrl =
+    (await findWikimediaImage(
+      editorial.imageSearch,
+    )) ||
+    DEFAULT_EDITORIAL_IMAGE
+
+  await dbRequest('stories', {
+    method: 'POST',
+
+    body: {
+      slug: uniqueSlug(
+        editorial.title,
+        `${editorial.sourceUrl}-${editorial.country}-${Date.now()}-${index}`,
+      ),
+
+      title:
+        editorial.title,
+
+      category:
+        editorial.category,
+
+      summary:
+        editorial.summary,
+
+      source_name:
+        editorial.sourceName ||
+        'Downunder Voices Editorial',
+
+      source_url:
+        editorial.sourceUrl,
+
+      image_url:
+        imageUrl,
+
+      community_angle:
+        editorial.communityAngle ||
+        null,
+
+      author:
+        'Downunder Voices Editorial',
+
+      status:
+        'published',
+
+      published_at:
+        new Date().toISOString(),
+
+      import_method:
+        'automated-editorial',
+    },
+  })
+
+  console.log(
+    `Published ${editorial.country} automated editorial: ${editorial.title}`,
+  )
+
+  return true
 }
 
 export async function runEditorialGenerator(): Promise<EditorialGenerationResult> {
@@ -498,7 +887,7 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
       'stories',
       {
         query:
-          '?select=id,title,summary,category,source_name,source_url,image_url,import_method,published_at&status=eq.published&order=published_at.desc&limit=60',
+          '?select=id,title,summary,category,source_name,source_url,image_url,import_method,published_at&status=eq.published&order=published_at.desc&limit=100',
       },
     )
 
@@ -509,109 +898,125 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
           story.import_method ===
           'automated-editorial',
       )
-      .slice(0, 12)
+      .slice(0, 30)
 
-  const newsStories = recentStories
-    .filter(
-      (story) =>
-        story.import_method !==
-          'automated-editorial' &&
-        story.title &&
-        story.summary &&
-        story.source_url,
-    )
-    .slice(0, 30)
+  const newsStories =
+    recentStories
+      .filter(
+        (story) =>
+          story.import_method !==
+            'automated-editorial' &&
+          Boolean(
+            story.title &&
+            story.summary &&
+            story.source_url,
+          ),
+      )
+      .slice(0, 70)
 
-  if (newsStories.length < 4) {
-    throw new Error(
-      'Not enough recent published stories to create editorials.',
-    )
-  }
-
-  const generatedEditorials =
-    await generateEditorials(
+  const australianStories =
+    storiesForCountry(
       newsStories,
-      previousEditorials,
+      'Australia',
     )
 
-  if (generatedEditorials.length !== 2) {
+  const newZealandStories =
+    storiesForCountry(
+      newsStories,
+      'New Zealand',
+    )
+
+  console.log(
+    `Editorial candidates: Australia=${australianStories.length}, New Zealand=${newZealandStories.length}`,
+  )
+
+  if (
+    australianStories.length < 2
+  ) {
     throw new Error(
-      'The editorial generator did not produce two valid articles.',
+      'Not enough recent Australian stories to create an automated opinion article.',
     )
   }
 
-  const createdTitles: string[] = []
+  if (
+    newZealandStories.length < 2
+  ) {
+    throw new Error(
+      'Not enough recent New Zealand stories to create an automated opinion article.',
+    )
+  }
 
-  for (const [
-    index,
-    editorial,
-  ] of generatedEditorials.entries()) {
-    const imageUrl =
-      (await findWikimediaImage(
-        editorial.imageSearch,
-      )) || DEFAULT_EDITORIAL_IMAGE
+  const previousAustralia =
+    previousEditorialsForCountry(
+      previousEditorials,
+      'Australia',
+    )
 
-    const existing = await dbRequest<
-      Array<{ id: string }>
-    >('stories', {
-      query: `?select=id&title=eq.${encodeURIComponent(
-        editorial.title,
-      )}&limit=1`,
-    })
+  const previousNewZealand =
+    previousEditorialsForCountry(
+      previousEditorials,
+      'New Zealand',
+    )
 
-    if (existing.length > 0) {
-      console.log(
-        `Skipping duplicate editorial: ${editorial.title}`,
+  const [
+    australianEditorial,
+    newZealandEditorial,
+  ] = await Promise.all([
+    generateEditorialForCountry(
+      'Australia',
+      australianStories,
+      previousAustralia,
+    ),
+
+    generateEditorialForCountry(
+      'New Zealand',
+      newZealandStories,
+      previousNewZealand,
+    ),
+  ])
+
+  const generatedEditorials = [
+    australianEditorial,
+    newZealandEditorial,
+  ]
+
+  const createdTitles: string[] =
+    []
+
+  for (
+    let index = 0;
+    index <
+    generatedEditorials.length;
+    index += 1
+  ) {
+    const editorial =
+      generatedEditorials[index]
+
+    const countryPrevious =
+      editorial.country ===
+      'Australia'
+        ? previousAustralia
+        : previousNewZealand
+
+    const created =
+      await publishEditorial(
+        editorial,
+        countryPrevious,
+        index,
       )
 
-      continue
+    if (created) {
+      createdTitles.push(
+        editorial.title,
+      )
     }
-
-    await dbRequest('stories', {
-      method: 'POST',
-
-      body: {
-        slug: uniqueSlug(
-          editorial.title,
-          `${editorial.sourceUrl}-${Date.now()}-${index}`,
-        ),
-
-        title: editorial.title,
-        category: editorial.category,
-        summary: editorial.summary,
-
-        source_name:
-          editorial.sourceName ||
-          'Downunder Voices Editorial',
-
-        source_url: editorial.sourceUrl,
-        image_url: imageUrl,
-
-        community_angle:
-          editorial.communityAngle || null,
-
-        author:
-          'Downunder Voices Editorial',
-
-        status: 'published',
-
-        published_at:
-          new Date().toISOString(),
-
-        import_method:
-          'automated-editorial',
-      },
-    })
-
-    createdTitles.push(editorial.title)
-
-    console.log(
-      `Published automated editorial: ${editorial.title}`,
-    )
   }
 
   return {
-    created: createdTitles.length,
-    titles: createdTitles,
+    created:
+      createdTitles.length,
+
+    titles:
+      createdTitles,
   }
 }
