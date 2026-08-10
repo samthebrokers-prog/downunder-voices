@@ -1,4 +1,4 @@
-iimport Link from 'next/link'
+import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 
 import { StoryImage } from '@/components/story-image'
