@@ -1,4 +1,4 @@
-import Link from 'next/link'
+iimport Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 
 import { StoryImage } from '@/components/story-image'
@@ -8,6 +8,16 @@ import {
   getCategoryName,
 } from '@/lib/news-data'
 
+function getDisplayCategoryName(
+  category: Story['category'],
+) {
+  if (category === 'opinion') {
+    return 'Editorial'
+  }
+
+  return getCategoryName(category)
+}
+
 function CategoryTag({
   category,
 }: {
@@ -15,7 +25,7 @@ function CategoryTag({
 }) {
   return (
     <span className="inline-flex rounded-sm bg-primary px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-wider text-primary-foreground shadow-sm">
-      {getCategoryName(category)}
+      {getDisplayCategoryName(category)}
     </span>
   )
 }
@@ -51,7 +61,7 @@ export function StoryCard({
             href={`/category/${story.category}`}
             className="self-start text-[0.65rem] font-bold uppercase tracking-[0.12em] text-primary hover:underline"
           >
-            {getCategoryName(story.category)}
+            {getDisplayCategoryName(story.category)}
           </Link>
 
           <h3 className="mt-1.5 line-clamp-3 font-serif text-base font-bold leading-snug">
