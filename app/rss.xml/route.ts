@@ -37,7 +37,10 @@ function getPublicImageUrl(
     return null
   }
 
-  if (image.startsWith('https://') || image.startsWith('http://')) {
+  if (
+    image.startsWith('https://') ||
+    image.startsWith('http://')
+  ) {
     return image
   }
 
@@ -51,7 +54,8 @@ export async function GET() {
     .filter((story) => story.category !== 'editorial-view')
     .sort(
       (a, b) =>
-        getStoryDate(b).getTime() - getStoryDate(a).getTime(),
+        getStoryDate(b).getTime() -
+        getStoryDate(a).getTime(),
     )
 
   const items = stories
@@ -59,31 +63,41 @@ export async function GET() {
       const slug = story.slug || story.id
       const link = `${siteUrl}/story/${encodeURIComponent(slug)}`
       const publishedDate = getStoryDate(story)
+
       const imageUrl = getPublicImageUrl(story.image)
 
       const imageXml = imageUrl
         ? `
-      <media:content
-        url="${escapeXml(imageUrl)}"
-        medium="image"
-      />`
+    <media:content
+      url="${escapeXml(imageUrl)}"
+      medium="image"
+    />
+    <media:thumbnail
+      url="${escapeXml(imageUrl)}"
+    />
+    <enclosure
+      url="${escapeXml(imageUrl)}"
+      type="image/jpeg"
+      length="0"
+    />`
         : ''
 
       return `
-    <item>
-      <title>${escapeXml(story.title)}</title>
-      <link>${escapeXml(link)}</link>
-      <guid isPermaLink="true">${escapeXml(link)}</guid>
-      <description>${escapeXml(story.summary)}</description>
-      <category>${escapeXml(story.category)}</category>
-      <pubDate>${publishedDate.toUTCString()}</pubDate>
-      <author>${escapeXml(
-        story.author || 'Downunder Voices',
-      )}</author>
-      <source url="${escapeXml(story.sourceUrl)}">${escapeXml(
-        story.sourceName,
-      )}</source>${imageXml}
-    </item>`
+  <item>
+    <title>${escapeXml(story.title)}</title>
+    <link>${escapeXml(link)}</link>
+    <guid isPermaLink="true">${escapeXml(link)}</guid>
+    <description>${escapeXml(story.summary)}</description>
+    <category>${escapeXml(story.category)}</category>
+    <pubDate>${publishedDate.toUTCString()}</pubDate>
+    <author>${escapeXml(
+      story.author || 'Downunder Voices',
+    )}</author>
+    <source url="${escapeXml(
+      story.sourceUrl,
+    )}">${escapeXml(story.sourceName)}</source>
+    ${imageXml}
+  </item>`
     })
     .join('\n')
 
@@ -95,18 +109,23 @@ export async function GET() {
   <channel>
     <title>Downunder Voices</title>
     <link>${siteUrl}</link>
-    <description>Independent community news and voices from New Zealand, Australia and the Pacific.</description>
-    <language>en-NZ</language>
+    <description>
+      News, community voices and opinion from Australia,
+      New Zealand and the Pacific.
+    </description>
+    <language>en</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    <generator>Downunder Voices</generator>
+
 ${items}
+
   </channel>
 </rss>`
 
   return new Response(rss, {
     status: 200,
     headers: {
-      'Content-Type': 'application/rss+xml; charset=utf-8',
+      'Content-Type':
+        'application/rss+xml; charset=utf-8',
       'Cache-Control':
         'public, s-maxage=300, stale-while-revalidate=900',
     },
