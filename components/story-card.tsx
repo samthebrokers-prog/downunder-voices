@@ -11,7 +11,7 @@ import {
 function getDisplayCategoryName(
   category: Story['category'],
 ) {
-  if (category === 'opinion') {
+  if (category === 'editorial-view') {
     return 'Editorial'
   }
 
