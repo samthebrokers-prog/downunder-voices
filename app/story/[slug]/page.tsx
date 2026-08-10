@@ -12,7 +12,10 @@ import {
 
 import { StoryCard } from '@/components/story-card'
 import { StoryImage } from '@/components/story-image'
-import { formatDate, getCategoryName } from '@/lib/news-data'
+import {
+  formatDate,
+  getCategoryName,
+} from '@/lib/news-data'
 import {
   getPublishedStories,
   getStoryBySlug,
@@ -42,6 +45,102 @@ function getSocialImageUrl(
   return `${siteUrl}${image.startsWith('/') ? image : `/${image}`}`
 }
 
+function getDisplayCategoryName(
+  category: Parameters<typeof getCategoryName>[0],
+): string {
+  if (category === 'editorial-view') {
+    return 'Editorial'
+  }
+
+  return getCategoryName(category)
+}
+
+function isGenuineExternalSource(
+  sourceUrl: string | null | undefined,
+): boolean {
+  if (!sourceUrl) {
+    return false
+  }
+
+  try {
+    const url = new URL(sourceUrl)
+
+    const hostname = url.hostname
+      .toLowerCase()
+      .replace(/^www\./, '')
+
+    const fullUrl = sourceUrl.toLowerCase()
+
+    if (
+      hostname === 'downundervoices.com' ||
+      hostname.endsWith('.downundervoices.com')
+    ) {
+      return false
+    }
+
+    if (
+      hostname === 'bing.com' ||
+      hostname.endsWith('.bing.com')
+    ) {
+      return false
+    }
+
+    if (hostname === 'news.google.com') {
+      return false
+    }
+
+    if (
+      fullUrl.includes('format=rss') ||
+      fullUrl.includes('rss.xml') ||
+      fullUrl.includes('/rss') ||
+      fullUrl.includes('/feed') ||
+      fullUrl.includes('output=rss')
+    ) {
+      return false
+    }
+
+    if (
+      url.pathname.toLowerCase().includes('/search') &&
+      url.search
+    ) {
+      return false
+    }
+
+    return (
+      url.protocol === 'https:' ||
+      url.protocol === 'http:'
+    )
+  } catch {
+    return false
+  }
+}
+
+function getSourceDisplayName(
+  sourceName: string | null | undefined,
+  sourceUrl: string | null | undefined,
+): string {
+  const cleanedName =
+    sourceName?.trim() || ''
+
+  if (
+    cleanedName &&
+    !/^https?:\/\//i.test(cleanedName)
+  ) {
+    return cleanedName
+  }
+
+  if (sourceUrl) {
+    try {
+      return new URL(sourceUrl).hostname
+        .replace(/^www\./, '')
+    } catch {
+      return 'Original publisher'
+    }
+  }
+
+  return 'Original publisher'
+}
+
 type StoryPageProps = {
   params: Promise<{
     slug: string
@@ -60,15 +159,17 @@ export async function generateMetadata({
     }
   }
 
-  const storyUrl = `${siteUrl}/story/${story.slug ?? story.id}`
+  const storyUrl =
+    `${siteUrl}/story/${story.slug ?? story.id}`
 
   const description =
     story.summary ||
-    `Read the latest coverage from ${getCategoryName(
+    `Read the latest coverage from ${getDisplayCategoryName(
       story.category,
     )}.`
 
-  const socialImage = getSocialImageUrl(story.image)
+  const socialImage =
+    getSocialImageUrl(story.image)
 
   return {
     title: story.title,
@@ -86,7 +187,9 @@ export async function generateMetadata({
       title: story.title,
       description,
       publishedTime: story.date,
-      authors: story.author ? [story.author] : undefined,
+      authors: story.author
+        ? [story.author]
+        : undefined,
       images: [
         {
           url: socialImage,
@@ -121,7 +224,8 @@ export default async function StoryPage({
     notFound()
   }
 
-  const allStories = await getPublishedStories(100)
+  const allStories =
+    await getPublishedStories(100)
 
   const relatedStories = allStories
     .filter(
@@ -138,14 +242,20 @@ export default async function StoryPage({
         candidate.id !== story.id &&
         candidate.category !== 'editorial-view' &&
         !relatedStories.some(
-          (relatedStory) => relatedStory.id === candidate.id,
+          (relatedStory) =>
+            relatedStory.id === candidate.id,
         ),
     )
     .slice(0, 4)
 
-  const storyUrl = `${siteUrl}/story/${story.slug ?? story.id}`
-  const encodedStoryUrl = encodeURIComponent(storyUrl)
-  const encodedTitle = encodeURIComponent(story.title)
+  const storyUrl =
+    `${siteUrl}/story/${story.slug ?? story.id}`
+
+  const encodedStoryUrl =
+    encodeURIComponent(storyUrl)
+
+  const encodedTitle =
+    encodeURIComponent(story.title)
 
   const facebookShareUrl =
     `https://www.facebook.com/sharer/sharer.php?u=${encodedStoryUrl}`
@@ -154,6 +264,17 @@ export default async function StoryPage({
     `mailto:?subject=${encodedTitle}&body=${encodeURIComponent(
       `Read this story from Downunder Voices:\n\n${storyUrl}`,
     )}`
+
+  const hasGenuineOriginalSource =
+    isGenuineExternalSource(
+      story.sourceUrl,
+    )
+
+  const sourceDisplayName =
+    getSourceDisplayName(
+      story.sourceName,
+      story.sourceUrl,
+    )
 
   return (
     <main>
@@ -164,7 +285,10 @@ export default async function StoryPage({
             className="inline-flex items-center gap-2 text-sm font-bold text-primary transition hover:underline"
           >
             <ArrowLeft className="size-4" />
-            Back to {getCategoryName(story.category)}
+            Back to{' '}
+            {getDisplayCategoryName(
+              story.category,
+            )}
           </Link>
 
           <header className="mt-6 border-b border-border pb-7">
@@ -173,7 +297,9 @@ export default async function StoryPage({
                 href={`/category/${story.category}`}
                 className="rounded-sm bg-primary px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-primary-foreground"
               >
-                {getCategoryName(story.category)}
+                {getDisplayCategoryName(
+                  story.category,
+                )}
               </Link>
 
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
@@ -197,9 +323,12 @@ export default async function StoryPage({
                   </p>
                 )}
 
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Source reporting: {story.sourceName}
-                </p>
+                {hasGenuineOriginalSource && (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Source reporting:{' '}
+                    {sourceDisplayName}
+                  </p>
+                )}
               </div>
 
               <div
@@ -271,12 +400,22 @@ export default async function StoryPage({
                   About this report
                 </h2>
 
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                  Downunder Voices provides an independently written summary
-                  and community perspective based on information published by
-                  the original source. The original publisher remains
-                  responsible for its reporting.
-                </p>
+                {hasGenuineOriginalSource ? (
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                    Downunder Voices provides an
+                    independently written summary and
+                    community perspective based on
+                    information published by the original
+                    source. The original publisher remains
+                    responsible for its reporting.
+                  </p>
+                ) : (
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                    This article contains independently
+                    written commentary and community
+                    perspective from Downunder Voices.
+                  </p>
+                )}
               </section>
 
               <section className="mt-9 rounded-xl bg-slate-950 p-6 text-white sm:p-8">
@@ -289,8 +428,9 @@ export default async function StoryPage({
                 </h2>
 
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300">
-                  Join thousands of readers following news and community
-                  stories from Australia, New Zealand and the Pacific.
+                  Join thousands of readers following news
+                  and community stories from Australia,
+                  New Zealand and the Pacific.
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-3">
@@ -316,30 +456,32 @@ export default async function StoryPage({
             </div>
 
             <aside className="h-fit space-y-5 lg:sticky lg:top-24">
-              <section className="rounded-xl border border-border bg-card p-5 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">
-                  Original reporting
-                </p>
+              {hasGenuineOriginalSource && (
+                <section className="rounded-xl border border-border bg-card p-5 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                    Original reporting
+                  </p>
 
-                <p className="mt-3 font-serif text-xl font-bold">
-                  {story.sourceName}
-                </p>
+                  <p className="mt-3 font-serif text-xl font-bold">
+                    {sourceDisplayName}
+                  </p>
 
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  Visit the original publisher for the complete report and
-                  further updates.
-                </p>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    Visit the original publisher for the
+                    complete report and further updates.
+                  </p>
 
-                <a
-                  href={story.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90"
-                >
-                  Read original source
-                  <ArrowUpRight className="size-4" />
-                </a>
-              </section>
+                  <a
+                    href={story.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90"
+                  >
+                    Read original source
+                    <ArrowUpRight className="size-4" />
+                  </a>
+                </section>
+              )}
 
               <section className="rounded-xl border border-border bg-secondary/70 p-5">
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">
@@ -351,8 +493,9 @@ export default async function StoryPage({
                 </h2>
 
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                  Independent coverage connecting Australia, New Zealand and
-                  Pacific communities.
+                  Independent coverage connecting
+                  Australia, New Zealand and Pacific
+                  communities.
                 </p>
 
                 <Link
@@ -372,18 +515,22 @@ export default async function StoryPage({
         <section className="border-t border-border bg-secondary/40">
           <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <SectionHeading
-              title={`More from ${getCategoryName(story.category)}`}
+              title={`More from ${getDisplayCategoryName(
+                story.category,
+              )}`}
               href={`/category/${story.category}`}
               linkText="View category"
             />
 
             <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-              {relatedStories.map((relatedStory) => (
-                <StoryCard
-                  key={relatedStory.id}
-                  story={relatedStory}
-                />
-              ))}
+              {relatedStories.map(
+                (relatedStory) => (
+                  <StoryCard
+                    key={relatedStory.id}
+                    story={relatedStory}
+                  />
+                ),
+              )}
             </div>
           </div>
         </section>
@@ -399,12 +546,14 @@ export default async function StoryPage({
             />
 
             <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-              {latestStories.map((latestStory) => (
-                <StoryCard
-                  key={latestStory.id}
-                  story={latestStory}
-                />
-              ))}
+              {latestStories.map(
+                (latestStory) => (
+                  <StoryCard
+                    key={latestStory.id}
+                    story={latestStory}
+                  />
+                ),
+              )}
             </div>
           </div>
         </section>
