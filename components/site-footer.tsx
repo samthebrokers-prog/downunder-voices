@@ -218,6 +218,21 @@ export function SiteFooter() {
           </p>
         </div>
 
+        <div className="mt-6 rounded-lg border border-slate-800 bg-slate-900/70 p-5">
+          <h2 className="text-sm font-black uppercase tracking-[0.14em] text-red-400">
+            Acknowledgement of Country
+          </h2>
+
+          <p className="mt-3 text-xs leading-6 text-slate-400">
+            Downunder Voices acknowledges the Traditional
+            Custodians of the lands and waters across
+            Australia and recognises their continuing
+            connection to Country, culture and community.
+            We pay our respects to Aboriginal and Torres
+            Strait Islander Elders past and present.
+          </p>
+        </div>
+
         <div className="mt-8 flex flex-col justify-between gap-3 border-t border-slate-800 pt-6 text-xs text-slate-500 sm:flex-row">
           <p>
             © {new Date().getFullYear()} Downunder Voices.
