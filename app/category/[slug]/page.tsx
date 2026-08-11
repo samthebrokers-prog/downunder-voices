@@ -38,6 +38,64 @@ export async function generateMetadata({
   }
 }
 
+function normaliseText(value?: string | null) {
+  return (value ?? '')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, ' ')
+    .replace(/[^\p{L}\p{N}\s]/gu, '')
+}
+
+function removeDuplicateStories<T extends {
+  id?: string | number | null
+  title?: string | null
+  sourceUrl?: string | null
+}>(stories: T[]) {
+  const seenIds = new Set<string>()
+  const seenTitles = new Set<string>()
+  const seenUrls = new Set<string>()
+
+  return stories.filter((story) => {
+    const id =
+      story.id !== undefined && story.id !== null
+        ? String(story.id)
+        : ''
+
+    const title = normaliseText(story.title)
+
+    const sourceUrl = (story.sourceUrl ?? '')
+      .trim()
+      .toLowerCase()
+      .replace(/\/$/, '')
+
+    if (id && seenIds.has(id)) {
+      return false
+    }
+
+    if (title && seenTitles.has(title)) {
+      return false
+    }
+
+    if (sourceUrl && seenUrls.has(sourceUrl)) {
+      return false
+    }
+
+    if (id) {
+      seenIds.add(id)
+    }
+
+    if (title) {
+      seenTitles.add(title)
+    }
+
+    if (sourceUrl) {
+      seenUrls.add(sourceUrl)
+    }
+
+    return true
+  })
+}
+
 export default async function CategoryPage({
   params,
 }: {
@@ -51,10 +109,12 @@ export default async function CategoryPage({
     notFound()
   }
 
-  const stories = await getStoriesByCategory(
+  const rawStories = await getStoriesByCategory(
     category.slug as CategorySlug,
     60,
   )
+
+  const stories = removeDuplicateStories(rawStories)
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
