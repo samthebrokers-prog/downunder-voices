@@ -38,7 +38,9 @@ export async function generateMetadata({
   }
 }
 
-function normaliseText(value?: string | null) {
+function normaliseText(
+  value?: string | null,
+) {
   return (value ?? '')
     .toLowerCase()
     .trim()
@@ -46,24 +48,31 @@ function normaliseText(value?: string | null) {
     .replace(/[^\p{L}\p{N}\s]/gu, '')
 }
 
-function removeDuplicateStories<T extends {
-  id?: string | number | null
-  title?: string | null
-  sourceUrl?: string | null
-}>(stories: T[]) {
+function removeDuplicateStories<
+  T extends {
+    id?: string | number | null
+    title?: string | null
+    sourceUrl?: string | null
+  },
+>(stories: T[]) {
   const seenIds = new Set<string>()
   const seenTitles = new Set<string>()
   const seenUrls = new Set<string>()
 
   return stories.filter((story) => {
     const id =
-      story.id !== undefined && story.id !== null
+      story.id !== undefined &&
+      story.id !== null
         ? String(story.id)
         : ''
 
-    const title = normaliseText(story.title)
+    const title = normaliseText(
+      story.title,
+    )
 
-    const sourceUrl = (story.sourceUrl ?? '')
+    const sourceUrl = (
+      story.sourceUrl ?? ''
+    )
       .trim()
       .toLowerCase()
       .replace(/\/$/, '')
@@ -72,11 +81,17 @@ function removeDuplicateStories<T extends {
       return false
     }
 
-    if (title && seenTitles.has(title)) {
+    if (
+      title &&
+      seenTitles.has(title)
+    ) {
       return false
     }
 
-    if (sourceUrl && seenUrls.has(sourceUrl)) {
+    if (
+      sourceUrl &&
+      seenUrls.has(sourceUrl)
+    ) {
       return false
     }
 
@@ -109,12 +124,14 @@ export default async function CategoryPage({
     notFound()
   }
 
-  const rawStories = await getStoriesByCategory(
-    category.slug as CategorySlug,
-    60,
-  )
+  const rawStories =
+    await getStoriesByCategory(
+      category.slug as CategorySlug,
+      60,
+    )
 
-  const stories = removeDuplicateStories(rawStories)
+  const stories =
+    removeDuplicateStories(rawStories)
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -135,12 +152,15 @@ export default async function CategoryPage({
       {stories.length > 0 ? (
         <section>
           <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {stories.map((story) => (
-              <StoryCard
-                key={story.id}
-                story={story}
-              />
-            ))}
+            {stories.map(
+              (story, index) => (
+                <StoryCard
+                  key={story.id}
+                  story={story}
+                  imageIndex={index}
+                />
+              ),
+            )}
           </div>
         </section>
       ) : (
@@ -150,9 +170,10 @@ export default async function CategoryPage({
           </h2>
 
           <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
-            We are expanding our coverage of {category.name}.
-            Check back shortly for the latest reporting and
-            analysis.
+            We are expanding our coverage
+            of {category.name}. Check back
+            shortly for the latest reporting
+            and analysis.
           </p>
         </section>
       )}
