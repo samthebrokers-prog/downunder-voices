@@ -17,22 +17,24 @@ export const metadata: Metadata = {
 
   title: {
     default:
-      'Downunder Voices — Community News for New Zealand, Australia & the Pacific',
+      'Downunder Voices — Independent News from Australia, New Zealand & the World',
     template: '%s | Downunder Voices',
   },
 
   description:
-    'Downunder Voices is a community news and opinion platform covering New Zealand, Australia and Pacific communities — migrants, small business, sport, cost of living, politics and community voices.',
+    'Downunder Voices is an independent news and opinion platform covering Australia, New Zealand and the world, with reporting on politics, business, community, sport, cost of living and global affairs.',
 
   keywords: [
-    'New Zealand news',
     'Australia news',
-    'Pacific news',
+    'New Zealand news',
+    'world news',
+    'independent news',
     'community news',
-    'migrants',
-    'small business',
-    'cost of living',
+    'business news',
     'politics',
+    'cost of living',
+    'sport',
+    'opinion',
   ],
 
   robots: productionReady
@@ -48,10 +50,17 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Downunder Voices',
     description:
-      'Community news and voices from New Zealand, Australia and the Pacific.',
+      'Independent voices from Australia, New Zealand & the World.',
     url: siteUrl,
     siteName: 'Downunder Voices',
     type: 'website',
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Downunder Voices',
+    description:
+      'Independent voices from Australia, New Zealand & the World.',
   },
 }
 
