@@ -9,6 +9,7 @@ type StoryImageProps = {
   sizes: string
   className?: string
   category?: string | null
+  imageIndex?: number
 }
 
 type ImageGroup = {
@@ -384,9 +385,17 @@ function hashText(value: string) {
   return Math.abs(hash)
 }
 
-function selectFromImages(images: string[], title: string) {
+function selectFromImages(
+  images: string[],
+  title: string,
+  imageIndex?: number,
+) {
   if (!images.length) {
     return defaultImages[0]
+  }
+
+  if (typeof imageIndex === 'number') {
+    return images[imageIndex % images.length]
   }
 
   return images[hashText(title) % images.length]
@@ -438,24 +447,37 @@ function usableSource(value: string) {
   return !blockedImages.some((blocked) => lower.includes(blocked))
 }
 
-function selectFallbackPhoto(title: string, category?: string | null) {
+function selectFallbackPhoto(
+  title: string,
+  category?: string | null,
+  imageIndex?: number,
+) {
   const normalisedTitle = title.toLowerCase().trim()
 
   const keywordMatch = keywordGroups.find(({ words }) =>
-    words.some((word) => normalisedTitle.includes(word))
+    words.some((word) => normalisedTitle.includes(word)),
   )
 
   if (keywordMatch) {
-    return selectFromImages(keywordMatch.images, normalisedTitle)
+    return selectFromImages(
+      keywordMatch.images,
+      normalisedTitle,
+      imageIndex,
+    )
   }
 
   const categoryKey = normaliseCategory(category)
+
   const images =
     categoryImages[categoryKey] ||
     categoryImages.default ||
     defaultImages
 
-  return selectFromImages(images, normalisedTitle)
+  return selectFromImages(
+    images,
+    normalisedTitle,
+    imageIndex,
+  )
 }
 
 export function StoryImage({
@@ -464,23 +486,38 @@ export function StoryImage({
   sizes,
   className = '',
   category,
+  imageIndex,
 }: StoryImageProps) {
   const fallback = useMemo(
-    () => selectFallbackPhoto(alt, category),
-    [alt, category]
+    () =>
+      selectFallbackPhoto(
+        alt,
+        category,
+        imageIndex,
+      ),
+    [alt, category, imageIndex],
   )
 
   const original = src?.trim() || ''
 
   const preferred = useMemo(
-    () => (usableSource(original) ? original : fallback),
-    [original, fallback]
+    () =>
+      usableSource(original)
+        ? original
+        : fallback,
+    [original, fallback],
   )
 
-  const finalBackup = defaultImages[hashText(alt) % defaultImages.length]
+  const finalBackup =
+    defaultImages[
+      hashText(`${alt}-${imageIndex ?? 0}`) %
+        defaultImages.length
+    ]
 
   const [source, setSource] = useState(preferred)
-  const [hasTriedFallback, setHasTriedFallback] = useState(false)
+
+  const [hasTriedFallback, setHasTriedFallback] =
+    useState(false)
 
   useEffect(() => {
     setSource(preferred)
@@ -488,7 +525,10 @@ export function StoryImage({
   }, [preferred])
 
   function handleImageError() {
-    if (!hasTriedFallback && source !== fallback) {
+    if (
+      !hasTriedFallback &&
+      source !== fallback
+    ) {
       setHasTriedFallback(true)
       setSource(fallback)
       return
