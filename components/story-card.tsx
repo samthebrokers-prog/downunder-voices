@@ -1,5 +1,8 @@
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import {
+  ArrowRight,
+  ArrowUpRight,
+} from 'lucide-react'
 
 import { StoryImage } from '@/components/story-image'
 import {
@@ -33,9 +36,11 @@ function CategoryTag({
 export function StoryCard({
   story,
   variant = 'default',
+  imageIndex,
 }: {
   story: Story
   variant?: 'default' | 'compact' | 'feature'
+  imageIndex?: number
 }) {
   const href = `/story/${story.slug ?? story.id}`
 
@@ -53,6 +58,7 @@ export function StoryCard({
             sizes="96px"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             category={story.category}
+            imageIndex={imageIndex}
           />
         </Link>
 
@@ -61,7 +67,9 @@ export function StoryCard({
             href={`/category/${story.category}`}
             className="self-start text-[0.65rem] font-bold uppercase tracking-[0.12em] text-primary hover:underline"
           >
-            {getDisplayCategoryName(story.category)}
+            {getDisplayCategoryName(
+              story.category,
+            )}
           </Link>
 
           <h3 className="mt-1.5 line-clamp-3 font-serif text-base font-bold leading-snug">
@@ -91,6 +99,7 @@ export function StoryCard({
             sizes="(max-width: 768px) 100vw, 66vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             category={story.category}
+            imageIndex={imageIndex}
           />
 
           <Link
@@ -103,7 +112,9 @@ export function StoryCard({
             href={`/category/${story.category}`}
             className="absolute left-4 top-4 z-30"
           >
-            <CategoryTag category={story.category} />
+            <CategoryTag
+              category={story.category}
+            />
           </Link>
 
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-5 pb-5 pt-28 sm:px-7 sm:pb-7">
@@ -175,6 +186,7 @@ export function StoryCard({
           sizes="(max-width: 768px) 100vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           category={story.category}
+          imageIndex={imageIndex}
         />
 
         <Link
@@ -187,7 +199,9 @@ export function StoryCard({
           href={`/category/${story.category}`}
           className="absolute left-3 top-3 z-20"
         >
-          <CategoryTag category={story.category} />
+          <CategoryTag
+            category={story.category}
+          />
         </Link>
       </div>
 
