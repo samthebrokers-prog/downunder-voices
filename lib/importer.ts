@@ -1,7 +1,13 @@
-import { dbRequest, isDatabaseConfigured } from '@/lib/db'
+import {
+  dbRequest,
+  isDatabaseConfigured,
+} from '@/lib/db'
 import { writeArticle } from '@/lib/ai-writer'
 import { shouldImportStory } from '@/lib/news-filter'
-import { classifyCategory, fetchFeed } from '@/lib/rss'
+import {
+  classifyCategory,
+  fetchFeed,
+} from '@/lib/rss'
 import { uniqueSlug } from '@/lib/slug'
 import type { CategorySlug } from '@/lib/news-data'
 
@@ -27,6 +33,19 @@ type ArticleMetadata = {
   imageUrl?: string
 }
 
+type ExistingStoryRow = {
+  id: string
+  title: string | null
+  source_url: string | null
+  published_at?: string | null
+}
+
+type StoryRegion =
+  | 'australia'
+  | 'new-zealand'
+  | 'world'
+  | null
+
 const DEFAULT_NEWS_IMAGE =
   'https://www.downundervoices.com/images/downunder-default-news.jpg'
 
@@ -34,13 +53,63 @@ const MAX_AI_ARTICLES_PER_RUN = 5
 const MAX_ITEMS_PER_SOURCE = 20
 
 /*
- * Freshness protection.
- *
- * Normal RSS news older than this is rejected before it reaches
- * the database. This prevents discovery feeds such as Bing News
- * from resurfacing old stories as current news.
+ * Reject normal RSS news older than 72 hours.
  */
 const MAX_STORY_AGE_HOURS = 72
+
+/*
+ * Near-duplicate headline threshold.
+ *
+ * 0.82 is deliberately fairly strict so genuinely
+ * different stories on the same subject are not removed.
+ */
+const DUPLICATE_TITLE_THRESHOLD = 0.82
+
+const STOP_WORDS = new Set([
+  'a',
+  'an',
+  'and',
+  'are',
+  'as',
+  'at',
+  'be',
+  'been',
+  'being',
+  'but',
+  'by',
+  'for',
+  'from',
+  'has',
+  'have',
+  'he',
+  'her',
+  'his',
+  'how',
+  'in',
+  'into',
+  'is',
+  'it',
+  'its',
+  'of',
+  'on',
+  'or',
+  'our',
+  'she',
+  'that',
+  'the',
+  'their',
+  'this',
+  'to',
+  'was',
+  'were',
+  'what',
+  'when',
+  'where',
+  'which',
+  'who',
+  'will',
+  'with',
+])
 
 function isFreshStory(
   publishedAt: string | null | undefined,
@@ -49,22 +118,30 @@ function isFreshStory(
     return false
   }
 
-  const publishedTime = new Date(publishedAt).getTime()
+  const publishedTime =
+    new Date(publishedAt).getTime()
 
   if (!Number.isFinite(publishedTime)) {
     return false
   }
 
   const now = Date.now()
-  const ageMs = now - publishedTime
+
+  const ageMs =
+    now - publishedTime
+
   const maxAgeMs =
-    MAX_STORY_AGE_HOURS * 60 * 60 * 1000
+    MAX_STORY_AGE_HOURS *
+    60 *
+    60 *
+    1000
 
   /*
-   * Allow a small amount of clock skew for feeds whose
-   * timestamps are a little ahead of the server clock.
+   * Allow a little clock skew where a publisher's
+   * timestamp is slightly ahead of the server.
    */
-  const futureToleranceMs = 2 * 60 * 60 * 1000
+  const futureToleranceMs =
+    2 * 60 * 60 * 1000
 
   return (
     ageMs <= maxAgeMs &&
@@ -72,9 +149,304 @@ function isFreshStory(
   )
 }
 
+function cleanText(
+  value: string | null | undefined,
+): string {
+  if (!value) {
+    return ''
+  }
+
+  return value
+    .replace(
+      /<script[\s\S]*?<\/script>/gi,
+      ' ',
+    )
+    .replace(
+      /<style[\s\S]*?<\/style>/gi,
+      ' ',
+    )
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(
+      /&#39;|&apos;/gi,
+      "'",
+    )
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function removeFeedNoise(
+  value: string,
+): string {
+  return value
+    .replace(
+      /Get our breaking news email[^.]*\.?/gi,
+      ' ',
+    )
+    .replace(
+      /Continue reading\.{0,3}/gi,
+      ' ',
+    )
+    .replace(
+      /Read more\.{0,3}/gi,
+      ' ',
+    )
+    .replace(
+      /Follow this section[^.]*\.?/gi,
+      ' ',
+    )
+    .replace(
+      /Follow this topic[^.]*\.?/gi,
+      ' ',
+    )
+    .replace(
+      /Follow this story[^.]*\.?/gi,
+      ' ',
+    )
+    .replace(
+      /personalize your feed[^.]*\.?/gi,
+      ' ',
+    )
+    .replace(
+      /personalise your feed[^.]*\.?/gi,
+      ' ',
+    )
+    .replace(
+      /Update your preferences[^.]*\.?/gi,
+      ' ',
+    )
+    .replace(
+      /Manage your preferences[^.]*\.?/gi,
+      ' ',
+    )
+    .replace(
+      /Sign in to personalize[^.]*\.?/gi,
+      ' ',
+    )
+    .replace(
+      /Sign in to personalise[^.]*\.?/gi,
+      ' ',
+    )
+    .replace(
+      /Add this topic to your feed[^.]*\.?/gi,
+      ' ',
+    )
+    .replace(
+      /The information currently available was supplied through[\s\S]*$/i,
+      ' ',
+    )
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function containsFeedJunk(
+  value: string,
+): boolean {
+  const text =
+    cleanText(value).toLowerCase()
+
+  const junkSignals = [
+    'follow this section',
+    'follow this topic',
+    'personalize your feed',
+    'personalise your feed',
+    'update your preferences',
+    'manage your preferences',
+    'sign in to personalize',
+    'sign in to personalise',
+    'add this topic to your feed',
+    'customize your feed',
+    'customise your feed',
+  ]
+
+  return junkSignals.some(
+    (signal) =>
+      text.includes(signal),
+  )
+}
+
+function firstFiveSentences(
+  value: string,
+): string {
+  const text =
+    removeFeedNoise(
+      cleanText(value),
+    )
+
+  if (!text) {
+    return ''
+  }
+
+  const sentences =
+    text.match(
+      /[^.!?]+[.!?]+(?:["'’”)]*)|[^.!?]+$/g,
+    ) ?? [text]
+
+  return sentences
+    .map((sentence) =>
+      sentence.trim(),
+    )
+    .filter(Boolean)
+    .slice(0, 5)
+    .join(' ')
+    .slice(0, 1200)
+    .trim()
+}
+
+function normaliseTitle(
+  value: string,
+): string {
+  return cleanText(value)
+    .toLowerCase()
+    .replace(
+      /https?:\/\/\S+/g,
+      ' ',
+    )
+    .replace(
+      /[^\p{L}\p{N}\s]/gu,
+      ' ',
+    )
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function titleTokens(
+  value: string,
+): string[] {
+  return normaliseTitle(value)
+    .split(' ')
+    .map((word) =>
+      word.trim(),
+    )
+    .filter(
+      (word) =>
+        word.length > 2 &&
+        !STOP_WORDS.has(word),
+    )
+}
+
+function titleSimilarity(
+  first: string,
+  second: string,
+): number {
+  const left =
+    normaliseTitle(first)
+
+  const right =
+    normaliseTitle(second)
+
+  if (!left || !right) {
+    return 0
+  }
+
+  if (left === right) {
+    return 1
+  }
+
+  /*
+   * A headline may have a short publisher suffix or
+   * introductory phrase while still being the same story.
+   */
+  if (
+    left.length >= 28 &&
+    right.length >= 28 &&
+    (
+      left.includes(right) ||
+      right.includes(left)
+    )
+  ) {
+    return 0.98
+  }
+
+  const leftTokens =
+    new Set(
+      titleTokens(left),
+    )
+
+  const rightTokens =
+    new Set(
+      titleTokens(right),
+    )
+
+  if (
+    leftTokens.size < 3 ||
+    rightTokens.size < 3
+  ) {
+    return 0
+  }
+
+  let intersection = 0
+
+  for (
+    const token of leftTokens
+  ) {
+    if (
+      rightTokens.has(token)
+    ) {
+      intersection += 1
+    }
+  }
+
+  const union =
+    new Set([
+      ...leftTokens,
+      ...rightTokens,
+    ]).size
+
+  if (!union) {
+    return 0
+  }
+
+  const jaccard =
+    intersection / union
+
+  /*
+   * Also compare how much of the shorter headline
+   * is contained in the longer one.
+   */
+  const shorterSize =
+    Math.min(
+      leftTokens.size,
+      rightTokens.size,
+    )
+
+  const containment =
+    shorterSize > 0
+      ? intersection /
+        shorterSize
+      : 0
+
+  return Math.max(
+    jaccard,
+    containment * 0.92,
+  )
+}
+
+function isNearDuplicateTitle(
+  title: string,
+  existingTitles: string[],
+): boolean {
+  if (!title.trim()) {
+    return false
+  }
+
+  return existingTitles.some(
+    (existingTitle) =>
+      titleSimilarity(
+        title,
+        existingTitle,
+      ) >=
+      DUPLICATE_TITLE_THRESHOLD,
+  )
+}
+
 function sourceRegion(
   source: SourceRow,
-): 'australia' | 'new-zealand-pacific' | null {
+): StoryRegion {
   const sourceText = [
     source.name,
     source.feed_url,
@@ -100,7 +472,7 @@ function sourceRegion(
     'act government',
   ]
 
-  const newZealandPacificSignals = [
+  const newZealandSignals = [
     '.govt.nz',
     '.co.nz',
     '.org.nz',
@@ -108,122 +480,289 @@ function sourceRegion(
     'beehive.govt.nz',
     'new zealand',
     'aotearoa',
-    'fiji',
-    'samoa',
-    'tonga',
-    'nauru',
-    'vanuatu',
-    'solomon islands',
-    'cook islands',
-    'niue',
-    'papua new guinea',
-    'pacific',
   ]
 
   if (
-    australianSignals.some((signal) =>
-      sourceText.includes(signal),
+    australianSignals.some(
+      (signal) =>
+        sourceText.includes(
+          signal,
+        ),
     )
   ) {
     return 'australia'
   }
 
   if (
-    newZealandPacificSignals.some((signal) =>
-      sourceText.includes(signal),
+    newZealandSignals.some(
+      (signal) =>
+        sourceText.includes(
+          signal,
+        ),
     )
   ) {
-    return 'new-zealand-pacific'
+    return 'new-zealand'
   }
 
   return null
 }
 
-function protectRegionalCategory(
-  category: CategorySlug,
-  source: SourceRow,
-): CategorySlug {
-  const region = sourceRegion(source)
+function contentRegion(
+  title: string,
+  summary: string,
+): StoryRegion {
+  const text =
+    `${title} ${summary}`
+      .toLowerCase()
+      .replace(/\s+/g, ' ')
+
+  const australianSignals = [
+    'australia',
+    'australian',
+    'canberra',
+    'sydney',
+    'melbourne',
+    'brisbane',
+    'perth',
+    'adelaide',
+    'hobart',
+    'darwin',
+    'western australia',
+    'new south wales',
+    'queensland',
+    'south australia',
+    'tasmania',
+    'northern territory',
+    'victoria government',
+    'australian government',
+    'federal government of australia',
+  ]
+
+  const newZealandSignals = [
+    'new zealand',
+    'new zealander',
+    'new zealanders',
+    'aotearoa',
+    'auckland',
+    'wellington',
+    'christchurch',
+    'hamilton nz',
+    'tauranga',
+    'dunedin',
+    'queenstown nz',
+    'nz government',
+    'new zealand government',
+    'beehive',
+  ]
+
+  const worldSignals = [
+    'united states',
+    'u.s.',
+    'u.s ',
+    'us government',
+    'white house',
+    'washington dc',
+    'washington, d.c.',
+    'donald trump',
+    'joe biden',
+    'federal appeals court',
+    'supreme court of the united states',
+    'united kingdom',
+    'britain',
+    'british government',
+    'london',
+    'european union',
+    'european commission',
+    'france',
+    'germany',
+    'italy',
+    'spain',
+    'china',
+    'chinese government',
+    'beijing',
+    'japan',
+    'tokyo',
+    'india',
+    'new delhi',
+    'russia',
+    'moscow',
+    'ukraine',
+    'kyiv',
+    'israel',
+    'gaza',
+    'iran',
+    'tehran',
+    'south korea',
+    'north korea',
+    'africa',
+    'united nations',
+    'world health organization',
+    'world trade organization',
+  ]
+
+  const australiaScore =
+    australianSignals.filter(
+      (signal) =>
+        text.includes(signal),
+    ).length
+
+  const newZealandScore =
+    newZealandSignals.filter(
+      (signal) =>
+        text.includes(signal),
+    ).length
+
+  const worldScore =
+    worldSignals.filter(
+      (signal) =>
+        text.includes(signal),
+    ).length
 
   if (
-    region === 'australia' &&
-    category === 'nz-pacific'
+    australiaScore >
+      newZealandScore &&
+    australiaScore >
+      worldScore
+  ) {
+    return 'australia'
+  }
+
+  if (
+    newZealandScore >
+      australiaScore &&
+    newZealandScore >
+      worldScore
+  ) {
+    return 'new-zealand'
+  }
+
+  if (
+    worldScore >
+      australiaScore &&
+    worldScore >
+      newZealandScore
+  ) {
+    return 'world'
+  }
+
+  /*
+   * If tied, prefer strong explicit country references.
+   */
+  if (
+    text.includes(
+      'new zealand',
+    ) ||
+    text.includes(
+      'aotearoa',
+    )
+  ) {
+    return 'new-zealand'
+  }
+
+  if (
+    text.includes(
+      'australia',
+    ) ||
+    text.includes(
+      'australian',
+    )
+  ) {
+    return 'australia'
+  }
+
+  return null
+}
+
+function categoryForRegion(
+  region: StoryRegion,
+  existingCategory: CategorySlug,
+): CategorySlug {
+  if (
+    region === 'australia'
   ) {
     return 'australia' as CategorySlug
   }
 
   if (
-    region === 'new-zealand-pacific' &&
-    category === 'australia'
+    region === 'world'
   ) {
-    return 'new-zealand' as CategorySlug
+    return 'world' as CategorySlug
+  }
+
+  if (
+    region === 'new-zealand'
+  ) {
+    /*
+     * The project has historically used nz-pacific as
+     * the NZ section slug. Keep it for compatibility.
+     */
+    return 'nz-pacific' as CategorySlug
+  }
+
+  return existingCategory
+}
+
+function protectRegionalCategory(
+  category: CategorySlug,
+  source: SourceRow,
+  title: string,
+  summary: string,
+): CategorySlug {
+  /*
+   * Article content is stronger evidence than the feed's
+   * default category. This prevents an overseas story
+   * arriving through an NZ feed from being labelled NZ.
+   */
+  const detectedFromContent =
+    contentRegion(
+      title,
+      summary,
+    )
+
+  if (detectedFromContent) {
+    return categoryForRegion(
+      detectedFromContent,
+      category,
+    )
+  }
+
+  /*
+   * If the article itself contains no strong geographic
+   * signal, use the known region of the publisher/feed.
+   */
+  const detectedFromSource =
+    sourceRegion(source)
+
+  if (
+    detectedFromSource ===
+      'australia' &&
+    category ===
+      ('nz-pacific' as CategorySlug)
+  ) {
+    return 'australia' as CategorySlug
+  }
+
+  if (
+    detectedFromSource ===
+      'new-zealand' &&
+    category ===
+      ('australia' as CategorySlug)
+  ) {
+    return 'nz-pacific' as CategorySlug
   }
 
   return category
-}
-
-function cleanText(
-  value: string | null | undefined,
-): string {
-  if (!value) return ''
-
-  return value
-    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, '&')
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;|&apos;/gi, "'")
-    .replace(/&lt;/gi, '<')
-    .replace(/&gt;/gi, '>')
-    .replace(/\s+/g, ' ')
-    .trim()
-}
-
-function removeFeedNoise(value: string): string {
-  return value
-    .replace(
-      /Get our breaking news email[^.]*\.?/gi,
-      ' ',
-    )
-    .replace(/Continue reading\.{0,3}/gi, ' ')
-    .replace(/Read more\.{0,3}/gi, ' ')
-    .replace(
-      /The information currently available was supplied through[\s\S]*$/i,
-      ' ',
-    )
-    .replace(/\s+/g, ' ')
-    .trim()
-}
-
-function firstFiveSentences(value: string): string {
-  const text = removeFeedNoise(cleanText(value))
-
-  if (!text) return ''
-
-  const sentences =
-    text.match(
-      /[^.!?]+[.!?]+(?:["'’”)]*)|[^.!?]+$/g,
-    ) ?? [text]
-
-  return sentences
-    .map((sentence) => sentence.trim())
-    .filter(Boolean)
-    .slice(0, 5)
-    .join(' ')
-    .slice(0, 1200)
-    .trim()
 }
 
 function metaContent(
   html: string,
   key: string,
 ): string {
-  const escaped = key.replace(
-    /[.*+?^${}()|[\]\\]/g,
-    '\\$&',
-  )
+  const escaped =
+    key.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      '\\$&',
+    )
 
   const patterns = [
     new RegExp(
@@ -236,11 +775,16 @@ function metaContent(
     ),
   ]
 
-  for (const pattern of patterns) {
-    const match = html.match(pattern)
+  for (
+    const pattern of patterns
+  ) {
+    const match =
+      html.match(pattern)
 
     if (match?.[1]) {
-      return cleanText(match[1])
+      return cleanText(
+        match[1],
+      )
     }
   }
 
@@ -251,47 +795,88 @@ async function fetchArticleMetadata(
   url: string,
 ): Promise<ArticleMetadata> {
   try {
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent':
-          'DownunderVoicesBot/1.0 (+https://downundervoices.com)',
-      },
-      signal: AbortSignal.timeout(8000),
-      cache: 'no-store',
-      redirect: 'follow',
-    })
+    const response =
+      await fetch(url, {
+        headers: {
+          'User-Agent':
+            'DownunderVoicesBot/1.0 (+https://downundervoices.com)',
+        },
+        signal:
+          AbortSignal.timeout(
+            8000,
+          ),
+        cache: 'no-store',
+        redirect: 'follow',
+      })
 
     if (!response.ok) {
-      return { description: '' }
+      return {
+        description: '',
+      }
     }
 
     const contentType =
-      response.headers.get('content-type') || ''
+      response.headers.get(
+        'content-type',
+      ) || ''
 
-    if (!contentType.includes('text/html')) {
-      return { description: '' }
+    if (
+      !contentType.includes(
+        'text/html',
+      )
+    ) {
+      return {
+        description: '',
+      }
     }
 
-    const html = (await response.text()).slice(
-      0,
-      400_000,
-    )
+    const html =
+      (
+        await response.text()
+      ).slice(
+        0,
+        400_000,
+      )
 
     const description =
-      metaContent(html, 'og:description') ||
-      metaContent(html, 'twitter:description') ||
-      metaContent(html, 'description')
+      metaContent(
+        html,
+        'og:description',
+      ) ||
+      metaContent(
+        html,
+        'twitter:description',
+      ) ||
+      metaContent(
+        html,
+        'description',
+      )
 
     const imageUrl =
-      metaContent(html, 'og:image:secure_url') ||
-      metaContent(html, 'og:image') ||
-      metaContent(html, 'twitter:image') ||
+      metaContent(
+        html,
+        'og:image:secure_url',
+      ) ||
+      metaContent(
+        html,
+        'og:image',
+      ) ||
+      metaContent(
+        html,
+        'twitter:image',
+      ) ||
       undefined
 
     return {
-      description: firstFiveSentences(description),
+      description:
+        firstFiveSentences(
+          description,
+        ),
       imageUrl:
-        imageUrl && /^https?:\/\//i.test(imageUrl)
+        imageUrl &&
+        /^https?:\/\//i.test(
+          imageUrl,
+        )
           ? imageUrl
           : undefined,
     }
@@ -301,116 +886,301 @@ async function fetchArticleMetadata(
       error,
     )
 
-    return { description: '' }
+    return {
+      description: '',
+    }
+  }
+}
+
+async function getRecentPublishedTitles(): Promise<
+  string[]
+> {
+  try {
+    const cutoff =
+      new Date(
+        Date.now() -
+          MAX_STORY_AGE_HOURS *
+            60 *
+            60 *
+            1000,
+      ).toISOString()
+
+    const rows =
+      await dbRequest<
+        ExistingStoryRow[]
+      >('stories', {
+        query:
+          `?select=id,title,source_url,published_at` +
+          `&published_at=gte.${encodeURIComponent(
+            cutoff,
+          )}` +
+          `&limit=500`,
+      })
+
+    return rows
+      .map(
+        (row) =>
+          cleanText(
+            row.title,
+          ),
+      )
+      .filter(Boolean)
+  } catch (error) {
+    /*
+     * Duplicate protection should never stop the
+     * whole news import if this helper query fails.
+     */
+    console.error(
+      'Could not load recent story titles:',
+      error,
+    )
+
+    return []
   }
 }
 
 export async function runNewsImport(): Promise<
   ImportResult[]
 > {
-  if (!isDatabaseConfigured()) {
-    throw new Error('Database is not configured')
+  if (
+    !isDatabaseConfigured()
+  ) {
+    throw new Error(
+      'Database is not configured',
+    )
   }
 
-  const sources = await dbRequest<SourceRow[]>(
-    'news_sources',
-    {
+  const sources =
+    await dbRequest<
+      SourceRow[]
+    >('news_sources', {
       query:
         '?select=*&active=eq.true&order=name.asc',
-    },
-  )
+    })
 
-  const results: ImportResult[] = []
+  const results:
+    ImportResult[] = []
 
   let aiArticlesCreated = 0
 
-  for (const source of sources) {
-    const started = Date.now()
+  /*
+   * Keep a list of recent headlines from the database,
+   * then add newly imported headlines to the same list.
+   * This catches duplicates both across runs and within
+   * the current run.
+   */
+  const knownTitles =
+    await getRecentPublishedTitles()
+
+  for (
+    const source of sources
+  ) {
+    const started =
+      Date.now()
 
     let imported = 0
     let skipped = 0
-    let errorMessage: string | null = null
+
+    let errorMessage:
+      | string
+      | null = null
 
     try {
       const items = (
-        await fetchFeed(source.feed_url)
-      ).slice(0, MAX_ITEMS_PER_SOURCE)
+        await fetchFeed(
+          source.feed_url,
+        )
+      ).slice(
+        0,
+        MAX_ITEMS_PER_SOURCE,
+      )
 
-      for (const item of items) {
+      for (
+        const item of items
+      ) {
         /*
-         * Reject old or undated stories before doing any
-         * metadata fetching, AI processing, or database work.
+         * 1. Freshness gate.
          */
-        if (!isFreshStory(item.publishedAt)) {
+        if (
+          !isFreshStory(
+            item.publishedAt,
+          )
+        ) {
           skipped += 1
 
           console.log(
             `Freshness filter skipped: ${cleanText(
               item.title,
-            )} (${item.publishedAt || 'no date'})`,
+            )} (${
+              item.publishedAt ||
+              'no date'
+            })`,
           )
 
           continue
         }
 
-        const existing = await dbRequest<
-          Array<{ id: string }>
-        >('stories', {
-          query: `?select=id&source_url=eq.${encodeURIComponent(
-            item.link,
-          )}&limit=1`,
-        })
+        const originalTitle =
+          cleanText(
+            item.title,
+          )
 
-        if (existing.length > 0) {
+        /*
+         * Reject obvious feed-navigation junk before
+         * doing article metadata or AI work.
+         */
+        if (
+          !originalTitle ||
+          containsFeedJunk(
+            originalTitle,
+          )
+        ) {
+          skipped += 1
+
+          console.log(
+            `Feed junk title skipped: ${originalTitle}`,
+          )
+
+          continue
+        }
+
+        /*
+         * 2. Exact source URL duplicate check.
+         */
+        const existing =
+          await dbRequest<
+            Array<{
+              id: string
+            }>
+          >('stories', {
+            query:
+              `?select=id&source_url=eq.${encodeURIComponent(
+                item.link,
+              )}&limit=1`,
+          })
+
+        if (
+          existing.length > 0
+        ) {
           skipped += 1
           continue
         }
 
-        let originalSummary =
-          firstFiveSentences(item.description)
+        /*
+         * 3. Near-duplicate headline check.
+         *
+         * This catches the same underlying story arriving
+         * through slightly different feed URLs/headlines.
+         */
+        if (
+          isNearDuplicateTitle(
+            originalTitle,
+            knownTitles,
+          )
+        ) {
+          skipped += 1
 
-        let imageUrl = item.imageUrl
+          console.log(
+            `Near-duplicate skipped: ${originalTitle}`,
+          )
+
+          continue
+        }
+
+        let originalSummary =
+          firstFiveSentences(
+            item.description,
+          )
+
+        let imageUrl =
+          item.imageUrl
 
         if (
-          originalSummary.length < 90 ||
+          originalSummary.length <
+            90 ||
           !imageUrl
         ) {
           const metadata =
-            await fetchArticleMetadata(item.link)
+            await fetchArticleMetadata(
+              item.link,
+            )
 
           if (
-            originalSummary.length < 90 &&
+            originalSummary.length <
+              90 &&
             metadata.description
           ) {
             originalSummary =
               metadata.description
           }
 
-          if (!imageUrl && metadata.imageUrl) {
-            imageUrl = metadata.imageUrl
+          if (
+            !imageUrl &&
+            metadata.imageUrl
+          ) {
+            imageUrl =
+              metadata.imageUrl
           }
+        }
+
+        /*
+         * Clean feed navigation/promotional text from
+         * article metadata as well as the RSS description.
+         */
+        originalSummary =
+          firstFiveSentences(
+            removeFeedNoise(
+              originalSummary,
+            ),
+          )
+
+        if (
+          containsFeedJunk(
+            originalSummary,
+          )
+        ) {
+          originalSummary =
+            firstFiveSentences(
+              removeFeedNoise(
+                originalSummary,
+              ),
+            )
         }
 
         if (!originalSummary) {
           originalSummary =
-            firstFiveSentences(item.title)
+            firstFiveSentences(
+              originalTitle,
+            )
         }
 
-        const originalTitle =
-          cleanText(item.title)
+        /*
+         * A summary containing nothing useful after noise
+         * removal is not worth publishing.
+         */
+        if (
+          originalSummary.length <
+            20
+        ) {
+          skipped += 1
+
+          console.log(
+            `Low-quality summary skipped: ${originalTitle}`,
+          )
+
+          continue
+        }
 
         /*
-         * Quality gate.
-         *
-         * Stories rejected here never reach
-         * the database.
+         * 4. Existing project quality filter.
          */
-        const allowed = shouldImportStory(
-          originalTitle,
-          originalSummary,
-          source.name,
-          source.feed_url,
-        )
+        const allowed =
+          shouldImportStory(
+            originalTitle,
+            originalSummary,
+            source.name,
+            source.feed_url,
+          )
 
         if (!allowed) {
           skipped += 1
@@ -433,24 +1203,38 @@ export async function runNewsImport(): Promise<
           protectRegionalCategory(
             classifiedInitialCategory,
             source,
+            originalTitle,
+            originalSummary,
           )
 
         const canAutoPublish =
           source.auto_publish &&
-          source.source_type === 'official'
+          source.source_type ===
+            'official'
 
         const canUseAi =
           canAutoPublish &&
           aiArticlesCreated <
             MAX_AI_ARTICLES_PER_RUN
 
-        let finalTitle = originalTitle
-        let finalSummary = originalSummary
+        let finalTitle =
+          originalTitle
+
+        let finalSummary =
+          originalSummary
+
         let communityAngle = ''
-        let finalCategory = initialCategory
-        let status: 'published' | 'draft' =
+
+        let finalCategory =
+          initialCategory
+
+        let status:
+          | 'published'
+          | 'draft' =
           'draft'
-        let importMethod = 'rss'
+
+        let importMethod =
+          'rss'
 
         if (canUseAi) {
           console.log(
@@ -459,29 +1243,62 @@ export async function runNewsImport(): Promise<
 
           const writtenArticle =
             await writeArticle({
-              title: originalTitle,
-              summary: originalSummary,
-              sourceName: source.name,
-              sourceUrl: item.link,
-              category: initialCategory,
+              title:
+                originalTitle,
+              summary:
+                originalSummary,
+              sourceName:
+                source.name,
+              sourceUrl:
+                item.link,
+              category:
+                initialCategory,
             })
 
           finalTitle =
-            cleanText(writtenArticle.title) ||
+            cleanText(
+              writtenArticle.title,
+            ) ||
             originalTitle
 
           finalSummary =
-            cleanText(writtenArticle.summary) ||
+            firstFiveSentences(
+              removeFeedNoise(
+                cleanText(
+                  writtenArticle.summary,
+                ),
+              ),
+            ) ||
             originalSummary
 
-          communityAngle = cleanText(
-            writtenArticle.communityAngle,
-          )
+          communityAngle =
+            cleanText(
+              writtenArticle.communityAngle,
+            )
 
           /*
-           * Run the quality filter again after
-           * processing, so unwanted material
-           * cannot re-enter through rewritten text.
+           * Do not allow AI rewriting to turn a clean
+           * article into navigation/feed rubbish.
+           */
+          if (
+            containsFeedJunk(
+              finalTitle,
+            ) ||
+            containsFeedJunk(
+              finalSummary,
+            )
+          ) {
+            skipped += 1
+
+            console.log(
+              `Feed junk after processing skipped: ${finalTitle}`,
+            )
+
+            continue
+          }
+
+          /*
+           * Run the quality filter again after rewriting.
            */
           const finalAllowed =
             shouldImportStory(
@@ -491,11 +1308,34 @@ export async function runNewsImport(): Promise<
               source.feed_url,
             )
 
-          if (!finalAllowed) {
+          if (
+            !finalAllowed
+          ) {
             skipped += 1
 
             console.log(
               `Final quality filter skipped: ${finalTitle}`,
+            )
+
+            continue
+          }
+
+          /*
+           * AI may change the headline, so run duplicate
+           * protection again using the finished title.
+           */
+          if (
+            finalTitle !==
+              originalTitle &&
+            isNearDuplicateTitle(
+              finalTitle,
+              knownTitles,
+            )
+          ) {
+            skipped += 1
+
+            console.log(
+              `Final near-duplicate skipped: ${finalTitle}`,
             )
 
             continue
@@ -512,48 +1352,107 @@ export async function runNewsImport(): Promise<
             protectRegionalCategory(
               classifiedFinalCategory,
               source,
+              finalTitle,
+              finalSummary,
             )
 
-          status = 'published'
-          importMethod = 'rss-ai'
+          status =
+            'published'
+
+          importMethod =
+            'rss-ai'
+
           aiArticlesCreated += 1
 
           console.log(
             `Article prepared: ${finalTitle}`,
           )
-        } else if (canAutoPublish) {
+        } else if (
+          canAutoPublish
+        ) {
           /*
            * Official stories beyond the five-article
-           * processing limit remain drafts for review.
+           * AI processing limit remain drafts.
            */
           status = 'draft'
           importMethod = 'rss'
         }
 
-        await dbRequest('stories', {
-          method: 'POST',
-          body: {
-            slug: uniqueSlug(
-              finalTitle,
-              item.link,
-            ),
-            title: finalTitle,
-            category: finalCategory,
-            summary: finalSummary,
-            source_name: source.name,
-            source_url: item.link,
-            image_url:
-              imageUrl || DEFAULT_NEWS_IMAGE,
-            community_angle: communityAngle,
-            status,
-            published_at:
-              status === 'published'
-                ? item.publishedAt
-                : null,
-            import_method: importMethod,
-            source_id: source.id,
+        /*
+         * Final safety check immediately before insert.
+         */
+        if (
+          isNearDuplicateTitle(
+            finalTitle,
+            knownTitles,
+          )
+        ) {
+          skipped += 1
+
+          console.log(
+            `Pre-insert duplicate skipped: ${finalTitle}`,
+          )
+
+          continue
+        }
+
+        await dbRequest(
+          'stories',
+          {
+            method: 'POST',
+            body: {
+              slug:
+                uniqueSlug(
+                  finalTitle,
+                  item.link,
+                ),
+
+              title:
+                finalTitle,
+
+              category:
+                finalCategory,
+
+              summary:
+                finalSummary,
+
+              source_name:
+                source.name,
+
+              source_url:
+                item.link,
+
+              image_url:
+                imageUrl ||
+                DEFAULT_NEWS_IMAGE,
+
+              community_angle:
+                communityAngle,
+
+              status,
+
+              published_at:
+                status ===
+                'published'
+                  ? item.publishedAt
+                  : null,
+
+              import_method:
+                importMethod,
+
+              source_id:
+                source.id,
+            },
           },
-        })
+        )
+
+        /*
+         * Add immediately so another feed in this same
+         * cron run cannot import the same story again.
+         */
+        knownTitles.push(
+          finalTitle,
+        )
 
         imported += 1
 
@@ -574,17 +1473,32 @@ export async function runNewsImport(): Promise<
     }
 
     try {
-      await dbRequest('import_logs', {
-        method: 'POST',
-        body: {
-          source_id: source.id,
-          source_name: source.name,
-          imported_count: imported,
-          skipped_count: skipped,
-          error_message: errorMessage,
-          duration_ms: Date.now() - started,
+      await dbRequest(
+        'import_logs',
+        {
+          method: 'POST',
+          body: {
+            source_id:
+              source.id,
+
+            source_name:
+              source.name,
+
+            imported_count:
+              imported,
+
+            skipped_count:
+              skipped,
+
+            error_message:
+              errorMessage,
+
+            duration_ms:
+              Date.now() -
+              started,
+          },
         },
-      })
+      )
     } catch (logError) {
       console.error(
         `Import log failed for ${source.name}:`,
@@ -593,10 +1507,12 @@ export async function runNewsImport(): Promise<
     }
 
     results.push({
-      source: source.name,
+      source:
+        source.name,
       imported,
       skipped,
-      error: errorMessage,
+      error:
+        errorMessage,
     })
   }
 
