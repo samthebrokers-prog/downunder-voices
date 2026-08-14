@@ -1,27 +1,269 @@
+import type { CategorySlug } from '@/lib/news-data'
+import { normaliseCategorySlug } from '@/lib/news-data'
+
+export type FeedItem = {
+  title: string
+  link: string
+  description: string
+  publishedAt: string
+  imageUrl?: string
+}
+
+function decodeEntities(value: string): string {
+  return value
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+}
+
+function stripHtml(value: string): string {
+  return decodeEntities(value)
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function tag(
+  block: string,
+  names: string[],
+): string {
+  for (const name of names) {
+    const escaped = name.replace(':', '\\:')
+
+    const match = block.match(
+      new RegExp(
+        `<${escaped}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${escaped}>`,
+        'i',
+      ),
+    )
+
+    if (match?.[1]) {
+      return decodeEntities(match[1]).trim()
+    }
+  }
+
+  return ''
+}
+
+function attribute(
+  block: string,
+  tagName: string,
+  attributeName: string,
+): string {
+  const escaped = tagName.replace(':', '\\:')
+
+  const match = block.match(
+    new RegExp(
+      `<${escaped}\\b[^>]*\\b${attributeName}=["']([^"']+)["'][^>]*>`,
+      'i',
+    ),
+  )
+
+  return match?.[1]
+    ? decodeEntities(match[1]).trim()
+    : ''
+}
+
+function linkFromBlock(block: string): string {
+  const direct = tag(block, ['link'])
+
+  if (direct && !direct.includes('<')) {
+    return direct
+  }
+
+  return (
+    attribute(block, 'link', 'href') ||
+    tag(block, ['guid'])
+  )
+}
+
+function validImageUrl(
+  value?: string,
+): string | undefined {
+  if (!value) return undefined
+
+  const cleaned = decodeEntities(value).trim()
+
+  if (!/^https?:\/\//i.test(cleaned)) {
+    return undefined
+  }
+
+  if (
+    /\.(mp3|mp4|m4a|wav|ogg|pdf)(\?|$)/i.test(
+      cleaned,
+    )
+  ) {
+    return undefined
+  }
+
+  return cleaned
+}
+
+function imageFromBlock(
+  block: string,
+): string | undefined {
+  const rawDescription = tag(block, [
+    'content:encoded',
+    'description',
+    'summary',
+    'content',
+  ])
+
+  const enclosureType = attribute(
+    block,
+    'enclosure',
+    'type',
+  )
+
+  const enclosureUrl = /image\//i.test(
+    enclosureType,
+  )
+    ? attribute(block, 'enclosure', 'url')
+    : ''
+
+  const candidates = [
+    attribute(block, 'media:content', 'url'),
+    attribute(block, 'media:thumbnail', 'url'),
+    enclosureUrl,
+    tag(block, ['image']),
+    block.match(
+      /<image[^>]*>[\s\S]*?<url[^>]*>([\s\S]*?)<\/url>/i,
+    )?.[1],
+    rawDescription.match(
+      /<img[^>]+(?:src|data-src|data-original)=["']([^"']+)["']/i,
+    )?.[1],
+    block.match(
+      /<img[^>]+(?:src|data-src|data-original)=["']([^"']+)["']/i,
+    )?.[1],
+  ]
+
+  for (const candidate of candidates) {
+    const imageUrl = validImageUrl(candidate)
+
+    if (imageUrl) {
+      return imageUrl
+    }
+  }
+
+  return undefined
+}
+
+export async function fetchFeed(
+  feedUrl: string,
+): Promise<FeedItem[]> {
+  const response = await fetch(feedUrl, {
+    headers: {
+      'User-Agent':
+        'DownunderVoicesBot/1.0 (+https://downundervoices.com)',
+    },
+    signal: AbortSignal.timeout(15000),
+    cache: 'no-store',
+  })
+
+  if (!response.ok) {
+    throw new Error(
+      `Feed returned ${response.status}`,
+    )
+  }
+
+  const xml = await response.text()
+
+  const rssBlocks = [
+    ...xml.matchAll(
+      /<item\b[^>]*>([\s\S]*?)<\/item>/gi,
+    ),
+  ].map((match) => match[1])
+
+  const atomBlocks = [
+    ...xml.matchAll(
+      /<entry\b[^>]*>([\s\S]*?)<\/entry>/gi,
+    ),
+  ].map((match) => match[1])
+
+  const blocks = rssBlocks.length
+    ? rssBlocks
+    : atomBlocks
+
+  return blocks
+    .map((block) => {
+      const title = stripHtml(
+        tag(block, ['title']),
+      )
+
+      const link = linkFromBlock(block)
+
+      const rawDescription = tag(block, [
+        'content:encoded',
+        'description',
+        'summary',
+        'content',
+      ])
+
+      const description = stripHtml(
+        rawDescription,
+      ).slice(0, 1200)
+
+      const rawDate = stripHtml(
+        tag(block, [
+          'pubDate',
+          'published',
+          'updated',
+          'dc:date',
+        ]),
+      )
+
+      const parsedDate = rawDate
+        ? new Date(rawDate)
+        : new Date()
+
+      return {
+        title,
+        link,
+        description,
+        publishedAt: Number.isNaN(
+          parsedDate.valueOf(),
+        )
+          ? new Date().toISOString()
+          : parsedDate.toISOString(),
+        imageUrl: imageFromBlock(block),
+      }
+    })
+    .filter(
+      (item) => item.title && item.link,
+    )
+}
+
 export function classifyCategory(
   title: string,
   description: string,
   fallback: CategorySlug,
 ): CategorySlug {
   const cleanTitle = title.toLowerCase()
+
   const haystack =
     `${title} ${description}`.toLowerCase()
 
   /*
    * SPORTS
    *
-   * Strong sports terms can classify from the headline.
-   * Weak words such as team/player/coach/match are NOT enough
-   * on their own because they occur in ordinary news stories.
+   * Strong sports terms can classify a story immediately.
+   * Generic words such as team, player, coach and match
+   * require additional sporting context.
    */
   const strongSportsRule =
-    /\b(rugby|cricket|football|soccer|netball|nrl|afl|olympic|olympics|tennis|golf|basketball|super rugby|all blacks|wallabies|matildas|socceroos|black caps|warriors|a-league|premier league|world cup|grand slam)\b/i
+    /\b(rugby|cricket|football|soccer|netball|nrl|afl|olympic|olympics|tennis|golf|basketball|super rugby|all blacks|wallabies|matildas|socceroos|black caps|a-league|premier league|world cup|grand slam)\b/i
 
   const sportsContextRule =
     /\b(sport|sports|sporting|championship|tournament|final|semi-final|quarter-final|match|game|fixture|season|coach|player|athlete|team|club|league)\b/i
 
   const sportsCompetitionRule =
-    /\b(won|wins|win|lost|loss|defeat|beat|beats|score|scored|goal|goals|try|tries|points|medal|medals|title|champion|champions|competition|stadium)\b/i
+    /\b(won|wins|win|lost|loss|defeat|beat|beats|score|scored|goal|goals|try|tries|points|medal|medals|champion|champions|competition|stadium)\b/i
 
   const tradeLogisticsRule =
     /\b(customs|customs clearance|border force|biosecurity|mpi|daff|freight|freight forwarding|freight forwarder|shipping|shipping line|container|containers|cargo|air cargo|sea freight|air freight|logistics|supply chain|port|ports|terminal|import|imports|importing|export|exports|exporting|tariff|customs duty|trade agreement|bill of lading|demurrage|detention|warehouse|warehousing)\b/i
@@ -30,7 +272,7 @@ export function classifyCategory(
     /\b(small business|small businesses|medium business|medium businesses|medium-sized business|sme|smes|startup|start-up|startups|start-ups|entrepreneur|entrepreneurs|entrepreneurship|family business|family businesses|sole trader|sole traders|business owner|business owners|business grant|business grants|local business|local businesses|microbusiness|microenterprise|micro-enterprise|e-commerce business|small retailer|small retailers|small employer|small employers)\b/i
 
   const corporateFinanceRule =
-    /\b(earnings call|earnings report|quarterly earnings|q1 earnings|q2 earnings|q3 earnings|q4 earnings|share price|stock price|stock market|shares|shareholder|shareholders|dividend|dividends|market cap|market capitalisation|market capitalization|nasdaq|nyse|asx|asx 200|s&p 500|dow jones|analyst rating|price target|insider sold|insider sale|board member sold|equity stake|securities filing|sec filing|audit|auditor|kpmg|pwc|deloitte|ey)\b/i
+    /\b(earnings call|earnings report|quarterly earnings|q1 earnings|q2 earnings|q3 earnings|q4 earnings|share price|stock price|stock market|shares|shareholder|shareholders|dividend|dividends|market cap|market capitalisation|market capitalization|nasdaq|nyse|asx|asx 200|s&p 500|dow jones|analyst rating|price target|insider sold|insider sale|board member sold|equity stake|securities filing|sec filing|audit|auditor|kpmg|pwc|deloitte)\b/i
 
   const socialIssuesRule =
     /\b(cost of living|housing affordability|housing crisis|homeless|homelessness|rental crisis|rent crisis|mental health|domestic violence|family violence|disability|disabled|aged care|elderly|seniors|poverty|financial hardship|welfare|social services|healthcare|health care|hospital|hospitals|education|international student|international students|university fees|tuition fees|student housing|child protection|youth crime|food insecurity|community safety|consumer rights)\b/i
@@ -48,7 +290,7 @@ export function classifyCategory(
     /\b(united states|usa|u\.s\.|america|american|united kingdom|britain|british|england|europe|european union|china|chinese|india|indian|japan|japanese|canada|canadian|germany|france|ukraine|russia|russian|middle east|israel|gaza|iran|iraq|africa|south africa|asia|fiji|fijian|tonga|tongan|samoa|samoan|vanuatu|solomon islands|papua new guinea|cook islands|niue|kiribati|tuvalu|new caledonia|pacific islands)\b/i
 
   /*
-   * HEADLINE CLASSIFICATION
+   * HEADLINE FIRST
    */
 
   if (strongSportsRule.test(cleanTitle)) {
@@ -78,9 +320,6 @@ export function classifyCategory(
     return 'community'
   }
 
-  /*
-   * Corporate/business stories before geographic classification.
-   */
   if (corporateFinanceRule.test(cleanTitle)) {
     if (australiaRule.test(haystack)) {
       return 'australia'
@@ -106,10 +345,9 @@ export function classifyCategory(
   }
 
   /*
-   * DESCRIPTION + HEADLINE CLASSIFICATION
-   *
-   * Sports now requires stronger evidence.
+   * HEADLINE + DESCRIPTION
    */
+
   if (
     strongSportsRule.test(haystack) ||
     (
@@ -161,17 +399,16 @@ export function classifyCategory(
   }
 
   /*
-   * IMPORTANT:
-   * Never trust a Sports fallback unless the article
-   * itself contains genuine sports evidence.
+   * Never trust a Sports feed fallback unless the actual
+   * story contains genuine sporting evidence.
    */
   if (fallback === 'sports') {
     return 'world'
   }
 
   /*
-   * Generic Business feeds must not automatically become
-   * Small Business. Only explicit SME stories qualify.
+   * Generic Business feeds should not automatically become
+   * Small Business.
    */
   if (
     fallback === 'business' ||
