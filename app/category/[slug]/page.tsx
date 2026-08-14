@@ -52,6 +52,7 @@ function removeDuplicateStories<
   T extends {
     id?: string | number | null
     title?: string | null
+    summary?: string | null
     sourceUrl?: string | null
   },
 >(stories: T[]) {
@@ -111,6 +112,37 @@ function removeDuplicateStories<
   })
 }
 
+function isRealSportsStory(
+  title?: string | null,
+  summary?: string | null,
+) {
+  const text =
+    `${title ?? ''} ${summary ?? ''}`
+      .toLowerCase()
+
+  const strongSportsRule =
+    /\b(rugby|cricket|football|soccer|netball|nrl|afl|olympic|olympics|tennis|golf|basketball|super rugby|all blacks|wallabies|matildas|socceroos|black caps|a-league|premier league|world cup|grand slam)\b/i
+
+  const sportsContextRule =
+    /\b(sport|sports|sporting|championship|tournament|final|semi-final|quarter-final|match|game|fixture|season|coach|player|athlete|team|club|league)\b/i
+
+  const sportsCompetitionRule =
+    /\b(won|wins|win|lost|loss|defeat|beat|beats|score|scored|goal|goals|try|tries|points|medal|medals|champion|champions|competition|stadium)\b/i
+
+  if (strongSportsRule.test(text)) {
+    return true
+  }
+
+  if (
+    sportsContextRule.test(text) &&
+    sportsCompetitionRule.test(text)
+  ) {
+    return true
+  }
+
+  return false
+}
+
 export default async function CategoryPage({
   params,
 }: {
@@ -130,8 +162,18 @@ export default async function CategoryPage({
       60,
     )
 
+  const filteredStories =
+    category.slug === 'sports'
+      ? rawStories.filter((story) =>
+          isRealSportsStory(
+            story.title,
+            story.summary,
+          ),
+        )
+      : rawStories
+
   const stories =
-    removeDuplicateStories(rawStories)
+    removeDuplicateStories(filteredStories)
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
