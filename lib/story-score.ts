@@ -88,6 +88,7 @@ const CATEGORY_BASE_SCORE: Record<CategorySlug, number> = {
   'small-business': 65,
   community: 55,
   sports: 60,
+  entertainment: 72,
 
   // Legacy compatibility
   politics: 65,
