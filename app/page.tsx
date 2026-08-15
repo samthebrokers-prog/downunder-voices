@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Clock3, Globe2 } from 'lucide-react'
 
 import { BreakingNewsTicker } from '@/components/breaking-news-ticker'
 import { SetupBanner } from '@/components/setup-banner'
@@ -10,9 +10,14 @@ import {
   normaliseCategorySlug,
   type CategorySlug,
 } from '@/lib/news-data'
+import { sortStoriesByScore } from '@/lib/story-score'
 import { getPublishedStories } from '@/lib/story-service'
 
 export const revalidate = 300
+
+type HomeStory = Awaited<
+  ReturnType<typeof getPublishedStories>
+>[number]
 
 const homepageCategories: CategorySlug[] = [
   'australia',
@@ -50,9 +55,97 @@ const topics = [
   'World Affairs',
 ]
 
+const ninetySecondInterestTerms = [
+  'breaking',
+  'exclusive',
+  'scandal',
+  'corruption',
+  'corrupt',
+  'resign',
+  'resignation',
+  'minister',
+  'prime minister',
+  'president',
+  'election',
+  'court',
+  'trial',
+  'charged',
+  'arrested',
+  'police',
+  'crime',
+  'murder',
+  'fraud',
+  'scam',
+  'celebrity',
+  'actor',
+  'actress',
+  'singer',
+  'movie',
+  'film',
+  'music',
+  'hollywood',
+  'viral',
+  'social media',
+  'earthquake',
+  'tsunami',
+  'cyclone',
+  'flood',
+  'wildfire',
+  'war',
+  'attack',
+  'trump',
+  'housing',
+  'mortgage',
+  'interest rate',
+  'cost of living',
+  'petrol',
+  'jobs',
+  'artificial intelligence',
+  'ai',
+  'rugby',
+  'cricket',
+  'football',
+  'tennis',
+]
+
+const duplicateStopWords = new Set([
+  'a',
+  'an',
+  'and',
+  'are',
+  'as',
+  'at',
+  'be',
+  'by',
+  'for',
+  'from',
+  'has',
+  'have',
+  'in',
+  'into',
+  'is',
+  'it',
+  'of',
+  'on',
+  'or',
+  'says',
+  'the',
+  'their',
+  'this',
+  'to',
+  'with',
+  'after',
+  'amid',
+  'over',
+  'new',
+  'live',
+  'latest',
+  'breaking',
+])
+
 export default async function HomePage() {
   const configured = isDatabaseConfigured()
-  const allStories = await getPublishedStories(120)
+  const allStories = await getPublishedStories(160)
 
   const visibleStories = allStories.filter(
     (story) =>
@@ -60,12 +153,18 @@ export default async function HomePage() {
       'editorial-view',
   )
 
-  const mixed = mixedLatest(visibleStories)
+  const rankedStories =
+    rankForHomepage(visibleStories)
+
+  const mixed = mixedLatest(rankedStories)
   const [lead, ...others] = mixed
 
-  const breakingStories = mixed.slice(0, 6)
+  const breakingStories = rankedStories.slice(0, 6)
   const topStories = others.slice(0, 4)
   const latest = others.slice(4, 10)
+
+  const ninetySeconds =
+    buildNinetySecondBriefing(visibleStories)
 
   const opinionStories = allStories
     .filter(
@@ -116,6 +215,108 @@ export default async function HomePage() {
             </section>
           )}
 
+          {ninetySeconds.length > 0 && (
+            <section className="mt-12 overflow-hidden rounded-xl border border-slate-800 bg-slate-950 text-white shadow-lg">
+              <div className="border-b border-slate-800 px-6 py-6 sm:px-8">
+                <div className="flex flex-wrap items-start justify-between gap-5">
+                  <div>
+                    <div className="flex items-center gap-2 text-red-400">
+                      <Globe2 className="size-5" />
+
+                      <p className="text-xs font-black uppercase tracking-[0.2em]">
+                        Fast Global Briefing
+                      </p>
+                    </div>
+
+                    <h2 className="mt-2 font-serif text-3xl font-black sm:text-4xl">
+                      Around the World in 90 Seconds
+                    </h2>
+
+                    <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+                      The stories people are talking about —
+                      3 from Australia, 2 from New Zealand and
+                      5 from around the world.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-xs font-bold text-slate-200">
+                    <Clock3 className="size-4 text-red-400" />
+                    90 sec read
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2">
+                {ninetySeconds.map((item, index) => (
+                  <Link
+                    key={item.story.id}
+                    href={`/story/${
+                      item.story.slug ?? item.story.id
+                    }`}
+                    className="group border-b border-slate-800 px-6 py-5 transition hover:bg-slate-900 md:px-8 md:[&:nth-child(odd)]:border-r"
+                  >
+                    <div className="flex gap-4">
+                      <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-red-700 text-xs font-black text-white">
+                        {index + 1}
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-xs font-black uppercase tracking-[0.14em] text-red-400">
+                            {item.label}
+                          </span>
+
+                          <span className="text-xs text-slate-500">
+                            •
+                          </span>
+
+                          <span className="text-xs font-semibold text-slate-400">
+                            {formatBriefingDate(
+                              item.story.publishedAt ??
+                                item.story.date,
+                            )}
+                          </span>
+                        </div>
+
+                        <h3 className="mt-2 font-serif text-lg font-bold leading-snug text-white transition group-hover:text-red-300">
+                          {item.story.title}
+                        </h3>
+
+                        {item.story.summary && (
+                          <p className="mt-2 text-sm leading-6 text-slate-400">
+                            {shortSummary(
+                              item.story.summary,
+                              155,
+                            )}
+                          </p>
+                        )}
+
+                        <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-red-400">
+                          Read story
+                          <ArrowRight className="size-3.5" />
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900 px-6 py-4 text-xs sm:px-8">
+                <span className="font-semibold text-slate-400">
+                  Australia 3 · New Zealand 2 · World 5
+                </span>
+
+                <Link
+                  href="/latest"
+                  className="inline-flex items-center gap-1 font-bold text-red-400 hover:text-red-300"
+                >
+                  More news
+                  <ArrowRight className="size-3.5" />
+                </Link>
+              </div>
+            </section>
+          )}
+
           {topStories.length > 0 && (
             <section className="mt-12">
               <SectionHeading
@@ -126,7 +327,10 @@ export default async function HomePage() {
 
               <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
                 {topStories.map((story) => (
-                  <StoryCard key={story.id} story={story} />
+                  <StoryCard
+                    key={story.id}
+                    story={story}
+                  />
                 ))}
               </div>
             </section>
@@ -142,7 +346,10 @@ export default async function HomePage() {
 
               <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
                 {latest.map((story) => (
-                  <StoryCard key={story.id} story={story} />
+                  <StoryCard
+                    key={story.id}
+                    story={story}
+                  />
                 ))}
               </div>
             </section>
@@ -150,7 +357,8 @@ export default async function HomePage() {
 
           {homepageCategories.map((categorySlug) => {
             const category = categories.find(
-              (item) => item.slug === categorySlug,
+              (item) =>
+                item.slug === categorySlug,
             )
 
             if (!category) return null
@@ -158,8 +366,9 @@ export default async function HomePage() {
             const sectionStories = visibleStories
               .filter(
                 (story) =>
-                  normaliseCategorySlug(story.category) ===
-                  categorySlug,
+                  normaliseCategorySlug(
+                    story.category,
+                  ) === categorySlug,
               )
               .slice(0, 4)
 
@@ -202,7 +411,10 @@ export default async function HomePage() {
 
               <div className="grid gap-7 md:grid-cols-3">
                 {opinionStories.map((story) => (
-                  <StoryCard key={story.id} story={story} />
+                  <StoryCard
+                    key={story.id}
+                    story={story}
+                  />
                 ))}
               </div>
             </section>
@@ -352,13 +564,11 @@ function SectionHeading({
 }
 
 function mixedLatest(
-  stories: Awaited<
-    ReturnType<typeof getPublishedStories>
-  >,
-) {
+  stories: HomeStory[],
+): HomeStory[] {
   const seen = new Set<string>()
-  const primary = []
-  const rest = []
+  const primary: HomeStory[] = []
+  const rest: HomeStory[] = []
 
   for (const story of stories) {
     const category = normaliseCategorySlug(
@@ -374,4 +584,246 @@ function mixedLatest(
   }
 
   return [...primary, ...rest]
+}
+
+function rankForHomepage(
+  stories: HomeStory[],
+): HomeStory[] {
+  return sortStoriesByScore(stories)
+}
+
+type BriefingItem = {
+  story: HomeStory
+  label: 'Australia' | 'New Zealand' | 'World'
+}
+
+function buildNinetySecondBriefing(
+  stories: HomeStory[],
+): BriefingItem[] {
+  const ranked = [...stories].sort(
+    (a, b) =>
+      ninetySecondScore(b) -
+      ninetySecondScore(a),
+  )
+
+  const selected: HomeStory[] = []
+
+  const australia = selectBriefingStories(
+    ranked.filter(
+      (story) =>
+        normaliseCategorySlug(
+          story.category,
+        ) === 'australia',
+    ),
+    3,
+    selected,
+  )
+
+  selected.push(...australia)
+
+  const newZealand = selectBriefingStories(
+    ranked.filter(
+      (story) =>
+        normaliseCategorySlug(
+          story.category,
+        ) === 'new-zealand',
+    ),
+    2,
+    selected,
+  )
+
+  selected.push(...newZealand)
+
+  const world = selectBriefingStories(
+    ranked.filter(
+      (story) =>
+        normaliseCategorySlug(
+          story.category,
+        ) === 'world',
+    ),
+    5,
+    selected,
+  )
+
+  return [
+    ...australia.map((story) => ({
+      story,
+      label: 'Australia' as const,
+    })),
+    ...newZealand.map((story) => ({
+      story,
+      label: 'New Zealand' as const,
+    })),
+    ...world.map((story) => ({
+      story,
+      label: 'World' as const,
+    })),
+  ]
+}
+
+function selectBriefingStories(
+  candidates: HomeStory[],
+  limit: number,
+  alreadySelected: HomeStory[],
+): HomeStory[] {
+  const picked: HomeStory[] = []
+
+  for (const candidate of candidates) {
+    const comparisonPool = [
+      ...alreadySelected,
+      ...picked,
+    ]
+
+    const duplicate = comparisonPool.some(
+      (existing) =>
+        likelySameStory(
+          existing.title,
+          candidate.title,
+        ),
+    )
+
+    if (duplicate) {
+      continue
+    }
+
+    picked.push(candidate)
+
+    if (picked.length >= limit) {
+      break
+    }
+  }
+
+  return picked
+}
+
+function ninetySecondScore(
+  story: HomeStory,
+): number {
+  const text =
+    `${story.title} ${story.summary}`.toLowerCase()
+
+  let score = 0
+
+  for (const term of ninetySecondInterestTerms) {
+    if (text.includes(term)) {
+      score += 8
+    }
+  }
+
+  const published =
+    story.publishedAt
+      ? new Date(story.publishedAt)
+      : new Date(`${story.date}T00:00:00`)
+
+  if (!Number.isNaN(published.valueOf())) {
+    const ageHours =
+      (Date.now() - published.getTime()) /
+      (1000 * 60 * 60)
+
+    if (ageHours <= 3) {
+      score += 35
+    } else if (ageHours <= 8) {
+      score += 28
+    } else if (ageHours <= 16) {
+      score += 20
+    } else if (ageHours <= 24) {
+      score += 14
+    } else if (ageHours <= 48) {
+      score += 6
+    }
+  }
+
+  if (story.title.length >= 30) {
+    score += 3
+  }
+
+  if (story.summary.length >= 80) {
+    score += 2
+  }
+
+  return score
+}
+
+function likelySameStory(
+  firstTitle: string,
+  secondTitle: string,
+): boolean {
+  const first = headlineTokens(firstTitle)
+  const second = headlineTokens(secondTitle)
+
+  if (!first.length || !second.length) {
+    return false
+  }
+
+  const firstSet = new Set(first)
+  const secondSet = new Set(second)
+
+  let shared = 0
+
+  for (const word of firstSet) {
+    if (secondSet.has(word)) {
+      shared += 1
+    }
+  }
+
+  const smallerSize = Math.min(
+    firstSet.size,
+    secondSet.size,
+  )
+
+  if (!smallerSize) {
+    return false
+  }
+
+  return shared / smallerSize >= 0.62
+}
+
+function headlineTokens(
+  title: string,
+): string[] {
+  return title
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .split(/\s+/)
+    .map((word) => word.trim())
+    .filter(
+      (word) =>
+        word.length >= 3 &&
+        !duplicateStopWords.has(word),
+    )
+}
+
+function shortSummary(
+  value: string,
+  maximumLength: number,
+): string {
+  const cleaned = value
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  if (cleaned.length <= maximumLength) {
+    return cleaned
+  }
+
+  return `${cleaned
+    .slice(0, maximumLength - 1)
+    .trim()}…`
+}
+
+function formatBriefingDate(
+  value: string,
+): string {
+  const date = new Date(value)
+
+  if (Number.isNaN(date.valueOf())) {
+    return 'Latest'
+  }
+
+  return date.toLocaleDateString(
+    'en-NZ',
+    {
+      day: 'numeric',
+      month: 'short',
+    },
+  )
 }
