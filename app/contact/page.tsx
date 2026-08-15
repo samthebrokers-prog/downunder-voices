@@ -79,10 +79,10 @@ export default function ContactPage() {
             </p>
 
             <a
-              href="mailto:editor@downundervoices.com"
+              href="mailto:admin@downundervoices.com"
               className="mt-2 inline-block break-all text-sm font-semibold hover:underline"
             >
-              editor@downundervoices.com
+              admin@downundervoices.com
             </a>
 
             <p className="mt-3 text-xs leading-5 text-slate-400">
