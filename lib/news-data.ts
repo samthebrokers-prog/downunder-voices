@@ -11,6 +11,7 @@ export type CategorySlug =
   | 'trade-logistics'
   | 'community'
   | 'sports'
+  | 'entertainment'
   | 'editorial-view'
 
   // Legacy categories kept temporarily for compatibility
@@ -93,6 +94,12 @@ export const categories: Category[] = [
     name: 'Sports',
     description:
       'Professional, grassroots and community sport across Australia and New Zealand.',
+  },
+  {
+    slug: 'entertainment',
+    name: 'Entertainment',
+    description:
+      'Entertainment, celebrities, film, television, music, culture and the stories people are talking about.',
   },
   {
     slug: 'editorial-view',
@@ -397,7 +404,8 @@ export function getStoriesByCategory(
   return stories
     .filter(
       (story) =>
-        normaliseCategorySlug(story.category) === normalised,
+        normaliseCategorySlug(story.category) ===
+        normalised,
     )
     .sort((a, b) => b.date.localeCompare(a.date))
 }
