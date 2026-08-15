@@ -83,6 +83,14 @@ const categoryDesigns: Record<
     symbol: '◆',
   },
 
+  entertainment: {
+    label: 'ENTERTAINMENT',
+    startColour: '#7c2d12',
+    endColour: '#be123c',
+    accentColour: '#fbbf24',
+    symbol: '★',
+  },
+
   'editorial-view': {
     label: 'OPINION',
     startColour: '#292524',
@@ -509,6 +517,8 @@ export async function getStoriesByCategory(
     community: ['community'],
 
     sports: ['sports'],
+
+    entertainment: ['entertainment'],
 
     'editorial-view': [
       'editorial-view',
