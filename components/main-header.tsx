@@ -25,10 +25,6 @@ const navLinks = [
           : category.name,
     })),
   {
-    href: '/submit',
-    label: 'Submit Your Story',
-  },
-  {
     href: '/about',
     label: 'About',
   },
@@ -293,6 +289,7 @@ export function MainHeader() {
               'New Zealand',
               'World',
               'Business',
+              'Entertainment',
               'Artificial intelligence',
             ].map((topic) => (
               <Link
