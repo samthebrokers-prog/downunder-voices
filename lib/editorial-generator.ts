@@ -1,6 +1,10 @@
 import { dbRequest, isDatabaseConfigured } from '@/lib/db'
 import { uniqueSlug } from '@/lib/slug'
-import type { CategorySlug } from '@/lib/news-data'
+import {
+  normaliseCategorySlug,
+  type CategorySlug,
+} from '@/lib/news-data'
+import { scoreStory } from '@/lib/story-score'
 
 type EditorialRegion =
   | 'Australia'
@@ -39,12 +43,20 @@ const DEFAULT_EDITORIAL_IMAGE =
   'https://www.downundervoices.com/images/downunder-default-news.jpg'
 
 const ALLOWED_CATEGORIES: CategorySlug[] = [
-  'politics',
   'australia',
-  'nz-pacific',
-  'business',
+  'new-zealand',
+  'world',
+  'social-issues',
+  'small-business',
+  'trade-logistics',
   'community',
   'sports',
+  'entertainment',
+
+  // Legacy compatibility while older stories remain in the database.
+  'politics',
+  'business',
+  'nz-pacific',
 ]
 
 const AUSTRALIA_PATTERN =
@@ -61,6 +73,28 @@ const MEDIUM_PRIORITY_PATTERN =
 
 const LOW_PRIORITY_PATTERN =
   /\b(celebrity|entertainment|reality tv|masterchef|royal family|fashion|beauty|recipe|travel tips|holiday tips|horoscope|lottery|gaming review|movie review|television review)\b/i
+
+
+const PUBLIC_ANGER_PATTERN =
+  /\b(protest|protests|protester|protesters|demonstration|demonstrations|march|rally|public anger|outrage|backlash|boycott|petition|strike|walkout|student protest|mass protest|civil unrest)\b/i
+
+const ACCOUNTABILITY_PATTERN =
+  /\b(corruption|corrupt|misconduct|abuse of power|conflict of interest|cover-up|cover up|inquiry|investigation|ombudsman|watchdog|royal commission|audit|resign|resignation|sacked|fired|breach|ethics|accountability|public money|taxpayer money|political donation|lobbying)\b/i
+
+const MIGRANT_LABOUR_PATTERN =
+  /\b(migrant worker|migrant workers|asian worker|asian workers|temporary migrant|temporary migrants|visa worker|visa workers|foreign worker|foreign workers|underpaid|underpayment|wage theft|unpaid wages|exploitation|exploited|labour exploitation|labor exploitation|unsafe working conditions|modern slavery|forced labour|forced labor|human trafficking|employer abuse|workplace abuse)\b/i
+
+const SERIOUS_CRIME_JUSTICE_PATTERN =
+  /\b(murder|homicide|assault|sexual assault|domestic violence|family violence|fraud|scam|charged|arrested|court|trial|sentenced|sentence|prison|police investigation|criminal investigation|justice system|victim|victims)\b/i
+
+const GOVERNMENT_DECISION_PATTERN =
+  /\b(government decision|government policy|policy decision|ministerial decision|budget cut|funding cut|law change|legislation|bill before parliament|regulation|immigration policy|deportation policy|visa policy|tax change|welfare cut|health funding|education funding|housing policy)\b/i
+
+const ENTERTAINMENT_PUBLIC_INTEREST_PATTERN =
+  /\b(celebrity|actor|actress|singer|musician|film|movie|television|tv|entertainment|influencer|social media)\b/i
+
+const SPORT_PUBLIC_INTEREST_PATTERN =
+  /\b(racism|discrimination|abuse|exploitation|corruption|governance|public money|gender equality|safety|indigenous rights|human rights|betting scandal|match fixing|doping|sexual assault|violence)\b/i
 
 function normaliseText(
   value: string,
@@ -106,8 +140,13 @@ function detectRegion(
   const text =
     storyText(story)
 
+  const normalisedCategory =
+    normaliseCategorySlug(
+      story.category,
+    )
+
   if (
-    story.category ===
+    normalisedCategory ===
       'australia' ||
     AUSTRALIA_PATTERN.test(text)
   ) {
@@ -115,14 +154,8 @@ function detectRegion(
   }
 
   if (
-    story.category ===
-      'nz-pacific' &&
-    NEW_ZEALAND_PATTERN.test(text)
-  ) {
-    return 'New Zealand'
-  }
-
-  if (
+    normalisedCategory ===
+      'new-zealand' ||
     NEW_ZEALAND_PATTERN.test(text)
   ) {
     return 'New Zealand'
@@ -138,10 +171,59 @@ function storyPriorityScore(
   const text =
     storyText(story)
 
-  let score = 0
+  const normalisedCategory =
+    normaliseCategorySlug(
+      story.category,
+    )
+
+  /*
+   * Start with the same reader-interest score used by the
+   * public site, then apply stricter Opinion/public-interest
+   * weighting below.
+   */
+  let score = Math.round(
+    scoreStory({
+      title: story.title,
+      summary: story.summary,
+      category: normalisedCategory,
+      sourceName: story.source_name,
+      publishedAt:
+        story.published_at ?? undefined,
+    }) / 4,
+  )
 
   if (
     HIGH_PRIORITY_PATTERN.test(text)
+  ) {
+    score += 12
+  }
+
+  if (
+    PUBLIC_ANGER_PATTERN.test(text)
+  ) {
+    score += 15
+  }
+
+  if (
+    ACCOUNTABILITY_PATTERN.test(text)
+  ) {
+    score += 18
+  }
+
+  if (
+    MIGRANT_LABOUR_PATTERN.test(text)
+  ) {
+    score += 20
+  }
+
+  if (
+    SERIOUS_CRIME_JUSTICE_PATTERN.test(text)
+  ) {
+    score += 10
+  }
+
+  if (
+    GOVERNMENT_DECISION_PATTERN.test(text)
   ) {
     score += 12
   }
@@ -152,12 +234,6 @@ function storyPriorityScore(
     score += 5
   }
 
-  if (
-    LOW_PRIORITY_PATTERN.test(text)
-  ) {
-    score -= 10
-  }
-
   const region =
     detectRegion(story)
 
@@ -165,37 +241,77 @@ function storyPriorityScore(
     region === 'Australia' ||
     region === 'New Zealand'
   ) {
-    score += 3
+    score += 6
   }
 
   if (
-    story.category === 'politics'
+    normalisedCategory ===
+      'social-issues'
+  ) {
+    score += 6
+  }
+
+  if (
+    normalisedCategory ===
+      'community'
   ) {
     score += 3
   }
 
   if (
-    story.category === 'business'
+    normalisedCategory ===
+      'small-business'
   ) {
     score += 2
   }
 
   if (
-    story.category === 'community'
+    normalisedCategory ===
+      'entertainment'
   ) {
-    score += 2
+    /*
+     * Entertainment is welcome on the news site, but an
+     * Opinion article should normally require a wider issue
+     * such as discrimination, exploitation, public policy,
+     * misconduct or another serious public-interest angle.
+     */
+    if (
+      ACCOUNTABILITY_PATTERN.test(text) ||
+      PUBLIC_ANGER_PATTERN.test(text) ||
+      HIGH_PRIORITY_PATTERN.test(text)
+    ) {
+      score += 3
+    } else {
+      score -= 14
+    }
   }
 
   if (
-    story.category === 'sports'
+    normalisedCategory === 'sports'
   ) {
-    score -= 4
+    if (
+      SPORT_PUBLIC_INTEREST_PATTERN.test(
+        text,
+      )
+    ) {
+      score += 4
+    } else {
+      score -= 8
+    }
+  }
+
+  if (
+    LOW_PRIORITY_PATTERN.test(text) &&
+    !ACCOUNTABILITY_PATTERN.test(text) &&
+    !PUBLIC_ANGER_PATTERN.test(text)
+  ) {
+    score -= 10
   }
 
   /*
-   * RecentStories arrives newest first.
-   * Give slightly greater weight to
-   * fresher material.
+   * RecentStories arrives newest first. Give slightly
+   * greater weight to fresher material without allowing
+   * freshness to overwhelm public-interest importance.
    */
   score += Math.max(
     0,
@@ -486,7 +602,7 @@ You are the senior opinion editor for Downunder Voices.
 
 Downunder Voices is an independent digital publication based in the Australia-New Zealand region with an international public-interest outlook.
 
-Your task is to identify the strongest burning issues from the supplied recent news material and prepare THREE ranked Opinion candidates.
+Your task is to identify the strongest burning issues from the supplied recent news material and prepare THREE ranked Opinion candidates. Prioritise stories that ordinary readers are likely to care about, discuss or debate, but never invent engagement figures or social-media reaction that is not supplied.
 
 Only the best TWO valid and non-duplicate candidates will normally be published.
 
@@ -518,9 +634,12 @@ Give strong priority to current public-interest issues involving:
 - discrimination against minorities
 - migrant communities
 - migrant worker exploitation
+- exploitation or underpayment of Asian and other migrant workers in Australia and New Zealand where supported by the supplied facts
 - temporary worker exploitation
+- visa-worker abuse
 - wage theft
 - underpayment
+- unpaid wages
 - unsafe working conditions
 - modern slavery
 - forced labour
@@ -546,9 +665,13 @@ Give strong priority to current public-interest issues involving:
 - social injustice
 - war and civilian suffering
 - humanitarian crises
-- corruption
+- corruption and credible corruption allegations
+- political misconduct and conflicts of interest
 - abuse of political or corporate power
 - failures of government accountability
+- controversial government decisions with serious public consequences
+- public protests, demonstrations and sustained public anger
+- misuse or questionable use of public money
 - significant crime and justice issues
 - major economic policies affecting ordinary households
 - major environmental or climate injustice
@@ -565,13 +688,14 @@ Do not simply choose three headlines about the same controversy.
 
 Prefer stories that:
 
-1. affect a large number of people;
+1. affect a large number of people or expose serious harm to a vulnerable group;
 2. involve serious human, economic or social consequences;
 3. raise questions of fairness, accountability or public policy;
 4. are current and timely;
-5. have enough factual material supplied to support a responsible Opinion article.
+5. have enough factual material supplied to support a responsible Opinion article;
+6. involve public protest, controversy, investigation, court action, institutional failure or another clear sign that the issue has become a significant public debate, when that is supported by the supplied material.
 
-Avoid trivial celebrity, entertainment or lifestyle stories when serious public-interest material is available.
+Avoid trivial celebrity, entertainment or lifestyle stories when serious public-interest material is available. Entertainment or sport may be selected when the supplied facts reveal a substantial issue involving discrimination, exploitation, misconduct, governance, public money, safety, rights or another serious public-interest concern.
 
 SPORT
 
@@ -856,21 +980,27 @@ Use World for other international issues.
 
 CATEGORY FIELD
 
-Use the most suitable available category from:
+Use the most suitable current category from:
 
-politics
 australia
-nz-pacific
-business
+new-zealand
+world
+social-issues
+small-business
+trade-logistics
 community
 sports
+entertainment
 
-For a World issue:
-
-- use politics for major international political or government matters;
-- use business for international economic, labour or corporate issues;
-- use community for humanitarian, discrimination, poverty, migration or social justice issues;
-- use sports only when the central issue genuinely concerns sport.
+Use australia when the central issue is Australian.
+Use new-zealand when the central issue is New Zealand.
+Use world for major international issues that do not fit a more specific topic category.
+Use social-issues for poverty, housing, discrimination, migration, labour exploitation, human rights, crime/justice or similar social-impact issues.
+Use small-business for issues centred on small firms, employment or entrepreneurship.
+Use trade-logistics only when customs, freight, ports, shipping, supply chains or international trade are central.
+Use community for community organisations, local action or humanitarian/community impact.
+Use sports only when sport is genuinely central and the story has a substantial public-interest dimension.
+Use entertainment only when entertainment is genuinely central and the story has a substantial public-interest dimension.
 
 Return exactly THREE ranked candidate objects.
 
@@ -945,12 +1075,15 @@ ${previousMaterial}
                               'string',
 
                             enum: [
-                              'politics',
                               'australia',
-                              'nz-pacific',
-                              'business',
+                              'new-zealand',
+                              'world',
+                              'social-issues',
+                              'small-business',
+                              'trade-logistics',
                               'community',
                               'sports',
+                              'entertainment',
                             ],
                           },
 
@@ -1120,11 +1253,13 @@ ${previousMaterial}
         }
 
         const category =
-          validCategory(
-            editorial.category,
+          normaliseCategorySlug(
+            validCategory(
+              editorial.category,
+            )
+              ? editorial.category
+              : sourceStory.category,
           )
-            ? editorial.category
-            : sourceStory.category
 
         const region:
           EditorialRegion =
