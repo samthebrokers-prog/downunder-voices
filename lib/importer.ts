@@ -3,6 +3,7 @@ import {
   isDatabaseConfigured,
 } from '@/lib/db'
 import { writeArticle } from '@/lib/ai-writer'
+import { publishStoryToFacebook } from '@/lib/facebook'
 import { shouldImportStory } from '@/lib/news-filter'
 import {
   classifyCategory,
@@ -1396,16 +1397,19 @@ export async function runNewsImport(): Promise<
           continue
         }
 
+        const storySlug =
+          uniqueSlug(
+            finalTitle,
+            item.link,
+          )
+
         await dbRequest(
           'stories',
           {
             method: 'POST',
             body: {
               slug:
-                uniqueSlug(
-                  finalTitle,
-                  item.link,
-                ),
+                storySlug,
 
               title:
                 finalTitle,
@@ -1445,6 +1449,34 @@ export async function runNewsImport(): Promise<
             },
           },
         )
+
+        /*
+         * Facebook is best-effort only.
+         *
+         * A Facebook outage, expired token, or API error
+         * must never stop the news importer after the story
+         * has already been published successfully on DV.
+         */
+        if (
+          status ===
+          'published'
+        ) {
+          try {
+            await publishStoryToFacebook({
+              title:
+                finalTitle,
+              slug:
+                storySlug,
+              summary:
+                finalSummary,
+            })
+          } catch (facebookError) {
+            console.error(
+              `Facebook publishing failed for ${finalTitle}:`,
+              facebookError,
+            )
+          }
+        }
 
         /*
          * Add immediately so another feed in this same
