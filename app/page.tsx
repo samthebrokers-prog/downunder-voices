@@ -61,6 +61,12 @@ const ninetySecondInterestTerms = [
   'scandal',
   'corruption',
   'corrupt',
+  'misconduct',
+  'protest',
+  'protests',
+  'demonstration',
+  'outrage',
+  'backlash',
   'resign',
   'resignation',
   'minister',
@@ -108,6 +114,56 @@ const ninetySecondInterestTerms = [
   'tennis',
 ]
 
+const ninetySecondStrongTerms = [
+  'breaking',
+  'scandal',
+  'corruption',
+  'misconduct',
+  'protest',
+  'protests',
+  'outrage',
+  'backlash',
+  'prime minister',
+  'president',
+  'election',
+  'court',
+  'trial',
+  'charged',
+  'arrested',
+  'police',
+  'murder',
+  'fraud',
+  'scam',
+  'celebrity',
+  'hollywood',
+  'viral',
+  'earthquake',
+  'tsunami',
+  'cyclone',
+  'wildfire',
+  'war',
+  'attack',
+  'housing crisis',
+  'mortgage',
+  'interest rate',
+  'cost of living',
+]
+
+const ninetySecondLowValueTerms = [
+  'earnings call',
+  'quarterly earnings',
+  'share price',
+  'stock price',
+  'analyst rating',
+  'price target',
+  'investor presentation',
+  'investor relations',
+  'corporate announcement',
+  'press release',
+  'sponsored',
+  'routine update',
+]
+
 const duplicateStopWords = new Set([
   'a',
   'an',
@@ -148,9 +204,7 @@ export default async function HomePage() {
   const allStories = await getPublishedStories(160)
 
   const visibleStories = allStories.filter(
-    (story) =>
-      normaliseCategorySlug(story.category) !==
-      'editorial-view',
+    (story) => !isEditorialStory(story),
   )
 
   const rankedStories =
@@ -167,11 +221,7 @@ export default async function HomePage() {
     buildNinetySecondBriefing(visibleStories)
 
   const opinionStories = allStories
-    .filter(
-      (story) =>
-        normaliseCategorySlug(story.category) ===
-        'editorial-view',
-    )
+    .filter((story) => isEditorialStory(story))
     .slice(0, 3)
 
   return (
@@ -519,8 +569,6 @@ export default async function HomePage() {
       </main>
     </>
   )
-}
-
 type SectionHeadingProps = {
   title: string
   description?: string
@@ -563,6 +611,32 @@ function SectionHeading({
   )
 }
 
+function isEditorialStory(
+  story: HomeStory,
+): boolean {
+  const category =
+    normaliseCategorySlug(
+      story.category,
+    )
+
+  if (category === 'editorial-view') {
+    return true
+  }
+
+  const author =
+    story.author
+      ?.trim()
+      .toLowerCase() ?? ''
+
+  return (
+    author ===
+      'downunder voices editorial' ||
+    author.includes(
+      'downunder voices editorial',
+    )
+  )
+}
+
 function mixedLatest(
   stories: HomeStory[],
 ): HomeStory[] {
@@ -600,65 +674,142 @@ type BriefingItem = {
 function buildNinetySecondBriefing(
   stories: HomeStory[],
 ): BriefingItem[] {
-  const ranked = [...stories].sort(
-    (a, b) =>
-      ninetySecondScore(b) -
-      ninetySecondScore(a),
-  )
+  const eligibleStories =
+    stories.filter(
+      (story) =>
+        !isEditorialStory(story),
+    )
+
+  const ranked =
+    [...eligibleStories].sort(
+      (a, b) =>
+        ninetySecondScore(b) -
+        ninetySecondScore(a),
+    )
 
   const selected: HomeStory[] = []
 
-  const australia = selectBriefingStories(
-    ranked.filter(
-      (story) =>
-        normaliseCategorySlug(
-          story.category,
-        ) === 'australia',
-    ),
-    3,
-    selected,
-  )
+  const australia =
+    selectRegionalBriefingStories(
+      ranked,
+      'australia',
+      3,
+      selected,
+    )
 
   selected.push(...australia)
 
-  const newZealand = selectBriefingStories(
-    ranked.filter(
-      (story) =>
-        normaliseCategorySlug(
-          story.category,
-        ) === 'new-zealand',
-    ),
-    2,
-    selected,
-  )
+  const newZealand =
+    selectRegionalBriefingStories(
+      ranked,
+      'new-zealand',
+      2,
+      selected,
+    )
 
   selected.push(...newZealand)
 
-  const world = selectBriefingStories(
-    ranked.filter(
-      (story) =>
-        normaliseCategorySlug(
-          story.category,
-        ) === 'world',
-    ),
-    5,
-    selected,
-  )
+  const world =
+    selectRegionalBriefingStories(
+      ranked,
+      'world',
+      5,
+      selected,
+    )
 
   return [
     ...australia.map((story) => ({
       story,
       label: 'Australia' as const,
     })),
+
     ...newZealand.map((story) => ({
       story,
       label: 'New Zealand' as const,
     })),
+
     ...world.map((story) => ({
       story,
       label: 'World' as const,
     })),
   ]
+}
+
+function selectRegionalBriefingStories(
+  rankedStories: HomeStory[],
+  categorySlug:
+    | 'australia'
+    | 'new-zealand'
+    | 'world',
+  limit: number,
+  alreadySelected: HomeStory[],
+): HomeStory[] {
+  const regionalStories =
+    rankedStories.filter(
+      (story) =>
+        normaliseCategorySlug(
+          story.category,
+        ) === categorySlug,
+    )
+
+  /*
+   * First pass:
+   * use stories published within the last 24 hours.
+   */
+  const freshStories =
+    regionalStories.filter(
+      (story) =>
+        storyAgeHours(story) <= 24,
+    )
+
+  const picked =
+    selectBriefingStories(
+      freshStories,
+      limit,
+      alreadySelected,
+    )
+
+  /*
+   * Emergency fallback:
+   * if a region does not have enough fresh material,
+   * use the best remaining story up to 48 hours old.
+   *
+   * This preserves the 3 AU + 2 NZ + 5 World format
+   * without allowing old material to outrank today's news.
+   */
+  if (picked.length < limit) {
+    const fallbackStories =
+      regionalStories.filter(
+        (story) => {
+          const age =
+            storyAgeHours(story)
+
+          return (
+            age > 24 &&
+            age <= 48 &&
+            !picked.some(
+              (pickedStory) =>
+                pickedStory.id ===
+                story.id,
+            )
+          )
+        },
+      )
+
+    const fallback =
+      selectBriefingStories(
+        fallbackStories,
+        limit - picked.length,
+        [
+          ...alreadySelected,
+          ...picked,
+        ],
+      )
+
+    picked.push(...fallback)
+  }
+
+  return picked
 }
 
 function selectBriefingStories(
@@ -669,18 +820,23 @@ function selectBriefingStories(
   const picked: HomeStory[] = []
 
   for (const candidate of candidates) {
+    if (isEditorialStory(candidate)) {
+      continue
+    }
+
     const comparisonPool = [
       ...alreadySelected,
       ...picked,
     ]
 
-    const duplicate = comparisonPool.some(
-      (existing) =>
-        likelySameStory(
-          existing.title,
-          candidate.title,
-        ),
-    )
+    const duplicate =
+      comparisonPool.some(
+        (existing) =>
+          likelySameStory(
+            existing.title,
+            candidate.title,
+          ),
+      )
 
     if (duplicate) {
       continue
@@ -696,41 +852,87 @@ function selectBriefingStories(
   return picked
 }
 
+function storyAgeHours(
+  story: HomeStory,
+): number {
+  const published =
+    story.publishedAt
+      ? new Date(story.publishedAt)
+      : new Date(
+          `${story.date}T00:00:00`,
+        )
+
+  if (
+    Number.isNaN(
+      published.valueOf(),
+    )
+  ) {
+    return Number.POSITIVE_INFINITY
+  }
+
+  return Math.max(
+    0,
+    (Date.now() -
+      published.getTime()) /
+      (1000 * 60 * 60),
+  )
+}
+
 function ninetySecondScore(
   story: HomeStory,
 ): number {
+  if (isEditorialStory(story)) {
+    return -10000
+  }
+
   const text =
     `${story.title} ${story.summary}`.toLowerCase()
 
   let score = 0
 
-  for (const term of ninetySecondInterestTerms) {
+  for (
+    const term of ninetySecondInterestTerms
+  ) {
+    if (text.includes(term)) {
+      score += 6
+    }
+  }
+
+  for (
+    const term of ninetySecondStrongTerms
+  ) {
     if (text.includes(term)) {
       score += 8
     }
   }
 
-  const published =
-    story.publishedAt
-      ? new Date(story.publishedAt)
-      : new Date(`${story.date}T00:00:00`)
-
-  if (!Number.isNaN(published.valueOf())) {
-    const ageHours =
-      (Date.now() - published.getTime()) /
-      (1000 * 60 * 60)
-
-    if (ageHours <= 3) {
-      score += 35
-    } else if (ageHours <= 8) {
-      score += 28
-    } else if (ageHours <= 16) {
-      score += 20
-    } else if (ageHours <= 24) {
-      score += 14
-    } else if (ageHours <= 48) {
-      score += 6
+  for (
+    const term of ninetySecondLowValueTerms
+  ) {
+    if (text.includes(term)) {
+      score -= 30
     }
+  }
+
+  const ageHours =
+    storyAgeHours(story)
+
+  if (ageHours <= 2) {
+    score += 45
+  } else if (ageHours <= 6) {
+    score += 38
+  } else if (ageHours <= 12) {
+    score += 30
+  } else if (ageHours <= 18) {
+    score += 22
+  } else if (ageHours <= 24) {
+    score += 15
+  } else if (ageHours <= 36) {
+    score -= 4
+  } else if (ageHours <= 48) {
+    score -= 10
+  } else {
+    score -= 100
   }
 
   if (story.title.length >= 30) {
@@ -748,15 +950,21 @@ function likelySameStory(
   firstTitle: string,
   secondTitle: string,
 ): boolean {
-  const first = headlineTokens(firstTitle)
-  const second = headlineTokens(secondTitle)
+  const first =
+    headlineTokens(firstTitle)
+
+  const second =
+    headlineTokens(secondTitle)
 
   if (!first.length || !second.length) {
     return false
   }
 
-  const firstSet = new Set(first)
-  const secondSet = new Set(second)
+  const firstSet =
+    new Set(first)
+
+  const secondSet =
+    new Set(second)
 
   let shared = 0
 
@@ -766,16 +974,20 @@ function likelySameStory(
     }
   }
 
-  const smallerSize = Math.min(
-    firstSet.size,
-    secondSet.size,
-  )
+  const smallerSize =
+    Math.min(
+      firstSet.size,
+      secondSet.size,
+    )
 
   if (!smallerSize) {
     return false
   }
 
-  return shared / smallerSize >= 0.62
+  return (
+    shared / smallerSize >=
+    0.62
+  )
 }
 
 function headlineTokens(
@@ -783,13 +995,20 @@ function headlineTokens(
 ): string[] {
   return title
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(
+      /[^\p{L}\p{N}\s]/gu,
+      ' ',
+    )
     .split(/\s+/)
-    .map((word) => word.trim())
+    .map(
+      (word) => word.trim(),
+    )
     .filter(
       (word) =>
         word.length >= 3 &&
-        !duplicateStopWords.has(word),
+        !duplicateStopWords.has(
+          word,
+        ),
     )
 }
 
@@ -797,25 +1016,37 @@ function shortSummary(
   value: string,
   maximumLength: number,
 ): string {
-  const cleaned = value
-    .replace(/\s+/g, ' ')
-    .trim()
+  const cleaned =
+    value
+      .replace(/\s+/g, ' ')
+      .trim()
 
-  if (cleaned.length <= maximumLength) {
+  if (
+    cleaned.length <=
+    maximumLength
+  ) {
     return cleaned
   }
 
   return `${cleaned
-    .slice(0, maximumLength - 1)
+    .slice(
+      0,
+      maximumLength - 1,
+    )
     .trim()}…`
 }
 
 function formatBriefingDate(
   value: string,
 ): string {
-  const date = new Date(value)
+  const date =
+    new Date(value)
 
-  if (Number.isNaN(date.valueOf())) {
+  if (
+    Number.isNaN(
+      date.valueOf(),
+    )
+  ) {
     return 'Latest'
   }
 
