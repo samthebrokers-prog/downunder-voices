@@ -709,6 +709,12 @@ function protectRegionalCategory(
   title: string,
   summary: string,
 ): CategorySlug {
+    if (
+    category ===
+      ('entertainment' as CategorySlug)
+  ) {
+    return category
+  }
   /*
    * Article content is stronger evidence than the feed's
    * default category. This prevents an overseas story
