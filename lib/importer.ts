@@ -1367,7 +1367,7 @@ export async function runNewsImport(): Promise<
             'published'
 
           importMethod =
-            'rss-ai'
+          'rss' 
 
           aiArticlesCreated += 1
 
