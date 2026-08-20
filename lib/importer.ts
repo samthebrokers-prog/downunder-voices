@@ -1433,7 +1433,6 @@ export async function runNewsImport(): Promise<
 
               image_url:
                 imageUrl || null,
-             DEFAULT_NEWS_IMAGE,
 
               community_angle:
                 communityAngle,
