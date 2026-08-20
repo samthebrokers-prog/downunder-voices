@@ -397,8 +397,8 @@ export default async function HomePage() {
           {opinionStories.length > 0 && (
             <section className="mt-16">
               <SectionHeading
-                title="Opinion"
-                description="Independent perspectives on the issues shaping our communities."
+                title="From the Editor"
+                description="Independent Downunder Voices commentary on poverty, migration, wages, discrimination and fairness."
                 href="/category/editorial-view"
                 linkText="View all"
               />
@@ -570,8 +570,13 @@ function isEditorialStory(
   const author =
     story.author?.trim().toLowerCase() ?? ''
 
-  return author.includes(
-    'downunder voices editorial',
+  return (
+    author.includes(
+      'downunder voices editorial',
+    ) ||
+    author.includes(
+      'from the editor',
+    )
   )
 }
 
