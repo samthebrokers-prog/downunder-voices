@@ -8,6 +8,7 @@ import {
   type CategorySlug,
 } from '@/lib/news-data'
 import { getStoriesByCategory } from '@/lib/story-service'
+import { fetchFeed } from '@/lib/rss'
 
 export const revalidate = 300
 
@@ -112,6 +113,99 @@ function removeDuplicateStories<
   })
 }
 
+type LiveEntertainmentItem = {
+  title: string
+  link: string
+  summary: string
+  publishedAt: string
+  imageUrl?: string
+  sourceName: string
+}
+
+const LIVE_ENTERTAINMENT_FEEDS = [
+  {
+    sourceName: '7NEWS Entertainment',
+    feedUrl:
+      'https://7news.com.au/entertainment/rss',
+  },
+  {
+    sourceName: 'BBC Entertainment & Arts',
+    feedUrl:
+      'https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml',
+  },
+  {
+    sourceName: 'The Guardian Culture',
+    feedUrl:
+      'https://www.theguardian.com/culture/rss',
+  },
+  {
+    sourceName: 'TMZ',
+    feedUrl:
+      'https://www.tmz.com/rss.xml',
+  },
+]
+
+async function getLiveEntertainmentItems():
+  Promise<LiveEntertainmentItem[]> {
+  const results =
+    await Promise.allSettled(
+      LIVE_ENTERTAINMENT_FEEDS.map(
+        async (source) => {
+          const items =
+            await fetchFeed(
+              source.feedUrl,
+            )
+
+          return items
+            .slice(0, 8)
+            .map((item) => ({
+              title: item.title,
+              link: item.link,
+              summary:
+                item.description,
+              publishedAt:
+                item.publishedAt,
+              imageUrl:
+                item.imageUrl,
+              sourceName:
+                source.sourceName,
+            }))
+        },
+      ),
+    )
+
+  const seenLinks = new Set<string>()
+
+  return results
+    .flatMap((result) =>
+      result.status === 'fulfilled'
+        ? result.value
+        : [],
+    )
+    .filter((item) => {
+      if (
+        !item.title ||
+        !item.link ||
+        seenLinks.has(item.link)
+      ) {
+        return false
+      }
+
+      seenLinks.add(item.link)
+      return true
+    })
+    .sort(
+      (a, b) =>
+        new Date(
+          b.publishedAt,
+        ).getTime() -
+        new Date(
+          a.publishedAt,
+        ).getTime(),
+    )
+    .slice(0, 18)
+}
+
 function isRealSportsStory(
   title?: string | null,
   summary?: string | null,
@@ -175,6 +269,17 @@ export default async function CategoryPage({
   const stories =
     removeDuplicateStories(filteredStories)
 
+  /*
+   * If the database importer has not populated Entertainment
+   * yet, display current source-linked RSS stories directly.
+   * The page therefore remains useful even between cron runs.
+   */
+  const liveEntertainmentItems =
+    category.slug === 'entertainment' &&
+    stories.length === 0
+      ? await getLiveEntertainmentItems()
+      : []
+
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <header className="mb-10 border-b-4 border-red-700 pb-6">
@@ -201,6 +306,72 @@ export default async function CategoryPage({
                   story={story}
                   imageIndex={index}
                 />
+              ),
+            )}
+          </div>
+        </section>
+      ) : liveEntertainmentItems.length > 0 ? (
+        <section>
+          <div className="mb-6 rounded-md border border-border bg-secondary/50 px-5 py-4 text-sm leading-6 text-muted-foreground">
+            Live headlines from verified Entertainment feeds.
+            Follow each source link for the complete original report.
+          </div>
+
+          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+            {liveEntertainmentItems.map(
+              (item) => (
+                <article
+                  key={item.link}
+                  className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card shadow-sm"
+                >
+                  {item.imageUrl ? (
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block aspect-[16/10] overflow-hidden bg-muted"
+                    >
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        className="h-full w-full object-cover"
+                      />
+                    </a>
+                  ) : (
+                    <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-red-950 to-rose-700 px-6 text-center font-serif text-2xl font-black text-white">
+                      Entertainment
+                    </div>
+                  )}
+
+                  <div className="flex flex-1 flex-col p-5">
+                    <p className="text-xs font-bold uppercase tracking-wider text-red-700">
+                      {item.sourceName}
+                    </p>
+                    <h2 className="mt-2 font-serif text-xl font-bold leading-snug">
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-red-700"
+                      >
+                        {item.title}
+                      </a>
+                    </h2>
+                    {item.summary && (
+                      <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">
+                        {item.summary}
+                      </p>
+                    )}
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-auto pt-5 text-sm font-black text-red-700 hover:underline"
+                    >
+                      Read original story ↗
+                    </a>
+                  </div>
+                </article>
               ),
             )}
           </div>
