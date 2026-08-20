@@ -66,7 +66,7 @@ const NEW_ZEALAND_PATTERN =
   /\b(new zealand|new zealander|new zealanders|aotearoa|auckland|wellington|christchurch|hamilton|tauranga|dunedin|queenstown|rotorua|palmerston north|napier|nelson|invercargill)\b/i
 
 const HIGH_PRIORITY_PATTERN =
-  /\b(hunger|famine|food insecurity|poverty|poor|inequality|inequity|racism|racist|racial|discrimination|discriminatory|migrant|migrants|migration|immigration|refugee|refugees|asylum|worker|workers|wage theft|underpayment|exploitation|exploited|modern slavery|forced labour|forced labor|human trafficking|housing|homeless|homelessness|rent|rental|cost of living|living costs|healthcare|health care|hospital|education|school|unemployment|employment|layoff|redundancy|war|conflict|civilian|civilians|humanitarian|human rights|corruption|corrupt|abuse of power|social injustice|injustice|indigenous|first nations|māori|maori|child poverty|domestic violence|family violence|crime|justice|prison|detention|deportation|deport|tax|taxation|inflation|food prices|grocery|groceries|energy prices|electricity prices|interest rates|mortgage|wages|salary|union|labour rights|labor rights)\b/i
+  /\b(hunger|famine|food insecurity|poverty|poor|inequality|inequity|racism|racist|racial|discrimination|discriminatory|migrant|migrants|migration|immigration|refugee|refugees|asylum|worker|workers|wage theft|underpayment|exploitation|exploited|modern slavery|forced labour|forced labor|human trafficking|housing|homeless|homelessness|rent|rental|cost of living|living costs|healthcare|health care|hospital|education|school|unemployment|employment|layoff|redundancy|war|conflict|civilian|civilians|humanitarian|human rights|corruption|corrupt|abuse of power|social injustice|injustice|indigenous|first nations|māori|maori|child poverty|domestic violence|family violence|crime|justice|prison|detention|deportation|deport|tax|taxation|inflation|food prices|grocery|groceries|energy prices|electricity prices|interest rates|mortgage|wages|salary|salary gap|pay gap|income gap|blue-collar|blue collar|white-collar|white collar|executive pay|charity|charities|charitable|non-profit|not-for-profit|chief executive salary|ceo salary|executive expenses|union|labour rights|labor rights)\b/i
 
 const MEDIUM_PRIORITY_PATTERN =
   /\b(government|minister|parliament|election|politics|political|policy|economy|economic|business|trade|infrastructure|transport|public service|public services|regulator|regulation|court|legal|law|climate|environment|disaster|flood|fire|drought|housing supply|health system|education system)\b/i
@@ -82,7 +82,7 @@ const ACCOUNTABILITY_PATTERN =
   /\b(corruption|corrupt|misconduct|abuse of power|conflict of interest|cover-up|cover up|inquiry|investigation|ombudsman|watchdog|royal commission|audit|resign|resignation|sacked|fired|breach|ethics|accountability|public money|taxpayer money|political donation|lobbying)\b/i
 
 const MIGRANT_LABOUR_PATTERN =
-  /\b(migrant worker|migrant workers|asian worker|asian workers|temporary migrant|temporary migrants|visa worker|visa workers|foreign worker|foreign workers|underpaid|underpayment|wage theft|unpaid wages|exploitation|exploited|labour exploitation|labor exploitation|unsafe working conditions|modern slavery|forced labour|forced labor|human trafficking|employer abuse|workplace abuse)\b/i
+  /\b(migrant worker|migrant workers|asian migrant|asian migrants|asian worker|asian workers|racial pay gap|workplace discrimination|promotion discrimination|temporary migrant|temporary migrants|visa worker|visa workers|foreign worker|foreign workers|underpaid|underpayment|wage theft|unpaid wages|exploitation|exploited|labour exploitation|labor exploitation|unsafe working conditions|modern slavery|forced labour|forced labor|human trafficking|employer abuse|workplace abuse)\b/i
 
 const SERIOUS_CRIME_JUSTICE_PATTERN =
   /\b(murder|homicide|assault|sexual assault|domestic violence|family violence|fraud|scam|charged|arrested|court|trial|sentenced|sentence|prison|police investigation|criminal investigation|justice system|victim|victims)\b/i
@@ -629,6 +629,12 @@ Give strong priority to current public-interest issues involving:
 - child poverty
 - economic inequality
 - the widening gap between rich and poor
+- wage and salary gaps between blue-collar workers, white-collar workers and senior executives
+- racial pay gaps and barriers to promotion
+- workplace discrimination affecting Asian migrants and other minority communities in Australia and New Zealand
+- charities, not-for-profits and community organisations receiving public donations or government funding
+- charity executive salaries, expenses and luxury lifestyles where the supplied facts provide reliable evidence
+- whether charity funding and donations are reaching the people they are intended to help
 - racism
 - racial discrimination
 - discrimination against minorities
@@ -680,7 +686,11 @@ These themes are priorities, not an exhaustive list.
 
 TOPIC SELECTION
 
-Choose THREE strong candidates ranked from most important to third most important.
+Choose THREE strong Social Issues candidates ranked from most important to third most important.
+
+All three candidates must have a genuine social-impact focus. Give first preference to Australia and New Zealand material involving poverty, migrants, wages, discrimination, inequality or charity accountability when reliable supplied facts support it.
+
+The system publishes at least the best TWO valid candidates each day.
 
 Candidates must concern THREE genuinely different underlying issues.
 
@@ -979,6 +989,8 @@ Use New Zealand when the central issue concerns New Zealand.
 Use World for other international issues.
 
 CATEGORY FIELD
+
+Set the category to social-issues for all three candidates.
 
 Use the most suitable current category from:
 
@@ -1291,7 +1303,7 @@ ${previousMaterial}
               1200,
             ),
 
-          category,
+          category: 'social-issues',
 
           sourceName:
             normaliseText(
@@ -1565,7 +1577,7 @@ async function publishEditorial(
           null,
 
         author:
-          'Downunder Voices Editorial',
+          'From the Editor — Downunder Voices',
 
         status:
           'published',
