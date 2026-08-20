@@ -1216,16 +1216,29 @@ export async function runNewsImport(): Promise<
                 source.default_category,
               )
 
+        /*
+         * Entertainment can arrive through a general news
+         * feed as well as a dedicated Entertainment feed.
+         * Treat classifier-confirmed Entertainment stories
+         * exactly like dedicated Entertainment-source items.
+         */
+        const isEntertainmentStory =
+          isEntertainmentSource ||
+          classifiedInitialCategory ===
+            ('entertainment' as CategorySlug)
+
         const initialCategory =
-          protectRegionalCategory(
-            classifiedInitialCategory,
-            source,
-            originalTitle,
-            originalSummary,
-          )
+          isEntertainmentStory
+            ? ('entertainment' as CategorySlug)
+            : protectRegionalCategory(
+                classifiedInitialCategory,
+                source,
+                originalTitle,
+                originalSummary,
+              )
 
         const canAutoPublish =
-          isEntertainmentSource ||
+          isEntertainmentStory ||
           (
             source.auto_publish &&
             source.source_type ===
@@ -1362,7 +1375,7 @@ export async function runNewsImport(): Promise<
           }
 
           const classifiedFinalCategory =
-            isEntertainmentSource
+            isEntertainmentStory
               ? ('entertainment' as CategorySlug)
               : classifyCategory(
                   finalTitle,
@@ -1390,7 +1403,7 @@ export async function runNewsImport(): Promise<
             `Article prepared: ${finalTitle}`,
           )
         } else if (
-          isEntertainmentSource
+          isEntertainmentStory
         ) {
           /*
            * Entertainment is a source-linked news section.
