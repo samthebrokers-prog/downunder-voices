@@ -5,6 +5,7 @@ import {
   type CategorySlug,
 } from '@/lib/news-data'
 import { scoreStory } from '@/lib/story-score'
+import { buildEditorialTopicBank } from '@/lib/editorial-topic-bank'
 
 type EditorialRegion =
   | 'Australia'
@@ -578,6 +579,9 @@ async function generateEditorialCandidates(
       previousEditorials,
     )
 
+  const topicBankMaterial =
+    buildEditorialTopicBank()
+
   const response =
     await fetch(
       'https://api.openai.com/v1/responses',
@@ -617,6 +621,18 @@ However, important world issues must also be covered.
 Do not force an Australian or New Zealand topic merely to satisfy geography when a much more important world issue deserves attention.
 
 Likewise, do not ignore a major Australian or New Zealand issue simply because an international story appears more dramatic.
+
+EDITORIAL TOPIC BANK
+
+The following 100 standing editorial angles reflect Downunder Voices' long-term Social Issues priorities:
+
+${topicBankMaterial}
+
+Use this bank as a selection lens, not as evidence and not as permission to manufacture a story.
+
+Select a bank angle only when the supplied recent news material contains enough current, reliable facts to support it. Adapt the final headline naturally to the current facts. Never copy a bank title mechanically when it does not accurately fit the source material.
+
+Across successive daily runs, vary the subjects and avoid repeatedly selecting the same part of the bank.
 
 BURNING ISSUES
 
