@@ -47,9 +47,8 @@ type StoryRegion =
   | 'world'
   | null
 
-const DEFAULT_NEWS_IMAGE =
-  'https://www.downundervoices.com/images/downunder-default-news.jpg'
 
+ 
 const MAX_AI_ARTICLES_PER_RUN = 5
 const MAX_ITEMS_PER_SOURCE = 20
 
@@ -1433,8 +1432,8 @@ export async function runNewsImport(): Promise<
                 item.link,
 
               image_url:
-                imageUrl ||
-                DEFAULT_NEWS_IMAGE,
+                imageUrl || null,
+             DEFAULT_NEWS_IMAGE,
 
               community_angle:
                 communityAngle,
