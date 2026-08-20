@@ -52,6 +52,87 @@ type StoryRegion =
 const MAX_AI_ARTICLES_PER_RUN = 5
 const MAX_ITEMS_PER_SOURCE = 20
 
+type EntertainmentSourceSeed = {
+  name: string
+  feed_url: string
+  site_url: string
+}
+
+const GLOBAL_ENTERTAINMENT_SOURCES:
+  EntertainmentSourceSeed[] = [
+    {
+      name: '7NEWS Entertainment',
+      feed_url:
+        'https://7news.com.au/entertainment/rss',
+      site_url:
+        'https://7news.com.au/entertainment',
+    },
+    {
+      name: 'BBC Entertainment & Arts',
+      feed_url:
+        'https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml',
+      site_url:
+        'https://www.bbc.com/news/entertainment_and_arts',
+    },
+    {
+      name: 'The Guardian Culture',
+      feed_url:
+        'https://www.theguardian.com/culture/rss',
+      site_url:
+        'https://www.theguardian.com/culture',
+    },
+    {
+      name: 'NPR Culture',
+      feed_url:
+        'https://feeds.npr.org/1008/rss.xml',
+      site_url:
+        'https://www.npr.org/sections/culture/',
+    },
+    {
+      name: 'Variety',
+      feed_url:
+        'https://variety.com/feed/',
+      site_url:
+        'https://variety.com/',
+    },
+    {
+      name: 'Rolling Stone',
+      feed_url:
+        'https://www.rollingstone.com/feed/',
+      site_url:
+        'https://www.rollingstone.com/',
+    },
+    {
+      name: 'People',
+      feed_url:
+        'https://people.com/feed/',
+      site_url:
+        'https://people.com/',
+    },
+    {
+      name: 'E! News',
+      feed_url:
+        'https://www.eonline.com/syndication/feeds/rssfeeds/topstories.xml',
+      site_url:
+        'https://www.eonline.com/news',
+    },
+    {
+      name: 'TMZ',
+      feed_url:
+        'https://www.tmz.com/rss.xml',
+      site_url:
+        'https://www.tmz.com/',
+    },
+    {
+      name: 'Entertainment Weekly',
+      feed_url:
+        'https://ew.com/feed/',
+      site_url:
+        'https://ew.com/',
+    },
+  ]
+
+
 /*
  * Reject normal RSS news older than 72 hours.
  */
@@ -945,6 +1026,81 @@ async function getRecentPublishedTitles(): Promise<
   }
 }
 
+async function ensureGlobalEntertainmentSources(): Promise<void> {
+  for (
+    const source of
+      GLOBAL_ENTERTAINMENT_SOURCES
+  ) {
+    try {
+      const existing =
+        await dbRequest<
+          Array<{ id: string }>
+        >('news_sources', {
+          query:
+            '?select=id' +
+            `&feed_url=eq.${encodeURIComponent(
+              source.feed_url,
+            )}` +
+            '&limit=1',
+        })
+
+      if (existing.length > 0) {
+        continue
+      }
+
+      /*
+       * Do not save a dead or blocked feed. A source is
+       * enrolled only after the importer can read at least
+       * one real RSS item from it.
+       */
+      const items =
+        await fetchFeed(
+          source.feed_url,
+        )
+
+      if (items.length === 0) {
+        throw new Error(
+          'Feed returned no stories',
+        )
+      }
+
+      await dbRequest(
+        'news_sources',
+        {
+          method: 'POST',
+          body: {
+            name: source.name,
+            feed_url:
+              source.feed_url,
+            site_url:
+              source.site_url,
+            default_category:
+              'entertainment',
+            source_type:
+              'commercial',
+            auto_publish: false,
+            active: true,
+          },
+        },
+      )
+
+      console.log(
+        `Entertainment source added: ${source.name}`,
+      )
+    } catch (error) {
+      /*
+       * One publisher blocking or changing its RSS feed
+       * must not prevent the remaining global sources from
+       * being enrolled or imported.
+       */
+      console.error(
+        `Entertainment source setup failed for ${source.name}:`,
+        error,
+      )
+    }
+  }
+}
+
 export async function runNewsImport(): Promise<
   ImportResult[]
 > {
@@ -955,6 +1111,8 @@ export async function runNewsImport(): Promise<
       'Database is not configured',
     )
   }
+
+  await ensureGlobalEntertainmentSources()
 
   const sources =
     await dbRequest<
