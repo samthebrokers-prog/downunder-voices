@@ -358,6 +358,56 @@ export default async function CategoryPage({
   const stories =
     removeDuplicateStories(filteredStories)
 
+  const freshEditorComments =
+    category.slug === 'social-issues'
+      ? stories
+          .filter((story) => {
+            const author =
+              story.author
+                ?.toLowerCase()
+                .trim() ?? ''
+
+            const publishedAt =
+              story.publishedAt ??
+              story.date
+
+            const publishedTime =
+              publishedAt
+                ? new Date(
+                    publishedAt,
+                  ).getTime()
+                : 0
+
+            return (
+              (
+                author.includes(
+                  'from the editor',
+                ) ||
+                author.includes(
+                  'downunder voices editorial',
+                )
+              ) &&
+              publishedTime > 0 &&
+              Date.now() -
+                publishedTime <=
+                24 * 60 * 60 * 1000
+            )
+          })
+          .slice(0, 2)
+      : []
+
+  const regularStories =
+    freshEditorComments.length > 0
+      ? stories.filter(
+          (story) =>
+            !freshEditorComments.some(
+              (editorial) =>
+                editorial.id ===
+                story.id,
+            ),
+        )
+      : stories
+
   /*
    * If the database importer has not populated Entertainment
    * yet, display current source-linked RSS stories directly.
@@ -386,19 +436,55 @@ export default async function CategoryPage({
       </header>
 
       {stories.length > 0 ? (
-        <section>
-          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {stories.map(
-              (story, index) => (
-                <StoryCard
-                  key={story.id}
-                  story={story}
-                  imageIndex={index}
-                />
-              ),
-            )}
-          </div>
-        </section>
+        <>
+          {freshEditorComments.length > 0 && (
+            <section className="mb-12 rounded-xl border-2 border-red-700 bg-red-50/60 p-5 dark:bg-red-950/20 sm:p-7">
+              <div className="mb-6 border-b border-red-200 pb-4 dark:border-red-900">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-red-700">
+                  From the Editor
+                </p>
+                <h2 className="mt-2 font-serif text-3xl font-black">
+                  Today’s Social Issues Comment
+                </h2>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+                  Independent Downunder Voices commentary,
+                  prominently featured for 24 hours.
+                </p>
+              </div>
+
+              <div className="grid gap-7 md:grid-cols-2">
+                {freshEditorComments.map(
+                  (story, index) => (
+                    <StoryCard
+                      key={story.id}
+                      story={story}
+                      imageIndex={index}
+                    />
+                  ),
+                )}
+              </div>
+            </section>
+          )}
+
+          {regularStories.length > 0 && (
+            <section>
+              <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+                {regularStories.map(
+                  (story, index) => (
+                    <StoryCard
+                      key={story.id}
+                      story={story}
+                      imageIndex={
+                        index +
+                        freshEditorComments.length
+                      }
+                    />
+                  ),
+                )}
+              </div>
+            </section>
+          )}
+        </>
       ) : liveEntertainmentItems.length > 0 ? (
         <section>
           <div className="mb-6 rounded-md border border-border bg-secondary/50 px-5 py-4 text-sm leading-6 text-muted-foreground">
