@@ -145,6 +145,80 @@ const LIVE_ENTERTAINMENT_FEEDS = [
   },
 ]
 
+function decodeDisplayText(value: string): string {
+  let decoded = value
+
+  for (let pass = 0; pass < 2; pass += 1) {
+    decoded = decoded
+      .replace(/&amp;/gi, '&')
+      .replace(/&quot;/gi, '"')
+      .replace(/&#39;|&apos;/gi, "'")
+      .replace(/&#(\d+);/g, (_, code) =>
+        String.fromCodePoint(Number(code)),
+      )
+      .replace(/&#x([0-9a-f]+);/gi, (_, code) =>
+        String.fromCodePoint(
+          Number.parseInt(code, 16),
+        ),
+      )
+  }
+
+  return decoded
+}
+
+function isClearlyNotEntertainment(
+  title: string,
+  summary: string,
+): boolean {
+  const text = `${title} ${summary}`.toLowerCase()
+
+  return /\b(senate|senator|congress|congressman|congresswoman|president|prime minister|election|politics|political|parliament|white house|amazon deal|shopping deal|discount code|activewear deal|finals experience|match tickets?|rugby|cricket|nrl|afl|nba|nfl)\b/i.test(
+    text,
+  )
+}
+
+async function getArticleImage(
+  link: string,
+): Promise<string | undefined> {
+  try {
+    const response = await fetch(link, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (compatible; DownunderVoicesBot/1.0)',
+      },
+      signal: AbortSignal.timeout(5000),
+      cache: 'no-store',
+    })
+
+    if (!response.ok) {
+      return undefined
+    }
+
+    const html = await response.text()
+    const metaPatterns = [
+      /<meta[^>]+(?:property|name)=["']og:image["'][^>]+content=["']([^"']+)["']/i,
+      /<meta[^>]+content=["']([^"']+)["'][^>]+(?:property|name)=["']og:image["']/i,
+      /<meta[^>]+(?:property|name)=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["']/i,
+      /<meta[^>]+content=["']([^"']+)["'][^>]+(?:property|name)=["']twitter:image(?::src)?["']/i,
+    ]
+
+    for (const pattern of metaPatterns) {
+      const candidate = html.match(pattern)?.[1]
+
+      if (candidate) {
+        return new URL(
+          candidate.replace(/&amp;/g, '&'),
+          link,
+        ).toString()
+      }
+    }
+  } catch {
+    // Keep the source-branded fallback if a publisher blocks access.
+  }
+
+  return undefined
+}
+
 async function getLiveEntertainmentItems():
   Promise<LiveEntertainmentItem[]> {
   const results =
@@ -156,20 +230,35 @@ async function getLiveEntertainmentItems():
               source.feedUrl,
             )
 
-          return items
-            .slice(0, 8)
-            .map((item) => ({
-              title: item.title,
-              link: item.link,
-              summary:
-                item.description,
-              publishedAt:
-                item.publishedAt,
-              imageUrl:
-                item.imageUrl,
-              sourceName:
-                source.sourceName,
-            }))
+          return Promise.all(
+            items
+              .slice(0, 10)
+              .filter(
+                (item) =>
+                  !isClearlyNotEntertainment(
+                    item.title,
+                    item.description,
+                  ),
+              )
+              .map(async (item) => ({
+                title: decodeDisplayText(
+                  item.title,
+                ),
+                link: item.link,
+                summary: decodeDisplayText(
+                  item.description,
+                ),
+                publishedAt:
+                  item.publishedAt,
+                imageUrl:
+                  item.imageUrl ||
+                  (await getArticleImage(
+                    item.link,
+                  )),
+                sourceName:
+                  source.sourceName,
+              })),
+          )
         },
       ),
     )
