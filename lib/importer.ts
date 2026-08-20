@@ -1198,12 +1198,23 @@ export async function runNewsImport(): Promise<
           continue
         }
 
+        /*
+         * Entertainment feeds must stay in Entertainment.
+         * Geographic words in celebrity, film or television
+         * stories must not move them into World/Australia/NZ.
+         */
+        const isEntertainmentSource =
+          source.default_category ===
+            ('entertainment' as CategorySlug)
+
         const classifiedInitialCategory =
-          classifyCategory(
-            originalTitle,
-            originalSummary,
-            source.default_category,
-          )
+          isEntertainmentSource
+            ? ('entertainment' as CategorySlug)
+            : classifyCategory(
+                originalTitle,
+                originalSummary,
+                source.default_category,
+              )
 
         const initialCategory =
           protectRegionalCategory(
@@ -1214,9 +1225,12 @@ export async function runNewsImport(): Promise<
           )
 
         const canAutoPublish =
-          source.auto_publish &&
-          source.source_type ===
-            'official'
+          isEntertainmentSource ||
+          (
+            source.auto_publish &&
+            source.source_type ===
+              'official'
+          )
 
         const canUseAi =
           canAutoPublish &&
@@ -1348,11 +1362,13 @@ export async function runNewsImport(): Promise<
           }
 
           const classifiedFinalCategory =
-            classifyCategory(
-              finalTitle,
-              finalSummary,
-              initialCategory,
-            )
+            isEntertainmentSource
+              ? ('entertainment' as CategorySlug)
+              : classifyCategory(
+                  finalTitle,
+                  finalSummary,
+                  initialCategory,
+                )
 
           finalCategory =
             protectRegionalCategory(
@@ -1374,10 +1390,20 @@ export async function runNewsImport(): Promise<
             `Article prepared: ${finalTitle}`,
           )
         } else if (
+          isEntertainmentSource
+        ) {
+          /*
+           * Entertainment is a source-linked news section.
+           * Publish clean RSS summaries even when the shared
+           * AI processing allowance has already been used.
+           */
+          status = 'published'
+          importMethod = 'rss'
+        } else if (
           canAutoPublish
         ) {
           /*
-           * Official stories beyond the five-article
+           * Other official stories beyond the five-article
            * AI processing limit remain drafts.
            */
           status = 'draft'
