@@ -280,6 +280,18 @@ export function classifyCategory(
   const communityRule =
     /\b(community group|community groups|volunteer|volunteers|charity|charitable|fundraiser|fundraising|local event|community event|neighbourhood|neighborhood|non-profit|not-for-profit|community centre|community center|cultural festival|community organisation|community organization)\b/i
 
+  /*
+   * ENTERTAINMENT
+   *
+   * Use recognisable arts and entertainment terms before
+   * geographic rules. Otherwise a film or music story that
+   * mentions Australia, New Zealand or another country is
+   * incorrectly moved into a regional news category.
+   */
+  const entertainmentRule =
+    /\b(entertainment|celebrity|celebrities|film|films|movie|movies|cinema|box office|actor|actors|actress|actresses|filmmaker|screenwriter|television|tv series|streaming|netflix|disney\+?|prime video|singer|singers|musician|musicians|band|album|albums|song|songs|concert|concerts|music festival|theatre|theater|broadway|oscars?|academy awards?|grammys?|emmys?)\b/i
+
+
   const australiaRule =
     /\b(australia|australian|new south wales|queensland|victoria|western australia|south australia|tasmania|northern territory|act government|sydney|melbourne|brisbane|perth|adelaide|canberra|darwin|hobart|gold coast|nsw|qld|wa government)\b/i
 
@@ -318,6 +330,10 @@ export function classifyCategory(
 
   if (communityRule.test(cleanTitle)) {
     return 'community'
+  }
+
+  if (entertainmentRule.test(cleanTitle)) {
+    return 'entertainment'
   }
 
   if (corporateFinanceRule.test(cleanTitle)) {
@@ -372,6 +388,10 @@ export function classifyCategory(
 
   if (communityRule.test(haystack)) {
     return 'community'
+  }
+
+  if (entertainmentRule.test(haystack)) {
+    return 'entertainment'
   }
 
   if (corporateFinanceRule.test(haystack)) {
