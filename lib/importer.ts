@@ -789,12 +789,25 @@ function protectRegionalCategory(
   title: string,
   summary: string,
 ): CategorySlug {
-    if (
-    category ===
-      ('entertainment' as CategorySlug)
-  ) {
+  /*
+   * Regional detection must only adjust regional sections.
+   * Topic sections such as Business, Community, Social Issues,
+   * Trade & Logistics, Sports and Entertainment must retain
+   * their topic category even when the story is clearly from
+   * Australia, New Zealand or overseas.
+   */
+  const regionalCategories =
+    new Set<CategorySlug>([
+      'australia',
+      'new-zealand',
+      'nz-pacific',
+      'world',
+    ])
+
+  if (!regionalCategories.has(category)) {
     return category
   }
+
   /*
    * Article content is stronger evidence than the feed's
    * default category. This prevents an overseas story
