@@ -22,6 +22,8 @@ type RecentStory = {
   image_url: string | null
   import_method: string | null
   published_at: string | null
+  created_at: string
+  status: 'draft' | 'published' | 'archived'
 }
 
 type GeneratedEditorial = {
@@ -70,7 +72,7 @@ const HIGH_PRIORITY_PATTERN =
   /\b(hunger|famine|food insecurity|poverty|poor|inequality|inequity|racism|racist|racial|discrimination|discriminatory|migrant|migrants|migration|immigration|refugee|refugees|asylum|worker|workers|wage theft|underpayment|exploitation|exploited|modern slavery|forced labour|forced labor|human trafficking|housing|homeless|homelessness|rent|rental|cost of living|living costs|healthcare|health care|hospital|education|school|unemployment|employment|layoff|redundancy|war|conflict|civilian|civilians|humanitarian|human rights|corruption|corrupt|abuse of power|social injustice|injustice|indigenous|first nations|māori|maori|child poverty|domestic violence|family violence|crime|justice|prison|detention|deportation|deport|tax|taxation|inflation|food prices|grocery|groceries|energy prices|electricity prices|interest rates|mortgage|wages|salary|salary gap|pay gap|income gap|blue-collar|blue collar|white-collar|white collar|executive pay|charity|charities|charitable|non-profit|not-for-profit|chief executive salary|ceo salary|executive expenses|union|labour rights|labor rights)\b/i
 
 const MEDIUM_PRIORITY_PATTERN =
-  /\b(government|minister|parliament|election|politics|political|policy|economy|economic|business|trade|infrastructure|transport|public service|public services|regulator|regulation|court|legal|law|climate|environment|disaster|flood|fire|drought|housing supply|health system|education system)\b/i
+  /\b(government|minister|parliament|election|politics|political|policy|economy|economic|infrastructure|transport|public service|public services|regulator|regulation|court|legal|law|climate|global warming|environment|animal welfare|factory farming|commercial farming|industrial fishing|commercial fishing|overfishing|bycatch|marine life|wildlife|deforestation|pollution|disaster|flood|fire|drought|housing supply|health system|education system)\b/i
 
 const LOW_PRIORITY_PATTERN =
   /\b(celebrity|entertainment|reality tv|masterchef|royal family|fashion|beauty|recipe|travel tips|holiday tips|horoscope|lottery|gaming review|movie review|television review)\b/i
@@ -697,6 +699,11 @@ Give strong priority to current public-interest issues involving:
 - significant crime and justice issues
 - major economic policies affecting ordinary households
 - major environmental or climate injustice
+- global warming and failures to reduce climate harm
+- environmental destruction, pollution and deforestation
+- animal welfare and cruelty in intensive commercial farming
+- industrial fishing, overfishing, bycatch and destruction of marine life
+- corporate or government conduct that harms wildlife and future generations
 
 These themes are priorities, not an exhaustive list.
 
@@ -1014,8 +1021,6 @@ australia
 new-zealand
 world
 social-issues
-small-business
-trade-logistics
 community
 sports
 entertainment
@@ -1024,8 +1029,6 @@ Use australia when the central issue is Australian.
 Use new-zealand when the central issue is New Zealand.
 Use world for major international issues that do not fit a more specific topic category.
 Use social-issues for poverty, housing, discrimination, migration, labour exploitation, human rights, crime/justice or similar social-impact issues.
-Use small-business for issues centred on small firms, employment or entrepreneurship.
-Use trade-logistics only when customs, freight, ports, shipping, supply chains or international trade are central.
 Use community for community organisations, local action or humanitarian/community impact.
 Use sports only when sport is genuinely central and the story has a substantial public-interest dimension.
 Use entertainment only when entertainment is genuinely central and the story has a substantial public-interest dimension.
@@ -1630,7 +1633,7 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
       'stories',
       {
         query:
-          '?select=id,title,summary,category,source_name,source_url,image_url,import_method,published_at&status=eq.published&order=published_at.desc&limit=160',
+          '?select=id,title,summary,category,source_name,source_url,image_url,import_method,published_at,created_at,status&status=neq.archived&order=created_at.desc&limit=240',
       },
     )
 
@@ -1639,7 +1642,8 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
       .filter(
         (story) =>
           story.import_method ===
-          'automated-editorial',
+            'automated-editorial' &&
+          story.status === 'published',
       )
       .slice(
         0,
@@ -1652,12 +1656,30 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
         (story) =>
           story.import_method !==
             'automated-editorial' &&
+          story.status !== 'archived' &&
           Boolean(
             story.title &&
             story.summary &&
             story.source_url,
           ),
       )
+
+  const startOfTodayUtc = new Date()
+  startOfTodayUtc.setUTCHours(0, 0, 0, 0)
+
+  const publishedToday = previousEditorials.filter((story) => {
+    const publishedAt = story.published_at
+      ? new Date(story.published_at).getTime()
+      : 0
+
+    return publishedAt >= startOfTodayUtc.getTime()
+  })
+
+  const remainingToday = Math.max(0, 2 - publishedToday.length)
+
+  if (remainingToday === 0) {
+    return { created: 0, titles: [] }
+  }
 
   if (
     newsStories.length < 4
@@ -1728,7 +1750,7 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
     index += 1
   ) {
     if (
-      createdTitles.length >= 2
+      createdTitles.length >= remainingToday
     ) {
       break
     }
