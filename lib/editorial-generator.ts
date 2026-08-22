@@ -6,6 +6,7 @@ import {
 } from '@/lib/news-data'
 import { scoreStory } from '@/lib/story-score'
 import { buildEditorialTopicBank } from '@/lib/editorial-topic-bank'
+import { publishStoryToFacebook } from '@/lib/facebook'
 
 type EditorialRegion =
   | 'Australia'
@@ -1560,6 +1561,12 @@ async function publishEditorial(
     )) ||
     DEFAULT_EDITORIAL_IMAGE
 
+  const storySlug =
+    uniqueSlug(
+      editorial.title,
+      `${editorial.sourceUrl}-${editorial.region}-${Date.now()}-${index}`,
+    )
+
   await dbRequest(
     'stories',
     {
@@ -1567,10 +1574,7 @@ async function publishEditorial(
 
       body: {
         slug:
-          uniqueSlug(
-            editorial.title,
-            `${editorial.sourceUrl}-${editorial.region}-${Date.now()}-${index}`,
-          ),
+          storySlug,
 
         title:
           editorial.title,
@@ -1615,6 +1619,24 @@ async function publishEditorial(
   console.log(
     `Published ${editorial.region} automated Opinion: ${editorial.title}`,
   )
+
+  const facebookResult =
+    await publishStoryToFacebook({
+      title: editorial.title,
+      slug: storySlug,
+      summary: editorial.summary,
+    })
+
+  if (!facebookResult.ok) {
+    console.error(
+      `Editorial published but Facebook delivery failed: ${editorial.title} — ${
+        facebookResult.error ||
+        (facebookResult.skipped
+          ? 'Facebook credentials are not configured.'
+          : 'Unknown Facebook error.')
+      }`,
+    )
+  }
 
   return true
 }
