@@ -450,6 +450,7 @@ export async function getPublishedStories(
           query:
             '?select=*' +
             '&status=eq.published' +
+            '&import_method=neq.rss' +
             '&order=published_at.desc.nullslast,created_at.desc' +
             `&limit=${limit}`,
         },
@@ -583,6 +584,7 @@ export async function getStoriesByCategory(
           query:
             '?select=*' +
             '&status=eq.published' +
+            '&import_method=neq.rss' +
             `&category=in.(${encodedCategories})` +
             '&order=published_at.desc.nullslast,created_at.desc' +
             `&limit=${limit}`,
@@ -629,6 +631,7 @@ export async function getStoryBySlug(
               slug,
             )}` +
             '&status=eq.published' +
+            '&import_method=neq.rss' +
             '&limit=1',
         },
       )

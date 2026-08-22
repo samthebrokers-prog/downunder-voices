@@ -1408,18 +1408,10 @@ export async function runNewsImport(): Promise<
                 originalSummary,
               )
 
-        const canAutoPublish =
-          isEntertainmentStory ||
-          (
-            source.auto_publish &&
-            source.source_type ===
-              'official'
-          )
+        /* Feeds are private research inputs, never public articles. */
+        const canAutoPublish = false
 
-        const canUseAi =
-          canAutoPublish &&
-          aiArticlesCreated <
-            MAX_AI_ARTICLES_PER_RUN
+        const canUseAi = false
 
         let finalTitle =
           originalTitle
@@ -1593,6 +1585,10 @@ export async function runNewsImport(): Promise<
           status = 'draft'
           importMethod = 'rss'
         }
+
+        // Permanent public-content boundary: RSS remains private research.
+        status = 'draft'
+        importMethod = 'rss'
 
         /*
          * Final safety check immediately before insert.
