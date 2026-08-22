@@ -25,14 +25,12 @@ export const revalidate = 300
 
 const siteUrl = 'https://www.downundervoices.com'
 
-const defaultSocialImage =
-  `${siteUrl}/downunder-default-og.png`
-
 function getSocialImageUrl(
   image: string | null | undefined,
+  slug: string,
 ): string {
   if (!image || image.startsWith('data:')) {
-    return defaultSocialImage
+    return `${siteUrl}/api/social-image/${encodeURIComponent(slug)}`
   }
 
   if (
@@ -169,7 +167,10 @@ export async function generateMetadata({
     )}.`
 
   const socialImage =
-    getSocialImageUrl(story.image)
+    getSocialImageUrl(
+      story.image,
+      story.slug ?? story.id,
+    )
 
   return {
     title: story.title,
