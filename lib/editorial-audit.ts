@@ -6,6 +6,7 @@ type AuditStory = {
   id: string
   title: string
   summary: string
+  image_url: string | null
   published_at: string | null
 }
 
@@ -42,7 +43,7 @@ function escapeHtml(value: string) {
 async function getTodayOriginals(startIso: string) {
   return dbRequest<AuditStory[]>('stories', {
     query:
-      '?select=id,title,summary,published_at' +
+      '?select=id,title,summary,image_url,published_at' +
       '&status=eq.published' +
       '&import_method=eq.automated-editorial' +
       `&published_at=gte.${encodeURIComponent(startIso)}` +
@@ -101,6 +102,7 @@ export async function runEditorialAudit(): Promise<EditorialAuditResult> {
   }
 
   const seenTitles = new Set<string>()
+  const seenImages = new Set<string>()
   for (const story of originals) {
     const title = normaliseTitle(story.title)
     if (seenTitles.has(title)) {
@@ -110,6 +112,14 @@ export async function runEditorialAudit(): Promise<EditorialAuditResult> {
 
     if (wordCount(story.summary) < 350) {
       problems.push(`Original article is too short: ${story.title}`)
+    }
+
+    const imageUrl = story.image_url?.trim()
+    if (imageUrl) {
+      if (seenImages.has(imageUrl)) {
+        problems.push(`Repeated original-article image: ${story.title}`)
+      }
+      seenImages.add(imageUrl)
     }
   }
 

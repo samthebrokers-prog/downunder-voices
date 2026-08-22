@@ -31,6 +31,9 @@ type CategoryDesign = {
   symbol: string
 }
 
+const SHARED_DEFAULT_NEWS_IMAGE =
+  'https://www.downundervoices.com/images/downunder-default-news.jpg'
+
 const categoryDesigns: Record<
   CategorySlug,
   CategoryDesign
@@ -404,12 +407,13 @@ function rowToStory(row: StoryRow): Story {
     summary: row.summary,
     sourceName: row.source_name,
     sourceUrl: row.source_url,
-    image:
-      row.image_url?.trim() ||
-      createFallbackImage(
-        category,
-        row.title,
-      ),
+    image: (() => {
+      const imageUrl = row.image_url?.trim()
+
+      return imageUrl && imageUrl !== SHARED_DEFAULT_NEWS_IMAGE
+        ? imageUrl
+        : createFallbackImage(category, row.title)
+    })(),
     communityAngle:
       row.community_angle || '',
     author: row.author || undefined,
@@ -577,6 +581,11 @@ export async function getStoriesByCategory(
         .map((value) => `"${value}"`)
         .join(',')
 
+    const publicationFilter =
+      normalisedCategory === 'social-issues'
+        ? '&import_method=eq.automated-editorial'
+        : '&import_method=neq.rss'
+
     const rows =
       await dbRequest<StoryRow[]>(
         'stories',
@@ -584,7 +593,7 @@ export async function getStoriesByCategory(
           query:
             '?select=*' +
             '&status=eq.published' +
-            '&import_method=neq.rss' +
+            publicationFilter +
             `&category=in.(${encodedCategories})` +
             '&order=published_at.desc.nullslast,created_at.desc' +
             `&limit=${limit}`,

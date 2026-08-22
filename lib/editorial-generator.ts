@@ -1589,7 +1589,9 @@ async function publishEditorial(
           editorial.sourceUrl,
 
         image_url:
-          imageUrl,
+          imageUrl === DEFAULT_EDITORIAL_IMAGE
+            ? null
+            : imageUrl,
 
         community_angle:
           editorial.communityAngle ||
