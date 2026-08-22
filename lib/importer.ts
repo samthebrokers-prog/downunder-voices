@@ -3,7 +3,6 @@ import {
   isDatabaseConfigured,
 } from '@/lib/db'
 import { writeArticle } from '@/lib/ai-writer'
-import { publishStoryToFacebook } from '@/lib/facebook'
 import { shouldImportStory } from '@/lib/news-filter'
 import {
   classifyCategory,
@@ -1646,10 +1645,7 @@ export async function runNewsImport(): Promise<
               status,
 
               published_at:
-                status ===
-                'published'
-                  ? item.publishedAt
-                  : null,
+                null,
 
               import_method:
                 importMethod,
@@ -1659,34 +1655,6 @@ export async function runNewsImport(): Promise<
             },
           },
         )
-
-        /*
-         * Facebook is best-effort only.
-         *
-         * A Facebook outage, expired token, or API error
-         * must never stop the news importer after the story
-         * has already been published successfully on DV.
-         */
-        if (
-          status ===
-          'published'
-        ) {
-          try {
-            await publishStoryToFacebook({
-              title:
-                finalTitle,
-              slug:
-                storySlug,
-              summary:
-                finalSummary,
-            })
-          } catch (facebookError) {
-            console.error(
-              `Facebook publishing failed for ${finalTitle}:`,
-              facebookError,
-            )
-          }
-        }
 
         /*
          * Add immediately so another feed in this same

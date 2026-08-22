@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { runEditorialGenerator } from '@/lib/editorial-generator'
 
+export const maxDuration = 300
+
 export async function GET(request: Request) {
   const auth = request.headers.get('authorization')
 
