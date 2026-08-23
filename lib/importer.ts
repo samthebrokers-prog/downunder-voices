@@ -3,6 +3,7 @@ import {
   isDatabaseConfigured,
 } from '@/lib/db'
 import { writeArticle } from '@/lib/ai-writer'
+import { publishStoryToFacebook } from '@/lib/facebook'
 import { shouldImportStory } from '@/lib/news-filter'
 import {
   classifyCategory,
@@ -26,6 +27,9 @@ export type ImportResult = {
   imported: number
   skipped: number
   error: string | null
+  facebookPublished: number
+  facebookFailed: number
+  facebookError: string | null
 }
 
 type ArticleMetadata = {
@@ -1156,6 +1160,9 @@ export async function runNewsImport(): Promise<
 
     let imported = 0
     let skipped = 0
+    let facebookPublished = 0
+    let facebookFailed = 0
+    let facebookError: string | null = null
 
     let errorMessage:
       | string
@@ -1407,10 +1414,18 @@ export async function runNewsImport(): Promise<
                 originalSummary,
               )
 
-        /* Feeds are private research inputs, never public articles. */
-        const canAutoPublish = false
+        const canAutoPublish =
+          isEntertainmentStory ||
+          (
+            source.auto_publish &&
+            source.source_type ===
+              'official'
+          )
 
-        const canUseAi = false
+        const canUseAi =
+          canAutoPublish &&
+          aiArticlesCreated <
+            MAX_AI_ARTICLES_PER_RUN
 
         let finalTitle =
           originalTitle
@@ -1585,10 +1600,6 @@ export async function runNewsImport(): Promise<
           importMethod = 'rss'
         }
 
-        // Permanent public-content boundary: RSS remains private research.
-        status = 'draft'
-        importMethod = 'rss'
-
         /*
          * Final safety check immediately before insert.
          */
@@ -1645,7 +1656,10 @@ export async function runNewsImport(): Promise<
               status,
 
               published_at:
-                null,
+                status ===
+                'published'
+                  ? item.publishedAt
+                  : null,
 
               import_method:
                 importMethod,
@@ -1655,6 +1669,34 @@ export async function runNewsImport(): Promise<
             },
           },
         )
+
+        if (
+          status ===
+          'published'
+        ) {
+          const facebookResult =
+            await publishStoryToFacebook({
+              title: finalTitle,
+              slug: storySlug,
+              summary: finalSummary,
+              imageUrl,
+            })
+
+          if (facebookResult.ok) {
+            facebookPublished += 1
+          } else {
+            facebookFailed += 1
+            facebookError =
+              facebookResult.error ||
+              (facebookResult.skipped
+                ? 'Facebook credentials are not configured.'
+                : 'Unknown Facebook error.')
+
+            console.error(
+              `Story published but Facebook delivery failed: ${finalTitle} — ${facebookError}`,
+            )
+          }
+        }
 
         /*
          * Add immediately so another feed in this same
@@ -1723,6 +1765,9 @@ export async function runNewsImport(): Promise<
       skipped,
       error:
         errorMessage,
+      facebookPublished,
+      facebookFailed,
+      facebookError,
     })
   }
 
