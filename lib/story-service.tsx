@@ -454,7 +454,6 @@ export async function getPublishedStories(
           query:
             '?select=*' +
             '&status=eq.published' +
-            '&import_method=neq.rss' +
             '&order=published_at.desc.nullslast,created_at.desc' +
             `&limit=${limit}`,
         },
@@ -584,7 +583,7 @@ export async function getStoriesByCategory(
     const publicationFilter =
       normalisedCategory === 'social-issues'
         ? '&import_method=eq.automated-editorial'
-        : '&import_method=neq.rss'
+        : ''
 
     const rows =
       await dbRequest<StoryRow[]>(
@@ -640,7 +639,6 @@ export async function getStoryBySlug(
               slug,
             )}` +
             '&status=eq.published' +
-            '&import_method=neq.rss' +
             '&limit=1',
         },
       )
