@@ -25,6 +25,10 @@ const navLinks = [
           : category.name,
     })),
   {
+    href: '/cartoon-of-the-day',
+    label: 'Cartoon of the Day',
+  },
+  {
     href: '/about',
     label: 'About',
   },
