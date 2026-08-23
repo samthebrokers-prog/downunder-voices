@@ -2,6 +2,7 @@ type FacebookPostInput = {
   title: string
   slug: string
   summary?: string
+  imageUrl?: string | null
 }
 
 type FacebookPostResult = {
@@ -19,6 +20,7 @@ export async function publishStoryToFacebook({
   title,
   slug,
   summary = '',
+  imageUrl,
 }: FacebookPostInput): Promise<FacebookPostResult> {
   const pageId =
     process.env.FACEBOOK_PAGE_ID
@@ -55,9 +57,16 @@ export async function publishStoryToFacebook({
   const storyUrl =
     `${SITE_URL.replace(/\/$/, '')}/story/${encodeURIComponent(slug)}`
 
+  const publicImageUrl =
+    imageUrl?.startsWith('http://') ||
+    imageUrl?.startsWith('https://')
+      ? imageUrl
+      : `${SITE_URL.replace(/\/$/, '')}/api/social-image/${encodeURIComponent(slug)}`
+
   const message = [
     cleanTitle,
     shortSummary,
+    `Read more: ${storyUrl}`,
   ]
     .filter(Boolean)
     .join('\n\n')
@@ -65,7 +74,7 @@ export async function publishStoryToFacebook({
   try {
     const response =
       await fetch(
-        `https://graph.facebook.com/v26.0/${pageId}/feed`,
+        `https://graph.facebook.com/v26.0/${pageId}/photos`,
         {
           method: 'POST',
 
@@ -77,7 +86,7 @@ export async function publishStoryToFacebook({
           body:
             new URLSearchParams({
               message,
-              link: storyUrl,
+              url: publicImageUrl,
               access_token:
                 accessToken,
             }),
