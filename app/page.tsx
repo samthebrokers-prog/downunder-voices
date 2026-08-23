@@ -231,7 +231,7 @@ export default async function HomePage() {
 
             <Link href="/cartoon-of-the-day" className="block">
               <img
-                src="/editorial-cartoons/2026-08-23-sydney-marathon.png"
+                src="/editorial-cartoons/2026-08-23-sydney-marathon.jpg"
                 alt="Downunder Voices Cartoon of the Day about the Sydney Marathon medal mistakenly depicting Munich's Allianz Arena"
                 className="h-auto w-full"
               />
