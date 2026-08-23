@@ -268,8 +268,8 @@ export function classifyCategory(
   const tradeLogisticsRule =
     /\b(customs|customs clearance|border force|biosecurity|mpi|daff|freight|freight forwarding|freight forwarder|shipping|shipping line|container|containers|cargo|air cargo|sea freight|air freight|logistics|supply chain|port|ports|terminal|import|imports|importing|export|exports|exporting|tariff|customs duty|trade agreement|bill of lading|demurrage|detention|warehouse|warehousing)\b/i
 
-  const smallBusinessRule =
-    /\b(small business|small businesses|medium business|medium businesses|medium-sized business|sme|smes|startup|start-up|startups|start-ups|entrepreneur|entrepreneurs|entrepreneurship|family business|family businesses|sole trader|sole traders|business owner|business owners|business grant|business grants|local business|local businesses|microbusiness|microenterprise|micro-enterprise|e-commerce business|small retailer|small retailers|small employer|small employers)\b/i
+  const businessRule =
+    /\b(business|businesses|company|companies|corporation|corporations|corporate|economy|economic|industry|industries|employer|employers|employment|jobs|workplace|bank|banks|banking|interest rate|interest rates|inflation|retail|retailer|manufacturing|manufacturer|merger|acquisition|insolvency|liquidation|revenue|profit|profits|investment|innovation|energy company|mining company|agriculture sector|technology sector|startup|start-up|entrepreneur|enterprise)\b/i
 
   const corporateFinanceRule =
     /\b(earnings call|earnings report|quarterly earnings|q1 earnings|q2 earnings|q3 earnings|q4 earnings|share price|stock price|stock market|shares|shareholder|shareholders|dividend|dividends|market cap|market capitalisation|market capitalization|nasdaq|nyse|asx|asx 200|s&p 500|dow jones|analyst rating|price target|insider sold|insider sale|board member sold|equity stake|securities filing|sec filing|audit|auditor|kpmg|pwc|deloitte)\b/i
@@ -320,7 +320,7 @@ export function classifyCategory(
     return 'trade-logistics'
   }
 
-  if (smallBusinessRule.test(cleanTitle)) {
+  if (businessRule.test(cleanTitle)) {
     return 'small-business'
   }
 
@@ -378,7 +378,7 @@ export function classifyCategory(
     return 'trade-logistics'
   }
 
-  if (smallBusinessRule.test(haystack)) {
+  if (businessRule.test(haystack)) {
     return 'small-business'
   }
 
@@ -427,14 +427,15 @@ export function classifyCategory(
   }
 
   /*
-   * Generic Business feeds should not automatically become
-   * Small Business.
+   * The public Business section uses the legacy
+   * small-business slug. Trust a configured Business feed
+   * after the stronger category rules above have run.
    */
   if (
     fallback === 'business' ||
     fallback === 'small-business'
   ) {
-    return 'world'
+    return 'small-business'
   }
 
   return normaliseCategorySlug(fallback)

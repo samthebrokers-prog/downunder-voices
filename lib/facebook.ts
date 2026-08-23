@@ -12,15 +12,71 @@ type FacebookPostResult = {
   error?: string
 }
 
+type FacebookApiData = {
+  id?: string
+  post_id?: string
+  error?: {
+    message?: string
+    type?: string
+    code?: number
+  }
+}
+
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ||
   'https://www.downundervoices.com'
+
+async function sendFacebookRequest(
+  endpoint: string,
+  body: URLSearchParams,
+): Promise<{
+  ok: boolean
+  id?: string
+  error?: string
+}> {
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type':
+          'application/x-www-form-urlencoded',
+      },
+      body,
+      cache: 'no-store',
+      signal: AbortSignal.timeout(20000),
+    })
+
+    const data =
+      (await response.json()) as FacebookApiData
+
+    if (!response.ok) {
+      return {
+        ok: false,
+        error:
+          data.error?.message ||
+          'Facebook returned HTTP ' + response.status,
+      }
+    }
+
+    return {
+      ok: true,
+      id: data.post_id || data.id,
+    }
+  } catch (error) {
+    return {
+      ok: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : 'Unknown Facebook publishing error',
+    }
+  }
+}
 
 export async function publishStoryToFacebook({
   title,
   slug,
   summary = '',
-  imageUrl,
 }: FacebookPostInput): Promise<FacebookPostResult> {
   const pageId =
     process.env.FACEBOOK_PAGE_ID
@@ -51,104 +107,90 @@ export async function publishStoryToFacebook({
 
   const shortSummary =
     cleanSummary.length > 220
-      ? `${cleanSummary.slice(0, 219).trim()}…`
+      ? cleanSummary.slice(0, 219).trim() + '…'
       : cleanSummary
 
-  const storyUrl =
-    `${SITE_URL.replace(/\/$/, '')}/story/${encodeURIComponent(slug)}`
+  const siteUrl =
+    SITE_URL.replace(/\/$/, '')
 
+  const storyUrl =
+    siteUrl + '/story/' + encodeURIComponent(slug)
+
+  /*
+   * Always give Meta an image served by Downunder Voices itself.
+   * Remote publisher images can reject Meta's crawler or expire.
+   */
   const publicImageUrl =
-    imageUrl?.startsWith('http://') ||
-    imageUrl?.startsWith('https://')
-      ? imageUrl
-      : `${SITE_URL.replace(/\/$/, '')}/api/social-image/${encodeURIComponent(slug)}`
+    siteUrl + '/api/social-image/' + encodeURIComponent(slug)
 
   const message = [
     cleanTitle,
     shortSummary,
-    `Read more: ${storyUrl}`,
+    'Read more: ' + storyUrl,
   ]
     .filter(Boolean)
     .join('\n\n')
 
-  try {
-    const response =
-      await fetch(
-        `https://graph.facebook.com/v26.0/${pageId}/photos`,
-        {
-          method: 'POST',
+  const photoResult =
+    await sendFacebookRequest(
+      'https://graph.facebook.com/v26.0/' + pageId + '/photos',
+      new URLSearchParams({
+        message,
+        url: publicImageUrl,
+        access_token: accessToken,
+      }),
+    )
 
-          headers: {
-            'Content-Type':
-              'application/x-www-form-urlencoded',
-          },
-
-          body:
-            new URLSearchParams({
-              message,
-              url: publicImageUrl,
-              access_token:
-                accessToken,
-            }),
-
-          cache: 'no-store',
-
-          signal:
-            AbortSignal.timeout(
-              20000,
-            ),
-        },
-      )
-
-    const data =
-      (await response.json()) as {
-        id?: string
-
-        error?: {
-          message?: string
-          type?: string
-          code?: number
-        }
-      }
-
-    if (!response.ok) {
-      const errorMessage =
-        data.error?.message ||
-        `Facebook returned HTTP ${response.status}`
-
-      console.error(
-        'Facebook publishing failed:',
-        errorMessage,
-      )
-
-      return {
-        ok: false,
-        error: errorMessage,
-      }
-    }
-
+  if (photoResult.ok) {
     console.log(
-      `Facebook post created: ${data.id ?? 'unknown id'} — ${cleanTitle}`,
+      'Facebook photo post created: ' +
+        (photoResult.id ?? 'unknown id') +
+        ' — ' +
+        cleanTitle,
     )
 
-    return {
-      ok: true,
-      id: data.id,
-    }
-  } catch (error) {
-    const errorMessage =
-      error instanceof Error
-        ? error.message
-        : 'Unknown Facebook publishing error'
+    return photoResult
+  }
 
-    console.error(
-      'Facebook publishing failed:',
-      errorMessage,
+  console.warn(
+    'Facebook photo delivery failed; trying link-post fallback: ' +
+      (photoResult.error ?? 'unknown error'),
+  )
+
+  const linkResult =
+    await sendFacebookRequest(
+      'https://graph.facebook.com/v26.0/' + pageId + '/feed',
+      new URLSearchParams({
+        message,
+        link: storyUrl,
+        access_token: accessToken,
+      }),
     )
 
-    return {
-      ok: false,
-      error: errorMessage,
-    }
+  if (linkResult.ok) {
+    console.log(
+      'Facebook link post created: ' +
+        (linkResult.id ?? 'unknown id') +
+        ' — ' +
+        cleanTitle,
+    )
+
+    return linkResult
+  }
+
+  const combinedError =
+    'Photo post failed: ' +
+    (photoResult.error ?? 'unknown error') +
+    '; link fallback failed: ' +
+    (linkResult.error ?? 'unknown error')
+
+  console.error(
+    'Facebook publishing failed:',
+    combinedError,
+  )
+
+  return {
+    ok: false,
+    error: combinedError,
   }
 }
