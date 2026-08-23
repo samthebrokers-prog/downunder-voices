@@ -1625,6 +1625,7 @@ async function publishEditorial(
       title: editorial.title,
       slug: storySlug,
       summary: editorial.summary,
+      imageUrl,
     })
 
   if (!facebookResult.ok) {
