@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description:
       'Sydney Marathon medal takes a wrong turn to Munich.',
     images: [
-      '/editorial-cartoons/2026-08-23-sydney-marathon.png',
+      '/editorial-cartoons/2026-08-23-sydney-marathon.jpg',
     ],
   },
 }
@@ -31,7 +31,7 @@ export default function CartoonOfTheDayPage() {
 
       <article className="mt-8 overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <img
-          src="/editorial-cartoons/2026-08-23-sydney-marathon.png"
+          src="/editorial-cartoons/2026-08-23-sydney-marathon.jpg"
           alt="Editorial cartoon showing a Sydney Marathon runner surprised that the participation medal depicts Munich's Allianz Arena"
           className="h-auto w-full"
         />
