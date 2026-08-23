@@ -209,6 +209,35 @@ export default async function HomePage() {
             </section>
           )}
 
+          <section className="mt-12 overflow-hidden rounded-xl border border-amber-300 bg-amber-50 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-amber-300 px-5 py-4 sm:px-7">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">
+                  Original Downunder Voices satire
+                </p>
+                <h2 className="mt-1 font-serif text-3xl font-black text-slate-950">
+                  Cartoon of the Day
+                </h2>
+              </div>
+
+              <Link
+                href="/cartoon-of-the-day"
+                className="inline-flex items-center gap-1 text-sm font-black text-red-700 hover:underline"
+              >
+                Open today&apos;s cartoon
+                <ArrowRight className="size-4" />
+              </Link>
+            </div>
+
+            <Link href="/cartoon-of-the-day" className="block">
+              <img
+                src="/editorial-cartoons/2026-08-23-sydney-marathon.jpg"
+                alt="Downunder Voices Cartoon of the Day about the Sydney Marathon medal mistakenly depicting Munich's Allianz Arena"
+                className="h-auto w-full"
+              />
+            </Link>
+          </section>
+
           {ninetySeconds.length > 0 && (
             <section className="mt-12 overflow-hidden rounded-xl border border-slate-800 bg-slate-950 text-white shadow-lg">
               <div className="border-b border-slate-800 px-6 py-6 sm:px-8">
