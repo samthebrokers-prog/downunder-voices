@@ -1,4 +1,8 @@
 import type { Metadata } from 'next'
+import {
+  archivedCartoons,
+  currentCartoon,
+} from '@/lib/editorial-cartoons'
 
 export const metadata: Metadata = {
   title: 'Cartoon of the Day',
@@ -6,11 +10,8 @@ export const metadata: Metadata = {
     'Original daily Australian news satire from Downunder Voices.',
   openGraph: {
     title: 'Downunder Voices — Cartoon of the Day',
-    description:
-      'Sydney Marathon medal takes a wrong turn to Munich.',
-    images: [
-      '/editorial-cartoons/2026-08-23-sydney-marathon.jpg',
-    ],
+    description: currentCartoon.headline,
+    images: [currentCartoon.image],
   },
 }
 
@@ -25,24 +26,24 @@ export default function CartoonOfTheDayPage() {
           Cartoon of the Day
         </h1>
         <p className="mt-3 text-sm font-bold text-muted-foreground">
-          23 August 2026 · Original Downunder Voices cartoon
+          {currentCartoon.date} · Original Downunder Voices cartoon
         </p>
       </header>
 
       <article className="mt-8 overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <img
-          src="/editorial-cartoons/2026-08-23-sydney-marathon.jpg"
-          alt="Editorial cartoon showing a Sydney Marathon runner surprised that the participation medal depicts Munich's Allianz Arena"
+          src={currentCartoon.image}
+          alt={currentCartoon.alt}
           className="h-auto w-full"
         />
 
         <div className="space-y-4 p-6 sm:p-8">
           <h2 className="font-serif text-3xl font-black text-slate-950">
-            Sydney Marathon medal takes a wrong turn to Munich
+            {currentCartoon.headline}
           </h2>
 
           <p className="leading-7 text-slate-700">
-            Sydney Marathon organisers acknowledged an embarrassing medal-design error: Munich&apos;s Allianz Arena appeared where runners expected a symbol of Sydney. Our runner may have crossed the finish line, but the medal apparently kept going.
+            {currentCartoon.summary}
           </p>
 
           <p className="rounded-md border-l-4 border-red-700 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600">
@@ -50,15 +51,57 @@ export default function CartoonOfTheDayPage() {
           </p>
 
           <a
-            href="https://www.theguardian.com/australia-news/live/2026/aug/23/australia-news-live-anthony-albanese-sydney-swans-police-investigation-alan-jones-antisemitism-inquiry-icac-nsw-liberals-ntwnfb"
+            href={currentCartoon.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex font-bold text-red-700 hover:underline"
           >
-            Read the reported event ↗
+            Source: {currentCartoon.sourceLabel} ↗
           </a>
         </div>
       </article>
+
+      {archivedCartoons.length > 0 && (
+        <section className="mt-12 border-t-4 border-slate-950 pt-6">
+          <h2 className="font-serif text-3xl font-black text-slate-950">
+            Cartoon Archive
+          </h2>
+          <p className="mt-2 text-sm text-slate-600">
+            Previous original Downunder Voices cartoons.
+          </p>
+
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            {archivedCartoons.map((cartoon) => (
+              <article
+                key={cartoon.image}
+                className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"
+              >
+                <img
+                  src={cartoon.image}
+                  alt={cartoon.alt}
+                  className="h-auto w-full"
+                />
+                <div className="space-y-2 p-5">
+                  <p className="text-xs font-black uppercase tracking-[0.14em] text-red-700">
+                    {cartoon.date}
+                  </p>
+                  <h3 className="font-serif text-xl font-black text-slate-950">
+                    {cartoon.headline}
+                  </h3>
+                  <a
+                    href={cartoon.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex text-sm font-bold text-red-700 hover:underline"
+                  >
+                    Source ↗
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   )
 }

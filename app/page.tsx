@@ -5,6 +5,7 @@ import { BreakingNewsTicker } from '@/components/breaking-news-ticker'
 import { SetupBanner } from '@/components/setup-banner'
 import { StoryCard } from '@/components/story-card'
 import { isDatabaseConfigured } from '@/lib/db'
+import { currentCartoon } from '@/lib/editorial-cartoons'
 import {
   categories,
   normaliseCategorySlug,
@@ -231,8 +232,8 @@ export default async function HomePage() {
 
             <Link href="/cartoon-of-the-day" className="block">
               <img
-                src="/editorial-cartoons/2026-08-23-sydney-marathon.jpg"
-                alt="Downunder Voices Cartoon of the Day about the Sydney Marathon medal mistakenly depicting Munich's Allianz Arena"
+                src={currentCartoon.image}
+                alt={currentCartoon.alt}
                 className="h-auto w-full"
               />
             </Link>
