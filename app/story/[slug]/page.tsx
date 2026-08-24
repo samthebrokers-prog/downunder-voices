@@ -139,6 +139,49 @@ function getSourceDisplayName(
   return 'Original publisher'
 }
 
+function articleParagraphs(
+  summary: string,
+): string[] {
+  return summary
+    .replace(/\r\n/g, '\n')
+    .split(/\n{2,}/)
+    .map((paragraph) =>
+      paragraph.trim(),
+    )
+    .filter(Boolean)
+}
+
+function metadataDescription(
+  summary: string,
+  fallback: string,
+): string {
+  const clean =
+    summary
+      .replace(/\s+/g, ' ')
+      .trim()
+
+  if (!clean) {
+    return fallback
+  }
+
+  if (clean.length <= 160) {
+    return clean
+  }
+
+  const shortened =
+    clean.slice(0, 157)
+
+  const lastSpace =
+    shortened.lastIndexOf(' ')
+
+  return `${shortened.slice(
+    0,
+    lastSpace > 110
+      ? lastSpace
+      : 157,
+  )}…`
+}
+
 type StoryPageProps = {
   params: Promise<{
     slug: string
@@ -161,10 +204,12 @@ export async function generateMetadata({
     `${siteUrl}/story/${story.slug ?? story.id}`
 
   const description =
-    story.summary ||
-    `Read the latest coverage from ${getDisplayCategoryName(
-      story.category,
-    )}.`
+    metadataDescription(
+      story.summary,
+      `Read the latest coverage from ${getDisplayCategoryName(
+        story.category,
+      )}.`,
+    )
 
   const socialImage =
     getSocialImageUrl(
@@ -375,9 +420,24 @@ export default async function StoryPage({
           <div className="mt-10 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
             <div className="min-w-0">
               {story.summary && (
-                <p className="font-serif text-xl font-medium leading-9 text-foreground/90 sm:text-2xl sm:leading-10">
-                  {story.summary}
-                </p>
+                <div className="space-y-6 font-serif text-lg leading-8 text-foreground/90 sm:text-xl sm:leading-9">
+                  {articleParagraphs(
+                    story.summary,
+                  ).map(
+                    (paragraph, index) => (
+                      <p
+                        key={`${story.id}-paragraph-${index}`}
+                        className={
+                          index === 0
+                            ? 'text-xl font-semibold leading-9 sm:text-2xl sm:leading-10'
+                            : undefined
+                        }
+                      >
+                        {paragraph}
+                      </p>
+                    ),
+                  )}
+                </div>
               )}
 
               {story.communityAngle && (

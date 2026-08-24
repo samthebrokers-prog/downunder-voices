@@ -5,7 +5,7 @@ create table if not exists public.news_sources (
   name text not null,
   feed_url text not null unique,
   site_url text,
-  default_category text not null check (default_category in ('nz-pacific','australia','politics','business','community','sports')),
+  default_category text not null check (default_category in ('australia','new-zealand','world','social-issues','small-business','trade-logistics','community','sports','entertainment','editorial-view','nz-pacific','politics','business')),
   source_type text not null default 'commercial' check (source_type in ('official','commercial')),
   auto_publish boolean not null default false,
   active boolean not null default true,
@@ -17,7 +17,7 @@ create table if not exists public.stories (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
   title text not null,
-  category text not null check (category in ('nz-pacific','australia','politics','business','community','sports','sams-view')),
+  category text not null check (category in ('australia','new-zealand','world','social-issues','small-business','trade-logistics','community','sports','entertainment','editorial-view','nz-pacific','politics','business','sams-view')),
   summary text not null,
   source_name text not null,
   source_url text not null,
@@ -27,7 +27,7 @@ create table if not exists public.stories (
   status text not null default 'draft' check (status in ('draft','published','archived')),
   published_at timestamptz,
   source_id uuid references public.news_sources(id) on delete set null,
-  import_method text not null default 'manual' check (import_method in ('manual','rss','submission')),
+  import_method text not null default 'manual' check (import_method in ('manual','rss','submission','automated-editorial')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

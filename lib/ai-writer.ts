@@ -7,13 +7,18 @@ type WriteArticleInput = {
   sourceUrl: string
   category: string
   mode?: ArticleMode
-  country?: 'Australia' | 'New Zealand'
+  country?:
+    | 'Australia'
+    | 'New Zealand'
+    | 'Pacific'
+    | 'World'
 }
 
 export type WrittenArticle = {
   title: string
   summary: string
   communityAngle: string
+  rewritten: boolean
 }
 
 function normaliseText(value: string): string {
@@ -30,6 +35,7 @@ function fallbackArticle(
     title: normaliseText(input.title).slice(0, 160),
     summary: normaliseText(input.summary).slice(0, 4000),
     communityAngle: '',
+    rewritten: false,
   }
 }
 
@@ -168,7 +174,7 @@ Return only the required JSON.
   return `
 You are a senior news editor for Downunder Voices,
 an independent digital publication covering Australia,
-New Zealand and the Pacific.
+New Zealand, the Pacific and the wider world.
 
 Write a clean, original news report using only the
 facts supplied.
@@ -185,6 +191,8 @@ STYLE
 - Make each story sound individually written.
 - Vary sentence structure and opening language.
 - Keep the tone factual, calm and readable.
+- Avoid formulaic transitions and repetitive conclusions.
+- Do not use filler simply to make the report longer.
 
 OPENING PARAGRAPH
 
@@ -227,9 +235,16 @@ SOURCE ATTRIBUTION
 ARTICLE STRUCTURE
 
 - Begin with the main development.
-- Add the key supporting facts.
-- Explain practical effects supported by the supplied
-  information.
+- Explain who is affected and the immediate consequences.
+- Add the background, competing positions, public response
+  and next steps when those details are supplied.
+- Distinguish clearly between confirmed facts, claims and
+  matters that remain unresolved.
+- Connect major Pacific and world developments to Australia,
+  New Zealand or Pacific readers only when the supplied facts
+  support that connection.
+- Cover every material angle contained in the supplied facts,
+  but never manufacture a missing angle.
 - End when the available facts end.
 - Do not add a generic conclusion.
 - Do not pad the article.
@@ -254,7 +269,7 @@ Never use:
 
 LENGTH
 
-- Write between 120 and 240 words when enough
+- Write between 280 and 450 words when enough
   information is supplied.
 - Write less when the source contains limited facts.
 - Headline maximum 90 characters.
@@ -361,7 +376,7 @@ ${input.summary}
           },
 
           max_output_tokens:
-            mode === 'opinion' ? 1800 : 850,
+            mode === 'opinion' ? 1800 : 1500,
         }),
 
         signal: AbortSignal.timeout(45000),
@@ -425,7 +440,10 @@ ${input.summary}
       normaliseText(parsed.title)
 
     const summary =
-      parsed.summary.trim()
+      parsed.summary
+        .replace(/\r\n/g, '\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim()
 
     const communityAngle =
       normaliseText(
@@ -456,6 +474,8 @@ ${input.summary}
           0,
           500,
         ),
+
+      rewritten: true,
     }
   } catch (error) {
     console.error(

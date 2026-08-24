@@ -47,28 +47,34 @@ type ExistingStoryRow = {
 type StoryRegion =
   | 'australia'
   | 'new-zealand'
+  | 'pacific'
   | 'world'
   | null
 
-
- 
-const MAX_AI_ARTICLES_PER_RUN = 5
+const MAX_AI_ARTICLES_PER_RUN = 10
+const MAX_AI_ARTICLES_PER_SOURCE_PER_RUN = 2
 const MAX_ITEMS_PER_SOURCE = 20
 
-type EntertainmentSourceSeed = {
+type NewsSourceSeed = {
   name: string
   feed_url: string
   site_url: string
+  default_category: CategorySlug
+  source_type: 'official' | 'commercial'
+  auto_publish: boolean
 }
 
 const GLOBAL_ENTERTAINMENT_SOURCES:
-  EntertainmentSourceSeed[] = [
+  NewsSourceSeed[] = [
     {
       name: '7NEWS Entertainment',
       feed_url:
         'https://7news.com.au/entertainment/rss',
       site_url:
         'https://7news.com.au/entertainment',
+      default_category: 'entertainment',
+      source_type: 'commercial',
+      auto_publish: true,
     },
     {
       name: 'BBC Entertainment & Arts',
@@ -76,6 +82,9 @@ const GLOBAL_ENTERTAINMENT_SOURCES:
         'https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml',
       site_url:
         'https://www.bbc.com/news/entertainment_and_arts',
+      default_category: 'entertainment',
+      source_type: 'commercial',
+      auto_publish: true,
     },
     {
       name: 'The Guardian Culture',
@@ -83,6 +92,9 @@ const GLOBAL_ENTERTAINMENT_SOURCES:
         'https://www.theguardian.com/culture/rss',
       site_url:
         'https://www.theguardian.com/culture',
+      default_category: 'entertainment',
+      source_type: 'commercial',
+      auto_publish: true,
     },
     {
       name: 'NPR Culture',
@@ -90,6 +102,9 @@ const GLOBAL_ENTERTAINMENT_SOURCES:
         'https://feeds.npr.org/1008/rss.xml',
       site_url:
         'https://www.npr.org/sections/culture/',
+      default_category: 'entertainment',
+      source_type: 'commercial',
+      auto_publish: true,
     },
     {
       name: 'Variety',
@@ -97,6 +112,9 @@ const GLOBAL_ENTERTAINMENT_SOURCES:
         'https://variety.com/feed/',
       site_url:
         'https://variety.com/',
+      default_category: 'entertainment',
+      source_type: 'commercial',
+      auto_publish: true,
     },
     {
       name: 'Rolling Stone',
@@ -104,6 +122,9 @@ const GLOBAL_ENTERTAINMENT_SOURCES:
         'https://www.rollingstone.com/feed/',
       site_url:
         'https://www.rollingstone.com/',
+      default_category: 'entertainment',
+      source_type: 'commercial',
+      auto_publish: true,
     },
     {
       name: 'People',
@@ -111,6 +132,9 @@ const GLOBAL_ENTERTAINMENT_SOURCES:
         'https://people.com/feed/',
       site_url:
         'https://people.com/',
+      default_category: 'entertainment',
+      source_type: 'commercial',
+      auto_publish: true,
     },
     {
       name: 'E! News',
@@ -118,6 +142,9 @@ const GLOBAL_ENTERTAINMENT_SOURCES:
         'https://www.eonline.com/syndication/feeds/rssfeeds/topstories.xml',
       site_url:
         'https://www.eonline.com/news',
+      default_category: 'entertainment',
+      source_type: 'commercial',
+      auto_publish: true,
     },
     {
       name: 'TMZ',
@@ -125,6 +152,9 @@ const GLOBAL_ENTERTAINMENT_SOURCES:
         'https://www.tmz.com/rss.xml',
       site_url:
         'https://www.tmz.com/',
+      default_category: 'entertainment',
+      source_type: 'commercial',
+      auto_publish: true,
     },
     {
       name: 'Entertainment Weekly',
@@ -132,8 +162,73 @@ const GLOBAL_ENTERTAINMENT_SOURCES:
         'https://ew.com/feed/',
       site_url:
         'https://ew.com/',
+      default_category: 'entertainment',
+      source_type: 'commercial',
+      auto_publish: true,
     },
   ]
+
+const CORE_NEWS_SOURCES: NewsSourceSeed[] = [
+  {
+    name: 'ABC News Top Stories',
+    feed_url:
+      'https://www.abc.net.au/news/feed/45910/rss.xml',
+    site_url: 'https://www.abc.net.au/news/',
+    default_category: 'australia',
+    source_type: 'commercial',
+    auto_publish: true,
+  },
+  {
+    name: 'ABC News Just In',
+    feed_url:
+      'https://www.abc.net.au/news/feed/51120/rss.xml',
+    site_url: 'https://www.abc.net.au/news/justin/',
+    default_category: 'australia',
+    source_type: 'commercial',
+    auto_publish: true,
+  },
+  {
+    name: 'ABC News Business',
+    feed_url:
+      'https://www.abc.net.au/news/feed/51892/rss.xml',
+    site_url: 'https://www.abc.net.au/news/business/',
+    default_category: 'small-business',
+    source_type: 'commercial',
+    auto_publish: true,
+  },
+  {
+    name: 'RNZ National',
+    feed_url: 'https://www.rnz.co.nz/rss/national.xml',
+    site_url: 'https://www.rnz.co.nz/news/national',
+    default_category: 'new-zealand',
+    source_type: 'commercial',
+    auto_publish: true,
+  },
+  {
+    name: 'RNZ Pacific',
+    feed_url: 'https://www.rnz.co.nz/rss/pacific.xml',
+    site_url: 'https://www.rnz.co.nz/international/pacific-news',
+    default_category: 'new-zealand',
+    source_type: 'commercial',
+    auto_publish: true,
+  },
+  {
+    name: 'RNZ World',
+    feed_url: 'https://www.rnz.co.nz/rss/world.xml',
+    site_url: 'https://www.rnz.co.nz/news/world',
+    default_category: 'world',
+    source_type: 'commercial',
+    auto_publish: true,
+  },
+  {
+    name: 'New Zealand Government — Beehive',
+    feed_url: 'https://www.beehive.govt.nz/rss.xml',
+    site_url: 'https://www.beehive.govt.nz/',
+    default_category: 'new-zealand',
+    source_type: 'official',
+    auto_publish: true,
+  },
+]
 
 
 /*
@@ -381,6 +476,51 @@ function firstFiveSentences(
     .trim()
 }
 
+function sourceFacts(
+  value: string,
+): string {
+  const text =
+    removeFeedNoise(
+      cleanText(value),
+    )
+
+  if (!text) {
+    return ''
+  }
+
+  const sentences =
+    text.match(
+      /[^.!?]+[.!?]+(?:["'’”)]*)|[^.!?]+$/g,
+    ) ?? [text]
+
+  return sentences
+    .map((sentence) =>
+      sentence.trim(),
+    )
+    .filter(Boolean)
+    .slice(0, 12)
+    .join(' ')
+    .slice(0, 5000)
+    .trim()
+}
+
+function cleanWrittenArticle(
+  value: string,
+): string {
+  return value
+    .replace(/\r\n/g, '\n')
+    .split(/\n{2,}/)
+    .map((paragraph) =>
+      removeFeedNoise(
+        cleanText(paragraph),
+      ),
+    )
+    .filter(Boolean)
+    .join('\n\n')
+    .slice(0, 7000)
+    .trim()
+}
+
 function normaliseTitle(
   value: string,
 ): string {
@@ -566,6 +706,22 @@ function sourceRegion(
     'aotearoa',
   ]
 
+  const pacificSignals = [
+    'rnz pacific',
+    '/rss/pacific',
+    'pacific news',
+    'pacific islands',
+  ]
+
+  if (
+    pacificSignals.some(
+      (signal) =>
+        sourceText.includes(signal),
+    )
+  ) {
+    return 'pacific'
+  }
+
   if (
     australianSignals.some(
       (signal) =>
@@ -639,6 +795,26 @@ function contentRegion(
     'beehive',
   ]
 
+  const pacificSignals = [
+    'pacific islands',
+    'pacific island',
+    'fiji',
+    'fijian',
+    'samoa',
+    'samoan',
+    'tonga',
+    'tongan',
+    'vanuatu',
+    'solomon islands',
+    'papua new guinea',
+    'cook islands',
+    'niue',
+    'kiribati',
+    'tuvalu',
+    'new caledonia',
+    'bougainville',
+  ]
+
   const worldSignals = [
     'united states',
     'u.s.',
@@ -702,11 +878,19 @@ function contentRegion(
         text.includes(signal),
     ).length
 
+  const pacificScore =
+    pacificSignals.filter(
+      (signal) =>
+        text.includes(signal),
+    ).length
+
   if (
     australiaScore >
       newZealandScore &&
     australiaScore >
-      worldScore
+      worldScore &&
+    australiaScore >
+      pacificScore
   ) {
     return 'australia'
   }
@@ -715,7 +899,9 @@ function contentRegion(
     newZealandScore >
       australiaScore &&
     newZealandScore >
-      worldScore
+      worldScore &&
+    newZealandScore >
+      pacificScore
   ) {
     return 'new-zealand'
   }
@@ -724,14 +910,36 @@ function contentRegion(
     worldScore >
       australiaScore &&
     worldScore >
-      newZealandScore
+      newZealandScore &&
+    worldScore >
+      pacificScore
   ) {
     return 'world'
+  }
+
+  if (
+    pacificScore >
+      australiaScore &&
+    pacificScore >
+      newZealandScore &&
+    pacificScore >
+      worldScore
+  ) {
+    return 'pacific'
   }
 
   /*
    * If tied, prefer strong explicit country references.
    */
+  if (
+    pacificSignals.some(
+      (signal) =>
+        text.includes(signal),
+    )
+  ) {
+    return 'pacific'
+  }
+
   if (
     text.includes(
       'new zealand',
@@ -774,7 +982,8 @@ function categoryForRegion(
   }
 
   if (
-    region === 'new-zealand'
+    region === 'new-zealand' ||
+    region === 'pacific'
   ) {
     /*
      * The project has historically used nz-pacific as
@@ -784,6 +993,30 @@ function categoryForRegion(
   }
 
   return existingCategory
+}
+
+function writerCountry(
+  source: SourceRow,
+  title: string,
+  summary: string,
+): 'Australia' | 'New Zealand' | 'Pacific' | 'World' {
+  const region =
+    contentRegion(title, summary) ||
+    sourceRegion(source)
+
+  if (region === 'australia') {
+    return 'Australia'
+  }
+
+  if (region === 'new-zealand') {
+    return 'New Zealand'
+  }
+
+  if (region === 'pacific') {
+    return 'Pacific'
+  }
+
+  return 'World'
 }
 
 function protectRegionalCategory(
@@ -1042,10 +1275,12 @@ async function getRecentPublishedTitles(): Promise<
   }
 }
 
-async function ensureGlobalEntertainmentSources(): Promise<void> {
+async function ensureNewsSources(
+  sourceSeeds: NewsSourceSeed[],
+  sourceGroup: string,
+): Promise<void> {
   for (
-    const source of
-      GLOBAL_ENTERTAINMENT_SOURCES
+    const source of sourceSeeds
   ) {
     try {
       const existing =
@@ -1061,6 +1296,29 @@ async function ensureGlobalEntertainmentSources(): Promise<void> {
         })
 
       if (existing.length > 0) {
+        await dbRequest(
+          'news_sources',
+          {
+            method: 'PATCH',
+            query:
+              `?id=eq.${encodeURIComponent(
+                existing[0].id,
+              )}`,
+            body: {
+              name: source.name,
+              site_url:
+                source.site_url,
+              default_category:
+                source.default_category,
+              source_type:
+                source.source_type,
+              auto_publish:
+                source.auto_publish,
+              active: true,
+            },
+          },
+        )
+
         continue
       }
 
@@ -1091,17 +1349,18 @@ async function ensureGlobalEntertainmentSources(): Promise<void> {
             site_url:
               source.site_url,
             default_category:
-              'entertainment',
+              source.default_category,
             source_type:
-              'commercial',
-            auto_publish: false,
+              source.source_type,
+            auto_publish:
+              source.auto_publish,
             active: true,
           },
         },
       )
 
       console.log(
-        `Entertainment source added: ${source.name}`,
+        `${sourceGroup} source added: ${source.name}`,
       )
     } catch (error) {
       /*
@@ -1110,11 +1369,33 @@ async function ensureGlobalEntertainmentSources(): Promise<void> {
        * being enrolled or imported.
        */
       console.error(
-        `Entertainment source setup failed for ${source.name}:`,
+        `${sourceGroup} source setup failed for ${source.name}:`,
         error,
       )
     }
   }
+}
+
+function rotateSourcesHourly(
+  sources: SourceRow[],
+): SourceRow[] {
+  if (sources.length < 2) {
+    return sources
+  }
+
+  const hourNumber =
+    Math.floor(
+      Date.now() /
+        (60 * 60 * 1000),
+    )
+
+  const startIndex =
+    hourNumber % sources.length
+
+  return [
+    ...sources.slice(startIndex),
+    ...sources.slice(0, startIndex),
+  ]
 }
 
 export async function runNewsImport(): Promise<
@@ -1128,15 +1409,28 @@ export async function runNewsImport(): Promise<
     )
   }
 
-  await ensureGlobalEntertainmentSources()
+  await ensureNewsSources(
+    CORE_NEWS_SOURCES,
+    'Core news',
+  )
 
-  const sources =
+  await ensureNewsSources(
+    GLOBAL_ENTERTAINMENT_SOURCES,
+    'Entertainment',
+  )
+
+  const loadedSources =
     await dbRequest<
       SourceRow[]
     >('news_sources', {
       query:
         '?select=*&active=eq.true&order=name.asc',
     })
+
+  const sources =
+    rotateSourcesHourly(
+      loadedSources,
+    )
 
   const results:
     ImportResult[] = []
@@ -1163,6 +1457,7 @@ export async function runNewsImport(): Promise<
     let facebookPublished = 0
     let facebookFailed = 0
     let facebookError: string | null = null
+    let aiArticlesForSource = 0
 
     let errorMessage:
       | string
@@ -1271,7 +1566,7 @@ export async function runNewsImport(): Promise<
         }
 
         let originalSummary =
-          firstFiveSentences(
+          sourceFacts(
             item.description,
           )
 
@@ -1281,7 +1576,11 @@ export async function runNewsImport(): Promise<
         if (
           originalSummary.length <
             90 ||
-          !imageUrl
+          (
+            source.source_type ===
+              'official' &&
+            !imageUrl
+          )
         ) {
           const metadata =
             await fetchArticleMetadata(
@@ -1294,7 +1593,9 @@ export async function runNewsImport(): Promise<
             metadata.description
           ) {
             originalSummary =
-              metadata.description
+              sourceFacts(
+                metadata.description,
+              )
           }
 
           if (
@@ -1311,7 +1612,7 @@ export async function runNewsImport(): Promise<
          * article metadata as well as the RSS description.
          */
         originalSummary =
-          firstFiveSentences(
+          sourceFacts(
             removeFeedNoise(
               originalSummary,
             ),
@@ -1323,7 +1624,7 @@ export async function runNewsImport(): Promise<
           )
         ) {
           originalSummary =
-            firstFiveSentences(
+            sourceFacts(
               removeFeedNoise(
                 originalSummary,
               ),
@@ -1332,7 +1633,7 @@ export async function runNewsImport(): Promise<
 
         if (!originalSummary) {
           originalSummary =
-            firstFiveSentences(
+            sourceFacts(
               originalTitle,
             )
         }
@@ -1414,18 +1715,31 @@ export async function runNewsImport(): Promise<
                 originalSummary,
               )
 
-        const canAutoPublish =
+        const eligibleForEditorialRewrite =
           isEntertainmentStory ||
-          (
-            source.auto_publish &&
-            source.source_type ===
-              'official'
-          )
+          source.auto_publish
 
         const canUseAi =
-          canAutoPublish &&
+          eligibleForEditorialRewrite &&
           aiArticlesCreated <
-            MAX_AI_ARTICLES_PER_RUN
+            MAX_AI_ARTICLES_PER_RUN &&
+          aiArticlesForSource <
+            MAX_AI_ARTICLES_PER_SOURCE_PER_RUN
+
+        /*
+         * Do not save an eligible story as a draft merely
+         * because this run has used its rewriting allowance.
+         * Leaving it out lets a later hourly run rewrite and
+         * publish it safely instead of permanently blocking
+         * it through the source-URL duplicate check.
+         */
+        if (
+          eligibleForEditorialRewrite &&
+          !canUseAi
+        ) {
+          skipped += 1
+          continue
+        }
 
         let finalTitle =
           originalTitle
@@ -1463,7 +1777,31 @@ export async function runNewsImport(): Promise<
                 item.link,
               category:
                 initialCategory,
+              country:
+                writerCountry(
+                  source,
+                  originalTitle,
+                  originalSummary,
+                ),
             })
+
+          /*
+           * A failed or unavailable writer returns the source
+           * material with rewritten=false. Never publish that
+           * fallback as an original Downunder Voices report.
+           * The item remains eligible for the next hourly run.
+           */
+          if (
+            !writtenArticle.rewritten
+          ) {
+            skipped += 1
+
+            console.error(
+              `Rewrite unavailable; source copy not published: ${originalTitle}`,
+            )
+
+            continue
+          }
 
           finalTitle =
             cleanText(
@@ -1472,12 +1810,8 @@ export async function runNewsImport(): Promise<
             originalTitle
 
           finalSummary =
-            firstFiveSentences(
-              removeFeedNoise(
-                cleanText(
-                  writtenArticle.summary,
-                ),
-              ),
+            cleanWrittenArticle(
+              writtenArticle.summary,
             ) ||
             originalSummary
 
@@ -1572,32 +1906,14 @@ export async function runNewsImport(): Promise<
             'published'
 
           importMethod =
-          'rss' 
+            'rss'
 
           aiArticlesCreated += 1
+          aiArticlesForSource += 1
 
           console.log(
             `Article prepared: ${finalTitle}`,
           )
-        } else if (
-          isEntertainmentStory
-        ) {
-          /*
-           * Entertainment is a source-linked news section.
-           * Publish clean RSS summaries even when the shared
-           * AI processing allowance has already been used.
-           */
-          status = 'published'
-          importMethod = 'rss'
-        } else if (
-          canAutoPublish
-        ) {
-          /*
-           * Other official stories beyond the five-article
-           * AI processing limit remain drafts.
-           */
-          status = 'draft'
-          importMethod = 'rss'
         }
 
         /*
@@ -1624,6 +1940,18 @@ export async function runNewsImport(): Promise<
             item.link,
           )
 
+        /*
+         * Commercial publishers often retain copyright in
+         * their feed photographs. Use our licensed thematic
+         * fallback artwork for those reports; retain a source
+         * image only for official public-information feeds.
+         */
+        const publishImageUrl =
+          source.source_type ===
+            'official'
+            ? imageUrl
+            : undefined
+
         await dbRequest(
           'stories',
           {
@@ -1648,10 +1976,15 @@ export async function runNewsImport(): Promise<
                 item.link,
 
               image_url:
-                imageUrl || null,
+                publishImageUrl || null,
 
               community_angle:
                 communityAngle,
+
+              author:
+                status === 'published'
+                  ? 'Downunder Voices Newsroom'
+                  : null,
 
               status,
 
@@ -1679,7 +2012,8 @@ export async function runNewsImport(): Promise<
               title: finalTitle,
               slug: storySlug,
               summary: finalSummary,
-              imageUrl,
+              imageUrl:
+                publishImageUrl,
             })
 
           if (facebookResult.ok) {

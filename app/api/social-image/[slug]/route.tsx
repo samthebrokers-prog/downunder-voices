@@ -87,7 +87,7 @@ export async function GET(
         >
           <span>DOWNUNDER VOICES</span>
           <span style={{ opacity: 0.82 }}>
-            Australia · New Zealand · World
+            Australia · New Zealand · Pacific · World
           </span>
         </div>
       </div>

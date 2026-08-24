@@ -55,9 +55,9 @@ export const categories: Category[] = [
   },
   {
     slug: 'new-zealand',
-    name: 'New Zealand',
+    name: 'New Zealand & Pacific',
     description:
-      'News, public policy and community stories from across Aotearoa New Zealand.',
+      'News, public policy and community stories from Aotearoa New Zealand and across the Pacific.',
   },
   {
     slug: 'world',
