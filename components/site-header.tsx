@@ -9,7 +9,7 @@ import { categories } from '@/lib/news-data'
 const websiteUrl = 'https://www.downundervoices.com'
 
 const shareText =
-  'Downunder Voices — Independent voices from Australia, New Zealand and the World'
+  'Downunder Voices — Independent voices from Australia, New Zealand, the Pacific and the World'
 
 const navLinks = [
   ...categories
@@ -132,7 +132,7 @@ export function SiteHeader() {
           <div className="flex shrink-0 items-center gap-4">
             <span className="hidden text-slate-400 sm:inline">
               Independent voices from Australia,
-              New Zealand &amp; the World
+              New Zealand, the Pacific &amp; the World
             </span>
 
             <Link
@@ -168,7 +168,7 @@ export function SiteHeader() {
             </span>
 
             <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.13em] text-muted-foreground sm:text-[11px] sm:tracking-[0.18em]">
-              Australia · New Zealand · World
+              Australia · New Zealand · Pacific · World
             </span>
           </span>
         </Link>
@@ -291,6 +291,7 @@ export function SiteHeader() {
               'Housing',
               'Australia',
               'New Zealand',
+              'Pacific',
               'World',
               'Business',
               'Artificial intelligence',
