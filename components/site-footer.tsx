@@ -83,13 +83,13 @@ export function SiteFooter() {
               </span>
 
               <span className="mt-2 block text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-400">
-                Australia · New Zealand · World
+                Australia · New Zealand · Pacific · World
               </span>
             </Link>
 
             <p className="mt-5 max-w-md text-sm leading-6 text-slate-300">
               Independent journalism covering Australia,
-              New Zealand and the world, with a focus on
+              New Zealand, the Pacific and the world, with a focus on
               social issues, small business, community
               voices and stories that matter to everyday
               people.
