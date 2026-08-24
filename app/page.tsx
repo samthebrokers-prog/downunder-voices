@@ -176,7 +176,7 @@ export default async function HomePage() {
       <main>
         <h1 className="sr-only">
           Downunder Voices — independent news from Australia,
-          New Zealand and the world
+          New Zealand, the Pacific and the world
         </h1>
 
         <BreakingNewsTicker stories={breakingStories} />
@@ -258,8 +258,8 @@ export default async function HomePage() {
 
                     <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
                       The stories people are talking about —
-                      3 from Australia, 2 from New Zealand and
-                      5 from around the world.
+                      3 from Australia, 3 from New Zealand and
+                      the Pacific, and 4 from around the world.
                     </p>
                   </div>
 
@@ -327,7 +327,7 @@ export default async function HomePage() {
 
               <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900 px-6 py-4 text-xs sm:px-8">
                 <span className="font-semibold text-slate-400">
-                  Australia 3 · New Zealand 2 · World 5
+                  Australia 3 · New Zealand &amp; Pacific 3 · World 4
                 </span>
 
                 <Link
@@ -479,7 +479,7 @@ export default async function HomePage() {
                 </p>
 
                 <h2 className="mt-3 font-serif text-3xl font-black sm:text-4xl">
-                  Australia. New Zealand. The World.
+                  Australia. New Zealand. The Pacific. The World.
                 </h2>
 
                 <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
@@ -641,7 +641,7 @@ function rankForHomepage(
 
 type BriefingItem = {
   story: HomeStory
-  label: 'Australia' | 'New Zealand' | 'World'
+  label: 'Australia' | 'New Zealand & Pacific' | 'World'
 }
 
 function buildNinetySecondBriefing(
@@ -669,7 +669,7 @@ function buildNinetySecondBriefing(
   const newZealand = selectRegionalBriefingStories(
     ranked,
     'new-zealand',
-    2,
+    3,
     selected,
   )
 
@@ -678,7 +678,7 @@ function buildNinetySecondBriefing(
   const world = selectRegionalBriefingStories(
     ranked,
     'world',
-    5,
+    4,
     selected,
   )
 
@@ -689,7 +689,7 @@ function buildNinetySecondBriefing(
     })),
     ...newZealand.map((story) => ({
       story,
-      label: 'New Zealand' as const,
+      label: 'New Zealand & Pacific' as const,
     })),
     ...world.map((story) => ({
       story,
