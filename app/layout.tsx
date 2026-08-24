@@ -17,16 +17,17 @@ export const metadata: Metadata = {
 
   title: {
     default:
-      'Downunder Voices — Independent News from Australia, New Zealand & the World',
+      'Downunder Voices — Independent News from Australia, New Zealand, the Pacific & the World',
     template: '%s | Downunder Voices',
   },
 
   description:
-    'Downunder Voices is an independent news and opinion platform covering Australia, New Zealand and the world, with reporting on politics, business, community, sport, cost of living and global affairs.',
+    'Downunder Voices is an independent news and opinion platform covering Australia, New Zealand, the Pacific and the world, with reporting on politics, business, community, sport, cost of living and global affairs.',
 
   keywords: [
     'Australia news',
     'New Zealand news',
+    'Pacific news',
     'world news',
     'independent news',
     'community news',
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Downunder Voices',
     description:
-      'Independent voices from Australia, New Zealand & the World.',
+      'Independent voices from Australia, New Zealand, the Pacific & the World.',
     url: siteUrl,
     siteName: 'Downunder Voices',
     type: 'website',
@@ -60,7 +61,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Downunder Voices',
     description:
-      'Independent voices from Australia, New Zealand & the World.',
+      'Independent voices from Australia, New Zealand, the Pacific & the World.',
   },
 }
 
