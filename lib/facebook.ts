@@ -3,6 +3,7 @@ type FacebookPostInput = {
   slug: string
   summary?: string
   imageUrl?: string | null
+  linkUrl?: string | null
 }
 
 type FacebookPostResult = {
@@ -77,6 +78,8 @@ export async function publishStoryToFacebook({
   title,
   slug,
   summary = '',
+  imageUrl,
+  linkUrl,
 }: FacebookPostInput): Promise<FacebookPostResult> {
   const pageId =
     process.env.FACEBOOK_PAGE_ID
@@ -114,14 +117,20 @@ export async function publishStoryToFacebook({
     SITE_URL.replace(/\/$/, '')
 
   const storyUrl =
+    linkUrl ||
     siteUrl + '/story/' + encodeURIComponent(slug)
 
   /*
    * Always give Meta an image served by Downunder Voices itself.
    * Remote publisher images can reject Meta's crawler or expire.
    */
-  const publicImageUrl =
-    siteUrl + '/api/social-image/' + encodeURIComponent(slug)
+  const publicImageUrl = imageUrl
+    ? imageUrl.startsWith('http')
+      ? imageUrl
+      : siteUrl + imageUrl
+    : siteUrl +
+      '/api/social-image/' +
+      encodeURIComponent(slug)
 
   const message = [
     cleanTitle,
