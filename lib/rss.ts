@@ -207,7 +207,7 @@ export async function fetchFeed(
 
       const description = stripHtml(
         rawDescription,
-      ).slice(0, 1200)
+      ).slice(0, 5000)
 
       const rawDate = stripHtml(
         tag(block, [
