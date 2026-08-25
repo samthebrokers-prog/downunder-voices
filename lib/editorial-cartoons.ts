@@ -10,6 +10,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '25 August 2026',
+    image:
+      '/editorial-cartoons/2026-08-25-army-helicopter-alarm-clock.jpg',
+    alt: 'Black-and-white editorial cartoon of a sleepy Sydney resident calling a low-flying training helicopter the new alarm clock',
+    headline: "Sydney's new alarm clock has excellent range",
+    summary:
+      'The Australian Army advised residents across Greater Sydney and the Hunter Valley that low-flying helicopters may be seen and heard during day-and-night training beginning on 24 August. For one sleepy suburb, the morning alarm suddenly came with rotor blades.',
+    sourceUrl:
+      'https://www.army.gov.au/news-and-events/noise-and-training-notices/2026-08-24/australian-army-aviation-training-activity',
+    sourceLabel:
+      'Australian Army — Aviation training activity',
+  },
+  {
     date: '24 August 2026',
     image:
       '/editorial-cartoons/2026-08-24-heap-dangerous-ideas.jpg',
