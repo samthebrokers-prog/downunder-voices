@@ -121,10 +121,11 @@ export default async function AdminPage() {
           {facebookConfiguration.configured ? (
             <div className="mt-2 text-sm">
               <p>
-                The Page ID and Page access token are present for Page{' '}
+                The Page ID and Facebook credential are present for Page{' '}
                 <strong>{facebookConfiguration.pageId}</strong>. Direct image
                 publishing is configured through Meta Graph API{' '}
-                {facebookConfiguration.graphApiVersion}.
+                {facebookConfiguration.graphApiVersion}. Long-lived User
+                tokens are automatically exchanged for the correct Page token.
               </p>
               <a
                 href="/api/admin/facebook-health"
@@ -146,7 +147,9 @@ export default async function AdminPage() {
                   <li>FACEBOOK_PAGE_ID</li>
                 )}
                 {!facebookConfiguration.accessTokenPresent && (
-                  <li>FACEBOOK_PAGE_ACCESS_TOKEN</li>
+                  <li>
+                    FACEBOOK_USER_ACCESS_TOKEN or FACEBOOK_PAGE_ACCESS_TOKEN
+                  </li>
                 )}
               </ul>
             </div>
