@@ -17,11 +17,27 @@ type FacebookApiData = {
   id?: string
   name?: string
   post_id?: string
+  access_token?: string
+  data?: Array<{
+    id?: string
+    name?: string
+    access_token?: string
+  }>
   error?: {
     message?: string
     type?: string
     code?: number
   }
+}
+
+type FacebookCredentialType = 'page' | 'user'
+
+type ResolvedFacebookPageToken = {
+  ok: boolean
+  accessToken?: string
+  credentialType?: FacebookCredentialType
+  pageName?: string | null
+  error?: string
 }
 
 const SITE_URL =
@@ -37,42 +53,66 @@ const GRAPH_API_VERSION = /^v\d+\.\d+$/.test(
   ? configuredGraphApiVersion
   : 'v26.0'
 
-export function facebookConfigurationSummary() {
-  const pageId = process.env.FACEBOOK_PAGE_ID?.trim() || ''
-  const accessToken =
+const FACEBOOK_TOKEN_CACHE_MS = 15 * 60 * 1000
+
+let resolvedFacebookPageTokenCache:
+  | {
+      sourceToken: string
+      pageId: string
+      expiresAt: number
+      result: ResolvedFacebookPageToken
+    }
+  | undefined
+
+function facebookCredential() {
+  const userAccessToken =
+    process.env.FACEBOOK_USER_ACCESS_TOKEN?.trim() || ''
+  const pageAccessToken =
     process.env.FACEBOOK_PAGE_ACCESS_TOKEN?.trim() || ''
 
-  return {
-    configured: Boolean(pageId && accessToken),
-    pageId: pageId || null,
-    pageIdPresent: Boolean(pageId),
-    accessTokenPresent: Boolean(accessToken),
-    graphApiVersion: GRAPH_API_VERSION,
-  }
-}
-
-export async function verifyFacebookConnection() {
-  const configuration = facebookConfigurationSummary()
-  const accessToken =
-    process.env.FACEBOOK_PAGE_ACCESS_TOKEN?.trim() || ''
-
-  if (!configuration.configured || !configuration.pageId) {
+  if (userAccessToken) {
     return {
-      ok: false,
-      ...configuration,
-      error: 'Facebook Page credentials are not configured.',
+      accessToken: userAccessToken,
+      source: 'FACEBOOK_USER_ACCESS_TOKEN' as const,
     }
   }
 
+  if (pageAccessToken) {
+    return {
+      accessToken: pageAccessToken,
+      source: 'FACEBOOK_PAGE_ACCESS_TOKEN' as const,
+    }
+  }
+
+  return {
+    accessToken: '',
+    source: null,
+  }
+}
+
+async function getFacebookData(
+  path: string,
+  accessToken: string,
+  fields: string,
+): Promise<{
+  ok: boolean
+  data: FacebookApiData
+  status: number
+  error?: string
+}> {
   try {
     const endpoint = new URL(
       'https://graph.facebook.com/' +
         GRAPH_API_VERSION +
         '/' +
-        configuration.pageId,
+        path.replace(/^\//, ''),
     )
 
-    endpoint.searchParams.set('fields', 'id,name')
+    endpoint.searchParams.set('fields', fields)
+
+    if (path === 'me/accounts') {
+      endpoint.searchParams.set('limit', '100')
+    }
 
     const response = await fetch(endpoint, {
       headers: {
@@ -84,21 +124,182 @@ export async function verifyFacebookConnection() {
 
     const data = (await response.json()) as FacebookApiData
 
-    if (!response.ok || !data.id) {
+    return {
+      ok: response.ok,
+      data,
+      status: response.status,
+      error:
+        data.error?.message ||
+        (!response.ok
+          ? 'Facebook returned HTTP ' + response.status
+          : undefined),
+    }
+  } catch (error) {
+    return {
+      ok: false,
+      data: {},
+      status: 0,
+      error:
+        error instanceof Error
+          ? error.message
+          : 'Unknown Facebook connection error',
+    }
+  }
+}
+
+async function resolveFacebookPageToken(
+  pageId: string,
+  sourceToken: string,
+): Promise<ResolvedFacebookPageToken> {
+  if (
+    resolvedFacebookPageTokenCache &&
+    resolvedFacebookPageTokenCache.sourceToken === sourceToken &&
+    resolvedFacebookPageTokenCache.pageId === pageId &&
+    resolvedFacebookPageTokenCache.expiresAt > Date.now()
+  ) {
+    return resolvedFacebookPageTokenCache.result
+  }
+
+  const identity = await getFacebookData(
+    'me',
+    sourceToken,
+    'id,name',
+  )
+
+  if (!identity.ok || !identity.data.id) {
+    return {
+      ok: false,
+      error:
+        identity.error ||
+        'Facebook could not identify the configured access token.',
+    }
+  }
+
+  let result: ResolvedFacebookPageToken
+
+  if (identity.data.id === pageId) {
+    result = {
+      ok: true,
+      accessToken: sourceToken,
+      credentialType: 'page',
+      pageName: identity.data.name || null,
+    }
+  } else {
+    const accounts = await getFacebookData(
+      'me/accounts',
+      sourceToken,
+      'id,name,access_token',
+    )
+
+    if (!accounts.ok) {
+      return {
+        ok: false,
+        credentialType: 'user',
+        error:
+          accounts.error ||
+          'Facebook could not retrieve a Page token from the configured User token.',
+      }
+    }
+
+    const page = accounts.data.data?.find(
+      (account) => account.id === pageId,
+    )
+
+    if (!page?.access_token) {
+      return {
+        ok: false,
+        credentialType: 'user',
+        error:
+          'The configured Facebook User token cannot access Page ' +
+          pageId +
+          '. Confirm pages_show_list, pages_read_engagement and pages_manage_posts permissions.',
+      }
+    }
+
+    result = {
+      ok: true,
+      accessToken: page.access_token,
+      credentialType: 'user',
+      pageName: page.name || null,
+    }
+  }
+
+  resolvedFacebookPageTokenCache = {
+    sourceToken,
+    pageId,
+    expiresAt: Date.now() + FACEBOOK_TOKEN_CACHE_MS,
+    result,
+  }
+
+  return result
+}
+
+export function facebookConfigurationSummary() {
+  const pageId = process.env.FACEBOOK_PAGE_ID?.trim() || ''
+  const credential = facebookCredential()
+
+  return {
+    configured: Boolean(pageId && credential.accessToken),
+    pageId: pageId || null,
+    pageIdPresent: Boolean(pageId),
+    accessTokenPresent: Boolean(credential.accessToken),
+    credentialSource: credential.source,
+    graphApiVersion: GRAPH_API_VERSION,
+  }
+}
+
+export async function verifyFacebookConnection() {
+  const configuration = facebookConfigurationSummary()
+  const credential = facebookCredential()
+
+  if (!configuration.configured || !configuration.pageId) {
+    return {
+      ok: false,
+      ...configuration,
+      error: 'Facebook Page credentials are not configured.',
+    }
+  }
+
+  try {
+    const resolvedToken = await resolveFacebookPageToken(
+      configuration.pageId,
+      credential.accessToken,
+    )
+
+    if (!resolvedToken.ok || !resolvedToken.accessToken) {
       return {
         ok: false,
         ...configuration,
+        credentialType: resolvedToken.credentialType || null,
+        error: resolvedToken.error || 'Facebook Page token resolution failed.',
+      }
+    }
+
+    const page = await getFacebookData(
+      configuration.pageId,
+      resolvedToken.accessToken,
+      'id,name',
+    )
+
+    if (!page.ok || !page.data.id) {
+      return {
+        ok: false,
+        ...configuration,
+        credentialType: resolvedToken.credentialType || null,
         error:
-          data.error?.message ||
-          'Facebook returned HTTP ' + response.status,
+          page.error ||
+          'Facebook returned HTTP ' + page.status,
       }
     }
 
     return {
       ok: true,
       ...configuration,
-      pageId: data.id,
-      pageName: data.name || null,
+      pageId: page.data.id,
+      pageName: page.data.name || resolvedToken.pageName || null,
+      credentialType: resolvedToken.credentialType || null,
+      pageTokenResolved:
+        resolvedToken.credentialType === 'user',
       error: null,
     }
   } catch (error) {
@@ -170,12 +371,11 @@ export async function publishStoryToFacebook({
   const pageId =
     process.env.FACEBOOK_PAGE_ID?.trim()
 
-  const accessToken =
-    process.env.FACEBOOK_PAGE_ACCESS_TOKEN?.trim()
+  const credential = facebookCredential()
 
-  if (!pageId || !accessToken) {
+  if (!pageId || !credential.accessToken) {
     console.warn(
-      'Facebook publishing skipped: FACEBOOK_PAGE_ID or FACEBOOK_PAGE_ACCESS_TOKEN is missing.',
+      'Facebook publishing skipped: FACEBOOK_PAGE_ID and a Facebook access token are required.',
     )
 
     return {
@@ -183,6 +383,22 @@ export async function publishStoryToFacebook({
       skipped: true,
     }
   }
+
+  const resolvedToken = await resolveFacebookPageToken(
+    pageId,
+    credential.accessToken,
+  )
+
+  if (!resolvedToken.ok || !resolvedToken.accessToken) {
+    return {
+      ok: false,
+      error:
+        resolvedToken.error ||
+        'Facebook Page token resolution failed.',
+    }
+  }
+
+  const accessToken = resolvedToken.accessToken
 
   const cleanTitle =
     title
