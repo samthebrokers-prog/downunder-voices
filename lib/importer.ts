@@ -1725,6 +1725,17 @@ export async function runNewsImport(): Promise<
     }
 
     try {
+      const logErrorMessage = [
+        errorMessage,
+        facebookFailed > 0
+          ? `Facebook delivery failed for ${facebookFailed} ${
+              facebookFailed === 1 ? 'story' : 'stories'
+            }: ${facebookError || 'Unknown Facebook error.'}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join(' | ') || null
+
       await dbRequest(
         'import_logs',
         {
@@ -1743,7 +1754,7 @@ export async function runNewsImport(): Promise<
               skipped,
 
             error_message:
-              errorMessage,
+              logErrorMessage,
 
             duration_ms:
               Date.now() -
