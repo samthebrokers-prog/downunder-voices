@@ -6,6 +6,7 @@ import {
   dbRequest,
   isDatabaseConfigured,
 } from '@/lib/db'
+import { facebookConfigurationSummary } from '@/lib/facebook'
 import {
   AdminEditStoryForm,
   AdminNewStoryForm,
@@ -38,6 +39,8 @@ export default async function AdminPage() {
 
   const configured = isDatabaseConfigured()
   const configuration = databaseConfigurationSummary()
+  const facebookConfiguration =
+    facebookConfigurationSummary()
   let stories: Awaited<ReturnType<typeof getAllStoriesForAdmin>> = []
   let sources: Source[] = []
   let logs: Log[] = []
@@ -104,6 +107,52 @@ export default async function AdminPage() {
       )}
 
       <div className="mt-8 grid gap-8">
+        <section
+          className={`rounded-lg border p-5 ${
+            facebookConfiguration.configured
+              ? 'border-emerald-600/30 bg-emerald-600/5'
+              : 'border-destructive/30 bg-destructive/5'
+          }`}
+        >
+          <h2 className="font-serif text-2xl font-bold">
+            Facebook publishing
+          </h2>
+
+          {facebookConfiguration.configured ? (
+            <div className="mt-2 text-sm">
+              <p>
+                The Page ID and Page access token are present for Page{' '}
+                <strong>{facebookConfiguration.pageId}</strong>. Direct image
+                publishing is configured through Meta Graph API{' '}
+                {facebookConfiguration.graphApiVersion}.
+              </p>
+              <a
+                href="/api/admin/facebook-health"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 inline-flex rounded border px-3 py-2 font-semibold hover:bg-background"
+              >
+                Verify Meta connection
+              </a>
+            </div>
+          ) : (
+            <div className="mt-2 text-sm">
+              <p>
+                Direct Facebook publishing is off because the production
+                environment is missing required credentials.
+              </p>
+              <ul className="mt-3 list-disc space-y-1 pl-5 font-mono text-xs">
+                {!facebookConfiguration.pageIdPresent && (
+                  <li>FACEBOOK_PAGE_ID</li>
+                )}
+                {!facebookConfiguration.accessTokenPresent && (
+                  <li>FACEBOOK_PAGE_ACCESS_TOKEN</li>
+                )}
+              </ul>
+            </div>
+          )}
+        </section>
+
         {configured && !databaseError && <AdminRunImportButton />}
         <AdminNewStoryForm />
         <AdminSourceForm />

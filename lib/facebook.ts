@@ -15,6 +15,7 @@ type FacebookPostResult = {
 
 type FacebookApiData = {
   id?: string
+  name?: string
   post_id?: string
   error?: {
     message?: string
@@ -26,6 +27,91 @@ type FacebookApiData = {
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ||
   'https://www.downundervoices.com'
+
+const configuredGraphApiVersion =
+  process.env.FACEBOOK_GRAPH_API_VERSION?.trim() || ''
+
+const GRAPH_API_VERSION = /^v\d+\.\d+$/.test(
+  configuredGraphApiVersion,
+)
+  ? configuredGraphApiVersion
+  : 'v26.0'
+
+export function facebookConfigurationSummary() {
+  const pageId = process.env.FACEBOOK_PAGE_ID?.trim() || ''
+  const accessToken =
+    process.env.FACEBOOK_PAGE_ACCESS_TOKEN?.trim() || ''
+
+  return {
+    configured: Boolean(pageId && accessToken),
+    pageId: pageId || null,
+    pageIdPresent: Boolean(pageId),
+    accessTokenPresent: Boolean(accessToken),
+    graphApiVersion: GRAPH_API_VERSION,
+  }
+}
+
+export async function verifyFacebookConnection() {
+  const configuration = facebookConfigurationSummary()
+  const accessToken =
+    process.env.FACEBOOK_PAGE_ACCESS_TOKEN?.trim() || ''
+
+  if (!configuration.configured || !configuration.pageId) {
+    return {
+      ok: false,
+      ...configuration,
+      error: 'Facebook Page credentials are not configured.',
+    }
+  }
+
+  try {
+    const endpoint = new URL(
+      'https://graph.facebook.com/' +
+        GRAPH_API_VERSION +
+        '/' +
+        configuration.pageId,
+    )
+
+    endpoint.searchParams.set('fields', 'id,name')
+
+    const response = await fetch(endpoint, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      cache: 'no-store',
+      signal: AbortSignal.timeout(10000),
+    })
+
+    const data = (await response.json()) as FacebookApiData
+
+    if (!response.ok || !data.id) {
+      return {
+        ok: false,
+        ...configuration,
+        error:
+          data.error?.message ||
+          'Facebook returned HTTP ' + response.status,
+      }
+    }
+
+    return {
+      ok: true,
+      ...configuration,
+      pageId: data.id,
+      pageName: data.name || null,
+      error: null,
+    }
+  } catch (error) {
+    return {
+      ok: false,
+      ...configuration,
+      error:
+        error instanceof Error
+          ? error.message
+          : 'Unknown Facebook connection error',
+    }
+  }
+}
 
 async function sendFacebookRequest(
   endpoint: string,
@@ -82,10 +168,10 @@ export async function publishStoryToFacebook({
   linkUrl,
 }: FacebookPostInput): Promise<FacebookPostResult> {
   const pageId =
-    process.env.FACEBOOK_PAGE_ID
+    process.env.FACEBOOK_PAGE_ID?.trim()
 
   const accessToken =
-    process.env.FACEBOOK_PAGE_ACCESS_TOKEN
+    process.env.FACEBOOK_PAGE_ACCESS_TOKEN?.trim()
 
   if (!pageId || !accessToken) {
     console.warn(
@@ -121,16 +207,21 @@ export async function publishStoryToFacebook({
     siteUrl + '/story/' + encodeURIComponent(slug)
 
   /*
-   * Always give Meta an image served by Downunder Voices itself.
-   * Remote publisher images can reject Meta's crawler or expire.
+   * Standard stories use a stable, branded image served by
+   * Downunder Voices. Remote publisher images can reject
+   * Meta's crawler or expire. Feature pages such as Cartoon
+   * of the Day can explicitly supply their own site image by
+   * also supplying linkUrl.
    */
-  const publicImageUrl = imageUrl
-    ? imageUrl.startsWith('http')
-      ? imageUrl
-      : siteUrl + imageUrl
-    : siteUrl +
-      '/api/social-image/' +
-      encodeURIComponent(slug)
+  const publicImageUrl =
+    linkUrl && imageUrl
+      ? imageUrl.startsWith('http')
+        ? imageUrl
+        : siteUrl +
+          (imageUrl.startsWith('/') ? imageUrl : '/' + imageUrl)
+      : siteUrl +
+        '/api/social-image/' +
+        encodeURIComponent(slug)
 
   const message = [
     cleanTitle,
@@ -142,7 +233,11 @@ export async function publishStoryToFacebook({
 
   const photoResult =
     await sendFacebookRequest(
-      'https://graph.facebook.com/v26.0/' + pageId + '/photos',
+      'https://graph.facebook.com/' +
+        GRAPH_API_VERSION +
+        '/' +
+        pageId +
+        '/photos',
       new URLSearchParams({
         message,
         url: publicImageUrl,
@@ -168,7 +263,11 @@ export async function publishStoryToFacebook({
 
   const linkResult =
     await sendFacebookRequest(
-      'https://graph.facebook.com/v26.0/' + pageId + '/feed',
+      'https://graph.facebook.com/' +
+        GRAPH_API_VERSION +
+        '/' +
+        pageId +
+        '/feed',
       new URLSearchParams({
         message,
         link: storyUrl,

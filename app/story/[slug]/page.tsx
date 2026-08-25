@@ -252,6 +252,51 @@ export default async function StoryPage({
   const storyUrl =
     `${siteUrl}/story/${story.slug ?? story.id}`
 
+  const socialImage = getSocialImageUrl(
+    story.image,
+    story.slug ?? story.id,
+  )
+
+  const publishedDate = new Date(
+    story.publishedAt || story.date,
+  )
+
+  const publishedAt = Number.isNaN(publishedDate.getTime())
+    ? new Date().toISOString()
+    : publishedDate.toISOString()
+
+  const newsArticleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': storyUrl,
+    },
+    headline: story.title,
+    description: story.summary,
+    image: [socialImage],
+    datePublished: publishedAt,
+    dateModified: publishedAt,
+    author: story.author
+      ? {
+          '@type': 'Person',
+          name: story.author,
+        }
+      : {
+          '@type': 'Organization',
+          name: 'Downunder Voices Newsroom',
+        },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Downunder Voices',
+      url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/apple-icon.png`,
+      },
+    },
+  }
+
   const encodedStoryUrl =
     encodeURIComponent(storyUrl)
 
@@ -279,6 +324,16 @@ export default async function StoryPage({
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(newsArticleJsonLd).replace(
+            /</g,
+            '\\u003c',
+          ),
+        }}
+      />
+
       <article className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <Link
