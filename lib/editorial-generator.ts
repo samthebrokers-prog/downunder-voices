@@ -46,6 +46,9 @@ export type EditorialGenerationResult = {
 const DEFAULT_EDITORIAL_IMAGE =
   'https://www.downundervoices.com/images/downunder-default-news.jpg'
 
+const MAX_EDITORIALS_PER_DAY = 2
+const MAX_EDITORIALS_PER_RUN = 1
+
 const ALLOWED_CATEGORIES: CategorySlug[] = [
   'australia',
   'new-zealand',
@@ -1700,11 +1703,19 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
     return publishedAt >= startOfTodayUtc.getTime()
   })
 
-  const remainingToday = Math.max(0, 2 - publishedToday.length)
+  const remainingToday = Math.max(
+    0,
+    MAX_EDITORIALS_PER_DAY - publishedToday.length,
+  )
 
   if (remainingToday === 0) {
     return { created: 0, titles: [] }
   }
+
+  const maximumThisRun = Math.min(
+    remainingToday,
+    MAX_EDITORIALS_PER_RUN,
+  )
 
   if (
     newsStories.length < 4
@@ -1775,7 +1786,7 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
     index += 1
   ) {
     if (
-      createdTitles.length >= remainingToday
+      createdTitles.length >= maximumThisRun
     ) {
       break
     }
@@ -1801,10 +1812,10 @@ export async function runEditorialGenerator(): Promise<EditorialGenerationResult
   }
 
   if (
-    createdTitles.length < 2
+    createdTitles.length < maximumThisRun
   ) {
     console.warn(
-      `Only ${createdTitles.length} automated Opinion article(s) were published because remaining candidates were duplicates or invalid.`,
+      `Only ${createdTitles.length} of ${maximumThisRun} scheduled automated Opinion article(s) were published because remaining candidates were duplicates or invalid.`,
     )
   }
 
