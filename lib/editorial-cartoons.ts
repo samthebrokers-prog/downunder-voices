@@ -10,6 +10,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '26 August 2026',
+    image:
+      '/editorial-cartoons/2026-08-26-tiny-collectibles-big-competition.jpg',
+    alt: 'Black-and-white editorial cartoon of a supermarket executive examining a tiny generic collectible figure beside a large profit report',
+    headline: 'Two centimetres of serious competition',
+    summary:
+      'Coles said supermarket sales growth temporarily moderated during a competitor’s collectibles campaign, before recovering when it ended. The same annual result reported a statutory profit of $1.09 billion — proof that even a tiny plastic rival can make a very large boardroom impression.',
+    sourceUrl:
+      'https://www.theguardian.com/australia-news/live/2026/aug/25/australia-news-live-sydney-trains-delays-cancellations-albanese-gst-wa-one-nation-coalition-secret-harbour-election-tax-reform-royal-commission-antisemitism-icac-victorian-rail-loop-alan-jones-trial-ntwnfb',
+    sourceLabel:
+      'Guardian Australia — Coles full-year results',
+  },
+  {
     date: '25 August 2026',
     image:
       '/editorial-cartoons/2026-08-25-army-helicopter-alarm-clock.jpg',
