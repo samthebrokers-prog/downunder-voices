@@ -9,7 +9,7 @@ type RouteContext = {
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: RouteContext,
 ) {
   const { slug } = await params
@@ -24,71 +24,118 @@ export async function GET(
       ? 'Editorial'
       : getCategoryName(story.category)
 
+  const imageUrl =
+    story.image.startsWith('/')
+      ? new URL(story.image, request.url).toString()
+      : story.image
+
   return new ImageResponse(
     (
       <div
         style={{
+          position: 'relative',
           width: '100%',
           height: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          padding: '62px 72px',
+          overflow: 'hidden',
           color: 'white',
-          background:
-            'linear-gradient(135deg, #111827 0%, #7f1d1d 58%, #b91c1c 100%)',
+          background: '#111827',
           fontFamily: 'Georgia, serif',
         }}
       >
+        {/* Every post uses its own story image. The dark overlay keeps
+            headlines readable and preserves the Downunder Voices brand. */}
+        <img
+          src={imageUrl}
+          alt=""
+          width="1200"
+          height="630"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+
         <div
           style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
             display: 'flex',
-            alignItems: 'center',
-            fontFamily: 'Arial, sans-serif',
-            fontSize: 28,
-            fontWeight: 700,
-            letterSpacing: 2,
-            textTransform: 'uppercase',
+            background:
+              'linear-gradient(90deg, rgba(3, 7, 18, 0.94) 0%, rgba(17, 24, 39, 0.78) 52%, rgba(17, 24, 39, 0.20) 100%)',
+          }}
+        />
+
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            padding: '62px 72px',
           }}
         >
-          <span
+          <div
             style={{
-              background: '#dc2626',
-              padding: '12px 22px',
-              borderRadius: 6,
+              display: 'flex',
+              alignItems: 'center',
+              fontFamily: 'Arial, sans-serif',
+              fontSize: 28,
+              fontWeight: 700,
+              letterSpacing: 2,
+              textTransform: 'uppercase',
             }}
           >
-            {category}
-          </span>
-        </div>
+            <span
+              style={{
+                background: '#dc2626',
+                padding: '12px 22px',
+                borderRadius: 6,
+              }}
+            >
+              {category}
+            </span>
+          </div>
 
-        <div
-          style={{
-            display: 'flex',
-            maxWidth: 1050,
-            fontSize: story.title.length > 90 ? 48 : 58,
-            lineHeight: 1.12,
-            fontWeight: 700,
-          }}
-        >
-          {story.title}
-        </div>
+          <div
+            style={{
+              display: 'flex',
+              maxWidth: 900,
+              fontSize: story.title.length > 90 ? 48 : 58,
+              lineHeight: 1.12,
+              fontWeight: 700,
+              textShadow: '0 3px 18px rgba(0, 0, 0, 0.88)',
+            }}
+          >
+            {story.title}
+          </div>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            fontFamily: 'Arial, sans-serif',
-            fontSize: 27,
-            fontWeight: 700,
-          }}
-        >
-          <span>DOWNUNDER VOICES</span>
-          <span style={{ opacity: 0.82 }}>
-            Australia · New Zealand · World
-          </span>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+              fontFamily: 'Arial, sans-serif',
+              fontSize: 27,
+              fontWeight: 700,
+              textShadow: '0 2px 12px rgba(0, 0, 0, 0.9)',
+            }}
+          >
+            <span>DOWNUNDER VOICES</span>
+            <span style={{ opacity: 0.9 }}>
+              Australia · New Zealand · World
+            </span>
+          </div>
         </div>
       </div>
     ),
