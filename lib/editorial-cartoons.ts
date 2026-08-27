@@ -10,6 +10,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '27 August 2026',
+    image:
+      '/editorial-cartoons/2026-08-27-wa-gst-border-line.jpg',
+    alt: 'Black-and-white editorial cartoon of an anthropomorphic map of Western Australia and a Productivity Commission report arguing across the WA border over a GST money sack',
+    headline: "Crossing the line, Western Australian style",
+    summary:
+      'The Productivity Commission said the WA premier crossed a line by calling its members “east coast clowns” during the GST carve-up dispute. In the west, however, every line in this argument seems to lead straight back to the state border.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-08-26/productivity-commission-hits-back-criticism-over-gst/107078924',
+    sourceLabel:
+      'ABC News — Productivity Commission responds to GST criticism',
+  },
+  {
     date: '26 August 2026',
     image:
       '/editorial-cartoons/2026-08-26-tiny-collectibles-big-competition.jpg',
