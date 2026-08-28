@@ -1,0 +1,19 @@
+name: Publish 28 Aug stories
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-28aug-stories.yml'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Vercel production deployment
+        run: sleep 90
+      - name: Publish stories
+        run: |
+          set -e
+          curl --fail --show-error --silent --retry 6 --retry-delay 20 \
+            'https://www.downundervoices.com/api/one-time/publish-2026-08-28?token=dv-28aug26-flood-afl-7f4c91'
