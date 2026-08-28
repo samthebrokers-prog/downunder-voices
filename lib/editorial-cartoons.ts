@@ -10,6 +10,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '28 August 2026',
+    image:
+      '/editorial-cartoons/2026-08-28-gympie-first-this-year.jpg',
+    alt: 'Black-and-white editorial cartoon of a young Gympie Music Muster visitor meeting a cheerful veteran covered in decades of festival wristbands and badges',
+    headline: 'A first-timer, technically',
+    summary:
+      'The Gympie Music Muster opened in Amamoor Creek State Forest on Thursday, with day-one visitors ranging from newcomers to a fan marking a 40th visit. At a festival with that much history, “first Muster” may simply mean the first one this year.',
+    sourceUrl:
+      'https://www.couriermail.com.au/news/queensland/gympie/amamoor-forest-comes-alive-for-the-launch-of-2026-gympie-music-muster/news-story/ffb7cef38b3f54c7c5b6214111058cc0',
+    sourceLabel:
+      'Gympie Times — 2026 Muster day-one highlights',
+  },
+  {
     date: '27 August 2026',
     image:
       '/editorial-cartoons/2026-08-27-wa-gst-border-line.jpg',
