@@ -240,11 +240,11 @@ export default async function HomePage() {
           </section>
 
           {ninetySeconds.length > 0 && (
-            <section className="mt-12 overflow-hidden rounded-xl border border-slate-800 bg-slate-950 text-white shadow-lg">
-              <div className="border-b border-slate-800 px-6 py-6 sm:px-8">
+            <section className="mt-12 overflow-hidden rounded-xl border border-slate-200 bg-white text-slate-950 shadow-sm">
+              <div className="border-b border-slate-200 bg-slate-50 px-6 py-6 sm:px-8">
                 <div className="flex flex-wrap items-start justify-between gap-5">
                   <div>
-                    <div className="flex items-center gap-2 text-red-400">
+                    <div className="flex items-center gap-2 text-red-700">
                       <Globe2 className="size-5" />
 
                       <p className="text-xs font-black uppercase tracking-[0.2em]">
@@ -256,15 +256,15 @@ export default async function HomePage() {
                       Around the World in 90 Seconds
                     </h2>
 
-                    <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+                    <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
                       The stories people are talking about —
                       3 from Australia, 2 from New Zealand and
                       5 from around the world.
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-xs font-bold text-slate-200">
-                    <Clock3 className="size-4 text-red-400" />
+                  <div className="flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-bold text-slate-700">
+                    <Clock3 className="size-4 text-red-700" />
                     90 sec read
                   </div>
                 </div>
@@ -277,7 +277,7 @@ export default async function HomePage() {
                     href={`/story/${
                       item.story.slug ?? item.story.id
                     }`}
-                    className="group border-b border-slate-800 px-6 py-5 transition hover:bg-slate-900 md:px-8 md:[&:nth-child(odd)]:border-r"
+                    className="group border-b border-slate-200 px-6 py-5 transition hover:bg-slate-50 md:px-8 md:[&:nth-child(odd)]:border-r"
                   >
                     <div className="flex gap-4">
                       <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-red-700 text-xs font-black text-white">
@@ -286,15 +286,15 @@ export default async function HomePage() {
 
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="text-xs font-black uppercase tracking-[0.14em] text-red-400">
+                          <span className="text-xs font-black uppercase tracking-[0.14em] text-red-700">
                             {item.label}
                           </span>
 
-                          <span className="text-xs text-slate-500">
+                          <span className="text-xs text-slate-400">
                             •
                           </span>
 
-                          <span className="text-xs font-semibold text-slate-400">
+                          <span className="text-xs font-semibold text-slate-500">
                             {formatBriefingDate(
                               item.story.publishedAt ??
                                 item.story.date,
@@ -302,12 +302,12 @@ export default async function HomePage() {
                           </span>
                         </div>
 
-                        <h3 className="mt-2 font-serif text-lg font-bold leading-snug text-white transition group-hover:text-red-300">
+                        <h3 className="mt-2 font-serif text-lg font-bold leading-snug text-slate-950 transition group-hover:text-red-700">
                           {item.story.title}
                         </h3>
 
                         {item.story.summary && (
-                          <p className="mt-2 text-sm leading-6 text-slate-400">
+                          <p className="mt-2 text-sm leading-6 text-slate-600">
                             {shortSummary(
                               item.story.summary,
                               155,
@@ -315,7 +315,7 @@ export default async function HomePage() {
                           </p>
                         )}
 
-                        <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-red-400">
+                        <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-red-700">
                           Read story
                           <ArrowRight className="size-3.5" />
                         </span>
@@ -325,14 +325,14 @@ export default async function HomePage() {
                 ))}
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900 px-6 py-4 text-xs sm:px-8">
-                <span className="font-semibold text-slate-400">
+              <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-50 px-6 py-4 text-xs sm:px-8">
+                <span className="font-semibold text-slate-500">
                   Australia 3 · New Zealand 2 · World 5
                 </span>
 
                 <Link
                   href="/latest"
-                  className="inline-flex items-center gap-1 font-bold text-red-400 hover:text-red-300"
+                  className="inline-flex items-center gap-1 font-bold text-red-700 hover:text-red-800"
                 >
                   More news
                   <ArrowRight className="size-3.5" />
