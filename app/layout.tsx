@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 
+import { LiveElectionBanner } from '@/components/live-election-banner'
 import { MainHeader } from '@/components/main-header'
 import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
@@ -86,6 +87,7 @@ export default function RootLayout({
 
       <body>
         <MainHeader />
+        <LiveElectionBanner />
 
         <main>{children}</main>
 
