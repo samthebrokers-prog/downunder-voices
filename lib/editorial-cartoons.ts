@@ -10,6 +10,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '29 August 2026',
+    image:
+      '/editorial-cartoons/2026-08-29-afl-qualified-to-qualify.jpg',
+    alt: 'Black-and-white editorial cartoon of a generic bulldog presenting an AFL wild card at the finals gate while a magpie stands beside a 96–93 scoreboard',
+    headline: 'The final before the finals',
+    summary:
+      'The Western Bulldogs edged Collingwood 96–93 in the AFL’s first wildcard final after a Magpies shot missed following the siren. The Dogs now advance to an elimination final — because in the new system, winning a final can be the qualification for another final.',
+    sourceUrl:
+      'https://www.theguardian.com/sport/2026/aug/28/afl-finals-western-bulldogs-vs-collingwood-magpies-wildcard-final-tim-membrey-report',
+    sourceLabel:
+      'Guardian Australia — Bulldogs win inaugural AFL wildcard final',
+  },
+  {
     date: '28 August 2026',
     image:
       '/editorial-cartoons/2026-08-28-gympie-first-this-year.jpg',
