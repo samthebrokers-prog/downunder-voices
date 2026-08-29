@@ -2,16 +2,18 @@ import Link from 'next/link'
 
 export function LiveElectionBanner() {
   return (
-    <div className="border-b border-red-800 bg-red-700 text-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-2 sm:px-6 lg:px-8">
-        <Link
-          href="/secret-harbour-live"
-          className="flex items-center gap-2 text-center text-sm font-black tracking-wide hover:underline"
-        >
-          <span className="size-2 animate-pulse rounded-full bg-white" />
-          LIVE — Secret Harbour By-election Results
-        </Link>
-      </div>
+    <div className="pointer-events-none fixed bottom-5 right-4 z-[60] sm:bottom-6 sm:right-6">
+      <Link
+        href="/secret-harbour-live"
+        className="pointer-events-auto flex max-w-[280px] items-center gap-3 rounded-full border border-red-800 bg-red-700 px-5 py-3 text-sm font-black text-white shadow-2xl transition hover:-translate-y-0.5 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 sm:max-w-none"
+        aria-label="Live Secret Harbour by-election results"
+      >
+        <span className="relative flex size-3 shrink-0">
+          <span className="absolute inline-flex size-full animate-ping rounded-full bg-white opacity-75" />
+          <span className="relative inline-flex size-3 rounded-full bg-white" />
+        </span>
+        <span>LIVE — Secret Harbour By-election Results</span>
+      </Link>
     </div>
   )
 }
