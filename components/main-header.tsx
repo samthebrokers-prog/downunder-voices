@@ -25,6 +25,10 @@ const navLinks = [
           : category.name,
     })),
   {
+    href: '/weather',
+    label: 'Weather',
+  },
+  {
     href: '/cartoon-of-the-day',
     label: 'Cartoon of the Day',
   },
