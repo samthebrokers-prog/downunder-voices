@@ -10,6 +10,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '30 August 2026',
+    image:
+      '/editorial-cartoons/2026-08-30-parramatta-open-key-ring.jpg',
+    alt: 'Black-and-white editorial cartoon of a Parramatta Open volunteer holding an enormous ring of antique keys outside a historic public building while a visitor asks which key opens it',
+    headline: 'The key to one-day access',
+    summary:
+      'Parramatta Open gave visitors rare access to 16 buildings and spaces normally off limits, including Australia’s oldest surviving public building. With that much history behind closed doors, finding the right key was always going to be the day’s longest tour.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-08-29/parramatta-open-event-unlocks-doors-to-western-sydney-buildings/107089740',
+    sourceLabel:
+      'ABC News — Parramatta Open unlocks historic buildings for one day',
+  },
+  {
     date: '29 August 2026',
     image:
       '/editorial-cartoons/2026-08-29-afl-qualified-to-qualify.jpg',
