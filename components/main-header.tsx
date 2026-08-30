@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { FormEvent, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Menu, Search, X } from 'lucide-react'
+import { ChevronDown, Menu, Search, X } from 'lucide-react'
 import { categories } from '@/lib/news-data'
 
 const websiteUrl = 'https://www.downundervoices.com'
@@ -11,13 +11,33 @@ const websiteUrl = 'https://www.downundervoices.com'
 const shareText =
   'Downunder Voices — Independent voices from Australia, New Zealand and the World'
 
-const navLinks = [
-  ...categories
-    .filter((category) => category.slug !== 'editorial-view')
-    .map((category) => ({
-      href: `/category/${category.slug}`,
-      label: category.name === "Sam's View" ? 'Opinion' : category.name,
-    })),
+const categoryLinks = categories
+  .filter((category) => category.slug !== 'editorial-view')
+  .map((category) => ({
+    href: `/category/${category.slug}`,
+    label: category.name === "Sam's View" ? 'Opinion' : category.name,
+  }))
+
+const primaryHrefs = new Set([
+  '/category/australia',
+  '/category/new-zealand',
+  '/category/world',
+  '/category/social-issues',
+  '/category/small-business',
+  '/category/sports',
+])
+
+const primaryLinks = categoryLinks.filter((link) => primaryHrefs.has(link.href))
+const moreLinks = [
+  ...categoryLinks.filter((link) => !primaryHrefs.has(link.href)),
+  { href: '/weather', label: 'Weather' },
+  { href: '/cartoon-of-the-day', label: 'Cartoon of the Day' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+]
+
+const mobileLinks = [
+  ...categoryLinks,
   { href: '/radio', label: 'Radio' },
   { href: '/weather', label: 'Weather' },
   { href: '/cartoon-of-the-day', label: 'Cartoon of the Day' },
@@ -51,6 +71,7 @@ const socialLinks = [
 export function MainHeader() {
   const router = useRouter()
   const [open, setOpen] = useState(false)
+  const [moreOpen, setMoreOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [today, setToday] = useState('')
@@ -68,12 +89,14 @@ export function MainHeader() {
     const query = searchQuery.trim()
     if (!query) return
     setOpen(false)
+    setMoreOpen(false)
     setSearchOpen(false)
     router.push(`/search?q=${encodeURIComponent(query)}`)
   }
 
   function closeMenus() {
     setOpen(false)
+    setMoreOpen(false)
     setSearchOpen(false)
   }
 
@@ -100,14 +123,14 @@ export function MainHeader() {
         </Link>
 
         <div className="flex items-center gap-2">
-          <button type="button" aria-label={searchOpen ? 'Close website search' : 'Search Downunder Voices'} aria-expanded={searchOpen} title="Search Downunder Voices" onClick={() => { setSearchOpen((current) => !current); setOpen(false) }} className="inline-flex size-10 items-center justify-center rounded-full border border-border text-slate-700 transition hover:border-red-700 hover:bg-red-700 hover:text-white">
+          <button type="button" aria-label={searchOpen ? 'Close website search' : 'Search Downunder Voices'} aria-expanded={searchOpen} title="Search Downunder Voices" onClick={() => { setSearchOpen((current) => !current); setOpen(false); setMoreOpen(false) }} className="inline-flex size-10 items-center justify-center rounded-full border border-border text-slate-700 transition hover:border-red-700 hover:bg-red-700 hover:text-white">
             {searchOpen ? <X className="size-4" /> : <Search className="size-4" />}
           </button>
           <div className="hidden items-center gap-2 lg:flex">
             <div className="mx-1 h-6 w-px bg-border" />
             {socialLinks.map((social) => <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} title={social.label} className="inline-flex size-9 items-center justify-center rounded-full border border-border text-xs font-black text-slate-700 transition hover:border-red-700 hover:bg-red-700 hover:text-white">{social.symbol}</a>)}
           </div>
-          <button type="button" aria-label={open ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={open} onClick={() => { setOpen((current) => !current); setSearchOpen(false) }} className="inline-flex size-11 shrink-0 items-center justify-center rounded-md border border-border transition hover:bg-secondary lg:hidden">
+          <button type="button" aria-label={open ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={open} onClick={() => { setOpen((current) => !current); setSearchOpen(false); setMoreOpen(false) }} className="inline-flex size-11 shrink-0 items-center justify-center rounded-md border border-border transition hover:bg-secondary lg:hidden">
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
@@ -131,10 +154,21 @@ export function MainHeader() {
       )}
 
       <nav className="hidden border-t border-border bg-background lg:block">
-        <div className="mx-auto flex max-w-7xl items-center gap-x-6 overflow-x-auto px-4 py-3 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl items-center gap-x-6 px-4 py-3 sm:px-6 lg:px-8">
           <Link href="/" className="whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700">Home</Link>
           <Link href="/latest" className="whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700">Latest</Link>
-          {navLinks.map((link) => <Link key={`${link.href}-${link.label}`} href={link.href} className={`whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700 ${link.href === '/radio' ? 'text-red-700' : ''}`}>{link.label}</Link>)}
+          {primaryLinks.map((link) => <Link key={`${link.href}-${link.label}`} href={link.href} className="whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700">{link.label}</Link>)}
+          <Link href="/radio" className="whitespace-nowrap text-sm font-black text-red-700 transition-colors hover:text-red-800">Radio</Link>
+          <div className="relative ml-auto">
+            <button type="button" aria-expanded={moreOpen} onClick={() => setMoreOpen((current) => !current)} onBlur={() => window.setTimeout(() => setMoreOpen(false), 150)} className="flex items-center gap-1 whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700">
+              More <ChevronDown className={`size-4 transition-transform ${moreOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {moreOpen && (
+              <div className="absolute right-0 top-full z-50 mt-3 w-56 overflow-hidden rounded-md border border-border bg-white py-2 shadow-xl">
+                {moreLinks.map((link) => <Link key={`more-${link.href}-${link.label}`} href={link.href} onClick={closeMenus} className="block px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-slate-50 hover:text-red-700">{link.label}</Link>)}
+              </div>
+            )}
+          </div>
         </div>
       </nav>
 
@@ -144,7 +178,7 @@ export function MainHeader() {
             <Link href="/" onClick={closeMenus} className="border-b border-border py-3 text-sm font-bold">Home</Link>
             <Link href="/latest" onClick={closeMenus} className="border-b border-border py-3 text-sm font-bold">Latest</Link>
             <button type="button" onClick={() => { setOpen(false); setSearchOpen(true) }} className="flex items-center gap-3 border-b border-border py-3 text-left text-sm font-bold"><Search className="size-4" />Search News</button>
-            {navLinks.map((link) => <Link key={`mobile-${link.href}-${link.label}`} href={link.href} onClick={closeMenus} className={`border-b border-border py-3 text-sm font-bold ${link.href === '/radio' ? 'text-red-700' : ''}`}>{link.label}</Link>)}
+            {mobileLinks.map((link) => <Link key={`mobile-${link.href}-${link.label}`} href={link.href} onClick={closeMenus} className={`border-b border-border py-3 text-sm font-bold ${link.href === '/radio' ? 'text-red-700' : ''}`}>{link.label}</Link>)}
             <div className="flex items-center gap-3 py-5">{socialLinks.map((social) => <a key={`mobile-${social.label}`} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} className="inline-flex size-10 items-center justify-center rounded-full border border-border text-xs font-black transition hover:border-red-700 hover:bg-red-700 hover:text-white">{social.symbol}</a>)}</div>
           </div>
         </nav>
