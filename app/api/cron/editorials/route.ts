@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { runEditorialGenerator } from '@/lib/editorial-generator'
+import { runEditorialGeneratorV2 } from '@/lib/editorial-generator-v2'
 
 export const maxDuration = 300
 
@@ -17,7 +17,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const result = await runEditorialGenerator()
+    const result = await runEditorialGeneratorV2()
 
     return NextResponse.json({
       ok: true,
