@@ -3,25 +3,37 @@
 import { useEffect, useRef, useState } from 'react'
 import { Clock3, Loader2, Pause, Play } from 'lucide-react'
 
+type Presenter = 'female' | 'male'
+
+type Segment = {
+  presenter: Presenter
+  script: string
+}
+
 type Bulletin = {
   script: string
+  segments?: Segment[]
   storyCount: number
   generatedAt: string
 }
 
 export default function RadioLatestBulletin() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const objectUrlRef = useRef<string | null>(null)
+  const objectUrlsRef = useRef<string[]>([])
   const [loading, setLoading] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [error, setError] = useState('')
   const [bulletin, setBulletin] = useState<Bulletin | null>(null)
 
+  function clearAudio() {
+    audioRef.current?.pause()
+    audioRef.current = null
+    for (const url of objectUrlsRef.current) URL.revokeObjectURL(url)
+    objectUrlsRef.current = []
+  }
+
   useEffect(() => {
-    return () => {
-      audioRef.current?.pause()
-      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current)
-    }
+    return () => clearAudio()
   }, [])
 
   async function getLatestBulletin() {
@@ -35,6 +47,43 @@ export default function RadioLatestBulletin() {
     return body
   }
 
+  async function createAudio(segment: Segment) {
+    const response = await fetch('/api/radio/speech', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(segment),
+    })
+
+    if (!response.ok) {
+      const body = await response.json().catch(() => null)
+      throw new Error(body?.error || 'The latest bulletin is not available yet.')
+    }
+
+    const blob = await response.blob()
+    const url = URL.createObjectURL(blob)
+    objectUrlsRef.current.push(url)
+    return url
+  }
+
+  async function playSequence(urls: string[], index = 0) {
+    if (index >= urls.length) {
+      setPlaying(false)
+      return
+    }
+
+    const audio = new Audio(urls[index])
+    audioRef.current = audio
+    audio.onended = () => {
+      window.setTimeout(() => void playSequence(urls, index + 1), 650)
+    }
+    audio.onerror = () => {
+      setPlaying(false)
+      setError('The bulletin could not be played. Please try again.')
+    }
+    await audio.play()
+    setPlaying(true)
+  }
+
   async function togglePlay() {
     setError('')
 
@@ -46,38 +95,15 @@ export default function RadioLatestBulletin() {
 
     try {
       setLoading(true)
-      audioRef.current?.pause()
-      if (objectUrlRef.current) {
-        URL.revokeObjectURL(objectUrlRef.current)
-        objectUrlRef.current = null
-      }
+      clearAudio()
 
       const latest = await getLatestBulletin()
-      const response = await fetch('/api/radio/speech', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ presenter: 'female', script: latest.script }),
-      })
+      const segments = latest.segments?.length
+        ? latest.segments
+        : [{ presenter: 'female' as Presenter, script: latest.script }]
 
-      if (!response.ok) {
-        const body = await response.json().catch(() => null)
-        throw new Error(body?.error || 'The latest bulletin is not available yet.')
-      }
-
-      const blob = await response.blob()
-      const url = URL.createObjectURL(blob)
-      objectUrlRef.current = url
-
-      const audio = new Audio(url)
-      audioRef.current = audio
-      audio.onended = () => setPlaying(false)
-      audio.onerror = () => {
-        setPlaying(false)
-        setError('The bulletin could not be played. Please try again.')
-      }
-
-      await audio.play()
-      setPlaying(true)
+      const urls = await Promise.all(segments.map(createAudio))
+      await playSequence(urls)
     } catch (err) {
       setPlaying(false)
       setError(err instanceof Error ? err.message : 'The latest bulletin is not available yet.')
