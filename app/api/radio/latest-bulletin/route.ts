@@ -43,11 +43,13 @@ export async function GET() {
       if (!selected.includes(story)) selected.push(story)
     }
 
+    // Separate each item into its own paragraph. The speech model treats these
+    // paragraph breaks as natural on-air pauses instead of rushing headlines together.
     const script = [
       'This is Downunder Voices Radio. Here are the latest headlines from Australia, New Zealand and around the world.',
       ...selected.map(storyLine),
       'You are listening to Downunder Voices Radio. Australia, New Zealand and the world.',
-    ].join(' ')
+    ].join('\n\n')
 
     return NextResponse.json({
       script: script.slice(0, 4000),
