@@ -19,17 +19,19 @@ type Bulletin = {
 
 export default function RadioLatestBulletin() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const objectUrlsRef = useRef<string[]>([])
+  const objectUrlRef = useRef<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [playing, setPlaying] = useState(false)
+  const [readyToPlay, setReadyToPlay] = useState(false)
   const [error, setError] = useState('')
   const [bulletin, setBulletin] = useState<Bulletin | null>(null)
 
   function clearAudio() {
     audioRef.current?.pause()
     audioRef.current = null
-    for (const url of objectUrlsRef.current) URL.revokeObjectURL(url)
-    objectUrlsRef.current = []
+    if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current)
+    objectUrlRef.current = null
+    setReadyToPlay(false)
   }
 
   useEffect(() => {
@@ -47,7 +49,7 @@ export default function RadioLatestBulletin() {
     return body
   }
 
-  async function createAudio(segment: Segment) {
+  async function createAudioBlob(segment: Segment) {
     const response = await fetch('/api/radio/speech', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -59,29 +61,22 @@ export default function RadioLatestBulletin() {
       throw new Error(body?.error || 'The latest bulletin is not available yet.')
     }
 
-    const blob = await response.blob()
-    const url = URL.createObjectURL(blob)
-    objectUrlsRef.current.push(url)
-    return url
+    return response.blob()
   }
 
-  async function playSequence(urls: string[], index = 0) {
-    if (index >= urls.length) {
+  async function startPreparedAudio() {
+    const audio = audioRef.current
+    if (!audio) return
+    setError('')
+    try {
+      await audio.play()
+      setPlaying(true)
+      setReadyToPlay(false)
+    } catch {
       setPlaying(false)
-      return
+      setReadyToPlay(true)
+      setError('Audio is ready. Tap Play again to start listening.')
     }
-
-    const audio = new Audio(urls[index])
-    audioRef.current = audio
-    audio.onended = () => {
-      window.setTimeout(() => void playSequence(urls, index + 1), 650)
-    }
-    audio.onerror = () => {
-      setPlaying(false)
-      setError('The bulletin could not be played. Please try again.')
-    }
-    await audio.play()
-    setPlaying(true)
   }
 
   async function togglePlay() {
@@ -90,6 +85,12 @@ export default function RadioLatestBulletin() {
     if (playing && audioRef.current) {
       audioRef.current.pause()
       setPlaying(false)
+      setReadyToPlay(true)
+      return
+    }
+
+    if (readyToPlay && audioRef.current) {
+      await startPreparedAudio()
       return
     }
 
@@ -102,10 +103,41 @@ export default function RadioLatestBulletin() {
         ? latest.segments
         : [{ presenter: 'female' as Presenter, script: latest.script }]
 
-      const urls = await Promise.all(segments.map(createAudio))
-      await playSequence(urls)
+      const blobs = await Promise.all(segments.map(createAudioBlob))
+
+      // Keep both presenters in one continuous audio stream. This avoids a new
+      // play request when the voice changes, which iPhone and in-app browsers
+      // can block after the original user tap has finished.
+      const combinedBlob = new Blob(blobs, { type: 'audio/mpeg' })
+      const url = URL.createObjectURL(combinedBlob)
+      objectUrlRef.current = url
+
+      const audio = new Audio(url)
+      audioRef.current = audio
+      audio.setAttribute('playsinline', 'true')
+      audio.preload = 'auto'
+      audio.onended = () => {
+        setPlaying(false)
+        setReadyToPlay(false)
+      }
+      audio.onerror = () => {
+        setPlaying(false)
+        setReadyToPlay(false)
+        setError('The bulletin could not be played. Please try again, or open this page in Safari.')
+      }
+
+      try {
+        await audio.play()
+        setPlaying(true)
+      } catch {
+        // Safari and embedded iPhone browsers may require a second direct tap
+        // after asynchronous speech generation has completed.
+        setReadyToPlay(true)
+        setError('Audio is ready. Tap Play again to start listening.')
+      }
     } catch (err) {
       setPlaying(false)
+      setReadyToPlay(false)
       setError(err instanceof Error ? err.message : 'The latest bulletin is not available yet.')
     } finally {
       setLoading(false)
@@ -144,7 +176,7 @@ export default function RadioLatestBulletin() {
             className="flex min-w-44 items-center justify-center gap-3 rounded-full bg-white px-6 py-4 font-black text-slate-950 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? <Loader2 className="size-5 animate-spin" /> : playing ? <Pause className="size-5" /> : <Play className="size-5" />}
-            {loading ? 'Preparing' : playing ? 'Pause bulletin' : 'Play latest news'}
+            {loading ? 'Preparing' : playing ? 'Pause bulletin' : readyToPlay ? 'Play now' : 'Play latest news'}
           </button>
         </div>
 
