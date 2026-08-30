@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Headphones, Mic2, Radio, ShieldCheck } from 'lucide-react'
 import RadioLatestBulletin from '@/components/radio-latest-bulletin'
-import RadioVoiceDemo from '@/components/radio-voice-demo'
 
 export const metadata: Metadata = {
   title: 'Radio — News from Australia, New Zealand & the World',
@@ -40,10 +39,6 @@ export default function RadioPage() {
 
       <section className="mx-auto max-w-5xl px-4 pt-12 sm:px-6 lg:px-8">
         <RadioLatestBulletin />
-      </section>
-
-      <section className="mx-auto max-w-5xl px-4 pt-8 sm:px-6 lg:px-8">
-        <RadioVoiceDemo />
       </section>
 
       <section className="mx-auto grid max-w-5xl gap-6 px-4 py-12 sm:px-6 md:grid-cols-3 lg:px-8">
