@@ -5,8 +5,11 @@ import { Clock3, Loader2, Pause, Play, Radio } from 'lucide-react'
 
 type Presenter = 'female' | 'male'
 
-const BULLETIN_SCRIPT =
-  'This is Downunder Voices Radio. Here are the latest headlines from Australia, New Zealand and around the world. Our bulletins are being prepared from Downunder Voices reporting and verified sources. Australia and New Zealand come first, followed by the major international stories people need to know. You are listening to Downunder Voices Radio.'
+type Bulletin = {
+  script: string
+  storyCount: number
+  generatedAt: string
+}
 
 export default function RadioLatestBulletin() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -15,6 +18,7 @@ export default function RadioLatestBulletin() {
   const [loading, setLoading] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [error, setError] = useState('')
+  const [bulletin, setBulletin] = useState<Bulletin | null>(null)
 
   useEffect(() => {
     return () => {
@@ -22,6 +26,17 @@ export default function RadioLatestBulletin() {
       if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current)
     }
   }, [])
+
+  async function getLatestBulletin() {
+    const response = await fetch('/api/radio/latest-bulletin', { cache: 'no-store' })
+    if (!response.ok) {
+      const body = await response.json().catch(() => null)
+      throw new Error(body?.error || 'The latest bulletin is not available yet.')
+    }
+    const body = (await response.json()) as Bulletin
+    setBulletin(body)
+    return body
+  }
 
   async function togglePlay() {
     setError('')
@@ -41,10 +56,11 @@ export default function RadioLatestBulletin() {
         objectUrlRef.current = null
       }
 
+      const latest = await getLatestBulletin()
       const response = await fetch('/api/radio/speech', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ presenter, script: BULLETIN_SCRIPT }),
+        body: JSON.stringify({ presenter, script: latest.script }),
       })
 
       if (!response.ok) {
@@ -84,7 +100,7 @@ export default function RadioLatestBulletin() {
           </div>
           <div className="flex items-center gap-2 text-xs font-semibold text-red-100">
             <Clock3 className="size-4" />
-            Hourly news format
+            Latest news bulletin
           </div>
         </div>
       </div>
@@ -95,8 +111,11 @@ export default function RadioLatestBulletin() {
             <p className="text-sm font-bold uppercase tracking-[0.16em] text-red-300">Latest bulletin</p>
             <h2 className="mt-2 font-serif text-3xl font-black">Australia · New Zealand · World</h2>
             <p className="mt-3 leading-7 text-slate-300">
-              Short, clear news updates designed for the top of the hour, with the biggest stories first.
+              Fresh Downunder Voices stories, prepared as a short radio news bulletin when you press play.
             </p>
+            {bulletin ? (
+              <p className="mt-2 text-xs text-slate-500">Prepared from {bulletin.storyCount} current stories.</p>
+            ) : null}
           </div>
 
           <button
@@ -106,7 +125,7 @@ export default function RadioLatestBulletin() {
             className="flex min-w-44 items-center justify-center gap-3 rounded-full bg-white px-6 py-4 font-black text-slate-950 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? <Loader2 className="size-5 animate-spin" /> : playing ? <Pause className="size-5" /> : <Play className="size-5" />}
-            {loading ? 'Preparing' : playing ? 'Pause bulletin' : 'Play bulletin'}
+            {loading ? 'Preparing' : playing ? 'Pause bulletin' : 'Play latest news'}
           </button>
         </div>
 
