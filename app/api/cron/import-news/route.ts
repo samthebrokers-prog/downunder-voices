@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { runNewsImport } from '@/lib/importer'
-import { runEditorialGenerator } from '@/lib/editorial-generator'
+import { runEditorialGeneratorV2 } from '@/lib/editorial-generator-v2'
 import { recoverFreshAutoPublishDrafts } from '@/lib/live-news-recovery'
 
 export const maxDuration = 300
@@ -17,11 +17,11 @@ export async function GET(request: Request) {
     const recovery = await recoverFreshAutoPublishDrafts()
 
     let editorialRecovery:
-      | Awaited<ReturnType<typeof runEditorialGenerator>>
+      | Awaited<ReturnType<typeof runEditorialGeneratorV2>>
       | { error: string }
 
     try {
-      editorialRecovery = await runEditorialGenerator()
+      editorialRecovery = await runEditorialGeneratorV2()
     } catch (error) {
       editorialRecovery = {
         error:
