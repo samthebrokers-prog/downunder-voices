@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { Headphones, Mic2, Radio, ShieldCheck } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Radio — News from Australia, New Zealand & the Pacific',
+  title: 'Radio — News from Australia, New Zealand & the World',
   description:
-    'Downunder Voices Radio is being built as a news-first audio service for Australia, New Zealand and the Pacific.',
+    'Downunder Voices Radio is being built as a news-first audio service covering Australia, New Zealand and the most important stories from around the world.',
 }
 
 export default function RadioPage() {
@@ -24,8 +24,9 @@ export default function RadioPage() {
 
           <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
             We are building a news-first audio service covering Australia,
-            New Zealand and the Pacific. Our first broadcasts will focus on
-            news, business, community, sport and major developing stories.
+            New Zealand and the most important stories happening around the
+            world right now. Our first broadcasts will focus on major news,
+            business, community, sport and developing stories that matter.
           </p>
 
           <div className="mt-8 inline-flex items-center gap-3 rounded-md bg-red-700 px-5 py-3 font-black uppercase tracking-wide text-white">
@@ -47,10 +48,10 @@ export default function RadioPage() {
 
         <div className="rounded-lg border bg-white p-6 shadow-sm">
           <Headphones className="size-7 text-red-700" />
-          <h2 className="mt-4 text-xl font-black">Made for listening</h2>
+          <h2 className="mt-4 text-xl font-black">What matters now</h2>
           <p className="mt-2 leading-7 text-slate-600">
-            Designed for people at work, at home and on the move across the
-            region.
+            Australia and New Zealand come first, followed by the biggest world
+            stories people need to know about now.
           </p>
         </div>
 
@@ -70,7 +71,7 @@ export default function RadioPage() {
             Downunder Voices Radio
           </p>
           <h2 className="mt-3 font-serif text-3xl font-black">
-            Australia · New Zealand · Pacific
+            Australia · New Zealand · World
           </h2>
           <p className="mt-4 max-w-3xl leading-7 text-slate-600">
             The radio service will sit alongside our independent news coverage,
