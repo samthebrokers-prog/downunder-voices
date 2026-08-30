@@ -1,9 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Clock3, Loader2, Pause, Play, Radio } from 'lucide-react'
-
-type Presenter = 'female' | 'male'
+import { Clock3, Loader2, Pause, Play } from 'lucide-react'
 
 type Bulletin = {
   script: string
@@ -14,7 +12,6 @@ type Bulletin = {
 export default function RadioLatestBulletin() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const objectUrlRef = useRef<string | null>(null)
-  const [presenter, setPresenter] = useState<Presenter>('female')
   const [loading, setLoading] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [error, setError] = useState('')
@@ -49,7 +46,6 @@ export default function RadioLatestBulletin() {
 
     try {
       setLoading(true)
-
       audioRef.current?.pause()
       if (objectUrlRef.current) {
         URL.revokeObjectURL(objectUrlRef.current)
@@ -60,7 +56,7 @@ export default function RadioLatestBulletin() {
       const response = await fetch('/api/radio/speech', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ presenter, script: latest.script }),
+        body: JSON.stringify({ presenter: 'female', script: latest.script }),
       })
 
       if (!response.ok) {
@@ -99,8 +95,7 @@ export default function RadioLatestBulletin() {
             Downunder Voices Radio
           </div>
           <div className="flex items-center gap-2 text-xs font-semibold text-red-100">
-            <Clock3 className="size-4" />
-            Latest news bulletin
+            <Clock3 className="size-4" /> Latest news bulletin
           </div>
         </div>
       </div>
@@ -113,9 +108,7 @@ export default function RadioLatestBulletin() {
             <p className="mt-3 leading-7 text-slate-300">
               Fresh Downunder Voices stories, prepared as a short radio news bulletin when you press play.
             </p>
-            {bulletin ? (
-              <p className="mt-2 text-xs text-slate-500">Prepared from {bulletin.storyCount} current stories.</p>
-            ) : null}
+            {bulletin ? <p className="mt-2 text-xs text-slate-500">Prepared from {bulletin.storyCount} current stories.</p> : null}
           </div>
 
           <button
@@ -129,25 +122,8 @@ export default function RadioLatestBulletin() {
           </button>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-slate-800 pt-5">
-          <span className="flex items-center gap-2 text-sm font-semibold text-slate-400">
-            <Radio className="size-4" /> Presenter
-          </span>
-          <button
-            type="button"
-            onClick={() => setPresenter('female')}
-            className={`rounded-full px-4 py-2 text-sm font-bold transition ${presenter === 'female' ? 'bg-red-700 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`}
-          >
-            Female
-          </button>
-          <button
-            type="button"
-            onClick={() => setPresenter('male')}
-            className={`rounded-full px-4 py-2 text-sm font-bold transition ${presenter === 'male' ? 'bg-red-700 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`}
-          >
-            Male
-          </button>
-          <span className="ml-auto text-xs text-slate-500">News first. Music comes after licensing.</span>
+        <div className="mt-6 border-t border-slate-800 pt-5 text-right text-xs text-slate-500">
+          News first. Music comes after licensing.
         </div>
 
         {error ? <p className="mt-4 rounded-md bg-amber-100 px-4 py-3 text-sm font-semibold text-amber-950">{error}</p> : null}
