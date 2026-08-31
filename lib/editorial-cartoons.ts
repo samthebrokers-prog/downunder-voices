@@ -10,6 +10,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '31 August 2026',
+    image:
+      '/editorial-cartoons/2026-08-31-gold-coast-show-duck-count.jpg',
+    alt: 'Black-and-white editorial cartoon of a Gold Coast Show volunteer holding an attendance counter beyond its record mark while a racing duck asks whether the ducks were counted',
+    headline: 'A record crowd — give or take a few ducks',
+    summary:
+      'The 2026 Gold Coast Show set a new attendance record after a free three-day program featuring showbags, Dock Dogs, duck racing and traditional show attractions. With so many competitors on two legs, four legs and webbed feet, the final headcount may need its own judging category.',
+    sourceUrl:
+      'https://www.couriermail.com.au/news/gold-coast/gold-coast-show-smashes-alltime-attendance-records-in-massive-weekend-success/news-story/aff1de1a5bf1c2d5aea1b82abcdc5de9',
+    sourceLabel:
+      'Gold Coast Bulletin — Gold Coast Show breaks attendance record',
+  },
+  {
     date: '30 August 2026',
     image:
       '/editorial-cartoons/2026-08-30-parramatta-open-key-ring.jpg',
