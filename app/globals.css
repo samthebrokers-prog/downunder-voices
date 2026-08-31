@@ -103,3 +103,12 @@
 .prose-content h2 { @apply font-serif text-2xl font-bold text-foreground; }
 .prose-content h3 { @apply font-serif text-xl font-bold text-foreground; }
 .prose-content a { @apply text-primary underline; }
+
+/* Keep the homepage editorial cartoon compact and newspaper-like. */
+a[href='/cartoon-of-the-day'] > img {
+  display: block;
+  width: min(100%, 760px);
+  height: auto;
+  margin-inline: auto;
+  filter: grayscale(1);
+}
