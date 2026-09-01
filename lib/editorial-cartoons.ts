@@ -10,6 +10,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '1 September 2026',
+    image:
+      '/editorial-cartoons/2026-09-01-ai-email-tribunal.jpg',
+    alt: 'Black-and-white editorial cartoon of two office robots surrounded by enormous piles of emails while a workplace tribunal chair orders future correspondence to be brief, accurate and human',
+    headline: 'An unusually brief order for the robots',
+    summary:
+      'Australia’s workplace tribunal ordered two parties to stop using artificial intelligence in their correspondence and instead keep future messages accurate, respectful, brief and to the point. The office robots immediately requested a 4,000-word definition of “brief”.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-08-31/should-artificial-intelligence-ai-be-used-to-write-work-emails/107051458',
+    sourceLabel:
+      'ABC News — Workplace tribunal rules against AI-written correspondence',
+  },
+  {
     date: '31 August 2026',
     image:
       '/editorial-cartoons/2026-08-31-gold-coast-show-duck-count.jpg',
