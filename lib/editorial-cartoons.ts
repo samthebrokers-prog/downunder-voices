@@ -10,6 +10,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '2 September 2026',
+    image:
+      '/editorial-cartoons/2026-09-02-adelaide-circuit-nap.jpg',
+    alt: 'Black-and-white editorial cartoon of an Adelaide street-circuit unveiling where a racing fan brings popcorn and a pillow after the proposed track was described as potentially boring',
+    headline: 'Adelaide prepares for the fast lane — and a nap',
+    summary:
+      'Adelaide’s proposed 2027 MotoGP street circuit won praise for its safety measures but drew mixed reviews over whether it would produce interesting racing compared with Phillip Island. One prepared spectator has packed for both possibilities: popcorn for the speed and a pillow for the moderate bits.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-09-01/adelaide-motogp-track-motorsport-fans/107103422',
+    sourceLabel:
+      'ABC News — Adelaide street circuit receives mixed reviews',
+  },
+  {
     date: '1 September 2026',
     image:
       '/editorial-cartoons/2026-09-01-ai-email-tribunal.jpg',
