@@ -10,6 +10,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '3 September 2026',
+    image:
+      '/editorial-cartoons/2026-09-03-nabarlek-traffic.jpg',
+    alt: 'Black-and-white editorial cartoon of a tiny nabarlek rock-wallaby arriving with a suitcase while a delighted field ecologist says they have been waiting 50 years',
+    headline: 'The Kimberley’s most fashionably late arrival',
+    summary:
+      'Conservationists confirmed the presence of Australia’s second-smallest wallaby at two new locations in the Kimberley, including the first mainland detections on Dambeemangaddee Country in more than 50 years. At 1.2 kilograms and roughly the length of a loaf of bread, the nabarlek had a very small suitcase and a very large excuse ready.',
+    sourceUrl:
+      'https://www.australianwildlife.org/news-and-resources/press-release/tiny-wallaby-detected-on-mainland-dambeemangaddee-country-after-50',
+    sourceLabel:
+      'Australian Wildlife Conservancy — Tiny wallaby detected after 50 years',
+  },
+  {
     date: '2 September 2026',
     image:
       '/editorial-cartoons/2026-09-02-adelaide-circuit-nap.jpg',
