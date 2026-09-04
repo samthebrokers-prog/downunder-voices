@@ -1,5 +1,5 @@
 import { dbRequest, isDatabaseConfigured } from '@/lib/db'
-import { runEditorialGenerator } from '@/lib/editorial-generator'
+import { runEditorialGeneratorV2 } from '@/lib/editorial-generator-v2'
 import { sendEditorialEmail } from '@/lib/email'
 
 type AuditStory = {
@@ -13,6 +13,7 @@ type AuditStory = {
 export type EditorialAuditResult = {
   ok: boolean
   originalArticlesToday: number
+  targetToday: number
   rssRowsRepaired: number
   problems: string[]
   emailSent: boolean
@@ -56,7 +57,11 @@ export async function runEditorialAudit(): Promise<EditorialAuditResult> {
     throw new Error('Database is not configured.')
   }
 
-  const startOfTodayUtc = new Date()
+  const now = new Date()
+  const weekend = now.getUTCDay() === 0 || now.getUTCDay() === 6
+  const targetToday = weekend ? 6 : 4
+
+  const startOfTodayUtc = new Date(now)
   startOfTodayUtc.setUTCHours(0, 0, 0, 0)
   const startIso = startOfTodayUtc.toISOString()
 
@@ -82,9 +87,9 @@ export async function runEditorialAudit(): Promise<EditorialAuditResult> {
   let originals = await getTodayOriginals(startIso)
   const problems: string[] = []
 
-  if (originals.length < 2) {
+  if (originals.length < targetToday) {
     try {
-      await runEditorialGenerator()
+      await runEditorialGeneratorV2()
       originals = await getTodayOriginals(startIso)
     } catch (error) {
       problems.push(
@@ -95,9 +100,9 @@ export async function runEditorialAudit(): Promise<EditorialAuditResult> {
     }
   }
 
-  if (originals.length < 2) {
+  if (originals.length < targetToday) {
     problems.push(
-      `Only ${originals.length} original article(s) were published today; expected 2.`,
+      `Only ${originals.length} original article(s) were published today; expected at least ${targetToday}.`,
     )
   }
 
@@ -134,6 +139,7 @@ export async function runEditorialAudit(): Promise<EditorialAuditResult> {
           .map((problem) => `<li>${escapeHtml(problem)}</li>`)
           .join('')}</ul>
         <p>Original articles today: ${originals.length}</p>
+        <p>Target today: ${targetToday}</p>
         <p>Legacy RSS rows automatically returned to draft: ${publicRssRows.length}</p>
       `,
     })
@@ -143,6 +149,7 @@ export async function runEditorialAudit(): Promise<EditorialAuditResult> {
   return {
     ok: problems.length === 0,
     originalArticlesToday: originals.length,
+    targetToday,
     rssRowsRepaired: publicRssRows.length,
     problems,
     emailSent,
