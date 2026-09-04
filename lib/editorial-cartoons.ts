@@ -10,6 +10,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '4 September 2026',
+    image:
+      '/editorial-cartoons/2026-09-04-riverfire-sound-check.jpg',
+    alt: 'Black-and-white editorial cartoon of a huge transport aircraft rehearsing safely above Brisbane while an office worker asks whether it is the sound check',
+    headline: 'Brisbane finds the Riverfire volume knob',
+    summary:
+      'A Royal Australian Air Force C-17A Globemaster III conducted a rehearsal flight over Brisbane’s Victoria Bridge precinct on Thursday ahead of Riverfire. With the main display and fireworks still to come, the city’s loudest sound check may also have been its least subtle.',
+    sourceUrl:
+      'https://www.brisbanefestival.com.au/events/riverfire-2026',
+    sourceLabel:
+      'Brisbane Festival — Riverfire 2026 rehearsal flight schedule',
+  },
+  {
     date: '3 September 2026',
     image:
       '/editorial-cartoons/2026-09-03-nabarlek-traffic.jpg',
