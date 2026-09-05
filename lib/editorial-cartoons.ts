@@ -10,6 +10,15 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '5 September 2026',
+    image: '/editorial-cartoons/2026-09-05-ev-sales-podium.jpg',
+    alt: 'Black-and-white editorial cartoon of an electric car taking first place on a sales podium ahead of a petrol car after Australian EV sales set a record',
+    headline: 'Australia’s new-car podium plugs in',
+    summary: 'Electric vehicles outsold petrol cars in Australia for the first time in August, with more than 27,000 EVs sold and a record 24.9 per cent market share. The winning power source may have been a charging cable, but soaring petrol prices helped supply the momentum.',
+    sourceUrl: 'https://www.theguardian.com/environment/2026/sep/04/ev-sales-outpace-petrol-cars-for-first-time-as-australians-dodge-soaring-fuel-costs',
+    sourceLabel: 'Guardian Australia — EV sales outpace petrol cars for the first time',
+  },
+  {
     date: '4 September 2026',
     image:
       '/editorial-cartoons/2026-09-04-riverfire-sound-check.jpg',
