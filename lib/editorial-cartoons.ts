@@ -10,6 +10,15 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '6 September 2026',
+    image: '/editorial-cartoons/2026-09-06-adelaide-show-toastie.jpg',
+    alt: 'Black-and-white editorial cartoon of an alpaca judging a strongman lifting 191 kilograms while a four-dollar cheese toastie is declared the real feat of strength',
+    headline: 'The Show’s strongest attraction costs four dollars',
+    summary: 'The Royal Adelaide Show opened on Saturday with alpaca judging, a giant strongman lifting 191 kilograms and crowds seeking value in four-dollar cheese toasties. In a contest between muscle, fleece and affordability, the humble toastie may have carried the most weight.',
+    sourceUrl: 'https://www.adelaidenow.com.au/news/south-australia/royal-adelaide-show-gates-officially-open-as-locals-rent-out-car-parks-for-up-to-40/news-story/47f52b4ec639525516f97781bc93794d',
+    sourceLabel: 'The Advertiser — Royal Adelaide Show opening day',
+  },
+  {
     date: '5 September 2026',
     image: '/editorial-cartoons/2026-09-05-ev-sales-podium.jpg',
     alt: 'Black-and-white editorial cartoon of an electric car taking first place on a sales podium ahead of a petrol car after Australian EV sales set a record',
