@@ -10,6 +10,15 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '7 September 2026',
+    image: '/editorial-cartoons/2026-09-07-geelong-folk-encore.jpg',
+    alt: 'Black-and-white editorial cartoon of three folk musicians returning to a Geelong stage beside calendar pages from the 1980s and 2026',
+    headline: 'Geelong’s longest encore finally ends',
+    summary: 'The Geelong Folk Festival returned on Sunday after decades away, filling Geelong West Town Hall with folk, acoustic, blues and roots music. The instruments needed only a little dusting; the audience had been holding its applause considerably longer.',
+    sourceUrl: 'https://www.heraldsun.com.au/news/geelong/geelong-folk-festival-makes-longawaited-return-after-threedecade-absence/news-story/ae31fd487498df8e3d5f192f54844db2',
+    sourceLabel: 'Herald Sun — Geelong Folk Festival returns after decades away',
+  },
+  {
     date: '6 September 2026',
     image: '/editorial-cartoons/2026-09-06-adelaide-show-toastie.jpg',
     alt: 'Black-and-white editorial cartoon of an alpaca judging a strongman lifting 191 kilograms while a four-dollar cheese toastie is declared the real feat of strength',
