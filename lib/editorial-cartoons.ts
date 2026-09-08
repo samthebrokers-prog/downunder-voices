@@ -10,6 +10,15 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '8 September 2026',
+    image: '/editorial-cartoons/2026-09-08-saturn-decagon.jpg',
+    alt: 'Black-and-white editorial cartoon of a homemade outback telescope viewing Saturn and its newly identified ten-sided south-polar wave',
+    headline: 'Broken Hill finds Saturn’s extra corners',
+    summary: 'A backyard astronomer in Broken Hill helped identify a world-first ten-sided atmospheric wave around Saturn’s south pole, contributing observations from a homemade observatory to peer-reviewed research. Space science gained a few extra corners—and an outback postcode.',
+    sourceUrl: 'https://www.abc.net.au/news/2026-09-07/outback-amateur-astronomer-part-of-saturn-decagon-wave-discovery/107112590',
+    sourceLabel: 'ABC News — Broken Hill backyard astronomer helps make Saturn discovery',
+  },
+  {
     date: '7 September 2026',
     image: '/editorial-cartoons/2026-09-07-geelong-folk-encore.jpg',
     alt: 'Black-and-white editorial cartoon of three folk musicians returning to a Geelong stage beside calendar pages from the 1980s and 2026',
