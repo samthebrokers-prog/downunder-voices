@@ -19,16 +19,44 @@ type Segment = {
 }
 
 const PRIORITY = ['australia', 'new-zealand', 'world', 'business', 'sports']
+const MAX_STORY_LENGTH = 850
+const MAX_SEGMENT_LENGTH = 3800
 
 function clean(text: string) {
   return text.replace(/\s+/g, ' ').replace(/\s+([,.!?])/g, '$1').trim()
 }
 
+function trimAtBoundary(text: string, maxLength: number) {
+  const cleaned = clean(text)
+  if (cleaned.length <= maxLength) return cleaned
+
+  const candidate = cleaned.slice(0, maxLength - 1)
+  const sentenceEnd = Math.max(
+    candidate.lastIndexOf('. '),
+    candidate.lastIndexOf('! '),
+    candidate.lastIndexOf('? '),
+  )
+
+  if (sentenceEnd >= Math.floor(maxLength * 0.55)) {
+    return candidate.slice(0, sentenceEnd + 1).trim()
+  }
+
+  const wordEnd = candidate.lastIndexOf(' ')
+  return `${candidate.slice(0, wordEnd > 0 ? wordEnd : candidate.length).trim()}…`
+}
+
 function storyLine(story: Story) {
   const summary = clean(story.summary || '')
   const title = clean(story.title)
-  if (!summary || summary.toLowerCase() === title.toLowerCase()) return `${title}.`
-  return `${title}. ${summary}`
+  const line = !summary || summary.toLowerCase() === title.toLowerCase()
+    ? `${title}.`
+    : `${title}. ${summary}`
+
+  return trimAtBoundary(line, MAX_STORY_LENGTH)
+}
+
+function safeSegment(script: string) {
+  return trimAtBoundary(script, MAX_SEGMENT_LENGTH)
 }
 
 export async function GET() {
@@ -60,27 +88,27 @@ export async function GET() {
     if (firstHalf.length) {
       segments.push({
         presenter: 'female',
-        script: [
+        script: safeSegment([
           'This is Downunder Voices Radio. Here are the latest headlines from Australia, New Zealand and around the world.',
           ...firstHalf,
-        ].join('\n\n'),
+        ].join('\n\n')),
       })
     }
 
     if (secondHalf.length) {
       segments.push({
         presenter: 'male',
-        script: [
+        script: safeSegment([
           ...secondHalf,
           'You are listening to Downunder Voices Radio. Australia, New Zealand and the world.',
-        ].join('\n\n'),
+        ].join('\n\n')),
       })
     }
 
     const script = segments.map((segment) => segment.script).join('\n\n')
 
     return NextResponse.json({
-      script: script.slice(0, 4000),
+      script,
       segments,
       storyCount: selected.length,
       generatedAt: new Date().toISOString(),
