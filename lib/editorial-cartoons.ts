@@ -10,6 +10,15 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '9 September 2026',
+    image: '/editorial-cartoons/2026-09-09-my-feed-my-way.jpg',
+    alt: 'Black-and-white editorial cartoon of a kangaroo diner choosing a simple feed while an algorithm robot carries an overloaded stack of recommended dishes',
+    headline: 'Australia orders its feed à la carte',
+    summary: 'The federal government released draft Digital Duty of Care laws featuring “My Feed, My Way”, which would require social platforms to let Australians choose between personalised recommendations and posts from the friends and creators they follow. The algorithm can still suggest the chef’s special; diners may finally be allowed to send it back.',
+    sourceUrl: 'https://minister.infrastructure.gov.au/wells/media-release/my-feed-my-way',
+    sourceLabel: 'Australian Government — My Feed, My Way',
+  },
+  {
     date: '8 September 2026',
     image: '/editorial-cartoons/2026-09-08-saturn-decagon.jpg',
     alt: 'Black-and-white editorial cartoon of a homemade outback telescope viewing Saturn and its newly identified ten-sided south-polar wave',
