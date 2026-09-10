@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '10 September 2026',
+    image: '/editorial-cartoons/2026-09-10-queensland-sky-encore.jpg',
+    alt: 'Black-and-white editorial cartoon of two south-west Queensland stargazers surprised by a bright object and sonic boom while their cattle dog wears earmuffs',
+    headline: 'South-west Queensland gets a surprise encore',
+    summary: 'A bright object streaked across the night sky over south-west Queensland on Wednesday, followed by a sonic boom heard by residents around Charleville, Roma, Quilpie and Thargomindah. No damage was reported, but the outback sky still managed to add an unannounced sound-and-light show to the local program.',
+    sourceUrl:
+      'https://www.couriermail.com.au/news/queensland/charleville/dazzling-meteor-shower-with-sonic-booms-stuns-southwest-queensland-residents/news-story/074a8bb222ff7ae59382e4b3db3f4dcc',
+    sourceLabel:
+      'The Courier-Mail — Bright sky object and sonic boom over south-west Queensland',
+  },
+  {
     date: '9 September 2026',
     image: '/editorial-cartoons/2026-09-09-my-feed-my-way.jpg',
     alt: 'Black-and-white editorial cartoon of a kangaroo diner choosing a simple feed while an algorithm robot carries an overloaded stack of recommended dishes',
