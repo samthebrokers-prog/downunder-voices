@@ -9,6 +9,8 @@ export const metadata: Metadata = {
 
 export const revalidate = 300
 
+const highlightsUrl = 'https://www.youtube.com/watch?v=zS-CyVtIYu8'
+
 export default async function SportsPage() {
   const stories = await getStoriesByCategory('sports', 60)
 
@@ -29,7 +31,7 @@ export default async function SportsPage() {
       <section className="mb-12 overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div className="border-b border-border px-5 py-4 sm:px-6">
           <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">
-            Today’s match highlights
+            Match highlights
           </p>
           <h2 className="mt-2 font-serif text-2xl font-black sm:text-3xl">
             Springboks 29–24 All Blacks — Johannesburg
@@ -39,7 +41,7 @@ export default async function SportsPage() {
         <div className="aspect-video w-full bg-black">
           <iframe
             className="h-full w-full"
-            src="https://www.youtube.com/embed/zS-CyVtIYu8"
+            src="https://www.youtube-nocookie.com/embed/zS-CyVtIYu8?rel=0"
             title="Springboks 29–24 All Blacks highlights"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
@@ -47,8 +49,16 @@ export default async function SportsPage() {
           />
         </div>
 
-        <div className="px-5 py-4 text-sm text-muted-foreground sm:px-6">
-          Match highlights via YouTube.
+        <div className="flex flex-col gap-3 px-5 py-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <span>Match highlights via YouTube.</span>
+          <a
+            href={highlightsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex w-fit items-center rounded-md bg-red-700 px-4 py-2 font-bold text-white transition hover:bg-red-800"
+          >
+            Video not playing? Watch on YouTube
+          </a>
         </div>
       </section>
 
