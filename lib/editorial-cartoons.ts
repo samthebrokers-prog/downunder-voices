@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '11 September 2026',
+    image: '/editorial-cartoons/2026-09-11-victoria-wfh-bill.jpg',
+    alt: 'Black-and-white editorial cartoon of an anthropomorphic work-from-home bill sitting on a sofa and logging into a parliamentary inquiry while its vote is delayed',
+    headline: 'Victoria’s work-from-home bill logs in remotely',
+    summary: 'Victoria’s proposed right-to-work-from-home legislation was referred to a parliamentary inquiry on Thursday, making a vote before the November state election unlikely. The bill seeking two remote days a week has discovered an unexpected third option: working from committee.',
+    sourceUrl:
+      'https://www.theguardian.com/australia-news/2026/sep/09/victoria-is-about-to-get-the-right-to-work-from-home-but-are-the-laws-a-costly-lemon-or-a-life-changer',
+    sourceLabel:
+      'Guardian Australia — Victoria’s work-from-home bill referred to an inquiry',
+  },
+  {
     date: '10 September 2026',
     image: '/editorial-cartoons/2026-09-10-queensland-sky-encore.jpg',
     alt: 'Black-and-white editorial cartoon of two south-west Queensland stargazers surprised by a bright object and sonic boom while their cattle dog wears earmuffs',
