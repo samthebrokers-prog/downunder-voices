@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export const revalidate = 300
 
-const highlightsUrl = 'https://www.youtube.com/watch?v=zS-CyVtIYu8'
+const highlightsUrl = 'https://youtu.be/MzR3E8zZKjQ'
 
 export default async function SportsPage() {
   const stories = await getStoriesByCategory('sports', 60)
@@ -41,7 +41,7 @@ export default async function SportsPage() {
         <div className="aspect-video w-full bg-black">
           <iframe
             className="h-full w-full"
-            src="https://www.youtube-nocookie.com/embed/zS-CyVtIYu8?rel=0"
+            src="https://www.youtube-nocookie.com/embed/MzR3E8zZKjQ?rel=0"
             title="Springboks 29–24 All Blacks highlights"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
