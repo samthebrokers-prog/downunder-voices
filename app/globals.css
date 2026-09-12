@@ -104,11 +104,19 @@
 .prose-content h3 { @apply font-serif text-xl font-bold text-foreground; }
 .prose-content a { @apply text-primary underline; }
 
-/* Keep the homepage editorial cartoon compact and newspaper-like. */
+/* Show the complete editorial cartoon on every screen size. */
+a[href='/cartoon-of-the-day'] {
+  overflow: visible;
+}
+
 a[href='/cartoon-of-the-day'] > img {
   display: block;
-  width: min(100%, 760px);
-  height: auto;
+  width: 100%;
+  max-width: 760px;
+  height: auto !important;
+  max-height: none;
+  object-fit: contain !important;
+  object-position: center;
   margin-inline: auto;
   filter: grayscale(1);
 }
