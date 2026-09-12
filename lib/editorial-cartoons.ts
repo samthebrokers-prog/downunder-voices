@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '12 September 2026',
+    image: '/editorial-cartoons/2026-09-12-nfl-melbourne-bounce.jpg',
+    alt: 'Black-and-white editorial cartoon of a surprised American football taking an unpredictable bounce at a packed Melbourne Cricket Ground while a cricket ball welcomes it',
+    headline: 'American football meets the Melbourne bounce',
+    summary: 'Australia hosted its first NFL regular-season game at the MCG on Friday, where 100,021 spectators watched San Francisco defeat Los Angeles 27–7. The visiting code drew one of the season’s biggest crowds—and received a quick lesson in how every ball behaves once it reaches Melbourne.',
+    sourceUrl:
+      'https://www.reuters.com/sports/49ers-beat-rams-27-7-landmark-australia-game-2026-09-11/',
+    sourceLabel:
+      'Reuters — Australia hosts its first NFL regular-season game at the MCG',
+  },
+  {
     date: '11 September 2026',
     image: '/editorial-cartoons/2026-09-11-victoria-wfh-bill.jpg',
     alt: 'Black-and-white editorial cartoon of an anthropomorphic work-from-home bill sitting on a sofa and logging into a parliamentary inquiry while its vote is delayed',
