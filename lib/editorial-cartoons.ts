@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '13 September 2026',
+    image: '/editorial-cartoons/2026-09-13-swell-mullet-career.jpg',
+    alt: 'Black-and-white editorial cartoon of an invasive cat’s-claw creeper vine receiving career advice to become a five-metre mullet at Currumbin Beach',
+    headline: 'Gold Coast weeds get a sea change',
+    summary: 'Gold Coast artists wove kilometres of invasive cat’s-claw creeper into a five-metre mullet, filling its belly with discarded fishing line and plastic litter for the SWELL Sculpture Festival. One troublesome garden escapee has landed an unexpectedly constructive new career on Currumbin Beach.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-09-12/invasive-weed-mullet-sculpture-swell-festival/107123706',
+    sourceLabel:
+      'ABC News — Invasive weed and plastic litter become a five-metre mullet',
+  },
+  {
     date: '12 September 2026',
     image: '/editorial-cartoons/2026-09-12-nfl-melbourne-bounce.jpg',
     alt: 'Black-and-white editorial cartoon of a surprised American football taking an unpredictable bounce at a packed Melbourne Cricket Ground while a cricket ball welcomes it',
