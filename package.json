@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run validate:cartoons && next build",
+    "validate:cartoons": "node scripts/validate-cartoons.mjs",
     "start": "next start"
   },
   "dependencies": {
