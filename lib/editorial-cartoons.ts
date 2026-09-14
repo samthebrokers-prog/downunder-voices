@@ -10,6 +10,16 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '14 September 2026',
+    image: '/editorial-cartoons/2026-09-14-national-bilby-day.jpg',
+    alt: 'Black-and-white editorial cartoon of a cheerful bilby running a National Bilby Day information booth in Charleville while its Easter understudy apron hangs nearby',
+    headline: 'Charleville gives the long ears their own Sunday',
+    summary: 'Charleville celebrated National Bilby Day on Sunday with a community festival supporting awareness and conservation of the endangered greater bilby. For one day, Australia’s long-eared native star could put aside its familiar Easter understudy role and enjoy top billing.',
+    sourceUrl: 'https://savethebilbyfund.org.au/national-bilby-day/',
+    sourceLabel:
+      'Save the Bilby Fund — National Bilby Day in Charleville',
+  },
+  {
     date: '13 September 2026',
     image: '/editorial-cartoons/2026-09-13-swell-mullet-career.jpg',
     alt: 'Black-and-white editorial cartoon of an invasive cat’s-claw creeper vine receiving career advice to become a five-metre mullet at Currumbin Beach',
