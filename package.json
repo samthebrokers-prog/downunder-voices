@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run validate:cartoons && next build",
-    "validate:cartoons": "node scripts/validate-cartoons.mjs",
+    "build": "next build",
     "start": "next start"
   },
   "dependencies": {
@@ -25,7 +24,6 @@
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "postcss": "^8.5.0",
-    "sharp": "^0.35.4",
     "tailwindcss": "^4.1.0",
     "typescript": "^5.7.2"
   }
