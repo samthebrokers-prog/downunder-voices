@@ -20,6 +20,7 @@ type Bulletin = {
 export default function RadioLatestBulletin() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const objectUrlRef = useRef<string | null>(null)
+  const speechFallbackRef = useRef(false)
   const [loading, setLoading] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [readyToPlay, setReadyToPlay] = useState(false)
@@ -31,6 +32,10 @@ export default function RadioLatestBulletin() {
     audioRef.current = null
     if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current)
     objectUrlRef.current = null
+    if (speechFallbackRef.current && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel()
+    }
+    speechFallbackRef.current = false
     setReadyToPlay(false)
   }
 
@@ -64,6 +69,49 @@ export default function RadioLatestBulletin() {
     return response.blob()
   }
 
+  function startBrowserSpeech(segments: Segment[]) {
+    if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
+      throw new Error('Radio audio is temporarily unavailable. Please try again shortly.')
+    }
+
+    window.speechSynthesis.cancel()
+    speechFallbackRef.current = true
+    setReadyToPlay(false)
+    setError('')
+    setPlaying(true)
+
+    const voices = window.speechSynthesis.getVoices()
+    const preferred = voices.filter((voice) => /^en-(AU|NZ)$/i.test(voice.lang))
+    const english = voices.filter((voice) => /^en-/i.test(voice.lang))
+
+    const speakNext = (index: number) => {
+      if (!speechFallbackRef.current) return
+      if (index >= segments.length) {
+        speechFallbackRef.current = false
+        setPlaying(false)
+        return
+      }
+
+      const segment = segments[index]
+      const utterance = new SpeechSynthesisUtterance(segment.script)
+      const candidates = preferred.length ? preferred : english
+      const voiceIndex = segment.presenter === 'male' ? 1 : 0
+      utterance.voice = candidates[voiceIndex % Math.max(candidates.length, 1)] || null
+      utterance.lang = utterance.voice?.lang || 'en-AU'
+      utterance.rate = 0.96
+      utterance.pitch = segment.presenter === 'male' ? 0.92 : 1
+      utterance.onend = () => speakNext(index + 1)
+      utterance.onerror = () => {
+        speechFallbackRef.current = false
+        setPlaying(false)
+        setError('Radio audio is temporarily unavailable. Please try again shortly.')
+      }
+      window.speechSynthesis.speak(utterance)
+    }
+
+    speakNext(0)
+  }
+
   async function startPreparedAudio() {
     const audio = audioRef.current
     if (!audio) return
@@ -82,10 +130,14 @@ export default function RadioLatestBulletin() {
   async function togglePlay() {
     setError('')
 
-    if (playing && audioRef.current) {
-      audioRef.current.pause()
+    if (playing) {
+      if (audioRef.current) audioRef.current.pause()
+      if (speechFallbackRef.current && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel()
+        speechFallbackRef.current = false
+      }
       setPlaying(false)
-      setReadyToPlay(true)
+      setReadyToPlay(Boolean(audioRef.current))
       return
     }
 
@@ -103,11 +155,14 @@ export default function RadioLatestBulletin() {
         ? latest.segments
         : [{ presenter: 'female' as Presenter, script: latest.script }]
 
-      const blobs = await Promise.all(segments.map(createAudioBlob))
+      let blobs: Blob[]
+      try {
+        blobs = await Promise.all(segments.map(createAudioBlob))
+      } catch {
+        startBrowserSpeech(segments)
+        return
+      }
 
-      // Keep both presenters in one continuous audio stream. This avoids a new
-      // play request when the voice changes, which iPhone and in-app browsers
-      // can block after the original user tap has finished.
       const combinedBlob = new Blob(blobs, { type: 'audio/mpeg' })
       const url = URL.createObjectURL(combinedBlob)
       objectUrlRef.current = url
@@ -130,8 +185,6 @@ export default function RadioLatestBulletin() {
         await audio.play()
         setPlaying(true)
       } catch {
-        // Safari and embedded iPhone browsers may require a second direct tap
-        // after asynchronous speech generation has completed.
         setReadyToPlay(true)
         setError('Audio is ready. Tap Play again to start listening.')
       }
