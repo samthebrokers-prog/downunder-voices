@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '15 September 2026',
+    image: '/editorial-cartoons/2026-09-15-wyatt-seed-funding.jpg',
+    alt: 'Black-and-white editorial cartoon of a record-priced Angus bull presenting a genetics start-up pitch to cattle investors under the words actual seed funding',
+    headline: 'Wyatt finds some actual seed funding',
+    summary: 'Australia’s record-priced Angus bull, Millah Murrah Wyatt W50, is tipped to generate more than $1 million through genetics sales after changing hands for $420,000. The cattle industry calls it genetic progress; the start-up world may simply call it the first pitch deck with a genuine bull market.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-09-14/selling-the-semen-of-australias-most-expensive-bull-wyatt/107142278',
+    sourceLabel:
+      'ABC News — Australia’s most expensive bull tipped for $1m-plus in genetics sales',
+  },
+  {
     date: '14 September 2026',
     image: '/editorial-cartoons/2026-09-14-national-bilby-day.jpg',
     alt: 'Black-and-white editorial cartoon of a cheerful bilby running a National Bilby Day information booth in Charleville while its Easter understudy apron hangs nearby',
