@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '16 September 2026',
+    image: '/editorial-cartoons/2026-09-16-shine-dome-brainpower.jpg',
+    alt: 'Black-and-white editorial cartoon of scientists gathering beneath Canberra’s Shine Dome while a maintenance worker turns a concentrated brainpower dial to high',
+    headline: 'Canberra concentrates its brainpower',
+    summary: 'The Australian Academy of Science opened its flagship Science at the Shine Dome gathering in Canberra on Tuesday, bringing researchers together for workshops and welcoming new Fellows to sign the historic Charter Book. With so many bright minds under one distinctive roof, even the building may need peer review.',
+    sourceUrl:
+      'https://science.org.au/news-events/events/science-shine-dome-2026',
+    sourceLabel:
+      'Australian Academy of Science — Science at the Shine Dome 2026',
+  },
+  {
     date: '15 September 2026',
     image: '/editorial-cartoons/2026-09-15-wyatt-seed-funding.jpg',
     alt: 'Black-and-white editorial cartoon of a record-priced Angus bull presenting a genetics start-up pitch to cattle investors under the words actual seed funding',
