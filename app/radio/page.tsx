@@ -46,14 +46,17 @@ export default function RadioPage() {
             A spoken-word station for Australia and New Zealand: hourly news, mysteries, history, crime, science, survival and public-interest talk.
           </p>
 
-          <div className="mt-8 inline-flex items-center gap-3 rounded-md bg-red-700 px-5 py-3 font-black uppercase tracking-wide text-white">
+          <a
+            href="#listen-live"
+            className="mt-8 inline-flex items-center gap-3 rounded-md bg-red-700 px-5 py-3 font-black uppercase tracking-wide text-white transition hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-white"
+          >
             <span className="size-2.5 animate-pulse rounded-full bg-white" />
-            Private 24/7 pilot
-          </div>
+            Listen now
+          </a>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 pt-12 sm:px-6 lg:px-8">
+      <section id="listen-live" className="mx-auto max-w-5xl scroll-mt-44 px-4 pt-8 sm:px-6 lg:px-8">
         <RadioLatestBulletin />
       </section>
 
