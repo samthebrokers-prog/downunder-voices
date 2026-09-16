@@ -32,7 +32,7 @@ export default function RadioPage() {
   return (
     <div className="bg-slate-50">
       <section className="border-b border-slate-800 bg-slate-950 text-white">
-        <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-950/40 px-4 py-2 text-sm font-bold text-red-200">
             <Radio className="size-4" />
             DOWNUNDER VOICES RADIO
