@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { FormEvent, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Menu, Search, X } from 'lucide-react'
+import { Menu, Radio, Search, X } from 'lucide-react'
 import { categories } from '@/lib/news-data'
 
 const websiteUrl = 'https://www.downundervoices.com'
@@ -326,6 +326,13 @@ export function SiteHeader() {
             Latest
           </Link>
 
+          <Link
+            href="/radio"
+            className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-black text-red-700 transition-colors hover:text-red-900"
+          >
+            <Radio className="size-4" /> Radio
+          </Link>
+
           {navLinks.map((link) => (
             <Link
               key={`${link.href}-${link.label}`}
@@ -355,6 +362,14 @@ export function SiteHeader() {
               className="border-b border-border py-3 text-sm font-bold"
             >
               Latest
+            </Link>
+
+            <Link
+              href="/radio"
+              onClick={closeMenus}
+              className="flex items-center gap-2 border-b border-border py-3 text-sm font-black text-red-700"
+            >
+              <Radio className="size-4" /> Radio
             </Link>
 
             <button
