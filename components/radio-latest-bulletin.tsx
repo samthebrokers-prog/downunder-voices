@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Clock3, Loader2, Pause, Play } from 'lucide-react'
+import { Clock3, Loader2, Pause, Play, Radio } from 'lucide-react'
 
 type Presenter = 'female' | 'male'
 
@@ -19,20 +19,25 @@ type Bulletin = {
 
 export default function RadioLatestBulletin() {
   const activeRef = useRef(false)
+  const continuousRef = useRef(false)
   const [loading, setLoading] = useState(false)
   const [playing, setPlaying] = useState(false)
+  const [continuous, setContinuous] = useState(false)
   const [error, setError] = useState('')
   const [bulletin, setBulletin] = useState<Bulletin | null>(null)
 
   function stopRadio() {
     activeRef.current = false
+    continuousRef.current = false
     if ('speechSynthesis' in window) window.speechSynthesis.cancel()
     setPlaying(false)
+    setContinuous(false)
   }
 
   useEffect(() => {
     return () => {
       activeRef.current = false
+      continuousRef.current = false
       if ('speechSynthesis' in window) window.speechSynthesis.cancel()
     }
   }, [])
@@ -49,7 +54,7 @@ export default function RadioLatestBulletin() {
     return body
   }
 
-  function startRadio(segments: Segment[]) {
+  function startRadio(segments: Segment[], keepListening = false) {
     if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
       throw new Error('This browser cannot play the live bulletin. Please open Downunder Voices Radio in Chrome, Edge or Safari.')
     }
@@ -69,6 +74,11 @@ export default function RadioLatestBulletin() {
       if (index >= segments.length) {
         activeRef.current = false
         setPlaying(false)
+        if (keepListening && continuousRef.current) {
+          window.setTimeout(() => {
+            if (continuousRef.current && !activeRef.current) void playLatest(true)
+          }, 1500)
+        }
         return
       }
 
@@ -91,12 +101,7 @@ export default function RadioLatestBulletin() {
     speakNext(0)
   }
 
-  async function togglePlay() {
-    if (playing) {
-      stopRadio()
-      return
-    }
-
+  async function playLatest(keepListening = false) {
     setError('')
     setLoading(true)
 
@@ -106,13 +111,26 @@ export default function RadioLatestBulletin() {
         ? latest.segments
         : [{ presenter: 'female' as Presenter, script: latest.script }]
 
-      startRadio(segments)
+      activeRef.current = true
+      continuousRef.current = keepListening
+      setContinuous(keepListening)
+      startRadio(segments, keepListening)
     } catch (err) {
       setPlaying(false)
+      setContinuous(false)
       setError(err instanceof Error ? err.message : 'The latest bulletin is not available yet.')
     } finally {
       setLoading(false)
     }
+  }
+
+  async function togglePlay() {
+    if (playing) {
+      stopRadio()
+      return
+    }
+
+    await playLatest(false)
   }
 
   return (
@@ -132,10 +150,10 @@ export default function RadioLatestBulletin() {
       <div className="p-6 sm:p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="max-w-2xl">
-            <p className="text-sm font-bold uppercase tracking-[0.16em] text-red-300">Live news bulletin</p>
-            <h2 className="mt-2 font-serif text-3xl font-black">Australia · New Zealand · World</h2>
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-red-300">24/7 pilot broadcast</p>
+            <h2 className="mt-2 font-serif text-3xl font-black">News now. Programmes next.</h2>
             <p className="mt-3 leading-7 text-slate-300">
-              Press Play for the latest Downunder Voices headlines. A new bulletin is prepared from the hourly news update.
+              Start with the latest Downunder Voices headlines. Continuous mode will keep the pilot playing while this page remains open.
             </p>
             {bulletin ? (
               <p className="mt-2 text-xs text-slate-500">
@@ -144,20 +162,34 @@ export default function RadioLatestBulletin() {
             ) : null}
           </div>
 
-          <button
-            type="button"
-            onClick={togglePlay}
-            disabled={loading}
-            aria-label={playing ? 'Pause live news bulletin' : 'Play latest live news bulletin'}
-            className="flex min-w-44 items-center justify-center gap-3 rounded-full bg-white px-6 py-4 font-black text-slate-950 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {loading ? <Loader2 className="size-5 animate-spin" /> : playing ? <Pause className="size-5" /> : <Play className="size-5" />}
-            {loading ? 'Preparing' : playing ? 'Pause bulletin' : 'Play latest news'}
-          </button>
+          <div className="flex flex-col gap-3 sm:min-w-52">
+            <button
+              type="button"
+              onClick={togglePlay}
+              disabled={loading}
+              aria-label={playing ? 'Pause radio' : 'Play latest news bulletin'}
+              className="flex items-center justify-center gap-3 rounded-full bg-white px-6 py-4 font-black text-slate-950 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? <Loader2 className="size-5 animate-spin" /> : playing ? <Pause className="size-5" /> : <Play className="size-5" />}
+              {loading ? 'Preparing' : playing ? 'Pause radio' : 'Play latest news'}
+            </button>
+            {!playing ? (
+              <button
+                type="button"
+                onClick={() => void playLatest(true)}
+                disabled={loading}
+                className="flex items-center justify-center gap-2 rounded-full border border-slate-600 px-5 py-3 text-sm font-black text-white transition hover:border-red-400 hover:text-red-200 disabled:opacity-60"
+              >
+                <Radio className="size-4" /> Start continuous pilot
+              </button>
+            ) : continuous ? (
+              <p className="text-center text-xs font-bold uppercase tracking-wider text-red-300">Continuous mode on</p>
+            ) : null}
+          </div>
         </div>
 
         <div className="mt-6 border-t border-slate-800 pt-5 text-right text-xs text-slate-500">
-          Live news only. Music will be added after licensing approval.
+          Pilot stage: hourly news is working. Talk programmes are being added without commercial music.
         </div>
 
         {error ? <p role="alert" className="mt-4 rounded-md bg-amber-100 px-4 py-3 text-sm font-semibold text-amber-950">{error}</p> : null}
