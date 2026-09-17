@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '17 September 2026',
+    image: '/editorial-cartoons/2026-09-17-ai-copyright-fence.jpg',
+    alt: 'Black-and-white editorial cartoon of a generic big-tech dinosaur testing an Australian copyright fence while creators operate a pay-at-the-gate booth',
+    headline: 'Big tech tests Australia’s copyright fence',
+    summary: 'Guardian Australia reported criticism of proposals that could ease AI access to creative work, as politicians and creators urged the government to preserve copyright protections. Big tech may test every fence, but the artists have installed a very clear pay-at-the-gate sign.',
+    sourceUrl:
+      'https://www.theguardian.com/australia-news/2026/sep/16/pocock-says-labor-easing-copyright-protections-for-ai-datacentre-investment-would-throw-creatives-under-the-bus',
+    sourceLabel:
+      'Guardian Australia — Creators challenge proposed AI copyright changes',
+  },
+  {
     date: '16 September 2026',
     image: '/editorial-cartoons/2026-09-16-shine-dome-brainpower.jpg',
     alt: 'Black-and-white editorial cartoon of scientists gathering beneath Canberra’s Shine Dome while a maintenance worker turns a concentrated brainpower dial to high',
