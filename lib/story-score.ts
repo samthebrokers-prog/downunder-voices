@@ -203,6 +203,17 @@ const HUMAN_INTEREST_TERMS = [
   'viral',
 ]
 
+const MAJOR_SPORT_TERMS = [
+  'afl',
+  'grand final',
+  'preliminary final',
+  'fremantle',
+  'dockers',
+  'swans',
+  'premiership',
+  'finals',
+]
+
 const TRADE_TERMS = [
   'customs',
   'border force',
@@ -413,6 +424,13 @@ export function scoreStory({
     )
   ) {
     score += 6
+  }
+
+  if (
+    category === 'sports' &&
+    containsAny(text, MAJOR_SPORT_TERMS)
+  ) {
+    score += 28
   }
 
   if (
