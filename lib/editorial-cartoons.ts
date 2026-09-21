@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '21 September 2026',
+    image: '/editorial-cartoons/2026-09-21-melbourne-tramaroos.jpg',
+    alt: 'Black-and-white editorial cartoon of Melbourne tram drivers crossing a Warsaw championship finish line in 25th place, just ahead of London',
+    headline: 'Second-last, but right on schedule',
+    summary: 'Melbourne’s Tramaroos finished 25th of 26 teams at the European TramDriver Championship in Warsaw, staying just ahead of London through events including tram bowling, precision braking and carrying a bowl of water. The podium was out of reach, but the timetable still offers a satisfying next stop: Melbourne hosts the championship in 2027.',
+    sourceUrl:
+      'https://www.theguardian.com/australia-news/2026/sep/20/the-gunzels-grand-final-melbourne-tramaroos-campaign-derails-at-european-tramdriver-championship',
+    sourceLabel:
+      'Guardian Australia — Melbourne’s Tramaroos at the European TramDriver Championship',
+  },
+  {
     date: '17 September 2026',
     image: '/editorial-cartoons/2026-09-17-ai-copyright-fence.jpg',
     alt: 'Black-and-white editorial cartoon of a generic big-tech dinosaur testing an Australian copyright fence while creators operate a pay-at-the-gate booth',
