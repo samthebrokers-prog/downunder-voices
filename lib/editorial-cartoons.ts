@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '22 September 2026',
+    image: '/editorial-cartoons/2026-09-22-sydney-weather-whiplash.jpg',
+    alt: 'Black-and-white editorial cartoon of a Sydney commuter dressed for summer and winter as the temperature falls ten degrees within one afternoon',
+    headline: 'Four seasons, one afternoon',
+    summary: 'Sydney reached 32°C on Monday while outer western suburbs climbed to 35°C, before a south-easterly cool change lowered temperatures by roughly 10 degrees within hours. The forecast was simple enough: bring sunscreen, a scarf and enough luggage for both seasons.',
+    sourceUrl:
+      'https://www.theguardian.com/australia-news/2026/sep/21/sydney-nsw-weather-temperatures-hot-to-cool-within-hours',
+    sourceLabel:
+      'Guardian Australia — Sydney heat followed by a rapid cool change',
+  },
+  {
     date: '21 September 2026',
     image: '/editorial-cartoons/2026-09-21-melbourne-tramaroos.jpg',
     alt: 'Black-and-white editorial cartoon of Melbourne tram drivers crossing a Warsaw championship finish line in 25th place, just ahead of London',
