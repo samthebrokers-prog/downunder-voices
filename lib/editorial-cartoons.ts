@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '23 September 2026',
+    image: '/editorial-cartoons/2026-09-23-queensland-stick-insects.jpg',
+    alt: 'Black-and-white editorial cartoon of a rainforest researcher discovering two large stick insects previously filed under actual sticks',
+    headline: 'Two new members of the family tree',
+    summary: 'Researchers identified two large stick-insect species in Far North Queensland: Anchiale robusta and Anchiale mabiensis. One had been mistaken for another species for decades, proving that even at up to 16 centimetres long, excellent camouflage can make the scientific paperwork take a while.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-09-22/stick-insect-species-discovered-far-north-queensland/107176446',
+    sourceLabel:
+      'ABC News — Two new stick-insect species identified in Far North Queensland',
+  },
+  {
     date: '22 September 2026',
     image: '/editorial-cartoons/2026-09-22-sydney-weather-whiplash.jpg',
     alt: 'Black-and-white editorial cartoon of a Sydney commuter dressed for summer and winter as the temperature falls ten degrees within one afternoon',
