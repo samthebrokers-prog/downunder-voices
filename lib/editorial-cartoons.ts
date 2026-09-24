@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '24 September 2026',
+    image: '/editorial-cartoons/2026-09-24-solar-wind-forecast.jpg',
+    alt: 'Black-and-white editorial cartoon of the sun blowing solar wind toward Earth while an Australian backyard weather presenter holds an inside-out umbrella',
+    headline: 'The forecast is windy — very high up',
+    summary: 'Australia’s Space Weather Forecasting Centre issued a geomagnetic-disturbance warning on Wednesday as a coronal-hole high-speed wind stream was expected to affect Earth on 23 and 24 September. The bureau’s forecast was familiar enough; only the altitude and the size of the wind machine were unusual.',
+    sourceUrl:
+      'https://www.sws.bom.gov.au/Main.php?CatID=4&SecID=2&SecName=Alerts%20and%20Warnings&SubSecID=1&SubSecName=Geomagnetic%20Warning',
+    sourceLabel:
+      'Australian Space Weather Forecasting Centre — Geomagnetic disturbance warning',
+  },
+  {
     date: '23 September 2026',
     image: '/editorial-cartoons/2026-09-23-queensland-stick-insects.jpg',
     alt: 'Black-and-white editorial cartoon of a rainforest researcher discovering two large stick insects previously filed under actual sticks',
