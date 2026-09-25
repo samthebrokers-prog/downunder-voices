@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '25 September 2026',
+    image: '/editorial-cartoons/2026-09-25-night-parrot-day-shift.jpg',
+    alt: 'Black-and-white editorial cartoon of a conservation ranger filming a young night parrot peeking from a spinifex tunnel during daylight while holding a tiny alarm clock',
+    headline: 'The night shift makes a rare daytime appearance',
+    summary: 'Ngururrpa Rangers filmed a young night parrot inside a spinifex tunnel in Western Australia’s Great Sandy Desert, a rare daytime sighting of one of the world’s most cryptic birds. The chick appeared nearly ready to fledge—and briefly clocked on while the sun was still watching.',
+    sourceUrl:
+      'https://www.abc.net.au/news/science/2026-09-24/young-night-parrot-found-in-wa-desert-by-indigenous-rangers/107178414',
+    sourceLabel:
+      'ABC Science — Rare night-parrot chick filmed in WA’s Great Sandy Desert',
+  },
+  {
     date: '24 September 2026',
     image: '/editorial-cartoons/2026-09-24-solar-wind-forecast.jpg',
     alt: 'Black-and-white editorial cartoon of the sun blowing solar wind toward Earth while an Australian backyard weather presenter holds an inside-out umbrella',
