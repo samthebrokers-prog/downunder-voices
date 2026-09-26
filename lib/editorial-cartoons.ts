@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '26 September 2026',
+    image: '/editorial-cartoons/2026-09-26-riverland-spring-collection.jpg',
+    alt: 'Black-and-white editorial cartoon of South Australian wildflowers parading along an outback runway while an emu reads a once-in-a-lifetime bloom program',
+    headline: 'The outback unveils its spring collection',
+    summary: 'Exceptional autumn and winter rain transformed normally dry parts of South Australia’s Riverland into abundant fields of native wattle, poached-egg daisies, purple swainsona and other flowers. After years favouring practical earth tones, the bush has briefly chosen something much more floral.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-09-25/native-flowers-bloom-with-winter-rainfall-south-australia/107059748',
+    sourceLabel:
+      'ABC Riverland — Exceptional rain brings a once-in-a-lifetime flower display',
+  },
+  {
     date: '25 September 2026',
     image: '/editorial-cartoons/2026-09-25-night-parrot-day-shift.jpg',
     alt: 'Black-and-white editorial cartoon of a conservation ranger filming a young night parrot peeking from a spinifex tunnel during daylight while holding a tiny alarm clock',
