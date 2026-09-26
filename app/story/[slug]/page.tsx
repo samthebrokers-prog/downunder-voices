@@ -442,12 +442,14 @@ export default async function StoryPage({
                   </p>
 
                   <h2 className="mt-2 font-serif text-2xl font-black">
-                    Why this matters
+                    {story.sourceName === 'Downunder Voices Original Analysis' ? 'Full analysis' : 'Why this matters'}
                   </h2>
 
-                  <p className="mt-3 text-base leading-8 text-foreground/80">
-                    {story.communityAngle}
-                  </p>
+                  {story.communityAngle.split(/\\n\\n+/).map((paragraph, index) => (
+                    <p key={index} className="mt-4 whitespace-pre-line text-base leading-8 text-foreground/80">
+                      {paragraph}
+                    </p>
+                  ))}
                 </section>
               )}
 
