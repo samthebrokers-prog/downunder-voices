@@ -445,7 +445,7 @@ export default async function StoryPage({
                     {story.sourceName === 'Downunder Voices Original Analysis' ? 'Full analysis' : 'Why this matters'}
                   </h2>
 
-                  {story.communityAngle.split(/\\n\\n+/).map((paragraph, index) => (
+                  {story.communityAngle.split(String.fromCharCode(10, 10)).map((paragraph, index) => (
                     <p key={index} className="mt-4 whitespace-pre-line text-base leading-8 text-foreground/80">
                       {paragraph}
                     </p>
