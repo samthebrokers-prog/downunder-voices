@@ -394,6 +394,7 @@ export default async function HomePage() {
                     story.category,
                   ) === categorySlug,
               )
+              .filter((story) => storyAgeHours(story) <= 168)
               .slice(0, 4)
 
             if (!sectionStories.length) {
