@@ -1,3 +1,4 @@
+import { decodeNewsText } from '@/lib/decode-news-text'
 import Link from 'next/link'
 import {
   ArrowRight,
@@ -50,11 +51,11 @@ export function StoryCard({
         <Link
           href={href}
           className="relative aspect-square w-20 shrink-0 overflow-hidden rounded-md bg-muted sm:w-24"
-          aria-label={story.title}
+          aria-label={decodeNewsText(story.title)}
         >
           <StoryImage
             src={story.image}
-            alt={story.title}
+            alt={decodeNewsText(story.title)}
             sizes="96px"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             category={story.category}
@@ -77,7 +78,7 @@ export function StoryCard({
               href={href}
               className="transition-colors hover:text-primary"
             >
-              {story.title}
+              {decodeNewsText(story.title)}
             </Link>
           </h3>
 
@@ -95,7 +96,7 @@ export function StoryCard({
         <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
           <StoryImage
             src={story.image}
-            alt={story.title}
+            alt={decodeNewsText(story.title)}
             sizes="(max-width: 768px) 100vw, 66vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             category={story.category}
@@ -105,7 +106,7 @@ export function StoryCard({
           <Link
             href={href}
             className="absolute inset-0 z-10"
-            aria-label={story.title}
+            aria-label={decodeNewsText(story.title)}
           />
 
           <Link
@@ -119,7 +120,7 @@ export function StoryCard({
 
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-5 pb-5 pt-28 sm:px-7 sm:pb-7">
             <h2 className="max-w-4xl font-serif text-2xl font-black leading-tight text-white drop-shadow-lg sm:text-3xl lg:text-4xl">
-              {story.title}
+              {decodeNewsText(story.title)}
             </h2>
 
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-xs text-white/90">
@@ -143,7 +144,7 @@ export function StoryCard({
         <div className="p-5 sm:p-6">
           {story.summary && (
             <p className="line-clamp-3 text-base leading-7 text-muted-foreground">
-              {story.summary}
+              {decodeNewsText(story.summary)}
             </p>
           )}
 
@@ -154,7 +155,7 @@ export function StoryCard({
               </p>
 
               <p className="mt-2 line-clamp-3 text-sm leading-6 text-foreground/80">
-                {story.communityAngle}
+                {decodeNewsText(story.communityAngle)}
               </p>
             </div>
           )}
@@ -182,7 +183,7 @@ export function StoryCard({
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
         <StoryImage
           src={story.image}
-          alt={story.title}
+          alt={decodeNewsText(story.title)}
           sizes="(max-width: 768px) 100vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           category={story.category}
@@ -192,7 +193,7 @@ export function StoryCard({
         <Link
           href={href}
           className="absolute inset-0 z-10"
-          aria-label={story.title}
+          aria-label={decodeNewsText(story.title)}
         />
 
         <Link
@@ -215,13 +216,13 @@ export function StoryCard({
             href={href}
             className="transition-colors hover:text-primary"
           >
-            {story.title}
+            {decodeNewsText(story.title)}
           </Link>
         </h3>
 
         {story.summary && (
           <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">
-            {story.summary}
+            {decodeNewsText(story.summary)}
           </p>
         )}
 
@@ -232,7 +233,7 @@ export function StoryCard({
             </p>
 
             <p className="mt-1 line-clamp-2 text-sm leading-6 text-foreground/80">
-              {story.communityAngle}
+              {decodeNewsText(story.communityAngle)}
             </p>
           </div>
         )}
