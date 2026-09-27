@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '27 September 2026',
+    image: '/editorial-cartoons/2026-09-27-lions-wharfie-time.jpg',
+    alt: 'Black-and-white editorial cartoon of an original generic lion charging through an open final-four-minutes gate after a dockside bell rings Wharfie Time',
+    headline: 'The Lions arrive right on Wharfie Time',
+    summary: 'Brisbane erased a 17-point deficit in the final four minutes after Fremantle’s “Wharfie Time” bell rang, kicking four straight goals to win the AFL grand final by seven points and claim a third consecutive premiership. The Dockers rang the closing bell; the Lions treated it as a starting gun.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-09-26/afl-grand-final-fremantle-brisbane-live-blog/107196404',
+    sourceLabel:
+      'ABC Sport — Lions stage epic AFL grand-final comeback against the Dockers',
+  },
+  {
     date: '26 September 2026',
     image: '/editorial-cartoons/2026-09-26-riverland-spring-collection.jpg',
     alt: 'Black-and-white editorial cartoon of South Australian wildflowers parading along an outback runway while an emu reads a once-in-a-lifetime bloom program',
