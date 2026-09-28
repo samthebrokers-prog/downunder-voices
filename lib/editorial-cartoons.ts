@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '28 September 2026',
+    image: '/editorial-cartoons/2026-09-28-bogong-night-shift.jpg',
+    alt: 'Black-and-white editorial cartoon of bogong moths carrying tiny suitcases past a porch-light detour toward an alpine summer terminal',
+    headline: 'The bogongs return to the night shift',
+    summary: 'Endangered bogong moths have been appearing across south-eastern Australia as their spring migration gets underway. The tiny nocturnal travellers are back on the alpine route—though suburban porch lights continue to offer some highly persuasive unscheduled stopovers.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-09-27/naus_nrbogongmoths_2709/107201110',
+    sourceLabel:
+      'ABC NewsRadio — Bogong moths back on the march in south-eastern Australia',
+  },
+  {
     date: '27 September 2026',
     image: '/editorial-cartoons/2026-09-27-lions-wharfie-time.jpg',
     alt: 'Black-and-white editorial cartoon of an original generic lion charging through an open final-four-minutes gate after a dockside bell rings Wharfie Time',
