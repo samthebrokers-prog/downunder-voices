@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '29 September 2026',
+    image: '/editorial-cartoons/2026-09-29-dolphin-western-line.jpg',
+    alt: 'Black-and-white editorial cartoon of about ten dolphins forming a fast western line beneath the Sydney Harbour Bridge while two kayakers look on',
+    headline: 'The harbour’s new Western Line',
+    summary: 'About 10 dolphins delighted early-morning kayakers when they swam west of the Sydney Harbour Bridge toward Cockatoo Island, an unusual sight that a marine scientist said reflected the harbour’s improving environmental health. Sydney’s newest western service arrived without rails, timetables or replacement buses.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-09-28/sydney-harbour-dolphins-spotted-west-of-bridge/107202526',
+    sourceLabel:
+      'ABC News — Dolphins spotted west of Sydney Harbour Bridge',
+  },
+  {
     date: '28 September 2026',
     image: '/editorial-cartoons/2026-09-28-bogong-night-shift.jpg',
     alt: 'Black-and-white editorial cartoon of bogong moths carrying tiny suitcases past a porch-light detour toward an alpine summer terminal',
