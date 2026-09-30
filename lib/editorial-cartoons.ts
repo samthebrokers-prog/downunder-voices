@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '30 September 2026',
+    image: '/editorial-cartoons/2026-09-30-soba-diplomacy-blooms.jpg',
+    alt: 'Black-and-white editorial cartoon of a soba-noodle bowl shaking hands with a flowering cherry tree beside Deloraine’s Hanami Trail',
+    headline: 'Tasmania’s noodle diplomacy blooms',
+    summary: 'Tasmania’s out-of-season buckwheat gave Japan a second annual supply of fresh soba noodles—and inspired Japanese flour miller Rick Shiratori to gift 300 cherry trees to Deloraine. Thirty years later, the flowering riverside trees anchor the Hanami Trail festival, proving that one very good bowl of noodles can have remarkably deep roots.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-09-29/tasmanian-cherry-blossoms-link-to-japan-cultural-connection/107176340',
+    sourceLabel:
+      'ABC News — Soba noodles inspired Tasmania’s cherry-blossom connection',
+  },
+  {
     date: '29 September 2026',
     image: '/editorial-cartoons/2026-09-29-dolphin-western-line.jpg',
     alt: 'Black-and-white editorial cartoon of about ten dolphins forming a fast western line beneath the Sydney Harbour Bridge while two kayakers look on',
