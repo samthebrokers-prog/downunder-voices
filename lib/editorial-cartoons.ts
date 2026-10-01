@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '1 October 2026',
+    image: '/editorial-cartoons/2026-10-01-feathered-red-carpet.jpg',
+    alt: 'Black-and-white editorial cartoon of king penguins posing for photographers on a bird awards-night carpet while a rosella steals sugar and a brush turkey wears a bow tie',
+    headline: 'Australia’s feathered red carpet',
+    summary: 'The 2026 BirdLife Australia Photography Awards celebrated king penguins gliding underwater, a sugar-stealing crimson rosella, a bin-foraging brush turkey and other remarkable bird moments. Australia’s feathered stars have mastered the red carpet—provided everyone remembers to act natural.',
+    sourceUrl:
+      'https://www.theguardian.com/environment/gallery/2026/oct/01/the-2026-birdlife-australia-photography-awards-in-pictures',
+    sourceLabel:
+      'Guardian Australia — The 2026 BirdLife Australia Photography Awards',
+  },
+  {
     date: '30 September 2026',
     image: '/editorial-cartoons/2026-09-30-soba-diplomacy-blooms.jpg',
     alt: 'Black-and-white editorial cartoon of a soba-noodle bowl shaking hands with a flowering cherry tree beside Deloraine’s Hanami Trail',
