@@ -345,15 +345,52 @@ export default async function CategoryPage({
       60,
     )
 
+  const freshnessCutoff =
+    Date.now() - 14 * 24 * 60 * 60 * 1000
+
   const filteredStories =
-    category.slug === 'sports'
-      ? rawStories.filter((story) =>
-          isRealSportsStory(
-            story.title,
-            story.summary,
-          ),
+    rawStories
+      .filter((story) => {
+        if (
+          category.slug !== 'sports' &&
+          category.slug !== 'social-issues'
+        ) {
+          return true
+        }
+
+        const publishedAt =
+          story.publishedAt ?? story.date
+
+        if (!publishedAt) {
+          return false
+        }
+
+        const publishedTime =
+          new Date(publishedAt).getTime()
+
+        return (
+          Number.isFinite(publishedTime) &&
+          publishedTime >= freshnessCutoff
         )
-      : rawStories
+      })
+      .filter((story) =>
+        category.slug === 'sports'
+          ? isRealSportsStory(
+              story.title,
+              story.summary,
+            )
+          : true,
+      )
+      .sort((a, b) => {
+        const aTime = new Date(
+          a.publishedAt ?? a.date ?? 0,
+        ).getTime()
+        const bTime = new Date(
+          b.publishedAt ?? b.date ?? 0,
+        ).getTime()
+
+        return bTime - aTime
+      })
 
   const stories =
     removeDuplicateStories(filteredStories)
@@ -434,6 +471,46 @@ export default async function CategoryPage({
           {category.description}
         </p>
       </header>
+
+      {category.slug === 'sports' && (
+        <section className="mb-10 overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+          <div className="grid gap-0 md:grid-cols-[1.2fr_1fr]">
+            <a
+              href="https://www.nrl.com/news/topic/match-highlights/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-64 items-center justify-center bg-black px-8 py-12 text-center text-white"
+            >
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-red-400">
+                  Sports Video of the Day
+                </p>
+                <p className="mt-4 font-serif text-3xl font-black">
+                  PNG PM&apos;s XIII v Australia PM&apos;s XIII
+                </p>
+                <p className="mt-3 text-sm text-zinc-300">
+                  Official NRL match highlights — fresh today
+                </p>
+                <span className="mt-6 inline-block rounded-full bg-white px-5 py-2 text-sm font-black text-black">
+                  Watch highlights ↗
+                </span>
+              </div>
+            </a>
+
+            <div className="flex flex-col justify-center p-7">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">
+                Today in Australian sport
+              </p>
+              <h2 className="mt-2 font-serif text-2xl font-black">
+                Australia PM&apos;s XIII beat PNG 60–10
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                Watch the latest official NRL highlights. This daily video position is reserved for current Australian and New Zealand sport, not expired match previews.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {stories.length > 0 ? (
         <>
