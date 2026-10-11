@@ -7,182 +7,32 @@ import { ChevronDown, Menu, Search, X } from 'lucide-react'
 import { categories } from '@/lib/news-data'
 
 const websiteUrl = 'https://www.downundervoices.com'
-
-const shareText =
-  'Downunder Voices — Independent voices from Australia, New Zealand and the World'
-
-const categoryLinks = categories
-  .filter((category) => category.slug !== 'editorial-view')
-  .map((category) => ({
-    href: `/category/${category.slug}`,
-    label: category.name === "Sam's View" ? 'Opinion' : category.name,
-  }))
-
-const primaryHrefs = new Set([
-  '/category/australia',
-  '/category/new-zealand',
-  '/category/world',
-  '/category/social-issues',
-  '/category/small-business',
-  '/category/sports',
-])
-
+const shareText = 'Downunder Voices — Independent voices from Australia, New Zealand and the World'
+const categoryLinks = categories.filter((category) => category.slug !== 'editorial-view').map((category) => ({ href: `/category/${category.slug}`, label: category.name === "Sam's View" ? 'Opinion' : category.name }))
+const primaryHrefs = new Set(['/category/australia','/category/new-zealand','/category/world','/category/social-issues','/category/small-business','/category/sports'])
 const primaryLinks = categoryLinks.filter((link) => primaryHrefs.has(link.href))
-const moreLinks = [
-  ...categoryLinks.filter((link) => !primaryHrefs.has(link.href)),
-  { href: '/weather', label: 'Weather' },
-  { href: '/cartoon-of-the-day', label: 'Cartoon of the Day' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
-]
-
-const mobileLinks = [
-  ...categoryLinks,
-  { href: '/radio', label: 'Radio' },
-  { href: '/weather', label: 'Weather' },
-  { href: '/cartoon-of-the-day', label: 'Cartoon of the Day' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
-]
-
+const moreLinks = [...categoryLinks.filter((link) => !primaryHrefs.has(link.href)),{ href: '/weather', label: 'Weather' },{ href: '/cartoon-of-the-day', label: 'Cartoon of the Day' },{ href: '/about', label: 'About' },{ href: '/contact', label: 'Contact' }]
+const mobileLinks = [...categoryLinks,{ href: '/radio', label: 'Radio' },{ href: '/weather', label: 'Weather' },{ href: '/cartoon-of-the-day', label: 'Cartoon of the Day' },{ href: '/about', label: 'About' },{ href: '/contact', label: 'Contact' }]
 const socialLinks = [
-  {
-    label: 'Share on Facebook',
-    symbol: 'f',
-    href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(websiteUrl)}`,
-  },
-  {
-    label: 'Share on X',
-    symbol: 'X',
-    href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(websiteUrl)}&text=${encodeURIComponent(shareText)}`,
-  },
-  {
-    label: 'Share on LinkedIn',
-    symbol: 'in',
-    href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(websiteUrl)}`,
-  },
-  {
-    label: 'Share on WhatsApp',
-    symbol: '◉',
-    href: `https://wa.me/?text=${encodeURIComponent(`${shareText} ${websiteUrl}`)}`,
-  },
+ { label:'Share on Facebook',symbol:'f',href:`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(websiteUrl)}` },
+ { label:'Share on X',symbol:'X',href:`https://twitter.com/intent/tweet?url=${encodeURIComponent(websiteUrl)}&text=${encodeURIComponent(shareText)}` },
+ { label:'Share on LinkedIn',symbol:'in',href:`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(websiteUrl)}` },
+ { label:'Share on WhatsApp',symbol:'◉',href:`https://wa.me/?text=${encodeURIComponent(`${shareText} ${websiteUrl}`)}` },
 ]
 
 export function MainHeader() {
-  const router = useRouter()
-  const [open, setOpen] = useState(false)
-  const [moreOpen, setMoreOpen] = useState(false)
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [today, setToday] = useState('')
-
-  useEffect(() => {
-    setToday(
-      new Date().toLocaleDateString('en-NZ', {
-        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-      }),
-    )
-  }, [])
-
-  function submitSearch(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const query = searchQuery.trim()
-    if (!query) return
-    setOpen(false)
-    setMoreOpen(false)
-    setSearchOpen(false)
-    router.push(`/search?q=${encodeURIComponent(query)}`)
-  }
-
-  function closeMenus() {
-    setOpen(false)
-    setMoreOpen(false)
-    setSearchOpen(false)
-  }
-
-  return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 shadow-sm backdrop-blur">
-      <div className="border-b border-border bg-slate-950 text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 text-xs sm:px-6 lg:px-8">
-          <span className="truncate text-slate-300">{today}</span>
-          <div className="flex shrink-0 items-center gap-4">
-            <span className="hidden text-slate-400 sm:inline">Independent voices from Australia, New Zealand &amp; the World</span>
-            <Link href="/radio" className="font-black text-red-400 transition hover:text-white">● RADIO</Link>
-            <Link href="/advertise" className="font-bold text-white transition hover:text-red-400">Advertise with us</Link>
-          </div>
-        </div>
-      </div>
-
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex min-w-0 items-center gap-3 sm:gap-4" onClick={closeMenus} aria-label="Downunder Voices homepage">
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-md bg-red-700 font-serif text-xl font-black tracking-tight text-white shadow-sm sm:size-16 sm:text-2xl" aria-hidden="true">DV</span>
-          <span className="min-w-0">
-            <span className="block whitespace-nowrap font-serif text-2xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">DOWNUNDER<span className="ml-2 text-red-700">VOICES</span></span>
-            <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.13em] text-muted-foreground sm:text-[11px] sm:tracking-[0.18em]">Australia · New Zealand · World</span>
-          </span>
-        </Link>
-
-        <div className="flex items-center gap-2">
-          <button type="button" aria-label={searchOpen ? 'Close website search' : 'Search Downunder Voices'} aria-expanded={searchOpen} title="Search Downunder Voices" onClick={() => { setSearchOpen((current) => !current); setOpen(false); setMoreOpen(false) }} className="inline-flex size-10 items-center justify-center rounded-full border border-border text-slate-700 transition hover:border-red-700 hover:bg-red-700 hover:text-white">
-            {searchOpen ? <X className="size-4" /> : <Search className="size-4" />}
-          </button>
-          <div className="hidden items-center gap-2 lg:flex">
-            <div className="mx-1 h-6 w-px bg-border" />
-            {socialLinks.map((social) => <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} title={social.label} className="inline-flex size-9 items-center justify-center rounded-full border border-border text-xs font-black text-slate-700 transition hover:border-red-700 hover:bg-red-700 hover:text-white">{social.symbol}</a>)}
-          </div>
-          <button type="button" aria-label={open ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={open} onClick={() => { setOpen((current) => !current); setSearchOpen(false); setMoreOpen(false) }} className="inline-flex size-11 shrink-0 items-center justify-center rounded-md border border-border transition hover:bg-secondary lg:hidden">
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
-        </div>
-      </div>
-
-      {searchOpen && (
-        <div className="border-t border-border bg-slate-50">
-          <form onSubmit={submitSearch} className="mx-auto flex max-w-4xl gap-2 px-4 py-4 sm:px-6">
-            <label htmlFor="site-search" className="sr-only">Search Downunder Voices</label>
-            <div className="relative flex-1">
-              <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-400" />
-              <input id="site-search" type="search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="Search news, topics, countries or keywords..." autoFocus className="h-12 w-full rounded-md border border-slate-300 bg-white pl-12 pr-4 text-base outline-none transition focus:border-red-700 focus:ring-2 focus:ring-red-700/20" />
-            </div>
-            <button type="submit" className="h-12 rounded-md bg-red-700 px-5 text-sm font-bold text-white transition hover:bg-red-800">Search</button>
-          </form>
-          <div className="mx-auto flex max-w-4xl flex-wrap gap-2 px-4 pb-4 sm:px-6">
-            <span className="mr-1 py-1 text-xs font-bold uppercase tracking-wider text-slate-500">Popular:</span>
-            {['Immigration','Cost of living','Housing','Australia','New Zealand','World','Business','Entertainment','Artificial intelligence'].map((topic) => <Link key={topic} href={`/search?q=${encodeURIComponent(topic)}`} onClick={closeMenus} className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-700 transition hover:border-red-700 hover:text-red-700">{topic}</Link>)}
-          </div>
-        </div>
-      )}
-
-      <nav className="hidden border-t border-border bg-background lg:block">
-        <div className="mx-auto flex max-w-7xl items-center gap-x-6 px-4 py-3 sm:px-6 lg:px-8">
-          <Link href="/" className="whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700">Home</Link>
-          <Link href="/latest" className="whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700">Latest</Link>
-          {primaryLinks.map((link) => <Link key={`${link.href}-${link.label}`} href={link.href} className="whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700">{link.label}</Link>)}
-          <Link href="/radio" className="whitespace-nowrap text-sm font-black text-red-700 transition-colors hover:text-red-800">Radio</Link>
-          <div className="relative ml-auto">
-            <button type="button" aria-expanded={moreOpen} onClick={() => setMoreOpen((current) => !current)} onBlur={() => window.setTimeout(() => setMoreOpen(false), 150)} className="flex items-center gap-1 whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700">
-              More <ChevronDown className={`size-4 transition-transform ${moreOpen ? 'rotate-180' : ''}`} />
-            </button>
-            {moreOpen && (
-              <div className="absolute right-0 top-full z-50 mt-3 w-56 overflow-hidden rounded-md border border-border bg-white py-2 shadow-xl">
-                {moreLinks.map((link) => <Link key={`more-${link.href}-${link.label}`} href={link.href} onClick={closeMenus} className="block px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-slate-50 hover:text-red-700">{link.label}</Link>)}
-              </div>
-            )}
-          </div>
-        </div>
-      </nav>
-
-      {open && (
-        <nav className="border-t border-border bg-background shadow-lg lg:hidden">
-          <div className="mx-auto flex max-w-7xl flex-col px-4 py-3 sm:px-6">
-            <Link href="/" onClick={closeMenus} className="border-b border-border py-3 text-sm font-bold">Home</Link>
-            <Link href="/latest" onClick={closeMenus} className="border-b border-border py-3 text-sm font-bold">Latest</Link>
-            <button type="button" onClick={() => { setOpen(false); setSearchOpen(true) }} className="flex items-center gap-3 border-b border-border py-3 text-left text-sm font-bold"><Search className="size-4" />Search News</button>
-            {mobileLinks.map((link) => <Link key={`mobile-${link.href}-${link.label}`} href={link.href} onClick={closeMenus} className={`border-b border-border py-3 text-sm font-bold ${link.href === '/radio' ? 'text-red-700' : ''}`}>{link.label}</Link>)}
-            <div className="flex items-center gap-3 py-5">{socialLinks.map((social) => <a key={`mobile-${social.label}`} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} className="inline-flex size-10 items-center justify-center rounded-full border border-border text-xs font-black transition hover:border-red-700 hover:bg-red-700 hover:text-white">{social.symbol}</a>)}</div>
-          </div>
-        </nav>
-      )}
-    </header>
-  )
+ const router=useRouter(); const [open,setOpen]=useState(false); const [moreOpen,setMoreOpen]=useState(false); const [searchOpen,setSearchOpen]=useState(false); const [searchQuery,setSearchQuery]=useState(''); const [today,setToday]=useState('')
+ useEffect(()=>{setToday(new Date().toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'}))},[])
+ function submitSearch(event:FormEvent<HTMLFormElement>){event.preventDefault();const query=searchQuery.trim();if(!query)return;setOpen(false);setMoreOpen(false);setSearchOpen(false);router.push(`/search?q=${encodeURIComponent(query)}`)}
+ function closeMenus(){setOpen(false);setMoreOpen(false);setSearchOpen(false)}
+ return <header className="sticky top-0 z-50 border-b border-slate-300 bg-white/95 backdrop-blur">
+  <div className="border-b border-slate-200 bg-slate-950 text-white"><div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-1.5 text-xs sm:px-6 lg:px-8"><span className="truncate text-slate-300">{today}</span><div className="flex shrink-0 items-center gap-4"><span className="hidden text-slate-400 sm:inline">Independent Australian &amp; New Zealand news and opinion</span><Link href="/radio" className="font-black text-red-400 hover:text-white">● RADIO</Link><Link href="/advertise" className="font-bold hover:text-red-400">Advertise</Link></div></div></div>
+  <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-4 py-3 sm:px-6 lg:px-8">
+   <Link href="/" className="flex min-w-0 items-center gap-3" onClick={closeMenus} aria-label="Downunder Voices homepage"><span className="flex size-11 shrink-0 items-center justify-center bg-red-700 font-serif text-lg font-black text-white sm:size-14 sm:text-xl">DV</span><span className="min-w-0"><span className="block whitespace-nowrap font-serif text-2xl font-black tracking-[-0.04em] text-slate-950 sm:text-4xl lg:text-[2.65rem]">DOWNUNDER<span className="ml-2 text-red-700">VOICES</span></span><span className="mt-0.5 block text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500 sm:text-[10px]">Australia · New Zealand · World</span></span></Link>
+   <div className="flex items-center gap-2"><button type="button" aria-label={searchOpen?'Close website search':'Search Downunder Voices'} aria-expanded={searchOpen} onClick={()=>{setSearchOpen(c=>!c);setOpen(false);setMoreOpen(false)}} className="inline-flex size-10 items-center justify-center rounded-full border border-slate-300 text-slate-700 hover:border-red-700 hover:text-red-700">{searchOpen?<X className="size-4"/>:<Search className="size-4"/>}</button><div className="hidden items-center gap-2 lg:flex"><div className="mx-1 h-6 w-px bg-slate-200"/>{socialLinks.map(s=><a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="inline-flex size-8 items-center justify-center rounded-full border border-slate-300 text-xs font-black text-slate-700 hover:border-red-700 hover:text-red-700">{s.symbol}</a>)}</div><button type="button" aria-label={open?'Close navigation menu':'Open navigation menu'} aria-expanded={open} onClick={()=>{setOpen(c=>!c);setSearchOpen(false);setMoreOpen(false)}} className="inline-flex size-11 items-center justify-center border border-slate-300 lg:hidden">{open?<X className="size-5"/>:<Menu className="size-5"/>}</button></div>
+  </div>
+  {searchOpen&&<div className="border-t border-slate-200 bg-slate-50"><form onSubmit={submitSearch} className="mx-auto flex max-w-4xl gap-2 px-4 py-4 sm:px-6"><div className="relative flex-1"><Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-400"/><input type="search" value={searchQuery} onChange={e=>setSearchQuery(e.target.value)} placeholder="Search news, topics or keywords..." autoFocus className="h-12 w-full border border-slate-300 bg-white pl-12 pr-4 outline-none focus:border-red-700"/></div><button type="submit" className="h-12 bg-red-700 px-5 text-sm font-bold text-white">Search</button></form></div>}
+  <nav className="hidden border-t border-slate-200 bg-white lg:block"><div className="mx-auto flex max-w-7xl items-center gap-x-6 px-4 py-2.5 sm:px-6 lg:px-8"><Link href="/" className="whitespace-nowrap text-sm font-bold hover:text-red-700">Home</Link><Link href="/latest" className="whitespace-nowrap text-sm font-bold hover:text-red-700">Latest</Link>{primaryLinks.map(l=><Link key={l.href} href={l.href} className="whitespace-nowrap text-sm font-bold hover:text-red-700">{l.label}</Link>)}<Link href="/radio" className="whitespace-nowrap text-sm font-black text-red-700">Radio</Link><div className="relative ml-auto"><button type="button" aria-expanded={moreOpen} onClick={()=>setMoreOpen(c=>!c)} onBlur={()=>window.setTimeout(()=>setMoreOpen(false),150)} className="flex items-center gap-1 text-sm font-bold hover:text-red-700">More <ChevronDown className={`size-4 ${moreOpen?'rotate-180':''}`}/></button>{moreOpen&&<div className="absolute right-0 top-full z-50 mt-3 w-56 border border-slate-200 bg-white py-2 shadow-xl">{moreLinks.map(l=><Link key={`more-${l.href}`} href={l.href} onClick={closeMenus} className="block px-4 py-2.5 text-sm font-semibold hover:bg-slate-50 hover:text-red-700">{l.label}</Link>)}</div>}</div></div></nav>
+  {open&&<nav className="border-t border-slate-200 bg-white shadow-lg lg:hidden"><div className="mx-auto flex max-w-7xl flex-col px-4 py-3 sm:px-6"><Link href="/" onClick={closeMenus} className="border-b py-3 text-sm font-bold">Home</Link><Link href="/latest" onClick={closeMenus} className="border-b py-3 text-sm font-bold">Latest</Link>{mobileLinks.map(l=><Link key={`mobile-${l.href}`} href={l.href} onClick={closeMenus} className="border-b py-3 text-sm font-bold">{l.label}</Link>)}</div></nav>}
+ </header>
 }
