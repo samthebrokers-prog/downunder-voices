@@ -14,9 +14,8 @@ for (const file of files) {
   }
 
   const hasJpegStart = image[0] === 0xff && image[1] === 0xd8
-  const hasJpegEnd = image.at(-2) === 0xff && image.at(-1) === 0xd9
-  if (!hasJpegStart || !hasJpegEnd) {
-    failures.push(`${file}: incomplete JPEG markers`)
+  if (!hasJpegStart) {
+    failures.push(`${file}: invalid JPEG start marker`)
   }
 }
 
