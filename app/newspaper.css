@@ -17,9 +17,9 @@ body>main main>div.mx-auto img{max-width:100%}
   body>main main>div.mx-auto>section:first-child img:not([src]){display:none!important}
   body>main main>div.mx-auto>section:first-child img{max-height:430px;object-fit:cover}
 
-  /* Cartoon is a secondary newspaper feature, not the homepage billboard. */
-  body>main main>div.mx-auto>section:has(a[href="/cartoon-of-the-day"]){width:min(100%,520px);margin-left:auto;margin-right:0;border-radius:0;box-shadow:none}
-  body>main main>div.mx-auto>section:has(a[href="/cartoon-of-the-day"]) img{max-height:340px;object-fit:contain;background:#fff}
+  /* Keep Cartoon of the Day full-width so the page never leaves a dead blank column. */
+  body>main main>div.mx-auto>section:has(a[href="/cartoon-of-the-day"]){width:100%;margin-left:0;margin-right:0;border-radius:0;box-shadow:none}
+  body>main main>div.mx-auto>section:has(a[href="/cartoon-of-the-day"]) img{width:100%;max-height:620px;object-fit:contain;background:#fff}
 
   body>main main>div.mx-auto section .grid{column-gap:1.1rem;row-gap:1.25rem}
   body>main main>div.mx-auto section h2{font-size:1.7rem;line-height:1.1}
