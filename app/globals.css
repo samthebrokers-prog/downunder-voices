@@ -58,9 +58,15 @@ article p { line-height: 1.78; }
 .prose-content a { @apply text-primary underline; text-underline-offset: 3px; }
 .prose-content img { width: 100%; height: auto; margin: 1.75rem auto; }
 
-/* Show the complete editorial cartoon on every screen size. */
-a[href='/cartoon-of-the-day'] { overflow: visible; }
+/* Keep the editorial cartoon clean, centred and fully visible. */
+a[href='/cartoon-of-the-day'] { overflow: hidden; }
 a[href='/cartoon-of-the-day'] > img {
-  display: block; width: 100%; max-width: 760px; height: auto !important; max-height: none;
-  object-fit: contain !important; object-position: center; margin-inline: auto; filter: grayscale(1);
+  display: block;
+  width: auto;
+  max-width: min(100%, 900px);
+  height: auto !important;
+  max-height: 620px;
+  object-fit: contain !important;
+  object-position: center;
+  margin: 1.25rem auto 1.5rem;
 }
