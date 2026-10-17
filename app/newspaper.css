@@ -1,16 +1,32 @@
-/* Downunder Voices — compact digital newspaper treatment */
+/* Downunder Voices — compact, responsive digital newspaper treatment */
+body{background:#f8fafc;overflow-x:hidden}
+body>main main>div.mx-auto{width:100%;max-width:80rem;background:#fff}
+body>main main>div.mx-auto>section{min-width:0}
+body>main main>div.mx-auto img{max-width:100%}
+
 @media (min-width:1024px){
-  body{background:#f8fafc}
-  body>main main>div.mx-auto{background:#fff;box-shadow:0 0 0 1px rgba(15,23,42,.06);padding-top:1rem}
-  body>main main>div.mx-auto>section{margin-top:2.25rem}
+  body>main main>div.mx-auto{box-shadow:0 0 0 1px rgba(15,23,42,.06);padding-top:1rem}
+  body>main main>div.mx-auto>section{margin-top:2rem}
   body>main main>div.mx-auto>section:first-child{margin-top:0}
-  body>main main>div.mx-auto>section:first-child .shadow-sm{box-shadow:none;border-radius:0;border-left:0;border-right:0}
-  body>main main>div.mx-auto>section:first-child h2,body>main main>div.mx-auto>section:first-child h3{letter-spacing:-.025em}
-  /* Cartoon becomes a newspaper column feature, not a full-page poster */
-  body>main main>div.mx-auto>section:has(a[href="/cartoon-of-the-day"]){width:38%;margin-left:auto;margin-right:0;border-radius:0;box-shadow:none}
-  body>main main>div.mx-auto>section:has(a[href="/cartoon-of-the-day"]) img{max-height:360px;object-fit:contain;background:#fff}
-  /* Denser story rails */
-  body>main main>div.mx-auto section .grid{column-gap:1.15rem;row-gap:1.4rem}
-  body>main main>div.mx-auto section h2{font-size:1.75rem;line-height:1.1}
+  body>main main>div.mx-auto>section:first-child .shadow-sm{box-shadow:none;border-radius:0}
+  body>main main>div.mx-auto>section:first-child h2,
+  body>main main>div.mx-auto>section:first-child h3{letter-spacing:-.025em}
+
+  /* Never let a missing lead image create a giant empty billboard. */
+  body>main main>div.mx-auto>section:first-child img[src=""],
+  body>main main>div.mx-auto>section:first-child img:not([src]){display:none!important}
+  body>main main>div.mx-auto>section:first-child img{max-height:430px;object-fit:cover}
+
+  /* Cartoon is a secondary newspaper feature, not the homepage billboard. */
+  body>main main>div.mx-auto>section:has(a[href="/cartoon-of-the-day"]){width:min(100%,520px);margin-left:auto;margin-right:0;border-radius:0;box-shadow:none}
+  body>main main>div.mx-auto>section:has(a[href="/cartoon-of-the-day"]) img{max-height:340px;object-fit:contain;background:#fff}
+
+  body>main main>div.mx-auto section .grid{column-gap:1.1rem;row-gap:1.25rem}
+  body>main main>div.mx-auto section h2{font-size:1.7rem;line-height:1.1}
 }
-@media (max-width:1023px){body>main main>div.mx-auto>section{margin-top:2.25rem}}
+
+@media (max-width:1023px){
+  body>main main>div.mx-auto{padding-left:1rem;padding-right:1rem}
+  body>main main>div.mx-auto>section{margin-top:2rem}
+  body>main main>div.mx-auto>section:has(a[href="/cartoon-of-the-day"]){width:100%}
+}
