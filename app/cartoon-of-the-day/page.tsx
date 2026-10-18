@@ -1,19 +1,9 @@
 import type { Metadata } from 'next'
-import { archivedCartoons } from '@/lib/editorial-cartoons'
-
-const currentCartoon = {
-  date: '15 October 2026',
-  image: '/editorial-cartoons/2026-10-15-tomorrows-australians.jpg',
-  alt: 'Original Downunder Voices editorial cartoon about Australia’s migrant history and current calls to sharply reduce migration',
-  headline: 'Tomorrow’s Australians',
-  summary: 'Australia was built by generations who arrived from somewhere else. As migration again becomes an election battleground, today’s newcomers are being asked to stand outside a door that yesterday’s newcomers walked through. The debate over numbers is legitimate; forgetting the country’s migrant story is not.',
-  sourceUrl: 'https://www.theguardian.com/australia-news/2026/oct/08/net-overseas-migration-how-do-policies-compare-labor-coalition-one-nation-ntwnfb',
-  sourceLabel: 'Guardian Australia — How the major parties’ migration policies compare',
-}
+import { currentCartoon, archivedCartoons } from '@/lib/editorial-cartoons'
 
 export const metadata: Metadata = {
   title: 'Cartoon of the Day',
-  description: 'Original daily Australian news satire from Downunder Voices.',
+  description: 'Original daily Australian and New Zealand news satire from Downunder Voices.',
   openGraph: {
     title: 'Downunder Voices — Cartoon of the Day',
     description: currentCartoon.headline,
@@ -25,13 +15,15 @@ export default function CartoonOfTheDayPage() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
       <header className="border-b-4 border-red-700 pb-5">
-        <p className="text-xs font-black uppercase tracking-[0.2em] text-red-700">Independent Australian satire</p>
+        <p className="text-xs font-black uppercase tracking-[0.2em] text-red-700">Independent Australian & New Zealand satire</p>
         <h1 className="mt-2 font-serif text-4xl font-black text-slate-950 sm:text-5xl">Cartoon of the Day</h1>
         <p className="mt-3 text-sm font-bold text-muted-foreground">{currentCartoon.date} · Original Downunder Voices cartoon</p>
       </header>
 
       <article className="mt-8 overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-        <img src={currentCartoon.image} alt={currentCartoon.alt} className="h-auto w-full" />
+        <div className="bg-white p-3 sm:p-5">
+          <img src={currentCartoon.image} alt={currentCartoon.alt} className="mx-auto block h-auto max-h-[760px] w-full object-contain" />
+        </div>
         <div className="space-y-4 p-6 sm:p-8">
           <h2 className="font-serif text-3xl font-black text-slate-950">{currentCartoon.headline}</h2>
           <p className="leading-7 text-slate-700">{currentCartoon.summary}</p>
@@ -47,7 +39,7 @@ export default function CartoonOfTheDayPage() {
           <div className="mt-6 grid gap-6 md:grid-cols-2">
             {archivedCartoons.map((cartoon) => (
               <article key={cartoon.image} className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-                <img src={cartoon.image} alt={cartoon.alt} className="h-auto w-full" />
+                <div className="bg-white p-3"><img src={cartoon.image} alt={cartoon.alt} className="mx-auto block h-auto w-full object-contain" /></div>
                 <div className="space-y-2 p-5">
                   <p className="text-xs font-black uppercase tracking-[0.14em] text-red-700">{cartoon.date}</p>
                   <h3 className="font-serif text-xl font-black text-slate-950">{cartoon.headline}</h3>
