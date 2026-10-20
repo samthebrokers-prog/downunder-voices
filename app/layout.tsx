@@ -17,6 +17,12 @@ export const metadata: Metadata = {
   },
   description: 'Downunder Voices is a free independent news website covering Australia, New Zealand and the world, with breaking news, politics, business, community, sport, cost of living, opinion and global affairs.',
   keywords: ['Australian news website','New Zealand news website','Australia news','New Zealand news','world news','independent news website','free independent news','online news Australia','community news','business news','politics','cost of living','sport','opinion'],
+  alternates: {
+    canonical: '/',
+    types: {
+      'application/rss+xml': `${siteUrl}/rss.xml`,
+    },
+  },
   robots: {
     index: true,
     follow: true,
