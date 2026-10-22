@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '22 October 2026',
+    image: '/editorial-cartoons/2026-10-22-boston-bay-sea-roo.jpg',
+    alt: 'Black-and-white editorial cartoon of two fishers standing beside a soaked kangaroo wrapped in a towel aboard a boat in Boston Bay, with Port Lincoln in the distance',
+    headline: 'Boston Bay’s newest sea roo',
+    summary: 'A Port Lincoln fishing crew rescued an exhausted male kangaroo about three kilometres offshore in Boston Bay. After a quiet ride back and a rest on the beach, the unlikely passenger hopped away—presumably with a renewed appreciation for land transport.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-10-21/kangaroo-rescued-from-sea-boston-bay-port-lincoln/107291116',
+    sourceLabel:
+      'ABC Eyre Peninsula — Kangaroo rescued about 3 km offshore in Boston Bay',
+  },
+  {
     date: '21 October 2026',
     image: '/editorial-cartoons/2026-10-21-great-banana-wait.jpg',
     alt: 'Black-and-white editorial cartoon of scarf-wearing green Queensland bananas warming under a supermarket heat lamp while a parent waits with an empty lunchbox and a mango offers to substitute',
