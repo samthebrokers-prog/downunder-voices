@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '23 October 2026',
+    image: '/editorial-cartoons/2026-10-23-snail-weather-archive.jpg',
+    alt: 'Black-and-white editorial cartoon of a native land snail serving as a weather archivist while two scientists read cyclone history from the growth bands in its shell',
+    headline: 'The original slow weather service',
+    summary: 'Researchers studying Queensland’s native Biggenden banded snail found that growth bands in its shell aligned with extreme rainfall from cyclones and ex-cyclones rather than ordinary seasonal cycles. Long before the modern weather bureau, this tiny archivist was quietly keeping the receipts.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-10-22/snail-shells-linked-to-extreme-weather-events/107291072',
+    sourceLabel:
+      'ABC Wide Bay — Snail-shell growth bands linked to past cyclones',
+  },
+  {
     date: '22 October 2026',
     image: '/editorial-cartoons/2026-10-22-boston-bay-sea-roo.jpg',
     alt: 'Black-and-white editorial cartoon of two fishers standing beside a soaked kangaroo wrapped in a towel aboard a boat in Boston Bay, with Port Lincoln in the distance',
