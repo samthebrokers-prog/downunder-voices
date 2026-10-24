@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '24 October 2026',
+    image: '/editorial-cartoons/2026-10-24-surfers-fast-lane.jpg',
+    alt: 'Black-and-white editorial cartoon of an ordinary commuter car accidentally lining up between two generic racing cars on the temporary Surfers Paradise street circuit',
+    headline: 'Surfers Paradise takes the fast lane',
+    summary: 'The Gold Coast 500 opened on 23 October, transforming the streets of Main Beach and Surfers Paradise into a temporary Supercars circuit. For one weekend, the familiar peak-hour question is less “Are we there yet?” and more “What was my qualifying time?”',
+    sourceUrl:
+      'https://www.supercars.com/events/2026-gold-coast/community',
+    sourceLabel:
+      'Supercars — Gold Coast 500 returns to Main Beach and Surfers Paradise',
+  },
+  {
     date: '23 October 2026',
     image: '/editorial-cartoons/2026-10-23-snail-weather-archive.jpg',
     alt: 'Black-and-white editorial cartoon of a native land snail serving as a weather archivist while two scientists read cyclone history from the growth bands in its shell',
