@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '25 October 2026',
+    image: '/editorial-cartoons/2026-10-25-regional-music-live.jpg',
+    alt: 'Black-and-white editorial cartoon of generic regional students performing in a large country-town orchestra while an unplugged Wi-Fi router sits beside the stage',
+    headline: 'Regional music goes live — literally',
+    summary: 'About 100 students from 14 schools across South Australia’s Mid North and Southern Flinders Ranges joined members of the Adelaide Youth Orchestra for a one-day concert in Peterborough. After years of lessons delivered remotely for some students, the biggest improvement was simple: the ensemble finally came with no buffering.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-10-25/adelaide-youth-orchestra-southern-flinders-students-concert/107301252',
+    sourceLabel:
+      'ABC North and West SA — Regional students join Adelaide Youth Orchestra in Peterborough',
+  },
+  {
     date: '24 October 2026',
     image: '/editorial-cartoons/2026-10-24-surfers-fast-lane.jpg',
     alt: 'Black-and-white editorial cartoon of an ordinary commuter car accidentally lining up between two generic racing cars on the temporary Surfers Paradise street circuit',
