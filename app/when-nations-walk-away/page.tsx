@@ -1,5 +1,8 @@
 import Link from 'next/link'
 
+const editorialImage =
+  'https://commons.wikimedia.org/wiki/Special:Redirect/file/2025_G20_Johannesburg_summit_Family_Photo.jpg'
+
 export const metadata = {
   title: 'When Nations Walk Away: Is the Global System Starting to Fracture? | Downunder Voices',
   description: 'A Downunder Voices editorial on national sovereignty, the WHO, the UN and the future of international cooperation.',
@@ -11,7 +14,10 @@ export default function NationsWalkAwayPage() {
       <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">From the Editor</p>
       <h1 className="mt-3 font-serif text-4xl font-black leading-tight text-slate-950 sm:text-5xl">When Nations Walk Away: Is the Global System Starting to Fracture?</h1>
       <p className="mt-5 text-xl leading-8 text-slate-600">The United States has moved to withdraw from the World Health Organization while governments are again questioning the value, cost and influence of international institutions. What happens when powerful nations decide the global system no longer serves their interests — and could others follow?</p>
-      <img src="/editorial/global-system-fracture.svg" alt="Editorial illustration of people, nations and the global institutions debate" className="mt-8 w-full rounded-xl border border-slate-200" />
+      <div className="relative mt-8 overflow-hidden rounded-xl border border-slate-200 bg-slate-950">
+        <img src={editorialImage} alt="World leaders at the G20 Leaders' Summit in Johannesburg" className="h-[230px] w-full object-cover object-center sm:h-[380px]" />
+        <span className="absolute bottom-2 right-2 rounded bg-black/70 px-2 py-1 text-[10px] font-semibold text-white">Editorial photo · G20 Leaders' Summit</span>
+      </div>
       <article className="prose prose-lg mt-10 max-w-none prose-headings:font-serif prose-headings:font-black">
         <p>For decades, the post-war international system has rested on a simple bargain: nations give up a small part of their freedom of action in return for cooperation, stability and a stronger collective response to problems that do not stop at national borders.</p>
         <p>That bargain is being tested. The United States notified its withdrawal from the World Health Organization, a move the WHO says raises questions for its governing bodies. The dispute is not merely about public health. It goes to a much larger question: how much authority, money and political trust should sovereign countries place in international organisations?</p>
