@@ -4,6 +4,9 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
+const editorialImage =
+  'https://commons.wikimedia.org/wiki/Special:Redirect/file/2025_G20_Johannesburg_summit_Family_Photo.jpg'
+
 export function HomeEditorialFeature() {
   const pathname = usePathname()
 
@@ -12,12 +15,15 @@ export function HomeEditorialFeature() {
   return (
     <section className="mx-auto mt-4 max-w-7xl px-3 sm:mt-6 sm:px-6 lg:px-8">
       <div className="overflow-hidden rounded-xl border border-red-200 bg-white shadow-sm">
-        <Link href="/when-nations-walk-away" className="block overflow-hidden bg-slate-950">
+        <Link href="/when-nations-walk-away" className="relative block overflow-hidden bg-slate-950">
           <img
-            src="/editorial/global-system-fracture.svg"
-            alt="Editorial illustration of people, nations and the global institutions debate"
-            className="h-[210px] w-full object-cover sm:h-[300px] lg:h-[360px]"
+            src={editorialImage}
+            alt="World leaders at the G20 Leaders' Summit in Johannesburg"
+            className="h-[210px] w-full object-cover object-center sm:h-[300px] lg:h-[360px]"
           />
+          <span className="absolute bottom-2 right-2 rounded bg-black/70 px-2 py-1 text-[10px] font-semibold text-white">
+            Editorial photo · G20 Leaders' Summit
+          </span>
         </Link>
         <div className="border-b-4 border-red-700 px-4 py-4 sm:px-7">
           <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">From the Editor</p>
