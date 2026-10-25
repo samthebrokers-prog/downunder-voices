@@ -12,16 +12,23 @@ export function HomeEditorialFeature() {
   return (
     <section className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="overflow-hidden rounded-xl border border-red-200 bg-white shadow-sm">
+        <Link href="/when-nations-walk-away" className="block overflow-hidden bg-slate-950">
+          <img
+            src="/editorial/global-system-fracture.svg"
+            alt="Editorial illustration of people, nations and the global institutions debate"
+            className="h-auto w-full object-cover"
+          />
+        </Link>
         <div className="border-b-4 border-red-700 px-5 py-4 sm:px-7">
           <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">From the Editor</p>
           <h2 className="mt-2 font-serif text-2xl font-black text-slate-950 sm:text-3xl">
-            The Telethon Question: When Billionaire Generosity Comes With a Tax Deduction
+            When Nations Walk Away: Is the Global System Starting to Fracture?
           </h2>
           <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-600 sm:text-base">
-            Australians give generously to help sick children. But should a multimillion-dollar, tax-deductible corporate donation be treated exactly like the $20 given by an ordinary family? We look at the tax benefit, the publicity and the bigger question of fair taxation.
+            The United States has moved to withdraw from the World Health Organization while governments are again questioning the value, cost and influence of international institutions. What happens when powerful nations decide the global system no longer serves their interests — and could others follow?
           </p>
           <Link
-            href="/telethon-tax-deductions"
+            href="/when-nations-walk-away"
             className="mt-4 inline-flex items-center gap-2 rounded-md bg-red-700 px-5 py-3 text-sm font-black text-white transition hover:bg-red-800"
           >
             Read the editorial
