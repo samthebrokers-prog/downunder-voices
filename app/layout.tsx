@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 
-import { HomeEditorialFeature } from '@/components/home-editorial-feature'
 import { MainHeader } from '@/components/main-header'
 import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
@@ -44,7 +43,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4637457052016842" crossOrigin="anonymous" /></head>
-      <body><MainHeader /><HomeEditorialFeature /><main>{children}</main><SiteFooter /><Analytics /></body>
+      <body><MainHeader /><main>{children}</main><SiteFooter /><Analytics /></body>
     </html>
   )
 }
