@@ -28,7 +28,7 @@ function CategoryTag({ category }: { category: Story['category'] }) {
 export function StoryCard({ story, variant = 'default', imageIndex }: { story: Story; variant?: 'default' | 'compact' | 'feature'; imageIndex?: number }) {
   const href = `/story/${story.slug ?? story.id}`
   const sourceName = cleanSourceName(story.sourceName)
-  const featureImage = story.category === 'world' ? '/news/au-floods.png' : story.image
+  const featureImage = story.image
 
   if (variant === 'compact') return <article className="group flex gap-4 border-b border-slate-200 pb-4"><Link href={href} className="relative aspect-square w-24 shrink-0 overflow-hidden bg-slate-100" aria-label={decodeNewsText(story.title)}><StoryImage src={story.image} alt={decodeNewsText(story.title)} sizes="96px" className="object-cover transition-transform duration-300 group-hover:scale-105" category={story.category} imageIndex={imageIndex}/></Link><div className="min-w-0"><SourceBadge story={story}/><Link href={`/category/${story.category}`} className="mt-2 block text-[0.65rem] font-black uppercase tracking-[0.12em] text-red-700">{getDisplayCategoryName(story.category)}</Link><h3 className="mt-1 line-clamp-3 font-serif text-lg font-black leading-tight"><Link href={href} className="hover:text-red-700">{decodeNewsText(story.title)}</Link></h3><p className="mt-2 text-[0.68rem] font-semibold uppercase text-slate-500">{formatDate(story.date)}</p></div></article>
 
