@@ -197,3 +197,13 @@ export async function getStoryBySlug(slug: string): Promise<Story | undefined> {
     return seedSorted().find((story) => (story.slug ?? story.id) === slug)
   }
 }
+
+export async function getAllStoriesForAdmin(): Promise<StoryRow[]> {
+  if (!isDatabaseConfigured()) {
+    return []
+  }
+
+  return dbRequest<StoryRow[]>('stories', {
+    query: '?select=*&order=created_at.desc&limit=200',
+  })
+}
