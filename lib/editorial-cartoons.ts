@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '26 October 2026',
+    image: '/editorial-cartoons/2026-10-26-yakka-gated-community.jpg',
+    alt: 'Black-and-white editorial cartoon of a family group of yakka skinks relaxing inside a protective wildlife fence while a puzzled feral cat and fox remain outside',
+    headline: 'Yakka skinks move into a gated community',
+    summary: 'Protective fencing around four yakka skink habitats in Charleville helped the estimated population rise from about 10 to 28. The fences exclude introduced predators such as cats and foxes while allowing native predators through—making this a gated community designed to help its residents eventually move out.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-10-25/yakka-skink-fencing-project-increases-population/107300670',
+    sourceLabel:
+      'ABC Western Queensland — Yakka skink numbers increase after protective fencing',
+  },
+  {
     date: '25 October 2026',
     image: '/editorial-cartoons/2026-10-25-regional-music-live.jpg',
     alt: 'Black-and-white editorial cartoon of generic regional students performing in a large country-town orchestra while an unplugged Wi-Fi router sits beside the stage',
