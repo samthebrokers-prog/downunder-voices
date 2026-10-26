@@ -103,9 +103,9 @@ export const categories: Category[] = [
   },
   {
     slug: 'editorial-view',
-    name: 'Opinion',
+    name: 'Editorial',
     description:
-      'Independent commentary and perspectives on the issues shaping our communities.',
+      'Independent editorials and perspectives on the issues shaping our communities.',
   },
 ]
 
