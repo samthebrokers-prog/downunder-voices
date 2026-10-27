@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '27 October 2026',
+    image: '/editorial-cartoons/2026-10-27-bournda-bird-olympics.jpg',
+    alt: 'Black-and-white editorial cartoon of generic students competing in a school bird-calling final while a kookaburra, raven and yellow-tailed black cockatoo hold up scorecards',
+    headline: 'The bird callers take flight',
+    summary: 'Forty students competed in the 2026 Bournda Bird Olympics at Merimbula, mimicking native birds including kookaburras, Australian ravens and yellow-tailed black cockatoos. Judges scored accuracy, technique, tone, creativity and courage—making it the rare school final where everyone was encouraged to tweet.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-10-26/bournda-bird-olympics-2026-merimbula/107298364',
+    sourceLabel:
+      'ABC South East NSW — Dying art of bird calling roars back at Bournda Bird Olympics',
+  },
+  {
     date: '26 October 2026',
     image: '/editorial-cartoons/2026-10-26-yakka-gated-community.jpg',
     alt: 'Black-and-white editorial cartoon of a family group of yakka skinks relaxing inside a protective wildlife fence while a puzzled feral cat and fox remain outside',
