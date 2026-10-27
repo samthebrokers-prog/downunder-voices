@@ -29,7 +29,10 @@ export default function RadioLatestBulletin() {
     if (!ctx || ctx.state === 'closed') { ctx = new AudioCtx(); audioContextRef.current = ctx }
     if (ctx.state === 'suspended') await ctx.resume()
     if (musicGainRef.current) return
-    const master = ctx.createGain(); master.gain.value = 0.11; master.connect(ctx.destination); musicGainRef.current = master
+
+    // Keep the bed clearly audible on normal laptop/desktop speakers while leaving
+    // enough headroom for the spoken bulletin.
+    const master = ctx.createGain(); master.gain.value = 0.28; master.connect(ctx.destination); musicGainRef.current = master
     const progression = [[130.81,164.81,196],[146.83,174.61,220],[110,130.81,164.81],[98,123.47,146.83]]
     let step = 0
     const playChord = () => {
@@ -37,7 +40,7 @@ export default function RadioLatestBulletin() {
       const c = audioContextRef.current; const chord = progression[step++ % progression.length]
       chord.forEach((frequency, i) => {
         const osc = c.createOscillator(); const gain = c.createGain(); osc.type = i === 0 ? 'sine' : 'triangle'; osc.frequency.value = frequency
-        gain.gain.setValueAtTime(0, c.currentTime); gain.gain.linearRampToValueAtTime(i === 0 ? 0.38 : 0.18, c.currentTime + 0.35); gain.gain.setValueAtTime(i === 0 ? 0.38 : 0.18, c.currentTime + 3.3); gain.gain.linearRampToValueAtTime(0, c.currentTime + 4)
+        gain.gain.setValueAtTime(0, c.currentTime); gain.gain.linearRampToValueAtTime(i === 0 ? 0.5 : 0.28, c.currentTime + 0.25); gain.gain.setValueAtTime(i === 0 ? 0.5 : 0.28, c.currentTime + 3.4); gain.gain.linearRampToValueAtTime(0, c.currentTime + 4)
         osc.connect(gain); gain.connect(master); osc.start(); osc.stop(c.currentTime + 4.05)
       })
     }
@@ -85,7 +88,7 @@ export default function RadioLatestBulletin() {
       if (i >= segments.length) { activeRef.current = false; onComplete?.(); return }
       const segment = segments[i]; const u = new SpeechSynthesisUtterance(segment.script)
       u.voice = candidates[(segment.presenter === 'male' ? 1 : 0) % Math.max(candidates.length, 1)] || null
-      u.lang = u.voice?.lang || 'en-AU'; u.rate = 0.96; u.pitch = segment.presenter === 'male' ? 0.92 : 1
+      u.lang = u.voice?.lang || 'en-AU'; u.rate = 0.96; u.pitch = segment.presenter === 'male' ? 0.92 : 1; u.volume = 1
       u.onend = () => next(i + 1)
       u.onerror = () => { activeRef.current = false; stopMusicBed(); setPlaying(false); setError('The radio was interrupted. Please press Play to try again.') }
       window.speechSynthesis.speak(u)
