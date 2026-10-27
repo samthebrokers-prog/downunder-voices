@@ -31,15 +31,39 @@ export default function RadioLatestBulletin() {
 
   async function playNewsSting() {
     const ctx = await getAudioContext(); if (!ctx || !activeRef.current) return
-    const master = ctx.createGain(); master.gain.setValueAtTime(0.0001, ctx.currentTime); master.gain.exponentialRampToValueAtTime(0.5, ctx.currentTime + 0.035); master.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.45); master.connect(ctx.destination)
-    const notes = [98, 146.83, 196, 293.66]
+    const start = ctx.currentTime + 0.01
+    const master = ctx.createGain()
+    master.gain.setValueAtTime(0.0001, start)
+    master.gain.exponentialRampToValueAtTime(0.32, start + 0.035)
+    master.gain.setValueAtTime(0.32, start + 0.72)
+    master.gain.exponentialRampToValueAtTime(0.0001, start + 1.32)
+    master.connect(ctx.destination)
+
+    // Short broadcast-news chord: urgent and musical, without the harsh alarm-like square wave.
+    const notes = [146.83, 220, 293.66, 440]
     notes.forEach((frequency, i) => {
-      const osc = ctx.createOscillator(); const gain = ctx.createGain(); osc.type = i < 2 ? 'sawtooth' : 'square'; osc.frequency.setValueAtTime(frequency, ctx.currentTime); osc.frequency.exponentialRampToValueAtTime(frequency * (i === 3 ? 1.5 : 1.12), ctx.currentTime + 1.1)
-      gain.gain.setValueAtTime(0.0001, ctx.currentTime); gain.gain.exponentialRampToValueAtTime(i === 0 ? 0.22 : 0.09, ctx.currentTime + 0.025 + i * 0.035); gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.25)
-      osc.connect(gain); gain.connect(master); osc.start(ctx.currentTime + i * 0.035); osc.stop(ctx.currentTime + 1.35)
+      const osc = ctx.createOscillator(); const gain = ctx.createGain()
+      osc.type = i === 0 ? 'triangle' : 'sawtooth'
+      osc.frequency.setValueAtTime(frequency, start)
+      osc.frequency.linearRampToValueAtTime(frequency * 1.06, start + 0.9)
+      gain.gain.setValueAtTime(0.0001, start)
+      gain.gain.exponentialRampToValueAtTime(i === 0 ? 0.20 : 0.07, start + 0.025 + i * 0.018)
+      gain.gain.setValueAtTime(i === 0 ? 0.20 : 0.07, start + 0.48)
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + 1.18)
+      osc.connect(gain); gain.connect(master); osc.start(start + i * 0.018); osc.stop(start + 1.25)
     })
-    const hit = ctx.createOscillator(); const hitGain = ctx.createGain(); hit.type = 'sine'; hit.frequency.setValueAtTime(90, ctx.currentTime); hit.frequency.exponentialRampToValueAtTime(42, ctx.currentTime + 0.32); hitGain.gain.setValueAtTime(0.7, ctx.currentTime); hitGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.42); hit.connect(hitGain); hitGain.connect(master); hit.start(); hit.stop(ctx.currentTime + 0.45)
-    await new Promise(resolve => window.setTimeout(resolve, 1500))
+
+    // Two restrained percussion-style pulses give the sting a newsroom cadence.
+    ;[0, 0.62].forEach((offset, i) => {
+      const hit = ctx.createOscillator(); const hitGain = ctx.createGain()
+      hit.type = 'sine'; hit.frequency.setValueAtTime(i === 0 ? 92 : 76, start + offset)
+      hit.frequency.exponentialRampToValueAtTime(48, start + offset + 0.22)
+      hitGain.gain.setValueAtTime(i === 0 ? 0.38 : 0.25, start + offset)
+      hitGain.gain.exponentialRampToValueAtTime(0.0001, start + offset + 0.28)
+      hit.connect(hitGain); hitGain.connect(master); hit.start(start + offset); hit.stop(start + offset + 0.3)
+    })
+
+    await new Promise(resolve => window.setTimeout(resolve, 1380))
     try { master.disconnect() } catch {}
   }
 
