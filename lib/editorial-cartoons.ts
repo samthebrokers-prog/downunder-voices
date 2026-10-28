@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '28 October 2026',
+    image: '/editorial-cartoons/2026-10-28-big-sultana.jpg',
+    alt: 'Black-and-white editorial cartoon of an original giant sultana monument beside the Murray River being welcomed by an imaginary Australian Big Things Committee',
+    headline: 'Mildura joins Australia’s big league',
+    summary: 'Mildura unveiled a 5.25-metre Big Sultana—525 times the size of an average sultana—to celebrate 100 years of dried-fruit production in the Sunraysia region. Australia’s collection of oversized landmarks finally has one that can honestly claim to improve with age.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-10-27/mildura-big-sultana-australias-latest-big-thing/107309216',
+    sourceLabel:
+      'ABC Mildura-Swan Hill — Mildura’s Big Sultana unveiled as Australia’s newest big thing',
+  },
+  {
     date: '27 October 2026',
     image: '/editorial-cartoons/2026-10-27-bournda-bird-olympics.jpg',
     alt: 'Black-and-white editorial cartoon of generic students competing in a school bird-calling final while a kookaburra, raven and yellow-tailed black cockatoo hold up scorecards',
