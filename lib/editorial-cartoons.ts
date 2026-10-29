@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '29 October 2026',
+    image: '/editorial-cartoons/2026-10-29-snapper-island-cows.jpg',
+    alt: 'Black-and-white editorial cartoon of two generic Brahman cattle relaxing on a tropical island beneath an Island Cattle Station sign while a ranger boat approaches',
+    headline: 'Snapper Island’s bovine sea change',
+    summary: 'Two Brahman cattle were found healthy and thriving on Snapper Island, three kilometres off the Daintree coast, after possibly being swept out during March flooding. Queensland authorities are trying to trace their owners—but after months of island living, the pair may consider themselves locals.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-10-28/two-cows-found-tropical-snapper-island-national-park-fnq/107316622',
+    sourceLabel:
+      'ABC Far North — Cows found on Snapper Island in Far North Queensland national park',
+  },
+  {
     date: '28 October 2026',
     image: '/editorial-cartoons/2026-10-28-big-sultana.jpg',
     alt: 'Black-and-white editorial cartoon of an original giant sultana monument beside the Murray River being welcomed by an imaginary Australian Big Things Committee',
