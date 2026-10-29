@@ -12,7 +12,7 @@ export default function RadioLatestBulletin() {
   const activeRef = useRef(false)
   const continuousRef = useRef(false)
   const audioContextRef = useRef<AudioContext | null>(null)
-  const newsBedRef = useRef<HTMLAudioElement | null>(null)
+  const newsBedRef = useRef<{ master: GainNode; oscs: OscillatorNode[]; timer: number } | null>(null)
   const [loading, setLoading] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [continuous, setContinuous] = useState(false)
@@ -30,22 +30,44 @@ export default function RadioLatestBulletin() {
     return ctx
   }
 
-  const BED_VOLUME = 0.2
+  const BED_VOLUME = 0.14
   const keepAliveRef = useRef<number | null>(null)
 
   // Must be called synchronously inside the click handler so mobile/Safari allow playback.
   function unlockAudio() {
-    const bed = newsBedRef.current
-    if (bed && bed.paused) { bed.volume = BED_VOLUME; void bed.play().catch(() => {}) }
     void getAudioContext()
     if ('speechSynthesis' in window) window.speechSynthesis.getVoices()
   }
 
-  function startNewsBed() {
-    const bed = newsBedRef.current
-    if (!bed) return
-    bed.volume = BED_VOLUME
-    if (bed.paused) void bed.play().catch(() => {})
+  // Original tense news bed, synthesised live (no audio file needed): low drone + heartbeat pulse + uneasy shimmer.
+  async function startNewsBed() {
+    if (newsBedRef.current) return
+    const ctx = await getAudioContext(); if (!ctx || newsBedRef.current) return
+    const now = ctx.currentTime
+    const master = ctx.createGain(); master.gain.setValueAtTime(0.0001, now); master.gain.exponentialRampToValueAtTime(BED_VOLUME, now + 2.5); master.connect(ctx.destination)
+    const filter = ctx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 420; filter.Q.value = 4; filter.connect(master)
+    const sweep = ctx.createOscillator(); const sweepGain = ctx.createGain(); sweep.frequency.value = 0.07; sweepGain.gain.value = 160; sweep.connect(sweepGain); sweepGain.connect(filter.frequency)
+    const oscs: OscillatorNode[] = [sweep]
+    ;[[55, 'sawtooth', 0.32, -6], [55, 'sawtooth', 0.32, 7], [82.41, 'triangle', 0.22, 0], [110, 'sawtooth', 0.08, 3]].forEach(([f, type, g, detune]) => {
+      const o = ctx.createOscillator(); const og = ctx.createGain(); o.type = type as OscillatorType; o.frequency.value = f as number; o.detune.value = detune as number; og.gain.value = g as number; o.connect(og); og.connect(filter); oscs.push(o)
+    })
+    // Uneasy high shimmer (minor second) with slow tremolo.
+    const shimmerGain = ctx.createGain(); shimmerGain.gain.value = 0.018; shimmerGain.connect(master)
+    const trem = ctx.createOscillator(); const tremGain = ctx.createGain(); trem.frequency.value = 0.5; tremGain.gain.value = 0.014; trem.connect(tremGain); tremGain.connect(shimmerGain.gain); oscs.push(trem)
+    ;[587.33, 622.25].forEach(f => { const o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = f; o.connect(shimmerGain); oscs.push(o) })
+    oscs.forEach(o => o.start(now))
+    // Heartbeat pulse: double thump every ~1.2s, scheduled slightly ahead.
+    let nextBeat = now + 0.6
+    const beat = (t: number, freq: number, level: number) => {
+      const o = ctx.createOscillator(); const g = ctx.createGain(); o.type = 'sine'
+      o.frequency.setValueAtTime(freq, t); o.frequency.exponentialRampToValueAtTime(38, t + 0.18)
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(level, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.26)
+      o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.3)
+    }
+    const timer = window.setInterval(() => {
+      while (nextBeat < ctx.currentTime + 1.5) { beat(nextBeat, 88, 0.9); beat(nextBeat + 0.24, 70, 0.6); nextBeat += 1.2 }
+    }, 400)
+    newsBedRef.current = { master, oscs, timer }
   }
 
   // Split long scripts into sentence-sized chunks: Chrome silently stops utterances after ~15s.
@@ -64,8 +86,13 @@ export default function RadioLatestBulletin() {
   function stopNewsBed() {
     const bed = newsBedRef.current
     if (!bed) return
-    bed.pause()
-    bed.currentTime = 0
+    newsBedRef.current = null
+    window.clearInterval(bed.timer)
+    const ctx = audioContextRef.current
+    const t = ctx ? ctx.currentTime : 0
+    try { bed.master.gain.cancelScheduledValues(t); bed.master.gain.setValueAtTime(Math.max(bed.master.gain.value, 0.0001), t); bed.master.gain.exponentialRampToValueAtTime(0.0001, t + 0.6) } catch {}
+    bed.oscs.forEach(o => { try { o.stop(t + 0.7) } catch {} })
+    window.setTimeout(() => { try { bed.master.disconnect() } catch {} }, 900)
   }
 
   async function playNewsSting() {
@@ -110,15 +137,10 @@ export default function RadioLatestBulletin() {
   }
 
   useEffect(() => {
-    const bed = new Audio('/audio/breaking_news_tense.mp3')
-    bed.loop = true
-    bed.preload = 'auto'
-    bed.volume = 0.2
-    newsBedRef.current = bed
     return () => {
       activeRef.current = false; continuousRef.current = false
       if (keepAliveRef.current) window.clearInterval(keepAliveRef.current)
-      bed.pause(); bed.currentTime = 0; newsBedRef.current = null
+      const bed = newsBedRef.current; if (bed) { window.clearInterval(bed.timer); newsBedRef.current = null }
       if ('speechSynthesis' in window) window.speechSynthesis.cancel()
       const ctx = audioContextRef.current; if (ctx && ctx.state !== 'closed') void ctx.close()
     }
@@ -172,7 +194,7 @@ export default function RadioLatestBulletin() {
       }
       window.speechSynthesis.speak(u)
     }
-    if (keepBed()) startNewsBed(); else stopNewsBed()
+    if (keepBed()) void startNewsBed(); else stopNewsBed()
     next(0)
   }
 
@@ -198,7 +220,7 @@ export default function RadioLatestBulletin() {
   // 24/7 mode: never give up — keep the music bed going and try again shortly.
   function retryContinuous() {
     if (!continuousRef.current) return
-    setNowPlaying('Back shortly'); startNewsBed()
+    setNowPlaying('Back shortly'); void startNewsBed()
     window.setTimeout(() => void runContinuousCycle(), 30000)
   }
 
