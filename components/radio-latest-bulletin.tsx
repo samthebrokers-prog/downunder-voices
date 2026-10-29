@@ -30,12 +30,35 @@ export default function RadioLatestBulletin() {
     return ctx
   }
 
+  const BED_VOLUME = 0.2
+  const keepAliveRef = useRef<number | null>(null)
+
+  // Must be called synchronously inside the click handler so mobile/Safari allow playback.
+  function unlockAudio() {
+    const bed = newsBedRef.current
+    if (bed && bed.paused) { bed.volume = BED_VOLUME; void bed.play().catch(() => {}) }
+    void getAudioContext()
+    if ('speechSynthesis' in window) window.speechSynthesis.getVoices()
+  }
+
   function startNewsBed() {
     const bed = newsBedRef.current
     if (!bed) return
-    bed.currentTime = 0
-    bed.volume = 0.11
-    void bed.play().catch(() => {})
+    bed.volume = BED_VOLUME
+    if (bed.paused) void bed.play().catch(() => {})
+  }
+
+  // Split long scripts into sentence-sized chunks: Chrome silently stops utterances after ~15s.
+  function chunkScript(text: string, max = 220) {
+    const sentences = text.replace(/\s+/g, ' ').trim().match(/[^.!?]+[.!?]+["')\]]*\s*|[^.!?]+$/g) || [text]
+    const chunks: string[] = []; let current = ''
+    for (const s of sentences) {
+      if ((current + s).length > max && current) { chunks.push(current.trim()); current = '' }
+      if (s.length > max) { s.split(/(?<=,)\s+/).forEach(part => { if ((current + part).length > max && current) { chunks.push(current.trim()); current = '' } current += part + ' ' }) }
+      else current += s
+    }
+    if (current.trim()) chunks.push(current.trim())
+    return chunks
   }
 
   function stopNewsBed() {
@@ -80,6 +103,7 @@ export default function RadioLatestBulletin() {
 
   function stopRadio() {
     activeRef.current = false; continuousRef.current = false
+    if (keepAliveRef.current) { window.clearInterval(keepAliveRef.current); keepAliveRef.current = null }
     stopNewsBed()
     if ('speechSynthesis' in window) window.speechSynthesis.cancel()
     setPlaying(false); setContinuous(false); setNowPlaying('Latest News')
@@ -89,10 +113,11 @@ export default function RadioLatestBulletin() {
     const bed = new Audio('/audio/breaking_news_tense.mp3')
     bed.loop = true
     bed.preload = 'auto'
-    bed.volume = 0.11
+    bed.volume = 0.2
     newsBedRef.current = bed
     return () => {
       activeRef.current = false; continuousRef.current = false
+      if (keepAliveRef.current) window.clearInterval(keepAliveRef.current)
       bed.pause(); bed.currentTime = 0; newsBedRef.current = null
       if ('speechSynthesis' in window) window.speechSynthesis.cancel()
       const ctx = audioContextRef.current; if (ctx && ctx.state !== 'closed') void ctx.close()
@@ -114,23 +139,41 @@ export default function RadioLatestBulletin() {
   function speakSegments(segments: Segment[], onComplete?: () => void, withNewsBed = false) {
     if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') throw new Error('Please open Downunder Voices Radio in Chrome, Edge or Safari.')
     window.speechSynthesis.cancel(); activeRef.current = true; setPlaying(true)
-    if (withNewsBed) startNewsBed(); else stopNewsBed()
     const voices = window.speechSynthesis.getVoices()
     const regional = voices.filter(v => /^en-(AU|NZ)$/i.test(v.lang)); const english = voices.filter(v => /^en-/i.test(v.lang)); const candidates = regional.length ? regional : english
+    // Keep the bed running for the whole of continuous radio, not just the news.
+    const keepBed = () => withNewsBed || continuousRef.current
+    // Flatten into chunks, remembering where each presenter segment ends (stings go there).
+    const items: { presenter: Presenter; text: string; endOfSegment: boolean }[] = []
+    segments.forEach(seg => { const parts = chunkScript(seg.script); parts.forEach((text, k) => items.push({ presenter: seg.presenter, text, endOfSegment: k === parts.length - 1 })) })
+    if (keepAliveRef.current) window.clearInterval(keepAliveRef.current)
+    keepAliveRef.current = window.setInterval(() => { if (activeRef.current && window.speechSynthesis.speaking) window.speechSynthesis.resume() }, 10000)
+    const finish = () => { if (keepAliveRef.current) { window.clearInterval(keepAliveRef.current); keepAliveRef.current = null } }
     const next = (i: number) => {
-      if (!activeRef.current) { if (withNewsBed) stopNewsBed(); return }
-      if (i >= segments.length) { if (withNewsBed) stopNewsBed(); activeRef.current = false; onComplete?.(); return }
-      const segment = segments[i]; const u = new SpeechSynthesisUtterance(segment.script)
-      u.voice = candidates[(segment.presenter === 'male' ? 1 : 0) % Math.max(candidates.length, 1)] || null
-      u.lang = u.voice?.lang || 'en-AU'; u.rate = 1.02; u.pitch = segment.presenter === 'male' ? 0.92 : 1; u.volume = 1
-      u.onend = () => {
-        if (!activeRef.current) { if (withNewsBed) stopNewsBed(); return }
-        if (i < segments.length - 1) void playNewsSting().then(() => next(i + 1))
+      if (!activeRef.current) { finish(); if (!keepBed()) stopNewsBed(); return }
+      if (i >= items.length) { finish(); if (!continuousRef.current) stopNewsBed(); activeRef.current = false; onComplete?.(); return }
+      const item = items[i]; const u = new SpeechSynthesisUtterance(item.text)
+      u.voice = candidates[(item.presenter === 'male' ? 1 : 0) % Math.max(candidates.length, 1)] || null
+      u.lang = u.voice?.lang || 'en-AU'; u.rate = 1.02; u.pitch = item.presenter === 'male' ? 0.92 : 1; u.volume = 1
+      let advanced = false
+      const advance = () => {
+        if (advanced) return; advanced = true; window.clearTimeout(watchdog)
+        if (!activeRef.current) { finish(); if (!keepBed()) stopNewsBed(); return }
+        if (item.endOfSegment && i < items.length - 1) void playNewsSting().then(() => next(i + 1))
         else next(i + 1)
       }
-      u.onerror = () => { if (withNewsBed) stopNewsBed(); activeRef.current = false; setPlaying(false); setError('The radio was interrupted. Please press Play to try again.') }
+      // Safety net: if the browser never fires onend, move on anyway so the station never freezes.
+      const watchdog = window.setTimeout(advance, Math.max(8000, item.text.length * 110))
+      u.onend = advance
+      u.onerror = (e) => {
+        if (e.error === 'interrupted' || e.error === 'canceled') { window.clearTimeout(watchdog); return }
+        if (continuousRef.current) { advance(); return }
+        window.clearTimeout(watchdog); finish(); stopNewsBed(); activeRef.current = false; setPlaying(false); setError('The radio was interrupted. Please press Play to try again.')
+      }
       window.speechSynthesis.speak(u)
-    }; next(0)
+    }
+    if (keepBed()) startNewsBed(); else stopNewsBed()
+    next(0)
   }
 
   async function runContinuousCycle() {
@@ -144,15 +187,23 @@ export default function RadioLatestBulletin() {
         try {
           const programme = await getProgramme(); setNowPlaying(programme.name); activeRef.current = true; await playNewsSting()
           speakSegments([{ presenter: programme.presenter, script: programme.script }], () => {
-            setPlaying(false)
             if (continuousRef.current) window.setTimeout(() => void runContinuousCycle(), 1800)
+            else setPlaying(false)
           })
-        } catch (err) { setError(err instanceof Error ? err.message : 'Programme unavailable.'); setPlaying(false) }
+        } catch { retryContinuous() }
       }, true)
-    } catch (err) { stopNewsBed(); setPlaying(false); setContinuous(false); continuousRef.current = false; setError(err instanceof Error ? err.message : 'The radio is not available yet.') }
+    } catch { retryContinuous() }
+  }
+
+  // 24/7 mode: never give up — keep the music bed going and try again shortly.
+  function retryContinuous() {
+    if (!continuousRef.current) return
+    setNowPlaying('Back shortly'); startNewsBed()
+    window.setTimeout(() => void runContinuousCycle(), 30000)
   }
 
   async function playLatest(keepListening = false) {
+    unlockAudio()
     setError(''); setLoading(true)
     try {
       await getAudioContext()
