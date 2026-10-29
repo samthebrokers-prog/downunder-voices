@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-labelledby="title desc">
+  <title id="title">Downunder Voices News</title>
+  <desc id="desc">Neutral Downunder Voices news graphic used when a story has no suitable source image.</desc>
+  <rect width="1200" height="750" fill="#f8fafc"/>
+  <rect x="0" y="0" width="1200" height="18" fill="#b91c1c"/>
+  <rect x="80" y="115" width="1040" height="520" rx="24" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  <text x="120" y="265" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="800" fill="#0f172a">DOWNUNDER</text>
+  <text x="120" y="345" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="800" fill="#b91c1c">VOICES</text>
+  <line x1="120" y1="390" x2="1080" y2="390" stroke="#e2e8f0" stroke-width="3"/>
+  <text x="120" y="470" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" fill="#334155">NEWS</text>
+  <text x="120" y="530" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#64748b">Australia · New Zealand · World</text>
+  <text x="120" y="580" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#64748b">Neutral image — see story for source and original reporting.</text>
+</svg>
