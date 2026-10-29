@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: { unoptimized: true },
+  async redirects() {
+    return [
+      {
+        source: '/business',
+        destination: '/category/small-business',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {
