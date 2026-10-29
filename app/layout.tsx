@@ -34,8 +34,8 @@ export const metadata: Metadata = {
       'max-video-preview': -1,
     },
   },
-  openGraph: { title: 'Downunder Voices — Independent News Australia & New Zealand', description: 'Free independent news and opinion from Australia, New Zealand and the world.', url: siteUrl, siteName: 'Downunder Voices', type: 'website' },
-  twitter: { card: 'summary_large_image', title: 'Downunder Voices — Independent News Australia & New Zealand', description: 'Free independent news and opinion from Australia, New Zealand and the world.' },
+  openGraph: { title: 'Downunder Voices — Independent News Australia & New Zealand', description: 'Free independent news and opinion from Australia, New Zealand and the world.', url: siteUrl, siteName: 'Downunder Voices', type: 'website', images: [{ url: '/downunder-default-og.png', width: 1200, height: 630, alt: 'Downunder Voices – independent news from Australia, New Zealand and the world' }] },
+  twitter: { card: 'summary_large_image', title: 'Downunder Voices — Independent News Australia & New Zealand', description: 'Free independent news and opinion from Australia, New Zealand and the world.', images: ['/downunder-default-og.png'] },
 }
 
 export const viewport: Viewport = { colorScheme: 'light', themeColor: '#ffffff' }
