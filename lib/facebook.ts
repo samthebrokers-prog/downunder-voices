@@ -439,10 +439,11 @@ export async function publishStoryToFacebook({
         '/api/social-image/' +
         encodeURIComponent(slug)
 
+  // Link goes high up so it shows before Facebook's "See more" cut-off.
   const message = [
     cleanTitle,
+    '👉 Read the full story: ' + storyUrl,
     shortSummary,
-    'Read more: ' + storyUrl,
   ]
     .filter(Boolean)
     .join('\n\n')
