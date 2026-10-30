@@ -26,9 +26,9 @@ export default function RadioPage() {
   ]
 
   const hour = [
-    [':00', 'Downunder Voices News — Australia, New Zealand, then the world (about 5 minutes)'],
+    [':00', 'Downunder Voices News — Australia, New Zealand, then the world'],
     [':05', 'Downunder Voices Radio continues'],
-    [':30', 'Programme of the hour — a different feature each half-hour, with Political Hiccups as a regular signature show'],
+    [':30', 'Programme of the hour — new programmes every day plus favourites from our library, with Political Hiccups as a regular signature show'],
     [':35', 'Downunder Voices Radio continues until the next news'],
   ]
 
