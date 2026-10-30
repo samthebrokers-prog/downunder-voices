@@ -131,7 +131,7 @@ function factSheet(stories: Story[]) {
 /* ------------------------------------------------------------------ */
 
 const EDITORIAL_RULES = `
-- Use ONLY the facts supplied. Never add facts, numbers, names or events that are not in the supplied material.
+- Use ONLY the facts supplied, plus (only where explicitly allowed below) facts verified by web search from reputable sources. Never guess or add unverified facts, numbers, names or events.
 - Never invent quotations. Do not put words in anyone's mouth.
 - Politically independent: apply the same standard to every party, government and opposition alike.
 - Never make light of death, disaster, violence or personal tragedy.
@@ -140,7 +140,7 @@ const EDITORIAL_RULES = `
 - Output only the words the presenter will read aloud.
 `.trim()
 
-async function writeScript(instructions: string, input: string) {
+async function callWriter(instructions: string, input: string, research = false) {
   const apiKey = process.env.OPENAI_API_KEY
   if (!apiKey) throw new Error('OPENAI_API_KEY is not configured')
 
@@ -151,6 +151,7 @@ async function writeScript(instructions: string, input: string) {
       model: process.env.DV_RADIO_SCRIPT_MODEL || 'gpt-5-mini',
       instructions,
       input,
+      ...(research ? { tools: [{ type: 'web_search' }] } : {}),
     }),
   })
 
@@ -163,15 +164,29 @@ async function writeScript(instructions: string, input: string) {
     output?: { type: string; content?: { type: string; text?: string }[] }[]
   }
 
-  const text =
+  return (
     data.output_text ||
     (data.output || [])
+      .filter((item) => item.type === 'message')
       .flatMap((item) => item.content || [])
       .filter((c) => c.type === 'output_text' && c.text)
       .map((c) => c.text)
       .join('\n')
+  )
+}
 
-  const script = clean((text || '').replace(/[*#_`>]/g, ' ')).trim()
+function speakable(text: string) {
+  return clean(
+    text
+      .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '$1') // markdown links -> link text
+      .replace(/\(\s*\[?[a-z0-9.-]+\.[a-z]{2,}[^)]*\)/gi, ' ') // (example.com) citations
+      .replace(/https?:\/\/\S+/g, ' ')
+      .replace(/[*#_`>]/g, ' '),
+  )
+}
+
+async function writeScript(instructions: string, input: string, research = false) {
+  const script = speakable(await callWriter(instructions, input, research))
   if (script.length < 200) throw new Error('Script came back too short')
   return script
 }
@@ -335,6 +350,7 @@ Open exactly with: "Downunder Voices News at ${sydney} in Sydney, ${auckland} in
 Then give the stories. Use brief spoken links such as "In New Zealand," and "Overseas,".
 Close exactly with: "That's the news. This is Downunder Voices Radio."
 ${EDITORIAL_RULES}
+BREAKING NEWS CHECK: The supplied Downunder Voices stories are your main source. You may ALSO use web search to check for any MAJOR breaking story in Australia or New Zealand (or a very major world event) from the last 6 hours that is missing from the supplied list. Include at most two such items, only if reported by a reputable outlet (for example ABC, RNZ, SBS, Stuff, NZ Herald, 1News, Reuters, AP, BBC, or official government or police statements), and attribute them in speech ("RNZ reports...", "according to the ABC..."). Report only what those outlets confirm. If nothing major is missing, add nothing.
 `.trim()
 
   const input = `
@@ -353,7 +369,7 @@ ${factSheet(extra) || 'none'}
 
   let script: string
   try {
-    script = await writeScript(instructions, input)
+    script = await writeScript(instructions, input, true)
   } catch (error) {
     console.error('Bulletin writer failed, using plain read:', error)
     const lines = [...australia, ...newZealand, ...world, ...extra].map(
@@ -374,41 +390,112 @@ ${factSheet(extra) || 'none'}
 }
 
 /* ------------------------------------------------------------------ */
-/* Programmes (broadcast at half past each hour)                        */
+/* Programme engine (broadcast at half past each hour)                 */
 /* ------------------------------------------------------------------ */
+/*
+ * News-led shows use Downunder Voices stories plus verified web research.
+ * Feature shows are researched from reliable public sources — they do not
+ * depend on the website at all. Each programme is researched and written
+ * once, voiced once, cached, then broadcast to every listener.
+ */
 
 type Show = {
   name: string
+  /** Website story categories for news-led shows. Empty = researched feature. */
   categories: string[]
   brief: string
-  evergreen?: boolean
+  careful?: boolean
 }
 
+const RESEARCH_RULES = `
+RESEARCH: Use web search. Rely on reliable public sources: government and parliamentary records, courts, museums, national libraries and archives (e.g. Trove, Te Ara, Papers Past, DigitalNZ, National Archives), universities, scientific bodies, and established news organisations. Check each key fact against at least two sources where possible. If a detail cannot be confirmed, leave it out.
+Write an ORIGINAL script in your own words. Do not copy sentences from sources.
+Clearly separate established facts from claims, legends and theories ("It is believed...", "One theory is...", "Locals say...").
+`.trim()
+
+const CAREFUL_RULES = `
+EXTRA CARE (crime, mysteries, disasters):
+- Prefer historical or long-concluded cases. Do not cover ongoing investigations or cases before the courts.
+- Never name or hint at a living private person as responsible unless they were convicted; for allegations say "alleged" and name only what courts or police have made public.
+- Describe convictions accurately; mention acquittals, appeals or doubts where they exist.
+- Treat victims and families with dignity. No graphic detail, no sensationalism, no jokes.
+- For disasters, focus on what happened, the human response, and what changed afterwards.
+`.trim()
+
 const SHOWS: Show[] = [
-  { name: 'Australia Today', categories: ['australia'], brief: 'A closer look at two or three of the Australian stories behind today’s headlines: what happened, why it matters, who is affected.' },
-  { name: 'New Zealand Today', categories: ['new-zealand'], brief: 'A closer look at two or three New Zealand stories: what happened, why it matters, who is affected.' },
-  { name: 'World Briefing', categories: ['world'], brief: 'Important overseas developments, explained for listeners in Australia and New Zealand, including any local connection where the facts support it.' },
-  { name: 'Political Hiccups', categories: ['australia', 'new-zealand', 'world'], brief: 'A short, factual, politically independent and occasionally light-hearted look at genuine political contradictions, backflips and unusual moments found in the supplied stories. Apply exactly the same standard to government and opposition. Humour must be gentle and aimed at the contradiction, never at people suffering. If a supplied story involves death, disaster or tragedy, do not joke about it. Do not invent quotations; only describe what the supplied facts say. If the supplied stories contain no genuine contradiction, say so honestly and give a straight factual political round-up instead.' },
-  { name: 'Business and Cost of Living', categories: ['business'], brief: 'Money, prices, jobs and business news that affects households in Australia and New Zealand.' },
-  { name: 'Sport Downunder', categories: ['sports', 'sport'], brief: 'The sporting stories people across Australia and New Zealand are talking about.' },
-  { name: 'Technology and Science', categories: ['technology', 'tech', 'science'], brief: 'Technology, science and ideas changing everyday life, explained simply.' },
-  { name: 'Entertainment and Culture', categories: ['entertainment', 'culture'], brief: 'Entertainment, arts and culture stories, warm and conversational.' },
-  { name: 'Public Interest', categories: ['australia', 'new-zealand', 'business'], brief: 'Stories that matter to ordinary people and communities: services, housing, health access, consumer rights.' },
-  { name: 'History Downunder', categories: [], evergreen: true, brief: 'One well-documented event or person from Australian or New Zealand history. Use only widely established historical facts. Do not invent dates, numbers or quotations; if unsure of a detail, leave it out.' },
-  { name: 'Strange Australia', categories: [], evergreen: true, brief: 'One well-known unusual place, creature, phenomenon or true oddity in Australia. Only widely documented facts; clearly label legends as legends.' },
-  { name: 'Mysteries of New Zealand', categories: [], evergreen: true, brief: 'One well-known New Zealand mystery, legend or unusual natural feature. Only widely documented facts; clearly label legends and unproven theories as such. Do not speculate about unsolved crimes involving real victims.' },
-  { name: 'Travel Downunder', categories: [], evergreen: true, brief: 'An appealing, practical audio postcard about one well-known destination in Australia or New Zealand. No prices, opening hours or bookings, as these change.' },
+  { name: 'Australia Today', categories: ['australia'], brief: 'A closer look at two or three Australian stories behind today’s headlines: what happened, why it matters, who is affected. You may use web search for the latest verified developments.' },
+  { name: 'New Zealand Today', categories: ['new-zealand'], brief: 'A closer look at two or three New Zealand stories: what happened, why it matters, who is affected. You may use web search for the latest verified developments.' },
+  { name: 'World Briefing', categories: ['world'], brief: 'Important overseas developments explained for listeners in Australia and New Zealand, including any local connection the facts support.' },
+  { name: 'Business and Cost of Living', categories: ['business'], brief: 'Money, prices, jobs, interest rates and business news affecting households in Australia and New Zealand.' },
+  { name: 'Sport Downunder', categories: ['sports', 'sport'], brief: 'A sport feature: the stories people across Australia and New Zealand are talking about, or a memorable moment from our sporting history.' },
+  { name: 'Mysteries Downunder', categories: [], careful: true, brief: 'One well-documented Australian mystery, unexplained event or enduring puzzle.' },
+  { name: 'Mysteries of New Zealand', categories: [], careful: true, brief: 'One well-documented New Zealand mystery, legend or unexplained event.' },
+  { name: 'Crime Files', categories: [], careful: true, brief: 'One famous historical criminal case from Australia or New Zealand that is long concluded: what happened, the investigation, the outcome, and what it changed.' },
+  { name: 'Unsolved', categories: [], careful: true, brief: 'One long-standing unsolved Australian or New Zealand case, handled responsibly: established facts only, theories clearly labelled, respect for victims. Mention that anyone with information can contact police or Crime Stoppers.' },
+  { name: 'Strange But True', categories: [], brief: 'One genuinely strange but well-documented true story from Australia, New Zealand or the Pacific.' },
+  { name: 'Forgotten Australia', categories: [], brief: 'One forgotten or little-known Australian story, place or person worth remembering.' },
+  { name: 'Forgotten New Zealand', categories: [], brief: 'One forgotten or little-known New Zealand story, place or person worth remembering.' },
+  { name: 'History Downunder', categories: [], brief: 'One important event from Australian or New Zealand history, told vividly and accurately.' },
+  { name: 'Remarkable Lives', categories: [], brief: 'A short biography of one remarkable Australian, New Zealander or Pacific Islander, past or present.' },
+  { name: 'Science and Discovery', categories: [], brief: 'One discovery, invention or piece of science, ideally with an Australian or New Zealand connection.' },
+  { name: 'Tech and Tomorrow', categories: [], brief: 'Technology, AI, cybersecurity or innovation changing everyday life, explained simply, with practical takeaways.' },
+  { name: 'Space Downunder', categories: [], brief: 'Space and astronomy: a mission, discovery, or what to see in southern skies, with Australian and New Zealand connections where possible.' },
+  { name: 'Unusual Places', categories: [], brief: 'One unusual, remarkable or little-known place in Australia, New Zealand or the Pacific.' },
+  { name: 'Travel Downunder', categories: [], brief: 'An audio postcard about one destination in Australia or New Zealand. No prices, opening hours or bookings, as these change.' },
+  { name: 'Pacific Stories', categories: [], brief: 'A story from the Pacific Islands: history, culture, people, environment or connections with Australia and New Zealand.' },
+  { name: 'Culture and Entertainment', categories: [], brief: 'Arts, music, film, books or culture with an Australian or New Zealand angle; warm and conversational.' },
+  { name: 'Disasters and Survival', categories: [], careful: true, brief: 'One major historical disaster or remarkable survival story, told seriously and respectfully.' },
+  { name: 'Consumer Watch', categories: [], brief: 'A practical public-interest feature for Australian and New Zealand households: consumer rights, scams to watch for, saving money, using public services. General information only, not personal financial advice.' },
+  { name: 'Around the World', categories: [], brief: 'One interesting, uplifting or surprising international story listeners in Australia and New Zealand would enjoy.' },
 ]
 
-/** Which show airs at half past this Sydney hour. Political Hiccups airs a few times a day. */
-function showForHour(airTime: Date) {
-  const hour = sydneyHour(airTime)
-  const dayIndex = Math.floor(airTime.getTime() / 86_400_000)
-  if (hour === 8 || hour === 13 || hour === 18) {
-    return SHOWS.find((s) => s.name === 'Political Hiccups')!
+const POLITICAL_HICCUPS: Show = {
+  name: 'Political Hiccups',
+  categories: ['australia', 'new-zealand', 'world'],
+  brief: 'Our signature show: a short, factual, politically independent and occasionally light-hearted look at genuine political contradictions, backflips and unusual moments in Australian and New Zealand politics. Use web search to verify each example from reputable reporting or official records. Apply exactly the same standard to government and opposition and across parties — aim for balance across the programme. Humour must be gentle and aimed at the contradiction, never at people suffering, and never about death, disaster or tragedy. Never invent or paraphrase as a quotation; only quote words you have verified, and attribute them.',
+}
+
+/** Sydney hours when Political Hiccups airs — a signature show, not every slot. */
+const HICCUPS_HOURS = [8, 18]
+
+const HISTORY_PATH = 'state/programme-history.json'
+type History = { show: string; subject: string; airTime: string }[]
+
+async function readHistory(): Promise<History> {
+  try {
+    const response = await fetch(`${supabaseUrl}/storage/v1/object/${BUCKET}/${HISTORY_PATH}`, {
+      headers: storageHeaders(),
+      cache: 'no-store',
+    })
+    if (!response.ok) return []
+    const data = await response.json()
+    return Array.isArray(data) ? data : []
+  } catch {
+    return []
   }
-  const rotation = SHOWS.filter((s) => s.name !== 'Political Hiccups')
-  return rotation[(hour + dayIndex * 5) % rotation.length]
+}
+
+async function writeHistory(history: History) {
+  await fetch(`${supabaseUrl}/storage/v1/object/${BUCKET}/${HISTORY_PATH}`, {
+    method: 'POST',
+    headers: storageHeaders({ 'Content-Type': 'application/json', 'x-upsert': 'true', 'cache-control': 'max-age=0' }),
+    body: JSON.stringify(history.slice(-400)),
+  })
+}
+
+/** Pick the show for this half-hour: Political Hiccups twice a day, otherwise the least recently aired show. */
+function chooseShow(airTime: Date, history: History, forceShow?: string) {
+  if (forceShow) {
+    const forced = [...SHOWS, POLITICAL_HICCUPS].find((s) => s.name.toLowerCase() === forceShow.toLowerCase())
+    if (forced) return forced
+  }
+  if (HICCUPS_HOURS.includes(sydneyHour(airTime))) return POLITICAL_HICCUPS
+
+  const lastAired = new Map<string, number>()
+  history.forEach((entry, index) => lastAired.set(entry.show, index))
+  // News-led shows are useful more often: they count as "older" by a few slots.
+  const score = (show: Show) => (lastAired.get(show.name) ?? -1000) - (show.categories.length ? 6 : 0)
+  return [...SHOWS].sort((a, b) => score(a) - score(b))[0]
 }
 
 function nextHalfPast(now = new Date()) {
@@ -420,29 +507,61 @@ function nextHalfPast(now = new Date()) {
 
 export async function produceProgramme(now = new Date(), forceShow?: string) {
   const airTime = nextHalfPast(now)
-  const show = (forceShow && SHOWS.find((s) => s.name.toLowerCase() === forceShow.toLowerCase())) || showForHour(airTime)
+  const history = await readHistory()
+  const show = chooseShow(airTime, history, forceShow)
 
-  let input = 'No news material: this is an evergreen feature.'
-  if (!show.evergreen) {
+  const recentSubjects = history
+    .slice(-150)
+    .map((h) => h.subject)
+    .filter(Boolean)
+
+  let material = ''
+  if (show.categories.length) {
     const stories = await latestStories(80)
-    let selected = stories.filter((s) => show.categories.includes(s.category)).slice(0, show.name === 'Political Hiccups' ? 10 : 4)
-    if (selected.length < 2) selected = stories.slice(0, 4)
-    input = `STORIES:\n${factSheet(selected)}`
+    const selected = stories
+      .filter((s) => show.categories.includes(s.category))
+      .slice(0, show === POLITICAL_HICCUPS ? 10 : 5)
+    material = selected.length ? `DOWNUNDER VOICES STORIES (starting points):\n${factSheet(selected)}` : ''
   }
 
   const instructions = `
-You write "${show.name}", a programme on Downunder Voices Radio, an independent digital station for Australia and New Zealand.
+You research and write "${show.name}", a programme on Downunder Voices Radio, an independent digital station for Australia and New Zealand.
 Brief: ${show.brief}
-Length: 450 to 550 words (about three and a half minutes read aloud). One presenter, warm and conversational.
-Open with: "This is ${show.name}, on Downunder Voices Radio."
-Close with: "That's ${show.name}. Stay with Downunder Voices Radio. News is at the top of the hour."
-${EDITORIAL_RULES}
+${RESEARCH_RULES}
+${show.careful ? CAREFUL_RULES : ''}
+Do NOT repeat any of these recently covered subjects: ${recentSubjects.length ? recentSubjects.join('; ') : 'none yet'}.
+Length of the script: 450 to 550 words (about three and a half minutes read aloud). One presenter, warm and conversational, with a clear beginning, middle and end.
+The script must open with: "This is ${show.name}, on Downunder Voices Radio."
+The script must close with: "That's ${show.name}. Stay with Downunder Voices Radio. News is at the top of the hour."
+- Never invent quotations. Politically independent.
+- Write for the ear: short sentences, plain words, no headings, no lists, no URLs, no citations read aloud, no stage directions.
+- Australian/New Zealand English spelling.
+
+OUTPUT FORMAT — exactly three parts:
+SUBJECT: <a short name for the specific subject you chose>
+SOURCES: <the main sources you relied on, separated by semicolons>
+SCRIPT:
+<the words the presenter reads aloud, nothing else>
 `.trim()
 
-  const script = await writeScript(instructions, input)
+  const input = material || 'Choose a specific subject that fits the brief and has not been covered recently, research it, then write the script.'
+
+  const raw = await callWriter(instructions, input, true)
+  const subject = clean(raw.match(/SUBJECT:\s*(.+)/i)?.[1] || show.name).slice(0, 160)
+  const sources = clean(raw.match(/SOURCES:\s*([\s\S]*?)\n\s*SCRIPT:/i)?.[1] || '').slice(0, 1000)
+  const body = raw.split(/SCRIPT:\s*/i)[1] ?? raw
+  const script = speakable(body)
+  if (script.length < 800) throw new Error(`Programme script came back too short (${script.length} characters)`)
+
   const presenter: RadioPresenter = airTime.getUTCHours() % 2 === 0 ? 'male' : 'female'
   const audio = await speak(script, presenter)
   const url = await upload('programme', `${stamp(airTime)}.mp3`, audio)
 
-  return { kind: 'programme' as const, show: show.name, airTime: airTime.toISOString(), presenter, words: script.split(' ').length, bytes: audio.length, url }
+  try {
+    await writeHistory([...history, { show: show.name, subject, airTime: airTime.toISOString() }])
+  } catch (error) {
+    console.error('Could not record programme history:', error)
+  }
+
+  return { kind: 'programme' as const, show: show.name, subject, sources, airTime: airTime.toISOString(), presenter, words: script.split(' ').length, bytes: audio.length, url }
 }
