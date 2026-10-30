@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Clock3, Headphones, Mic2, Radio, ShieldCheck } from 'lucide-react'
-import RadioLatestBulletin from '@/components/radio-latest-bulletin'
+import LiveRadioPlayer from '@/components/live-radio-player'
 
 export const metadata: Metadata = {
   title: 'Downunder Voices Radio — Live Australia & New Zealand News',
@@ -10,25 +10,26 @@ export const metadata: Metadata = {
 
 export default function RadioPage() {
   const programmes = [
-    ['Unsolved', 'Unsolved mysteries and carefully sourced cold cases.'],
-    ['Crime Files', 'Historic crimes and the cases that changed communities or the law.'],
-    ['Missing', 'Responsible coverage of established missing-person cases.'],
-    ['History in 15', 'One important person, place or event in fifteen minutes.'],
-    ['Strange Australia', 'Remarkable Australian events, places and true stories.'],
-    ['Mysteries of New Zealand', 'New Zealand mysteries, legends and unexplained events.'],
-    ['Disaster & Survival', 'Disasters, rescues and accounts of human survival.'],
-    ['Science & Space', 'Discovery, exploration and the ideas changing our world.'],
-    ['Tech & Tomorrow', 'Technology, AI, cybersecurity and innovations changing everyday life.'],
-    ['Entertainment Now', 'Entertainment, culture and the lighter stories people are talking about.'],
-    ['Sport Downunder', 'AFL, NRL, rugby, cricket, football and major sporting stories from Australia and New Zealand.'],
+    ['Australia Today', 'A closer look at the Australian stories behind today’s headlines.'],
+    ['New Zealand Today', 'The people, decisions and events shaping Aotearoa New Zealand.'],
+    ['World Briefing', 'Important overseas developments, explained for Australia and New Zealand.'],
+    ['Political Hiccups', 'A factual, independent and sometimes light-hearted look at political contradictions and backflips — same standard for government and opposition.'],
+    ['Business & Cost of Living', 'Money, prices, jobs and business news that affects households.'],
+    ['Sport Downunder', 'The sporting stories people across Australia and New Zealand are talking about.'],
+    ['Technology & Science', 'Technology, science and the ideas changing everyday life.'],
+    ['Entertainment & Culture', 'Entertainment, arts and the lighter stories people are talking about.'],
+    ['History Downunder', 'One important person, place or event from our shared history.'],
+    ['Strange Australia', 'Remarkable Australian places, creatures and true stories.'],
+    ['Mysteries of New Zealand', 'New Zealand mysteries, legends and unusual natural wonders.'],
+    ['Travel Downunder', 'Audio postcards from places worth visiting across Australia and New Zealand.'],
+    ['Public Interest', 'Stories that matter to ordinary people and communities.'],
   ]
 
   const hour = [
-    [':00', 'Australia, New Zealand & world news'],
-    [':05', 'Unsolved / Crime Files / Missing'],
-    [':20', 'History in 15 / Strange Australia / Mysteries of New Zealand'],
-    [':35', 'Australia or New Zealand feature / Sport Downunder'],
-    [':50', 'Science, tech, survival, entertainment or public-interest talk'],
+    [':00', 'Downunder Voices News — Australia, New Zealand, then the world (about 5 minutes)'],
+    [':05', 'Downunder Voices Radio continues'],
+    [':30', 'Programme of the hour — a different feature each half-hour, with Political Hiccups as a regular signature show'],
+    [':35', 'Downunder Voices Radio continues until the next news'],
   ]
 
   return (
@@ -42,7 +43,7 @@ export default function RadioPage() {
         </div>
       </section>
 
-      <section id="listen-live" className="mx-auto max-w-5xl scroll-mt-44 px-4 pt-8 sm:px-6 lg:px-8"><RadioLatestBulletin /></section>
+      <section id="listen-live" className="mx-auto max-w-5xl scroll-mt-44 px-4 pt-8 sm:px-6 lg:px-8"><LiveRadioPlayer /></section>
 
       <section className="mx-auto grid max-w-5xl gap-8 px-4 pt-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
         <div className="rounded-xl bg-slate-950 p-7 text-white">
@@ -62,7 +63,7 @@ export default function RadioPage() {
         <div className="rounded-lg border bg-white p-6 shadow-sm"><ShieldCheck className="size-7 text-red-700" /><h2 className="mt-4 text-xl font-black">Copyright-safe launch</h2><p className="mt-2 leading-7 text-slate-600">Launch programming uses original spoken content. Music will be added only from properly cleared or licensed sources.</p></div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8"><div className="rounded-xl border bg-white p-7 sm:p-9"><p className="text-sm font-black uppercase tracking-[0.18em] text-red-700">Downunder Voices Radio</p><h2 className="mt-3 font-serif text-3xl font-black">Australia · New Zealand · World</h2><p className="mt-4 max-w-3xl leading-7 text-slate-600">Press Play for the current bulletin, switch on continuous radio, or read the full stories and original sources on Downunder Voices.</p><Link href="/latest" className="mt-6 inline-flex rounded-md bg-slate-950 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700">Read the latest news</Link></div></section>
+      <section className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8"><div className="rounded-xl border bg-white p-7 sm:p-9"><p className="text-sm font-black uppercase tracking-[0.18em] text-red-700">Downunder Voices Radio</p><h2 className="mt-3 font-serif text-3xl font-black">Australia · New Zealand · World</h2><p className="mt-4 max-w-3xl leading-7 text-slate-600">Press Listen Live to join the broadcast already in progress — everyone hears the same station at the same time — or read the full stories and original sources on Downunder Voices.</p><Link href="/latest" className="mt-6 inline-flex rounded-md bg-slate-950 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-700">Read the latest news</Link></div></section>
     </div>
   )
 }
