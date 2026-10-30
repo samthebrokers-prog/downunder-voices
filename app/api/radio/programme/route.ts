@@ -9,6 +9,7 @@ type Story = { title: string; summary: string | null; category: string; publishe
 const shows = [
   { name: 'Australia Today', categories: ['australia'], intro: 'A closer look at the Australian stories behind today’s headlines.' },
   { name: 'New Zealand Today', categories: ['new-zealand'], intro: 'The people, decisions and events shaping Aotearoa New Zealand today.' },
+  { name: 'Political Hiccups', categories: ['australia', 'new-zealand', 'world'], intro: 'A sharp, independent look at political contradictions, policy backflips and unusual moments in government and opposition — with the facts kept firmly in charge.' },
   { name: 'World Briefing', categories: ['world'], intro: 'Important developments overseas, explained for listeners in Australia and New Zealand.' },
   { name: 'Business & Cost of Living', categories: ['business'], intro: 'Money, business, jobs and cost-of-living issues affecting households and communities.' },
   { name: 'Sport Downunder', categories: ['sports', 'sport'], intro: 'The sporting stories people across Australia and New Zealand are talking about.' },
@@ -41,11 +42,16 @@ export async function GET() {
       return `${i === 0 ? 'Our first story' : i === selected.length - 1 ? 'Finally' : 'Next'}, ${clean(story.title)}. ${summary}`
     })
 
+    const politicalNote = show.name === 'Political Hiccups'
+      ? 'Political Hiccups is independent commentary based on published reporting. We separate verified facts from commentary, avoid personal abuse, and apply the same standard to government and opposition.'
+      : ''
+
     const script = [
       `You’re listening to ${show.name} on Downunder Voices Radio. ${show.intro}`,
+      politicalNote,
       ...body,
       `That’s ${show.name} for now. Stay with Downunder Voices Radio for fresh news, sport, technology, entertainment, mysteries and more throughout the day.`
-    ].join('\n\n')
+    ].filter(Boolean).join('\n\n')
 
     return NextResponse.json({
       name: show.name,
