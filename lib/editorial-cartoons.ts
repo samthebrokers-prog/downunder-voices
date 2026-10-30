@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '30 October 2026',
+    image: '/editorial-cartoons/2026-10-30-cost-of-living-lift.jpg',
+    alt: 'Black-and-white editorial cartoon of a fictional supermarket shopper watching bread, milk, an electricity bill, a house and a petrol pump float upward beneath a CPI 4.3 per cent balloon while the trolley is anchored by a household budget',
+    headline: 'The great Australian price lift',
+    summary: 'Australia’s annual CPI reached 4.3 per cent in September, up from 4.0 per cent in August. Housing rose 5.2 per cent over the year and transport 8.7 per cent—leaving household budgets firmly on the ground while everyday costs float higher.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-10-29/prices-cost-of-living-inflation-tracker/107296304',
+    sourceLabel:
+      'ABC News — Inflation tracker: See how the price of everything has changed',
+  },
+  {
     date: '29 October 2026',
     image: '/editorial-cartoons/2026-10-29-snapper-island-cows.jpg',
     alt: 'Black-and-white editorial cartoon of two generic Brahman cattle relaxing on a tropical island beneath an Island Cattle Station sign while a ranger boat approaches',
