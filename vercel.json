@@ -16,6 +16,22 @@
     {
       "path": "/api/cron/cartoon",
       "schedule": "15 1 * * *"
+    },
+    {
+      "path": "/api/cron/election-articles",
+      "schedule": "5 23 * * *"
+    },
+    {
+      "path": "/api/cron/election-articles",
+      "schedule": "5 4 * * *"
+    },
+    {
+      "path": "/api/cron/election-articles",
+      "schedule": "5 9 * * *"
+    },
+    {
+      "path": "/api/cron/election-articles",
+      "schedule": "5 13 * * *"
     }
   ]
 }
