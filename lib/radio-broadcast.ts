@@ -681,8 +681,8 @@ const SHOWS: Show[] = [
 const POLITICAL_HICCUPS: Show = {
   name: 'Political Hiccups',
   shelfDays: TOPICAL,
-  categories: ['australia', 'new-zealand', 'world'],
-  brief: 'Our signature show: a short, factual, politically independent and occasionally light-hearted look at genuine political contradictions, backflips and unusual moments in Australian and New Zealand politics. Use web search to verify each example from reputable reporting or official records. Apply exactly the same standard to government and opposition and across parties — aim for balance across the programme. Humour must be gentle and aimed at the contradiction, never at people suffering, and never about death, disaster or tragedy. Never invent or paraphrase as a quotation; only quote words you have verified, and attribute them.',
+  categories: ['australia', 'new-zealand'],
+  brief: 'Our signature show: a short, factual, politically independent and occasionally light-hearted look at genuine political contradictions, backflips and unusual moments in Australian and New Zealand politics only (not other countries). Use web search to verify each example from reputable reporting or official records. Apply exactly the same standard to government and opposition and across parties — aim for balance across the programme. Humour must be gentle and aimed at the contradiction, never at people suffering, and never about death, disaster or tragedy. Never invent or paraphrase as a quotation; only quote words you have verified, and attribute them.',
 }
 
 const ALL_SHOWS = [...SHOWS, POLITICAL_HICCUPS]
@@ -710,6 +710,8 @@ type LibraryItem = {
   expiresAt: string
   plays: number
   lastPlayed: string | null
+  /** 'engine' = made by this engine; older programmes brought in at start-up have none. */
+  madeBy?: 'engine'
 }
 type History = { show: string; subject: string; airTime: string; replay?: boolean }[]
 
@@ -801,6 +803,7 @@ SCRIPT:
     expiresAt: new Date(created.getTime() + show.shelfDays * 86_400_000).toISOString(),
     plays: 0,
     lastPlayed: null,
+    madeBy: 'engine',
   }
   return { item, audio }
 }
@@ -877,7 +880,7 @@ async function buildProgramme(now: Date, forceShow?: string) {
   // How many new programmes are due by now today?
   const slots = library.length < SEED_TARGET ? SEED_PROGRAMME_HOURS : NEW_PROGRAMME_HOURS
   const due = slots.filter((h) => h <= hour).length
-  const madeToday = library.filter((i) => i.createdSydneyDate === sydneyDate).length
+  const madeToday = library.filter((i) => i.madeBy === 'engine' && i.createdSydneyDate === sydneyDate).length
   const wantNew = Boolean(forceShow) || madeToday < due || library.length === 0
 
   let airing: LibraryItem | null = null
