@@ -1670,9 +1670,25 @@ export async function runNewsImport(): Promise<
           },
         )
 
+        /*
+         * Facebook: quality over quantity. A small page that posts every
+         * imported story (including overseas sport) gets its reach throttled.
+         * Only share Australian / New Zealand / social-issues stories, at most
+         * one per hourly run, every second hour between 7am and 9pm Perth time.
+         * Our own editorials, election articles and cartoons are posted separately.
+         */
+        const perthHour = Number(
+          new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Perth', hour: 'numeric', hourCycle: 'h23' }).format(new Date()),
+        )
+        const shareToFacebook =
+          ['australia', 'new-zealand', 'social-issues'].includes(finalCategory) &&
+          facebookPublished === 0 &&
+          perthHour >= 7 && perthHour <= 21 && perthHour % 2 === 0
+
         if (
           status ===
-          'published'
+          'published' &&
+          shareToFacebook
         ) {
           const facebookResult =
             await publishStoryToFacebook({
