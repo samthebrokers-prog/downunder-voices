@@ -32,6 +32,14 @@
     {
       "path": "/api/cron/election-articles",
       "schedule": "5 13 * * *"
+    },
+    {
+      "path": "/api/cron/radio-news",
+      "schedule": "50 * * * *"
+    },
+    {
+      "path": "/api/cron/radio-programme",
+      "schedule": "20 * * * *"
     }
   ]
 }
