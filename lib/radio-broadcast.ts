@@ -841,10 +841,11 @@ function chooseReplay(library: LibraryItem[], history: History) {
   const candidates = library.filter((item) => {
     if (Date.parse(item.expiresAt) < now) return false
     const ageDays = (now - Date.parse(item.createdAt)) / 86_400_000
-    // Rest between plays grows with the library: 9 shows -> 18 hours apart,
-    // 24+ shows -> 2 days apart. (Full schedule: newer 10 h, older a week.)
+    // Low-cost: every :30 should have a programme, so the rest between plays
+    // grows with the library (9 shows -> 8 hours apart, 49+ -> 2 days apart).
+    // (Full schedule: newer 10 h, older a week.)
     const gapHours = RADIO_PAUSED
-      ? Math.min(48, Math.max(12, library.length * 2))
+      ? Math.min(48, Math.max(4, library.length - 1))
       : ageDays < 3 ? 10 : 7 * 24
     if (item.lastPlayed && now - Date.parse(item.lastPlayed) < gapHours * 3_600_000) return false
     return true
