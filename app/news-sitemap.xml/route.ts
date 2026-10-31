@@ -1,4 +1,5 @@
 import { getPublishedStories } from '@/lib/story-service'
+import { isOriginalStory } from '@/lib/original-content'
 
 const siteUrl = 'https://www.downundervoices.com'
 
@@ -27,6 +28,7 @@ export async function GET() {
   const cutoff = Date.now() - 48 * 60 * 60 * 1000
   const stories = (await getPublishedStories(500))
     .filter((story) => publicationDate(story).getTime() >= cutoff)
+    .filter(isOriginalStory)
     .slice(0, 1000)
 
   const urls = stories
