@@ -227,8 +227,11 @@ export async function produceLankaAnalysis(options: { force?: boolean } = {}) {
   }
 
   // Quality gate: no article without real sources and real substance.
-  const sources = (parsed.sources || []).filter((s) => /^https?:\/\/[^\s]+\.[a-z]{2,}/i.test(s.url)).slice(0, 12)
-  const paragraphs = (parsed.paragraphs || []).map((p) => p.replace(/\s+/g, ' ').trim()).filter((p) => p.length > 40)
+  const sources = (parsed.sources || [])
+    .map((s) => ({ ...s, url: cleanUrl(s.url) }))
+    .filter((s) => /^https?:\/\/[^\s]+\.[a-z]{2,}/i.test(s.url))
+    .slice(0, 12)
+  const paragraphs = (parsed.paragraphs || []).map(cleanParagraph).filter((p) => p.length > 40)
   if (sources.length < 3 || paragraphs.length < 5 || !parsed.title?.trim()) {
     await recordFailure('news', `lankawitness quality gate: ${sources.length} sources, ${paragraphs.length} paragraphs`)
     return { ok: false, skipped: 'quality gate: not enough sources or substance' }
@@ -250,4 +253,25 @@ export async function produceLankaAnalysis(options: { force?: boolean } = {}) {
   const items = [item, ...existing.items.filter((i) => i.slug !== item.slug)].slice(0, KEEP)
   await putJson(FILE, { updatedAt: item.publishedAt, items } satisfies LwAnalysisFile)
   return { ok: true, title: item.title, slug: item.slug, angle: angle.key, sources: sources.length }
+}
+
+/** Removes web-search citation tags like "([site.com](https://…))" from the text. */
+function cleanParagraph(text: string) {
+  return text
+    .replace(/\s*\(\[[^\]]*\]\([^)]*\)\)/g, '')
+    .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '$1')
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/\s+([,.;:])/g, '$1')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function cleanUrl(url: string) {
+  try {
+    const u = new URL(url.trim())
+    for (const k of [...u.searchParams.keys()]) if (/^utm_/i.test(k)) u.searchParams.delete(k)
+    return u.toString()
+  } catch {
+    return url.trim()
+  }
 }
