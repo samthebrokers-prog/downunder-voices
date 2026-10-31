@@ -7,14 +7,15 @@ export const dynamic = 'force-dynamic'
 export const maxDuration = 300
 
 // Public read of the Lanka Witness daily analyses (lankawitness.com reads
-// this). ?slug=… returns one article. If no analysis exists yet, the first
-// one is made here once; after that only the daily schedule makes new ones.
+// this). ?slug=… returns one article. Until three analyses exist (to fill the
+// homepage's top three), a read may make one more — at most three ever, so
+// this cannot run up costs. After that only the daily schedule makes new ones.
 export async function GET(request: Request) {
   const slug = new URL(request.url).searchParams.get('slug')
   let file = await readLankaAnalysis()
-  if (!file.items.length && (await takeLock('lankawitness', 15))) {
+  if (!slug && file.items.length < 3 && (await takeLock('lankawitness', 15))) {
     try {
-      await produceLankaAnalysis()
+      await produceLankaAnalysis({ force: true })
       file = await readLankaAnalysis()
     } catch (error) {
       console.error('Lanka Witness first analysis failed:', error)
