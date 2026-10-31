@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { categories } from '@/lib/news-data'
 import { getPublishedStories } from '@/lib/story-service'
+import { isOriginalStory } from '@/lib/original-content'
 
 const base = 'https://www.downundervoices.com'
 
@@ -10,7 +11,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // getPublishedStories already falls back to the seed newsroom when the
   // database is unavailable, so the sitemap should never silently lose all
   // story URLs just because database configuration is missing at build time.
-  const stories = await getPublishedStories(1000)
+  // Only our own work is listed for Google (see lib/original-content.ts).
+  const stories = (await getPublishedStories(1000)).filter(isOriginalStory)
 
   return [
     {
