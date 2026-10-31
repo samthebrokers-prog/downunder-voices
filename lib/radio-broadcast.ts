@@ -52,11 +52,14 @@ export type BroadcastKind = 'news' | 'programme'
 
 /**
  * RADIO PAUSED (owner's decision, 31 Oct 2026): paused until a sponsor is
- * found. No new news or programmes are made, so there is no AI cost. The
- * station stays on air with music, and the :30 slot replays recorded shows
- * from the programme library (free). To restart, set this to false.
+ * found. No new programmes are made; news airs only 4 times a day (low cost).
+ * The station plays music, and the :30 slot replays recorded shows from the
+ * programme library (free). To restart, set this to false.
  */
 export const RADIO_PAUSED = true
+
+/** In low-cost mode the news still airs at these Sydney hours (about US$4 a month). */
+const LOW_COST_NEWS_HOURS = [6, 12, 17, 21]
 
 type Story = {
   title: string
@@ -468,7 +471,9 @@ Return one entry per story, using the story's id exactly as given.
 }
 
 export async function produceNewsBulletin(now = new Date(), options: { forceBreakingCheck?: boolean } = {}) {
-  if (RADIO_PAUSED) return { kind: 'news' as const, skipped: 'radio paused until a sponsor is found' }
+  if (RADIO_PAUSED && !LOW_COST_NEWS_HOURS.includes(sydneyParts(nextAt(0, now)).hour)) {
+    return { kind: 'news' as const, skipped: 'low-cost mode: news only at 6am, 12pm, 5pm and 9pm Sydney' }
+  }
   if (!(await takeLock('news'))) return { kind: 'news' as const, skipped: 'another news run is in progress' }
   try {
     return await buildNews(now, options)
@@ -483,7 +488,7 @@ async function buildNews(now: Date, options: { forceBreakingCheck?: boolean }) {
   const overnight = hour >= 0 && hour < 6
   const maxAgeHours = overnight ? 20 : 14
   /** New stories we may voice this hour (each costs ~US$0.007). */
-  const newAllowance = Number(process.env.DV_RADIO_NEW_STORIES_PER_HOUR) || (overnight ? 1 : 3)
+  const newAllowance = Number(process.env.DV_RADIO_NEW_STORIES_PER_HOUR) || (overnight ? 1 : RADIO_PAUSED ? 4 : 3)
 
   const [stories, index, savedBreaking] = await Promise.all([
     latestStories(80),
