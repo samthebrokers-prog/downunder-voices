@@ -87,11 +87,25 @@ const ANGLES = [
   },
 ]
 
+/** Starting leads from the owner's research (1 Nov 2026). Always re-verified. */
+const STORY_LEADS = [
+  'Carnegie Endowment (Oct 2026): beyond keeping the IMF programme and tightening some anti-corruption rules, much of the broader reform agenda has stalled.',
+  'Transparency International Sri Lanka: delays in the Public Procurement Law, competitive procurement and state-owned-enterprise governance; the revised Governance Action Plan due Feb 2026 was still unpublished in March.',
+  'The US$2.5 million Treasury debt-payment cyber-fraud: Parliament\'s Committee on Public Finance (COPF) found systemic failures in internal controls, IT and cybersecurity.',
+  'Coal procurement: National Audit Office found irregularities in procurement, pricing and coal quality; the government acknowledged substandard coal was bought and the energy minister resigned.',
+  'Abolishing the executive presidency: an NPP campaign promise; in June 2026 a minister said it remained a promise but was not currently a priority.',
+  'Prevention of Terrorism Act and accountability for past abuses: Human Rights Watch (Sept 2026) says the government has not used its mandate to repeal the PTA or advance accountability (an advocacy assessment; present it as HRW\'s view).',
+  'Budget 2026: Verité Research found 29 proposals without disclosed fiscal costs and weak disclosure, while noting more realistic revenue estimates and compliance with fiscal limits.',
+  'IMF (2026): about one quarter of the population below the poverty line, reserves around halfway to targets, weak private investment and electricity-sector risks — alongside a strong programme-performance record.',
+]
+
 const INSTRUCTIONS = `
 You are a senior editor at Lanka Witness, an independent Australian-based publication on Sri Lanka read by the Sri Lankan diaspora, UN bodies, human rights commissions and foreign governments.
 Write ONE original accountability analysis (about 650–850 words) on the angle given, tied to news from the last 7 days that you find with web search.
 
 Editorial line: hold the government in power (the NPP / JVP-led government) firmly to account. Be direct and critical where the evidence supports it. This is accountability journalism, not propaganda.
+The most credible criticism is not "the government has achieved nothing" — supporters can easily disprove that. It is this: Sri Lankans gave the NPP an extraordinary mandate because it promised to govern differently ("system change"). Economic stabilisation has continued, but many of the structural changes that were meant to set it apart — procurement reform, institutional accountability, constitutional reform (including abolishing the executive presidency), human-rights reform (including repealing the Prevention of Terrorism Act) and stronger public-finance controls — remain incomplete, while serious administrative failures have happened on its watch.
+Structure each piece around: what was promised → what actually happened → the evidence → the government's explanation → why it matters for ordinary Sri Lankans. Acknowledge genuine achievements briefly where relevant (for example the IMF's assessment of programme performance); it makes the criticism harder to dismiss.
 
 Non-negotiable standards (this protects the publication legally and with advertisers):
 - Every factual claim must come from a reputable source you actually found (official statistics, courts, Parliament, commissions, UN, major Sri Lankan and international media). List them in "sources" with their real URLs. Never invent a source, figure, date or URL.
@@ -157,6 +171,7 @@ export async function produceLankaAnalysis(options: { force?: boolean } = {}) {
   const dayIndex = Math.floor(Date.now() / 86_400_000)
   const angle = ANGLES[dayIndex % ANGLES.length]
   const recent = existing.items.slice(0, 25).map((i) => `- ${i.title}`).join('\n')
+  const leads = STORY_LEADS.map((l) => `- ${l}`).join('\n')
   const today = new Date().toISOString().slice(0, 10)
 
   const apiKey = process.env.OPENAI_API_KEY
@@ -168,7 +183,7 @@ export async function produceLankaAnalysis(options: { force?: boolean } = {}) {
       model: process.env.DV_RADIO_SCRIPT_MODEL || 'gpt-5-mini',
       reasoning: { effort: 'medium' },
       instructions: INSTRUCTIONS,
-      input: `Today is ${today}.\nAngle: ${angle.brief}\n\nRecent Lanka Witness titles (do not repeat these subjects):\n${recent || '- none yet'}`,
+      input: `Today is ${today}.\nAngle: ${angle.brief}\n\nKnown story leads you may develop if relevant to the angle and still newsworthy — re-check every fact with web search and use the newest developments:\n${leads}\n\nRecent Lanka Witness titles (do not repeat these subjects):\n${recent || '- none yet'}`,
       tools: [{ type: 'web_search' }],
       max_tool_calls: 5,
       max_output_tokens: 9000,
