@@ -439,44 +439,19 @@ export async function publishStoryToFacebook({
         '/api/social-image/' +
         encodeURIComponent(slug)
 
-  // Link goes high up so it shows before Facebook's "See more" cut-off.
+  /*
+   * Owner's choice (1 Nov 2026): LINK posts, not photo posts. Facebook shows
+   * a large card (our branded picture + headline); tapping anywhere on it
+   * opens the story on downundervoices.com. A short teaser goes above the
+   * card instead of repeating the headline, so readers have a reason to tap.
+   * If a link post is refused, fall back to the old photo post.
+   */
   const message = [
-    cleanTitle,
-    '👉 Read the full story: ' + storyUrl,
-    shortSummary,
+    facebookTeaser(cleanSummary, cleanTitle),
+    '👇 Read more on Downunder Voices',
   ]
     .filter(Boolean)
     .join('\n\n')
-
-  const photoResult =
-    await sendFacebookRequest(
-      'https://graph.facebook.com/' +
-        GRAPH_API_VERSION +
-        '/' +
-        pageId +
-        '/photos',
-      new URLSearchParams({
-        message,
-        url: publicImageUrl,
-        access_token: accessToken,
-      }),
-    )
-
-  if (photoResult.ok) {
-    console.log(
-      'Facebook photo post created: ' +
-        (photoResult.id ?? 'unknown id') +
-        ' — ' +
-        cleanTitle,
-    )
-
-    return photoResult
-  }
-
-  console.warn(
-    'Facebook photo delivery failed; trying link-post fallback: ' +
-      (photoResult.error ?? 'unknown error'),
-  )
 
   const linkResult =
     await sendFacebookRequest(
@@ -503,11 +478,49 @@ export async function publishStoryToFacebook({
     return linkResult
   }
 
+  console.warn(
+    'Facebook link post failed; trying photo-post fallback: ' +
+      (linkResult.error ?? 'unknown error'),
+  )
+
+  const photoMessage = [
+    cleanTitle,
+    '👉 Read the full story: ' + storyUrl,
+    shortSummary,
+  ]
+    .filter(Boolean)
+    .join('\n\n')
+
+  const photoResult =
+    await sendFacebookRequest(
+      'https://graph.facebook.com/' +
+        GRAPH_API_VERSION +
+        '/' +
+        pageId +
+        '/photos',
+      new URLSearchParams({
+        message: photoMessage,
+        url: publicImageUrl,
+        access_token: accessToken,
+      }),
+    )
+
+  if (photoResult.ok) {
+    console.log(
+      'Facebook photo post created: ' +
+        (photoResult.id ?? 'unknown id') +
+        ' — ' +
+        cleanTitle,
+    )
+
+    return photoResult
+  }
+
   const combinedError =
-    'Photo post failed: ' +
-    (photoResult.error ?? 'unknown error') +
-    '; link fallback failed: ' +
-    (linkResult.error ?? 'unknown error')
+    'Link post failed: ' +
+    (linkResult.error ?? 'unknown error') +
+    '; photo fallback failed: ' +
+    (photoResult.error ?? 'unknown error')
 
   console.error(
     'Facebook publishing failed:',
@@ -518,4 +531,16 @@ export async function publishStoryToFacebook({
     ok: false,
     error: combinedError,
   }
+}
+
+/**
+ * A short line above the link card: the first sentence of the summary
+ * (it adds something the headline on the card doesn't say), kept short.
+ * Falls back to the headline when there is no usable summary.
+ */
+function facebookTeaser(summary: string, title: string) {
+  const text = summary.replace(/\s+/g, ' ').trim()
+  if (!text || text.toLowerCase() === title.toLowerCase()) return title
+  const first = (text.match(/^.{20,240}?[.!?](\s|$)/) || [])[0]?.trim() || text
+  return first.length > 240 ? first.slice(0, 239).trim() + '…' : first
 }
