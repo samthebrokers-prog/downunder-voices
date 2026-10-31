@@ -326,9 +326,9 @@ const BREAKING_CHECK_HOURS = (process.env.DV_RADIO_BREAKING_HOURS || '6,12,17,21
   .filter((n) => Number.isFinite(n))
 
 const SECTIONS = [
-  { name: 'australia', categories: ['australia'], count: 3, link: '' },
+  { name: 'australia', categories: ['australia'], count: 4, link: '' },
   { name: 'new-zealand', categories: ['new-zealand'], count: 3, link: 'In New Zealand.' },
-  { name: 'world', categories: ['world'], count: 2, link: 'Around the world.' },
+  { name: 'world', categories: ['world'], count: 3, link: 'Around the world.' },
   { name: 'extra', categories: ['business', 'sports', 'sport'], count: 1, link: 'In business and sport.' },
 ]
 
@@ -515,12 +515,12 @@ async function buildNews(now: Date, options: { forceBreakingCheck?: boolean }) {
 
   // Choose stories: cached clips are free; new ones only within the allowance and budget.
   // While the cache is warming up (or after a quiet spell), allow enough new
-  // stories for a proper bulletin of at least six items.
+  // stories for a proper bulletin of at least eight items.
   const cachedAvailable = SECTIONS.reduce(
     (n, s) => n + Math.min(s.count, candidates[s.name].filter((c) => index[c.key]).length),
     0,
   )
-  let allowance = newAllowance + Math.max(0, 6 - cachedAvailable)
+  let allowance = newAllowance + Math.max(0, 8 - cachedAvailable)
   const chosen: Record<string, Candidate[]> = {}
   const toVoice: Candidate[] = []
   for (const section of SECTIONS) {
@@ -971,6 +971,27 @@ async function buildProgramme(now: Date, forceShow?: string) {
     library: library.length,
     note,
     url,
+  }
+}
+
+/**
+ * Extra replay slots (:15 and :45): pick a library programme that is not
+ * repeating too soon and return its public URL. No AI cost — already recorded.
+ */
+export async function nextReplayUrl(now = new Date()) {
+  if (!(await takeLock('replay', 2))) return null
+  try {
+    const library = await getJson<LibraryItem[]>(LIBRARY, [])
+    const history = await getJson<History>(HISTORY_PATH, [])
+    const pick = chooseReplay(library, history)
+    if (!pick) return null
+    pick.plays += 1
+    pick.lastPlayed = now.toISOString()
+    await putJson(LIBRARY, library)
+    await putJson(HISTORY_PATH, [...history, { show: pick.show, subject: pick.subject, airTime: now.toISOString(), replay: true }].slice(-400))
+    return publicUrl(pick.file)
+  } finally {
+    await releaseLock('replay')
   }
 }
 
