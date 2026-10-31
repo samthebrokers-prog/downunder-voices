@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { isOriginalStory } from '@/lib/original-content'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import {
@@ -175,6 +176,9 @@ export async function generateMetadata({
   return {
     title: story.title,
     description,
+
+    // Summaries of other outlets' news: visible to readers, hidden from Google.
+    ...(isOriginalStory(story) ? {} : { robots: { index: false, follow: true } }),
 
     alternates: {
       canonical: storyUrl,
