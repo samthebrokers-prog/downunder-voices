@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '31 October 2026',
+    image: '/editorial-cartoons/2026-10-31-hector-afternoon-shift.jpg',
+    alt: 'Black-and-white editorial cartoon of a giant friendly thundercloud called Hector punching a 3 pm time clock above the Tiwi Islands while a fictional weather observer checks a forecast',
+    headline: 'Hector clocks on for the afternoon shift',
+    summary: 'Hector, the world’s only individually named thunderstorm, forms over the Tiwi Islands on most wet-season afternoons from about 3pm. Rising as high as 20 kilometres, the Top End colossus may be the most punctual weather system in Australia.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-10-30/nt-hector-thunderstorm-at-tiwi-islands-top-end-wet-season/107319826',
+    sourceLabel:
+      'ABC News — Hector the giant thunderstorm arrives like clockwork during the Top End wet season',
+  },
+  {
     date: '30 October 2026',
     image: '/editorial-cartoons/2026-10-30-cost-of-living-lift.jpg',
     alt: 'Black-and-white editorial cartoon of a fictional supermarket shopper watching bread, milk, an electricity bill, a house and a petrol pump float upward beneath a CPI 4.3 per cent balloon while the trolley is anchored by a household budget',
