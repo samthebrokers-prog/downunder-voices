@@ -40,6 +40,10 @@
     {
       "path": "/api/cron/radio-programme",
       "schedule": "20 * * * *"
+    },
+    {
+      "path": "/api/cron/audaisuki-news",
+      "schedule": "10 7,21 * * *"
     }
   ]
 }
