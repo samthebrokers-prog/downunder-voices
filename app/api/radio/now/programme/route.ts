@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { latestBroadcastUrl } from '@/lib/radio-broadcast'
+import { latestBroadcastUrl, nextReplayUrl, RADIO_PAUSED } from '@/lib/radio-broadcast'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -8,6 +8,12 @@ export const dynamic = 'force-dynamic'
 // audio. It points to the single cached file — no audio is generated here.
 export async function GET() {
   try {
+    // While paused (no AI cost), play a recorded show from the library instead.
+    if (RADIO_PAUSED) {
+      const replay = await nextReplayUrl()
+      if (!replay) return NextResponse.json({ error: 'No replay available' }, { status: 404 })
+      return NextResponse.redirect(replay, { status: 302, headers: { 'Cache-Control': 'no-store' } })
+    }
     const url = await latestBroadcastUrl('programme')
     if (!url) return NextResponse.json({ error: 'No programme audio yet' }, { status: 404 })
 
