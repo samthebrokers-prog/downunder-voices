@@ -10,7 +10,7 @@
  *
  * Runs once a day from the Downunder Voices backend (which holds the AI key
  * and the shared spending guard in lib/radio-budget.ts) and saves a public
- * JSON file that Lanka Witness reads. Cost: about US$0.03–0.05 per article.
+ * JSON file that Lanka Witness reads. Cost: about US$0.03–0.05 per article, three a day (~US$3–4 a month).
  */
 import { canSpend, PRICES, recordFailure, recordSpend } from '@/lib/radio-budget'
 import { getJson, putJson } from '@/lib/radio-storage'
@@ -34,7 +34,8 @@ export type LwAnalysis = {
 }
 export type LwAnalysisFile = { updatedAt: string; items: LwAnalysis[] }
 
-const IMG = (file: string) => `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file.replace(/ /g, '_'))}`
+const IMG = (file: string) =>
+  `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file.replace(/ /g, '_'))}?width=1280`
 
 const ANGLES = [
   {
@@ -42,48 +43,68 @@ const ANGLES = [
     kicker: 'COST OF LIVING • ACCOUNTABILITY',
     brief:
       'The cost of living in Sri Lanka right now: prices of food, fuel, electricity, medicine, taxes and wages, and what the NPP government promised versus what households are experiencing. Use the latest official figures (Department of Census and Statistics, Central Bank) and reputable reporting.',
-    image: IMG('Bags of Spices in Market - Pettah District - Colombo - Sri Lanka (13995169756).jpg'),
-    imageAlt: 'Market stall in Pettah, Colombo',
+    images: [
+      ['Bags of Spices in Market - Pettah District - Colombo - Sri Lanka (13995169756).jpg', 'Market stall in Pettah, Colombo'],
+      ['Pettah Floating Market Colombo, Sri Lanka.jpg', 'Pettah Floating Market, Colombo'],
+      ['Bus on Colombo road.jpg', 'A bus on a Colombo road'],
+      ['Tea Plantation Workers in Sri Lanka 2.jpg', 'Tea plantation workers in Sri Lanka'],
+      ['Farmers in a Paddy field.jpg', 'Farmers in a paddy field'],
+    ],
   },
   {
     key: 'promise-audit',
     kicker: 'PROMISE AUDIT • GOVERNMENT',
     brief:
       'Test one or two specific promises from the NPP / President Anura Kumara Dissanayake 2024 election campaign or manifesto against what has actually been delivered, with dates and documented evidence. Pick promises that are currently in the news.',
-    image: IMG('New Sri Lankan Parliament in Kotte.jpg'),
-    imageAlt: 'Parliament of Sri Lanka, Sri Jayawardenepura Kotte',
+    images: [
+      ['New Sri Lankan Parliament in Kotte.jpg', 'Parliament of Sri Lanka, Sri Jayawardenepura Kotte'],
+      ['Old Parliament - the national Presidential Secretariat.- Sri Lanka.jpg', 'Presidential Secretariat (old Parliament), Colombo'],
+      ['Colombo Lotus Tower seen Galle Road.jpg', 'Lotus Tower seen from Galle Road, Colombo'],
+    ],
   },
   {
     key: 'jvp-history',
     kicker: 'HISTORY • ACCOUNTABILITY',
     brief:
       'Accountability for the JVP’s documented political violence during the 1971 insurrection and the 1987–89 insurrection (killings of political opponents, public servants, trade unionists and civilians, as recorded by commissions of inquiry, courts and reputable historians), connected to a current news development. Ask what the JVP-led government has acknowledged, what victims’ families are still asking for, and how this compares with the accountability the government demands from others. Also acknowledge, where relevant and documented, the state’s own violence against JVP suspects in the same period, so the piece is fair.',
-    image: IMG('CPA_IMG_0032_(17254408155).jpg'),
-    imageAlt: 'JVP public protest in Colombo',
+    images: [
+      ['CPA_IMG_0032_(17254408155).jpg', 'JVP public protest in Colombo'],
+      ['Old parliament,Colombo Sri Lanka.jpg', 'Old Parliament building, Colombo'],
+    ],
   },
   {
     key: 'governance',
     kicker: 'GOVERNANCE • TRANSPARENCY',
     brief:
       'Governance and transparency under the current NPP government: appointments, procurement, use of state resources, treatment of critics, independence of institutions, anti-corruption claims versus practice. Use a current, documented news development.',
-    image: IMG('President of Sri Lanka Mr. Anura Kumara Dissanayake in India.jpg'),
-    imageAlt: 'President Anura Kumara Dissanayake',
+    images: [
+      ['President of Sri Lanka Mr. Anura Kumara Dissanayake in India.jpg', 'President Anura Kumara Dissanayake'],
+      ['Old Parliament - the national Presidential Secretariat.- Sri Lanka.jpg', 'Presidential Secretariat (old Parliament), Colombo'],
+      ['New Sri Lankan Parliament in Kotte.jpg', 'Parliament of Sri Lanka, Sri Jayawardenepura Kotte'],
+    ],
   },
   {
     key: 'rights',
     kicker: 'RIGHTS • RULE OF LAW',
     brief:
       'Human rights and the rule of law under the current government: the Prevention of Terrorism Act and its replacement, police conduct and custodial deaths, media freedom, minority rights, and the government’s response to UN Human Rights Council scrutiny. Use a current documented development.',
-    image: IMG('Colombo_skyline.jpg'),
-    imageAlt: 'Colombo skyline',
+    images: [
+      ['Colombo_skyline.jpg', 'Colombo skyline'],
+      ['Jaffna Town - Hospital Road1.jpg', 'Hospital Road, Jaffna'],
+      ['Sri Lankan Police Convoy.jpg', 'Sri Lanka Police convoy'],
+    ],
   },
   {
     key: 'economy',
     kicker: 'ECONOMY • WHO PAYS',
     brief:
       'The economy and who carries the burden: IMF programme reviews, taxes, debt restructuring, state enterprises, jobs and migration of skilled workers, set against the government’s claims of recovery. Use current official data and reputable reporting.',
-    image: IMG('Central Bank of Sri Lanka Building.jpg'),
-    imageAlt: 'Central Bank of Sri Lanka building, Colombo',
+    images: [
+      ['Central Bank of Sri Lanka Building.jpg', 'Central Bank of Sri Lanka building, Colombo'],
+      ['An ariel view of the Port of Colombo from the Lotus Tower.jpg', 'Port of Colombo from the Lotus Tower'],
+      ['KelanitissaPowerStation-Colombo-Aug2010.jpg', 'Kelanitissa Power Station, Colombo'],
+      ['Tea Plantation Workers in Sri Lanka 2.jpg', 'Tea plantation workers in Sri Lanka'],
+    ],
   },
 ]
 
@@ -161,15 +182,24 @@ function slugify(title: string, date: string) {
 export async function produceLankaAnalysis(options: { force?: boolean } = {}) {
   const existing = await readLankaAnalysis()
   const newest = existing.items[0]
-  if (!options.force && newest && Date.now() - Date.parse(newest.publishedAt) < 20 * 3_600_000) {
-    return { ok: true, skipped: 'already made today', newest: newest.title }
+  // Three a day (owner, 1 Nov 2026): skip only if one was made in the last 5 hours.
+  if (!options.force && newest && Date.now() - Date.parse(newest.publishedAt) < 5 * 3_600_000) {
+    return { ok: true, skipped: 'made one recently', newest: newest.title }
   }
 
   const check = await canSpend('news', 0.08)
   if (!check.ok) return { ok: false, skipped: check.reason }
 
-  const dayIndex = Math.floor(Date.now() / 86_400_000)
-  const angle = ANGLES[dayIndex % ANGLES.length]
+  // The angle used longest ago (never-used first), so consecutive articles differ.
+  const lastUsed = (key: string) => {
+    const i = existing.items.findIndex((it) => it.angle === key)
+    return i === -1 ? Infinity : i
+  }
+  const angle = [...ANGLES].sort((x, y) => lastUsed(y.key) - lastUsed(x.key))[0]
+  // A picture not used in the last 12 articles where possible.
+  const recentImages = new Set(existing.items.slice(0, 12).map((it) => it.image))
+  const [imageFile, imageAlt] = angle.images.map(([f, alt]) => [IMG(f), alt] as const).find(([u]) => !recentImages.has(u)) ??
+    [IMG(angle.images[0][0]), angle.images[0][1]]
   const recent = existing.items.slice(0, 25).map((i) => `- ${i.title}`).join('\n')
   const leads = STORY_LEADS.map((l) => `- ${l}`).join('\n')
   const today = new Date().toISOString().slice(0, 10)
@@ -243,8 +273,8 @@ export async function produceLankaAnalysis(options: { force?: boolean } = {}) {
     dek: (parsed.dek || '').trim().slice(0, 220),
     kicker: angle.kicker,
     angle: angle.key,
-    image: angle.image,
-    imageAlt: angle.imageAlt,
+    image: imageFile,
+    imageAlt,
     paragraphs,
     governmentPosition: (parsed.governmentPosition || '').trim(),
     sources,
