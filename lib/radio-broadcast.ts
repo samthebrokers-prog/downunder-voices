@@ -50,6 +50,14 @@ import { HOUSE_SPONSOR_PROMO, sponsorFor } from '@/lib/radio-sponsors'
 
 export type BroadcastKind = 'news' | 'programme'
 
+/**
+ * RADIO PAUSED (owner's decision, 31 Oct 2026): paused until a sponsor is
+ * found. No new news or programmes are made, so there is no AI cost. The
+ * station stays on air with music, and the :30 slot replays recorded shows
+ * from the programme library (free). To restart, set this to false.
+ */
+export const RADIO_PAUSED = true
+
 type Story = {
   title: string
   summary: string | null
@@ -460,6 +468,7 @@ Return one entry per story, using the story's id exactly as given.
 }
 
 export async function produceNewsBulletin(now = new Date(), options: { forceBreakingCheck?: boolean } = {}) {
+  if (RADIO_PAUSED) return { kind: 'news' as const, skipped: 'radio paused until a sponsor is found' }
   if (!(await takeLock('news'))) return { kind: 'news' as const, skipped: 'another news run is in progress' }
   try {
     return await buildNews(now, options)
@@ -862,6 +871,7 @@ async function migrateExisting(library: LibraryItem[]) {
 }
 
 export async function produceProgramme(now = new Date(), forceShow?: string) {
+  if (RADIO_PAUSED) return { kind: 'programme' as const, skipped: 'radio paused until a sponsor is found' }
   if (!(await takeLock('programme'))) return { kind: 'programme' as const, skipped: 'another programme run is in progress' }
   try {
     return await buildProgramme(now, forceShow)
@@ -979,6 +989,8 @@ async function buildProgramme(now: Date, forceShow?: string) {
  * repeating too soon and return its public URL. No AI cost — already recorded.
  */
 export async function nextReplayUrl(now = new Date()) {
+  // Replays cost nothing (the audio is already recorded), so they keep
+  // playing while the radio is paused.
   if (!(await takeLock('replay', 2))) return null
   try {
     const library = await getJson<LibraryItem[]>(LIBRARY, [])
