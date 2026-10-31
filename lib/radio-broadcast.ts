@@ -51,16 +51,20 @@ import { HOUSE_SPONSOR_PROMO, sponsorFor } from '@/lib/radio-sponsors'
 export type BroadcastKind = 'news' | 'programme'
 
 /**
- * RADIO PAUSED (owner's decision, 31 Oct 2026): paused until a sponsor is
- * found. No new programmes are made (saves money); hourly news continues.
- * The station plays music, and the :30 slot replays recorded shows from the
- * programme library (free). To restart, set this to false.
+ * LOW-COST MODE (owner's decision, 31 Oct 2026, until a sponsor is found):
+ * - Fresh news every hour, but only 2 newly voiced stories per hour (1
+ *   overnight); the rest of each bulletin reuses stories already voiced.
+ * - Web check for breaking news twice a day (7am and 5pm Sydney).
+ * - The :30 slot replays recorded programmes from the library. Only ONE new
+ *   programme is made per day, from the least-covered show, until the
+ *   library holds LIBRARY_GOAL programmes; then no new programmes at all
+ *   (Political Hiccups is refreshed about once a week).
+ * Target about US$9-12 a month; the US$18 cap in radio-budget.ts still applies.
+ * Set to false to return to the full schedule.
  */
 export const RADIO_PAUSED = true
-
-/** In low-cost mode the news still airs at these Sydney hours. Owner's choice:
- * every hour, like before (about US$9 a month without new programmes). */
-const LOW_COST_NEWS_HOURS = Array.from({ length: 24 }, (_, h) => h)
+const LOW_COST_LIBRARY_GOAL = 60
+const LOW_COST_NEW_PROGRAMME_HOUR = 10 // Sydney time
 
 type Story = {
   title: string
@@ -332,7 +336,7 @@ type Breaking = { key: string; category: string; title: string; script: string; 
 type Candidate = { key: string; category: string; title: string; publishedAt: string; story?: Story; script?: string }
 
 /** Sydney hours when we also search the web for major breaking news. */
-const BREAKING_CHECK_HOURS = (process.env.DV_RADIO_BREAKING_HOURS || '6,12,17,21')
+const BREAKING_CHECK_HOURS = (process.env.DV_RADIO_BREAKING_HOURS || (RADIO_PAUSED ? '7,17' : '6,12,17,21'))
   .split(',')
   .map(Number)
   .filter((n) => Number.isFinite(n))
@@ -472,9 +476,6 @@ Return one entry per story, using the story's id exactly as given.
 }
 
 export async function produceNewsBulletin(now = new Date(), options: { forceBreakingCheck?: boolean } = {}) {
-  if (RADIO_PAUSED && !LOW_COST_NEWS_HOURS.includes(sydneyParts(nextAt(0, now)).hour)) {
-    return { kind: 'news' as const, skipped: 'low-cost mode: no news this hour' }
-  }
   if (!(await takeLock('news'))) return { kind: 'news' as const, skipped: 'another news run is in progress' }
   try {
     return await buildNews(now, options)
@@ -489,7 +490,7 @@ async function buildNews(now: Date, options: { forceBreakingCheck?: boolean }) {
   const overnight = hour >= 0 && hour < 6
   const maxAgeHours = overnight ? 20 : 14
   /** New stories we may voice this hour (each costs ~US$0.007). */
-  const newAllowance = Number(process.env.DV_RADIO_NEW_STORIES_PER_HOUR) || (overnight ? 1 : 3)
+  const newAllowance = Number(process.env.DV_RADIO_NEW_STORIES_PER_HOUR) || (overnight ? 1 : RADIO_PAUSED ? 2 : 3)
 
   const [stories, index, savedBreaking] = await Promise.all([
     latestStories(80),
@@ -695,7 +696,7 @@ const SHOWS: Show[] = [
 
 const POLITICAL_HICCUPS: Show = {
   name: 'Political Hiccups',
-  shelfDays: TOPICAL,
+  shelfDays: RADIO_PAUSED ? 8 : TOPICAL,
   categories: ['australia', 'new-zealand'],
   brief: 'Our signature show: a short, factual, politically independent and occasionally light-hearted look at genuine political contradictions, backflips and unusual moments in Australian and New Zealand politics only (not other countries). Use web search to verify each example from reputable reporting or official records. Apply exactly the same standard to government and opposition and across parties — aim for balance across the programme. Humour must be gentle and aimed at the contradiction, never at people suffering, and never about death, disaster or tragedy. Never invent or paraphrase as a quotation; only quote words you have verified, and attribute them.',
 }
@@ -739,7 +740,17 @@ function chooseShowToMake(library: LibraryItem[], forceShow?: string) {
   library.forEach((item) => lastMade.set(item.show, Date.parse(item.createdAt)))
   // Political Hiccups: made about every second day.
   const hiccups = lastMade.get(POLITICAL_HICCUPS.name) ?? 0
-  if (Date.now() - hiccups > 44 * 3_600_000) return POLITICAL_HICCUPS
+  if (Date.now() - hiccups > (RADIO_PAUSED ? 7 * 24 : 44) * 3_600_000) return POLITICAL_HICCUPS
+  if (RADIO_PAUSED) {
+    // Low-cost: grow variety. Pick the long-lasting show with the fewest
+    // programmes in the library (never-made shows first), oldest first.
+    const count = new Map<string, number>()
+    library.forEach((item) => count.set(item.show, (count.get(item.show) || 0) + 1))
+    const lasting = SHOWS.filter((s) => s.shelfDays >= 60)
+    return lasting.sort(
+      (a, b) => (count.get(a.name) || 0) - (count.get(b.name) || 0) || (lastMade.get(a.name) ?? 0) - (lastMade.get(b.name) ?? 0),
+    )[0]
+  }
   // Otherwise the show made least recently. Evergreen shows first while the library is small.
   const evergreenFirst = library.length < SEED_TARGET
   const score = (show: Show) =>
@@ -830,8 +841,11 @@ function chooseReplay(library: LibraryItem[], history: History) {
   const candidates = library.filter((item) => {
     if (Date.parse(item.expiresAt) < now) return false
     const ageDays = (now - Date.parse(item.createdAt)) / 86_400_000
-    // Newer programmes may repeat at a different time of day; older ones rest for a week.
-    const gapHours = ageDays < 3 ? 10 : 7 * 24
+    // Rest between plays grows with the library: 9 shows -> 18 hours apart,
+    // 24+ shows -> 2 days apart. (Full schedule: newer 10 h, older a week.)
+    const gapHours = RADIO_PAUSED
+      ? Math.min(48, Math.max(12, library.length * 2))
+      : ageDays < 3 ? 10 : 7 * 24
     if (item.lastPlayed && now - Date.parse(item.lastPlayed) < gapHours * 3_600_000) return false
     return true
   })
@@ -877,7 +891,6 @@ async function migrateExisting(library: LibraryItem[]) {
 }
 
 export async function produceProgramme(now = new Date(), forceShow?: string) {
-  if (RADIO_PAUSED) return { kind: 'programme' as const, skipped: 'radio paused until a sponsor is found' }
   if (!(await takeLock('programme'))) return { kind: 'programme' as const, skipped: 'another programme run is in progress' }
   try {
     return await buildProgramme(now, forceShow)
@@ -895,8 +908,10 @@ async function buildProgramme(now: Date, forceShow?: string) {
 
   // How many new programmes are due by now today?
   const slots = library.length < SEED_TARGET ? SEED_PROGRAMME_HOURS : NEW_PROGRAMME_HOURS
-  const due = slots.filter((h) => h <= hour).length
   const madeToday = library.filter((i) => i.madeBy === 'engine' && i.createdSydneyDate === sydneyDate).length
+  const due = RADIO_PAUSED
+    ? (hour >= LOW_COST_NEW_PROGRAMME_HOUR && library.length < LOW_COST_LIBRARY_GOAL ? 1 : 0)
+    : slots.filter((h) => h <= hour).length
   const wantNew = Boolean(forceShow) || madeToday < due || library.length === 0
 
   let airing: LibraryItem | null = null
