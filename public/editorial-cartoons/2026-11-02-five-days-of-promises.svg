@@ -1,13 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
 <title id="title">Downunder Voices Cartoon of the Day — Five days of promises</title>
-<desc id="desc">Black-and-white editorial cartoon: two identical fictional election candidates squeeze through a front door waving signs reading Promises and More Promises, while a tired New Zealand voter at a kitchen table piled with rent, power and grocery bills asks whether the promises can pay the rent. A wall calendar has Saturday 7 November circled.</desc>
+<desc id="desc">Pen-and-ink editorial cartoon: two identical, grinning fictional election candidates in suits squeeze through a front door holding signs reading Promises and More Promises, while a weary New Zealand voter at a kitchen table piled with rent, power and grocery bills rests a hand on his forehead and asks whether the promises can pay the rent. A wall calendar has Saturday 7 November circled.</desc>
 <defs>
-  <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-    <line x1="0" y1="0" x2="0" y2="10" stroke="#111" stroke-width="2"/>
-  </pattern>
-  <pattern id="hatchLight" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
-    <line x1="0" y1="0" x2="0" y2="14" stroke="#111" stroke-width="1.2"/>
-  </pattern>
+  <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#fff"/><line x1="0" y1="0" x2="0" y2="7" stroke="#111" stroke-width="2.2"/></pattern>
+  <pattern id="xhatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#fff"/><line x1="0" y1="0" x2="0" y2="7" stroke="#111" stroke-width="2.4"/><line x1="0" y1="0" x2="7" y2="0" stroke="#111" stroke-width="1.6"/></pattern>
+  <pattern id="hatchLight" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><rect width="11" height="11" fill="#fff"/><line x1="0" y1="0" x2="0" y2="11" stroke="#111" stroke-width="1.1"/></pattern>
+  <pattern id="boards" width="80" height="20" patternUnits="userSpaceOnUse"><rect width="80" height="20" fill="#fff"/><path d="M0 19.5 H80 M40 0 V20" stroke="#111" stroke-width="1.3"/><path d="M8 7 Q20 4 32 8 M50 12 Q62 9 74 13" stroke="#111" stroke-width="0.7" fill="none"/></pattern>
+  <filter id="ink" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
 </defs>
 <rect width="1200" height="760" fill="#fff"/>
 <rect x="24" y="24" width="1152" height="712" rx="8" fill="#fff" stroke="#111" stroke-width="6"/>
@@ -15,115 +14,166 @@
 <text x="600" y="108" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="18">SATIRE • 2 NOVEMBER 2026</text>
 <line x1="70" y1="132" x2="1130" y2="132" stroke="#111" stroke-width="4"/>
 
-<!-- back wall texture and floor -->
-<rect x="30" y="560" width="1140" height="80" fill="url(#hatchLight)" opacity="0.35"/>
-<line x1="30" y1="640" x2="1170" y2="640" stroke="#111" stroke-width="5"/>
-<rect x="30" y="640" width="1140" height="20" fill="url(#hatch)"/>
-
-<g stroke="#111" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <!-- front door frame and open door -->
-  <rect x="70" y="250" width="290" height="390" fill="#fff"/>
-  <path d="M360 250 L430 228 L430 662 L360 640 Z" fill="url(#hatchLight)"/>
-  <circle cx="415" cy="450" r="7" fill="#111"/>
-  <path d="M70 250 H360" stroke-width="9"/>
-
-  <!-- candidate 1 -->
-  <path d="M110 640 V470 Q110 400 165 395 Q220 400 220 470 V640" fill="url(#hatch)"/>
-  <path d="M145 397 L165 440 L185 397" fill="#fff"/>
-  <path d="M160 410 L170 410 L172 470 L165 480 L158 470 Z" fill="#111"/>
-  <circle cx="165" cy="350" r="38" fill="#fff"/>
-  <path d="M132 335 Q165 300 198 335" stroke-width="7"/>
-  <circle cx="152" cy="352" r="3.5" fill="#111"/>
-  <circle cx="178" cy="352" r="3.5" fill="#111"/>
-  <path d="M146 368 Q165 392 184 368" fill="#fff"/>
-  <path d="M150 370 H180" stroke-width="3"/>
-  <circle cx="200" cy="440" r="13" fill="#fff"/>
-  <path d="M195 452 L190 476 M205 452 L210 476" stroke-width="4"/>
-  <!-- arm and placard 1 -->
-  <path d="M112 440 Q80 380 120 300" stroke-width="16"/>
-  <line x1="120" y1="300" x2="120" y2="235" stroke-width="7"/>
-  <rect x="40" y="172" width="168" height="66" fill="#fff" stroke-width="6"/>
-  <text x="124" y="214" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="25" fill="#111" stroke="none">PROMISES!</text>
-
-  <!-- candidate 2 (identical) -->
-  <path d="M215 640 V475 Q215 405 270 400 Q325 405 325 475 V640" fill="url(#hatch)"/>
-  <path d="M250 402 L270 445 L290 402" fill="#fff"/>
-  <path d="M265 415 L275 415 L277 475 L270 485 L263 475 Z" fill="#111"/>
-  <circle cx="270" cy="355" r="38" fill="#fff"/>
-  <path d="M237 340 Q270 305 303 340" stroke-width="7"/>
-  <circle cx="257" cy="357" r="3.5" fill="#111"/>
-  <circle cx="283" cy="357" r="3.5" fill="#111"/>
-  <path d="M251 373 Q270 397 289 373" fill="#fff"/>
-  <path d="M255 375 H285" stroke-width="3"/>
-  <circle cx="305" cy="445" r="13" fill="#fff"/>
-  <path d="M300 457 L295 481 M310 457 L315 481" stroke-width="4"/>
-  <!-- arm and placard 2 -->
-  <path d="M322 445 Q350 380 315 300" stroke-width="16"/>
-  <line x1="315" y1="300" x2="315" y2="224" stroke-width="7"/>
-  <rect x="222" y="150" width="236" height="74" fill="#fff" stroke-width="6"/>
-  <text x="340" y="196" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="21" fill="#111" stroke="none">MORE PROMISES!</text>
-
+<g filter="url(#ink)" stroke="#111" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <!-- wall: skirting, wallpaper stripes, window -->
+  <path d="M440 140 V560 M560 140 V560" stroke-width="0.8" opacity="0.5"/>
+  <path d="M30 560 H1170" stroke-width="2"/><path d="M30 572 H1170" stroke-width="1.2"/>
+  <rect x="30" y="640" width="1140" height="26" fill="url(#boards)" stroke="none"/>
+  <path d="M30 640 H1170" stroke-width="4.5"/>
+  <!-- door frame and open door -->
+  <rect x="70" y="250" width="290" height="390" fill="#fff" stroke-width="4"/>
+  <rect x="60" y="240" width="310" height="10" fill="#fff" stroke-width="3"/>
+  <path d="M360 250 L430 230 L430 662 L360 640 Z" fill="url(#hatchLight)" stroke-width="4"/>
+  <path d="M372 280 L418 268 L418 430 L372 438 Z M372 470 L418 464 L418 630 L372 622 Z" stroke-width="2"/>
+  <circle cx="412" cy="452" r="6" fill="#111"/>
+  <!-- doormat -->
+  <path d="M85 640 L345 640 L355 652 L75 652 Z" fill="url(#hatch)" stroke-width="2"/>
+  <path d="M134 508 L136 632 M156 508 L155 632 M164 508 L165 632 M186 508 L184 632" />
+<path d="M134 508 L186 508 L184 632 L165 632 L160 528 L155 632 L136 632 Z" fill="url(#xhatch)"/>
+<path d="M130 640 Q130 628 152 630 L156 640 Z M190 640 Q190 628 168 630 L164 640 Z" fill="#111"/>
+<path d="M122 364 Q116 418 126 516 L194 516 Q204 418 198 364 Q180 354 160 358 Q140 354 122 364 Z" fill="url(#hatch)"/>
+<path d="M148 358 L160 404 L172 358 Z" fill="#fff"/>
+<path d="M146 358 L138 388 L150 384 L160 428 M174 358 L182 388 L170 384 L160 428" fill="#fff"/>
+<path d="M156 362 L164 362 L166 398 L160 406 L154 398 Z" fill="#111"/>
+<path d="M160 428 L160 508" stroke-width="1.5"/><circle cx="163" cy="446" r="2" fill="#111"/><circle cx="163" cy="470" r="2" fill="#111"/>
+<circle cx="178" cy="392" r="9" fill="#fff"/><circle cx="178" cy="392" r="4"/><path d="M174 400 L171 416 M182 400 L185 416" stroke-width="3"/>
+<path d="M198 368 Q208 428 200 486" stroke-width="20"/>
+<path d="M198 368 Q208 428 200 486" stroke="#fff" stroke-width="13"/>
+<path d="M198 368 Q208 428 200 486" stroke="url(#hatch)" stroke-width="13"/>
+<g transform="translate(200 496) rotate(180) scale(0.9)"><path d="M-10 6 Q-13 -6 -6 -11 L8 -12 Q14 -10 12 -4 L12 8 Q8 14 -2 13 Q-9 12 -10 6 Z" fill="#fff"/><path d="M-6 -11 Q-8 -4 -3 -4 M1 -12 Q-1 -4 4 -4 M8 -12 Q6 -4 11 -4" stroke-width="1.4"/><path d="M-10 2 Q-16 -2 -14 -8 Q-11 -10 -8 -6" fill="#fff" stroke-width="2"/></g>
+<line x1="116" y1="230" x2="116" y2="398" stroke-width="6"/>
+<path d="M124 366 Q102 338 116 296" stroke-width="20"/>
+<path d="M124 366 Q102 338 116 296" stroke="#fff" stroke-width="13"/>
+<path d="M124 366 Q102 338 116 296" stroke="url(#hatch)" stroke-width="13"/>
+<g transform="translate(116 286) rotate(0) scale(0.9)"><path d="M-10 6 Q-13 -6 -6 -11 L8 -12 Q14 -10 12 -4 L12 8 Q8 14 -2 13 Q-9 12 -10 6 Z" fill="#fff"/><path d="M-6 -11 Q-8 -4 -3 -4 M1 -12 Q-1 -4 4 -4 M8 -12 Q6 -4 11 -4" stroke-width="1.4"/><path d="M-10 2 Q-16 -2 -14 -8 Q-11 -10 -8 -6" fill="#fff" stroke-width="2"/></g>
+<rect x="40" y="160" width="170" height="70" fill="#fff" stroke-width="5"/>
+<rect x="46" y="166" width="158" height="58" stroke-width="1.5"/>
+<g transform="translate(160 306) rotate(0) scale(1.0)">
+<path d="M-11 30 L-12 52 M11 30 L12 52" />
+<path d="M-27 -8 Q-29 18 -18 33 Q-8 44 0 45 Q9 44 18 33 Q29 18 27 -8" fill="#fff"/>
+<path d="M-27 -2 Q-36 -4 -35 6 Q-34 15 -26 15" fill="#fff"/><path d="M-31 3 Q-29 8 -31 11" stroke-width="1.6"/>
+<path d="M27 -2 Q36 -4 35 6 Q34 15 26 15" fill="#fff"/><path d="M31 3 Q29 8 31 11" stroke-width="1.6"/>
+<path d="M-28 -6 Q-32 -42 -2 -46 Q30 -46 29 -8 Q24 -26 6 -30 Q-10 -24 -24 -26 Q-27 -18 -28 -6 Z" fill="#111"/>
+<path d="M-14 -30 Q0 -40 18 -34" stroke="#fff" stroke-width="1.5"/>
+<path d="M-19 -9 Q-12 -14 -5 -10 M5 -10 Q12 -14 19 -9" stroke-width="3"/>
+<path d="M-18 -1 Q-12 -6 -6 -1 Q-12 2 -18 -1 Z" fill="#fff"/><circle cx="-12" cy="-1.5" r="2.2" fill="#111"/>
+<path d="M6 -1 Q12 -6 18 -1 Q12 2 6 -1 Z" fill="#fff"/><circle cx="12" cy="-1.5" r="2.2" fill="#111"/>
+<path d="M-19 3 Q-15 5 -11 4 M11 4 Q15 5 19 3" stroke-width="1.2"/>
+<path d="M-1 0 Q-3 10 -6 15 Q-2 19 3 17" stroke-width="2.2"/>
+<path d="M-14 24 Q0 36 14 24 Q0 28 -14 24 Z" fill="#fff"/><path d="M-12 25.5 L12 25.5" stroke-width="1.2"/>
+<path d="M-17 21 Q-15 26 -13 25 M17 21 Q15 26 13 25" stroke-width="1.4"/>
+</g>
+  <path d="M249 516 L251 632 M271 516 L270 632 M279 516 L280 632 M301 516 L299 632" />
+<path d="M249 516 L301 516 L299 632 L280 632 L275 536 L270 632 L251 632 Z" fill="url(#xhatch)"/>
+<path d="M245 640 Q245 628 267 630 L271 640 Z M305 640 Q305 628 283 630 L279 640 Z" fill="#111"/>
+<path d="M237 372 Q231 426 241 524 L309 524 Q319 426 313 372 Q295 362 275 366 Q255 362 237 372 Z" fill="url(#hatch)"/>
+<path d="M263 366 L275 412 L287 366 Z" fill="#fff"/>
+<path d="M261 366 L253 396 L265 392 L275 436 M289 366 L297 396 L285 392 L275 436" fill="#fff"/>
+<path d="M271 370 L279 370 L281 406 L275 414 L269 406 Z" fill="#111"/>
+<path d="M275 436 L275 516" stroke-width="1.5"/><circle cx="278" cy="454" r="2" fill="#111"/><circle cx="278" cy="478" r="2" fill="#111"/>
+<circle cx="257" cy="400" r="9" fill="#fff"/><circle cx="257" cy="400" r="4"/><path d="M253 408 L250 424 M261 408 L264 424" stroke-width="3"/>
+<path d="M237 376 Q227 436 235 494" stroke-width="20"/>
+<path d="M237 376 Q227 436 235 494" stroke="#fff" stroke-width="13"/>
+<path d="M237 376 Q227 436 235 494" stroke="url(#hatch)" stroke-width="13"/>
+<g transform="translate(235 504) rotate(180) scale(0.9)"><path d="M-10 6 Q-13 -6 -6 -11 L8 -12 Q14 -10 12 -4 L12 8 Q8 14 -2 13 Q-9 12 -10 6 Z" fill="#fff"/><path d="M-6 -11 Q-8 -4 -3 -4 M1 -12 Q-1 -4 4 -4 M8 -12 Q6 -4 11 -4" stroke-width="1.4"/><path d="M-10 2 Q-16 -2 -14 -8 Q-11 -10 -8 -6" fill="#fff" stroke-width="2"/></g>
+<line x1="319" y1="220" x2="319" y2="406" stroke-width="6"/>
+<path d="M311 374 Q333 346 319 304" stroke-width="20"/>
+<path d="M311 374 Q333 346 319 304" stroke="#fff" stroke-width="13"/>
+<path d="M311 374 Q333 346 319 304" stroke="url(#hatch)" stroke-width="13"/>
+<g transform="translate(319 294) rotate(0) scale(0.9)"><path d="M-10 6 Q-13 -6 -6 -11 L8 -12 Q14 -10 12 -4 L12 8 Q8 14 -2 13 Q-9 12 -10 6 Z" fill="#fff"/><path d="M-6 -11 Q-8 -4 -3 -4 M1 -12 Q-1 -4 4 -4 M8 -12 Q6 -4 11 -4" stroke-width="1.4"/><path d="M-10 2 Q-16 -2 -14 -8 Q-11 -10 -8 -6" fill="#fff" stroke-width="2"/></g>
+<rect x="222" y="150" width="236" height="70" fill="#fff" stroke-width="5"/>
+<rect x="228" y="156" width="224" height="58" stroke-width="1.5"/>
+<g transform="translate(275 314) rotate(0) scale(1.0)">
+<path d="M-11 30 L-12 52 M11 30 L12 52" />
+<path d="M-27 -8 Q-29 18 -18 33 Q-8 44 0 45 Q9 44 18 33 Q29 18 27 -8" fill="#fff"/>
+<path d="M-27 -2 Q-36 -4 -35 6 Q-34 15 -26 15" fill="#fff"/><path d="M-31 3 Q-29 8 -31 11" stroke-width="1.6"/>
+<path d="M27 -2 Q36 -4 35 6 Q34 15 26 15" fill="#fff"/><path d="M31 3 Q29 8 31 11" stroke-width="1.6"/>
+<path d="M-28 -6 Q-32 -42 -2 -46 Q30 -46 29 -8 Q24 -26 6 -30 Q-10 -24 -24 -26 Q-27 -18 -28 -6 Z" fill="#111"/>
+<path d="M-14 -30 Q0 -40 18 -34" stroke="#fff" stroke-width="1.5"/>
+<path d="M-19 -9 Q-12 -14 -5 -10 M5 -10 Q12 -14 19 -9" stroke-width="3"/>
+<path d="M-18 -1 Q-12 -6 -6 -1 Q-12 2 -18 -1 Z" fill="#fff"/><circle cx="-12" cy="-1.5" r="2.2" fill="#111"/>
+<path d="M6 -1 Q12 -6 18 -1 Q12 2 6 -1 Z" fill="#fff"/><circle cx="12" cy="-1.5" r="2.2" fill="#111"/>
+<path d="M-19 3 Q-15 5 -11 4 M11 4 Q15 5 19 3" stroke-width="1.2"/>
+<path d="M-1 0 Q-3 10 -6 15 Q-2 19 3 17" stroke-width="2.2"/>
+<path d="M-14 24 Q0 36 14 24 Q0 28 -14 24 Z" fill="#fff"/><path d="M-12 25.5 L12 25.5" stroke-width="1.2"/>
+<path d="M-17 21 Q-15 26 -13 25 M17 21 Q15 26 13 25" stroke-width="1.4"/>
+</g>
   <!-- candidates' speech bubble -->
-  <path d="M440 318 L362 345 L462 336" fill="#fff"/>
+  <path d="M440 318 L360 352 L462 336" fill="#fff"/>
   <ellipse cx="595" cy="300" rx="198" ry="58" fill="#fff"/>
-  <path d="M444 320 L460 334" stroke="#fff" stroke-width="9"/>
-
+  <path d="M444 320 L460 334" stroke="#fff" stroke-width="8"/>
   <!-- wall calendar -->
+  <path d="M1075 160 L1075 170" stroke-width="2"/><circle cx="1075" cy="158" r="3" fill="#111"/>
   <rect x="1010" y="170" width="130" height="150" fill="#fff"/>
-  <line x1="1010" y1="210" x2="1140" y2="210" stroke-width="4"/>
-  <circle cx="1075" cy="268" r="40" stroke-width="5"/>
-
-  <!-- kitchen table -->
-  <rect x="610" y="520" width="420" height="22" fill="#fff"/>
-  <path d="M635 542 V640 M1005 542 V640" stroke-width="10"/>
-
-  <!-- voter, seated behind table -->
-  <path d="M740 520 V450 Q740 395 820 390 Q900 395 900 450 V520" fill="#fff"/>
-  <path d="M760 430 L770 520 M880 430 L870 520" stroke-width="3"/>
-  <circle cx="820" cy="340" r="44" fill="#fff"/>
-  <path d="M778 330 Q790 290 822 295 Q860 290 864 332" fill="url(#hatch)"/>
-  <path d="M795 338 Q805 332 815 338 M828 338 Q838 332 848 338" stroke-width="4"/>
-  <path d="M800 350 Q808 356 816 350 M828 350 Q836 356 844 350" stroke-width="3"/>
-  <path d="M806 372 Q822 366 838 374" stroke-width="4"/>
-  <!-- tired lines under eyes -->
-  <path d="M798 358 Q806 362 814 358 M830 358 Q838 362 846 358" stroke-width="2"/>
-  <!-- hand on forehead -->
-  <path d="M900 450 Q930 400 880 330" stroke-width="16"/>
-  <circle cx="872" cy="326" r="13" fill="#fff"/>
-
+  <rect x="1010" y="170" width="130" height="40" fill="url(#hatchLight)"/>
+  <path d="M1040 235 Q1075 222 1112 240 Q1118 285 1080 302 Q1036 300 1036 262 Q1036 240 1052 232" stroke-width="4"/>
+  <!-- table -->
+  <path d="M600 522 L1040 522 L1032 544 L608 544 Z" fill="url(#hatchLight)" stroke-width="3.5"/>
+  <path d="M625 544 L630 640 M1015 544 L1010 640" stroke-width="9"/>
+  <path d="M640 544 L644 640" stroke-width="2"/>
+  <path d="M757 520 Q749 427 775 395 Q795 383 815 387 Q835 383 855 395 Q881 427 873 520 Z" fill="url(#hatchLight)"/>
+<path d="M801 387 L815 417 L829 387" fill="#fff"/>
+<path d="M785 427 Q789 467 781 507 M839 447 Q845 477 837 511" stroke-width="1.6"/>
+<path d="M765 407 Q735 467 705 505" stroke-width="22"/>
+<path d="M765 407 Q735 467 705 505" stroke="#fff" stroke-width="15"/>
+<path d="M765 407 Q735 467 705 505" stroke="url(#hatchLight)" stroke-width="15"/>
+<path d="M863 403 Q907 467 899 515 Q885 427 859 327" stroke-width="22"/>
+<path d="M863 403 Q907 467 899 515 Q885 427 859 327" stroke="#fff" stroke-width="15"/>
+<path d="M863 403 Q907 467 899 515 Q885 427 859 327" stroke="url(#hatchLight)" stroke-width="15"/>
+<g transform="translate(815 335) rotate(-6) scale(1.08)">
+<path d="M-11 30 L-12 52 M11 30 L12 52" />
+<path d="M-27 -8 Q-29 18 -18 33 Q-8 44 0 45 Q9 44 18 33 Q29 18 27 -8" fill="#fff"/>
+<path d="M-27 -2 Q-36 -4 -35 6 Q-34 15 -26 15" fill="#fff"/><path d="M-31 3 Q-29 8 -31 11" stroke-width="1.6"/>
+<path d="M27 -2 Q36 -4 35 6 Q34 15 26 15" fill="#fff"/><path d="M31 3 Q29 8 31 11" stroke-width="1.6"/>
+<path d="M-28 -4 Q-30 -40 0 -44 Q29 -42 28 -4" fill="#fff"/>
+<path d="M-28 -4 Q-30 -22 -22 -30 M28 -4 Q30 -22 22 -30" stroke-width="5"/>
+<path d="M-12 -40 Q-6 -46 2 -42 M6 -43 Q12 -46 16 -40" stroke-width="1.6"/>
+<path d="M-19 -6 Q-12 -12 -5 -11 M5 -11 Q12 -12 19 -6" stroke-width="3"/>
+<path d="M-18 0 Q-12 -3 -6 0" /><path d="M6 0 Q12 -3 18 0"/>
+<path d="M-17 4 Q-12 7 -7 4 M7 4 Q12 7 17 4" stroke-width="1.3"/>
+<path d="M-16 8 Q-12 10 -8 8 M8 8 Q12 10 16 8" stroke-width="1"/>
+<path d="M-1 0 Q-3 10 -6 15 Q-2 19 3 17" stroke-width="2.2"/>
+<path d="M-9 29 Q0 25 10 30" stroke-width="2.4"/>
+<path d="M-6 37 Q0 39 6 37" stroke-width="1.2"/>
+</g>
+<g transform="translate(849 317) rotate(-120) scale(1.1)"><path d="M-10 6 Q-13 -6 -6 -11 L8 -12 Q14 -10 12 -4 L12 8 Q8 14 -2 13 Q-9 12 -10 6 Z" fill="#fff"/><path d="M-6 -11 Q-8 -4 -3 -4 M1 -12 Q-1 -4 4 -4 M8 -12 Q6 -4 11 -4" stroke-width="1.4"/><path d="M-10 2 Q-16 -2 -14 -8 Q-11 -10 -8 -6" fill="#fff" stroke-width="2"/></g>
   <!-- pile of bills -->
-  <rect x="650" y="480" width="110" height="40" fill="#fff" transform="rotate(-6 705 500)"/>
-  <rect x="660" y="445" width="110" height="40" fill="#fff" transform="rotate(4 715 465)"/>
-  <rect x="648" y="410" width="110" height="40" fill="#fff" transform="rotate(-3 703 430)"/>
-  <!-- teacup -->
-  <path d="M940 478 H990 L984 518 H946 Z" fill="#fff"/>
-  <path d="M990 488 Q1008 492 988 508" stroke-width="4"/>
-  <path d="M955 468 Q950 455 958 445 M972 468 Q967 455 975 445" stroke-width="3"/>
-
+  <g fill="#fff" stroke-width="2.4">
+    <path d="M640 512 L752 500 L756 520 L644 532 Z"/>
+    <path d="M652 478 L762 484 L760 506 L650 500 Z"/>
+    <path d="M644 446 L752 440 L754 464 L646 470 Z"/>
+    <path d="M650 420 L752 414 L754 438 L652 444 Z"/>
+  </g>
+  <!-- teacup and saucer -->
+  <path d="M930 518 Q960 528 992 518" stroke-width="2.4"/>
+  <path d="M940 480 H984 L978 514 Q962 520 946 514 Z" fill="#fff"/>
+  <path d="M984 488 Q1004 492 982 508" stroke-width="3"/>
+  <path d="M952 470 Q946 456 956 444 M968 470 Q962 456 972 444" stroke-width="1.8"/>
   <!-- voter's speech bubble -->
-  <path d="M865 238 L850 292 L895 244" fill="#fff"/>
+  <path d="M845 238 L830 286 L878 244" fill="#fff"/>
   <ellipse cx="862" cy="195" rx="146" ry="52" fill="#fff"/>
-  <path d="M867 242 L892 241" stroke="#fff" stroke-width="9"/>
+  <path d="M847 242 L874 241" stroke="#fff" stroke-width="8"/>
 </g>
 
-<!-- bubble and label text -->
 <g font-family="Georgia,serif" font-weight="700" fill="#111" text-anchor="middle">
+  <text x="125.0" y="205" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="21">PROMISES!</text>
+  <text x="340.0" y="195" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="18">MORE PROMISES!</text>
   <text x="595" y="293" font-size="20">VOTE FOR US —</text>
   <text x="595" y="321" font-size="20">EVERYTHING GETS CHEAPER!</text>
   <text x="862" y="189" font-size="20">LOVELY. CAN I PAY</text>
   <text x="862" y="217" font-size="20">THE RENT WITH IT?</text>
-  <text x="1075" y="198" font-size="18" font-family="Arial,sans-serif">NOVEMBER</text>
-  <text x="1075" y="282" font-size="40">7</text>
-  <text x="1075" y="308" font-size="13" font-family="Arial,sans-serif">SATURDAY</text>
+  <text x="1075" y="197" font-size="17" font-family="Arial,sans-serif" fill="#111">NOVEMBER</text>
+  <text x="1075" y="282" font-size="42">7</text>
+  <text x="1075" y="310" font-size="12" font-family="Arial,sans-serif">SATURDAY</text>
 </g>
-<g font-family="Arial,sans-serif" font-weight="700" fill="#111" text-anchor="middle" font-size="16">
-  <text x="705" y="506" transform="rotate(-6 705 500)">RENT</text>
-  <text x="715" y="471" transform="rotate(4 715 465)">POWER</text>
-  <text x="703" y="436" transform="rotate(-3 703 430)">GROCERIES</text>
+<g font-family="Arial,sans-serif" font-weight="700" fill="#111" text-anchor="middle" font-size="13">
+  <text x="698" y="521" transform="rotate(-6 698 516)">RENT — DUE</text>
+  <text x="706" y="497" transform="rotate(3 706 492)">POWER</text>
+  <text x="699" y="461" transform="rotate(-3 699 456)">GROCERIES</text>
+  <text x="701" y="434" transform="rotate(-3 701 430)">INSURANCE</text>
 </g>
-<text x="1075" y="345" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="16" fill="#111">VOTE</text>
+<text x="1075" y="342" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="15" fill="#111">VOTE</text>
 
-<!-- caption bar -->
 <rect x="30" y="670" width="1140" height="60" fill="#111"/>
 <text x="600" y="709" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="22" fill="#fff">NZ ELECTION: FIVE MORE DAYS OF PROMISES. ONE MORE WEEK OF RENT.</text>
 </svg>
