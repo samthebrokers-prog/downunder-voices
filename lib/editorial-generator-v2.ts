@@ -78,7 +78,15 @@ function similar(a: string, b: string): boolean {
   return overlap / Math.min(aa.size, bb.size) >= 0.6
 }
 
-async function generateCandidates(news: Story[], previous: Story[]): Promise<Candidate[]> {
+// The first editorial of each Sydney day becomes the homepage "Editorial of
+// the Day" banner, so that one is a public-accountability piece.
+const LEAD_INSTRUCTIONS = ` IMPORTANT: The FIRST candidate is today's Editorial of the Day, shown at the top of the homepage. It must be a strong public-accountability editorial about the most important Australian or New Zealand issue in the supplied material that affects ordinary households, public money or how governments and councils are run: for example council rates, cost of living, housing and rent, health, education, transport, government spending, broken promises or poor decisions by people in power. Never choose sport, entertainment, celebrity, weather or a one-off crime for the first candidate. Take a firm, clear editorial view and hold decision-makers to account, but stay fair: briefly give the other side's explanation and answer it. Use concrete figures and dates from the supplied facts so readers can see what it costs them. Do not call anyone corrupt, dishonest or incompetent as a statement of fact. End with what should change. Finish the first candidate's summary with a final paragraph beginning "Sources:" that names the supplied publishers the facts came from.`
+
+function sydneyDay(value: string | Date): string {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney' }).format(new Date(value))
+}
+
+async function generateCandidates(news: Story[], previous: Story[], lead = false): Promise<Candidate[]> {
   const apiKey = process.env.OPENAI_API_KEY
   if (!apiKey) throw new Error('OPENAI_API_KEY is missing.')
 
@@ -101,7 +109,7 @@ async function generateCandidates(news: Story[], previous: Story[]): Promise<Can
     },
     body: JSON.stringify({
       model: 'gpt-5-mini',
-      instructions: `You are the senior editorial writer for Downunder Voices. Produce exactly THREE genuinely different editorial candidates from the supplied verified news material. Australia and New Zealand are the home markets and must have clear priority. Prefer Australian and New Zealand issues whenever they are substantial. Use a World story only when it is globally significant or has a clear likely consequence for Australia or New Zealand, such as trade, fuel, markets, migration, war, climate, technology, shipping or public health. Do not force Pacific/community coverage. Each article must be an original 450-750 word newspaper-style editorial, written in natural Australian/New Zealand English, with a measured but clear editorial view. Use only facts supplied below. Do not invent quotes, figures, names, dates or claims. Do not copy source sentences. Explain why the issue matters to ordinary readers. Avoid clickbait and AI-style filler. Never tell readers how to vote. The title must be under 100 characters. sourceUrl must exactly match one supplied Source URL. region must be Australia, New Zealand or World. Return JSON only.`,
+      instructions: `You are the senior editorial writer for Downunder Voices. Produce exactly THREE genuinely different editorial candidates from the supplied verified news material. Australia and New Zealand are the home markets and must have clear priority. Prefer Australian and New Zealand issues whenever they are substantial. Use a World story only when it is globally significant or has a clear likely consequence for Australia or New Zealand, such as trade, fuel, markets, migration, war, climate, technology, shipping or public health. Do not force Pacific/community coverage. Each article must be an original 450-750 word newspaper-style editorial, written in natural Australian/New Zealand English, with a measured but clear editorial view. Use only facts supplied below. Do not invent quotes, figures, names, dates or claims. Do not copy source sentences. Explain why the issue matters to ordinary readers. Avoid clickbait and AI-style filler. Never tell readers how to vote. The title must be under 100 characters. sourceUrl must exactly match one supplied Source URL. region must be Australia, New Zealand or World. Return JSON only.${lead ? LEAD_INSTRUCTIONS : ''}`,
       input: `RECENT VERIFIED NEWS\n\n${material}\n\nRECENT DOWNUNDER VOICES EDITORIALS TO AVOID REPEATING\n\n${previousTitles}`,
       text: {
         format: {
@@ -221,7 +229,10 @@ export async function runEditorialGeneratorV2(): Promise<EditorialGenerationResu
 
   if (selected.length < 4) throw new Error('Not enough strong recent AU/NZ-relevant news to create editorials.')
 
-  const candidates = await generateCandidates(selected, previous)
+  // No editorial yet today (Sydney time): this run writes the banner piece.
+  const today = sydneyDay(now)
+  const lead = !previous.some(story => story.published_at && sydneyDay(story.published_at) === today)
+  const candidates = await generateCandidates(selected, previous, lead)
   const limit = Math.min(remaining, maxThisRun)
   const createdTitles: string[] = []
 
