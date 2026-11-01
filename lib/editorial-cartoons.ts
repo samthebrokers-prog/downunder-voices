@@ -6,6 +6,7 @@ export type EditorialCartoon = {
   summary: string
   sourceUrl: string
   sourceLabel: string
+  question?: string // short question posted under the cartoon on Facebook to invite comments
 }
 
 export const editorialCartoons: EditorialCartoon[] = [
@@ -19,6 +20,7 @@ export const editorialCartoons: EditorialCartoon[] = [
       'https://www.ottumwacourier.com/news/national_news/new-zealand-election-scheduled-for-nov-7-with-the-costs-of-living-and-housing-the/article_10f735da-b2ce-5877-8025-22d0330d68d1.html',
     sourceLabel:
       'Associated Press — New Zealand election set for 7 November, with the cost of living and housing key issues',
+    question: 'Will any of the election promises actually help your weekly budget? Tell us below.',
   },
   {
     date: '1 November 2026',
@@ -602,4 +604,12 @@ export const editorialCartoons: EditorialCartoon[] = [
 ]
 
 export const currentCartoon = editorialCartoons[0]
+
+/**
+ * A PNG/JPG copy of a cartoon for Facebook and link previews, which do not
+ * accept SVG. Each SVG cartoon has a same-named .png beside it.
+ */
+export function cartoonShareImage(cartoon: EditorialCartoon) {
+  return cartoon.image.replace(/\.svg$/i, '.png')
+}
 export const archivedCartoons = editorialCartoons.slice(1)

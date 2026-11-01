@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { currentCartoon } from '@/lib/editorial-cartoons'
-import { publishStoryToFacebook } from '@/lib/facebook'
+import { currentCartoon, cartoonShareImage } from '@/lib/editorial-cartoons'
+import { publishPhotoToFacebook } from '@/lib/facebook'
 
 export const maxDuration = 60
 
@@ -38,14 +38,18 @@ export async function GET(request: Request) {
     })
   }
 
-  const result = await publishStoryToFacebook({
-    title: `Cartoon of the Day: ${currentCartoon.headline}`,
-    slug: 'cartoon-of-the-day',
-    summary: currentCartoon.summary,
-    imageUrl: currentCartoon.image,
-    linkUrl:
-      SITE_URL.replace(/\/$/, '') +
-      '/cartoon-of-the-day',
+  // A full PICTURE post (not a link card) with a question to invite comments.
+  const pageUrl = SITE_URL.replace(/\/$/, '') + '/cartoon-of-the-day'
+  const message = [
+    `Cartoon of the Day: ${currentCartoon.headline}`,
+    currentCartoon.question ||
+      'What do you think? Tell us in the comments.',
+    `More cartoons: ${pageUrl}`,
+  ].join('\n\n')
+
+  const result = await publishPhotoToFacebook({
+    imageUrl: cartoonShareImage(currentCartoon),
+    message,
   })
 
   return NextResponse.json(

@@ -544,3 +544,48 @@ function facebookTeaser(summary: string, title: string) {
   const first = (text.match(/^.{20,240}?[.!?](\s|$)/) || [])[0]?.trim() || text
   return first.length > 240 ? first.slice(0, 239).trim() + '…' : first
 }
+
+/**
+ * Post a PICTURE (not a link card) to the Page — used for the daily cartoon.
+ * Facebook gives picture posts that people comment on far more reach than
+ * link posts (owner's decision, 2 Nov 2026). The image must be a PNG or JPG
+ * that Facebook can download; SVG is not accepted.
+ */
+export async function publishPhotoToFacebook({
+  imageUrl,
+  message,
+}: {
+  imageUrl: string
+  message: string
+}): Promise<FacebookPostResult> {
+  const pageId = process.env.FACEBOOK_PAGE_ID?.trim()
+  const credential = facebookCredential()
+
+  if (!pageId || !credential.accessToken) {
+    console.warn('Facebook photo post skipped: FACEBOOK_PAGE_ID and a Facebook access token are required.')
+    return { ok: false, skipped: true }
+  }
+
+  const resolvedToken = await resolveFacebookPageToken(pageId, credential.accessToken)
+  if (!resolvedToken.ok || !resolvedToken.accessToken) {
+    return { ok: false, error: resolvedToken.error || 'Facebook Page token resolution failed.' }
+  }
+
+  const siteUrl = SITE_URL.replace(/\/$/, '')
+  const publicImageUrl = imageUrl.startsWith('http')
+    ? imageUrl
+    : siteUrl + (imageUrl.startsWith('/') ? imageUrl : '/' + imageUrl)
+
+  const result = await sendFacebookRequest(
+    'https://graph.facebook.com/' + GRAPH_API_VERSION + '/' + pageId + '/photos',
+    new URLSearchParams({
+      message,
+      url: publicImageUrl,
+      access_token: resolvedToken.accessToken,
+    }),
+  )
+
+  if (result.ok) console.log('Facebook photo post created: ' + (result.id ?? 'unknown id'))
+  else console.error('Facebook photo post failed:', result.error)
+  return result
+}

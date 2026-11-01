@@ -155,7 +155,7 @@ async function generateCandidates(news: Story[], previous: Story[], lead = false
   return parsed.editorials.filter(item => item.title && item.summary && validUrls.has(item.sourceUrl))
 }
 
-async function publish(candidate: Candidate, source: Story, createdTitles: string[]): Promise<boolean> {
+async function publish(candidate: Candidate, source: Story, createdTitles: string[], postToFacebook: boolean): Promise<boolean> {
   if (createdTitles.some(title => similar(title, candidate.title))) return false
 
   const existing = await dbRequest<Array<{ id: string; title: string }>>('stories', {
@@ -184,13 +184,18 @@ async function publish(candidate: Candidate, source: Story, createdTitles: strin
     },
   })
 
-  const facebook = await publishStoryToFacebook({
-    title: candidate.title,
-    slug,
-    summary: candidate.summary,
-    imageUrl: imageUrl || undefined,
-  })
-  if (!facebook.ok) console.error(`Editorial published but Facebook delivery failed: ${candidate.title}`)
+  // Facebook gets ONE editorial a day (the day's lead, "Editorial of the Day").
+  // Every editorial still appears on the website. Flooding the Page with
+  // many link posts a day was cutting its reach (owner's decision, Nov 2026).
+  if (postToFacebook) {
+    const facebook = await publishStoryToFacebook({
+      title: candidate.title,
+      slug,
+      summary: candidate.summary,
+      imageUrl: imageUrl || undefined,
+    })
+    if (!facebook.ok) console.error(`Editorial published but Facebook delivery failed: ${candidate.title}`)
+  }
   return true
 }
 
@@ -241,7 +246,8 @@ export async function runEditorialGeneratorV2(): Promise<EditorialGenerationResu
     const source = selected.find(story => story.source_url === candidate.sourceUrl)
     if (!source) continue
     if (candidate.region === 'World' && !WORLD_AFFECTS_HOME_PATTERN.test(`${source.title} ${source.summary}`)) continue
-    if (await publish(candidate, source, createdTitles)) createdTitles.push(candidate.title)
+    const postToFacebook = lead && createdTitles.length === 0
+    if (await publish(candidate, source, createdTitles, postToFacebook)) createdTitles.push(candidate.title)
   }
 
   return { created: createdTitles.length, targetToday, titles: createdTitles }

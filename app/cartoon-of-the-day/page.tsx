@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { currentCartoon, archivedCartoons } from '@/lib/editorial-cartoons'
+import { currentCartoon, archivedCartoons, cartoonShareImage } from '@/lib/editorial-cartoons'
 
 export const metadata: Metadata = {
   title: 'Cartoon of the Day',
@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Downunder Voices — Cartoon of the Day',
     description: currentCartoon.headline,
-    images: [currentCartoon.image],
+    images: [cartoonShareImage(currentCartoon)],
   },
 }
 
