@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '1 November 2026',
+    image: '/editorial-cartoons/2026-11-01-halloween-spending.jpg',
+    alt: 'Black-and-white editorial cartoon of a fictional Australian family beside a pumpkin-shaped cash register as a Halloween receipt marked 510 million dollars frightens a friendly ghost',
+    headline: 'The costume may be fake — the bill is terrifying',
+    summary: 'Australians were forecast to spend $510 million on Halloween in 2026, up 2 per cent from last year even as participation fell to 18 per cent. The decorations may be pretend, but the household receipt is entirely real.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-10-31/halloween-displays-grow-confidence-and-profits/107326952',
+    sourceLabel:
+      'ABC Gold Coast — Halloween displays are getting bigger, building confidence for creators and profits for retailers',
+  },
+  {
     date: '31 October 2026',
     image: '/editorial-cartoons/2026-10-31-hector-afternoon-shift.jpg',
     alt: 'Black-and-white editorial cartoon of a giant friendly thundercloud called Hector punching a 3 pm time clock above the Tiwi Islands while a fictional weather observer checks a forecast',
