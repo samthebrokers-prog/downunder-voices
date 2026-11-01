@@ -10,6 +10,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '2 November 2026',
+    image: '/editorial-cartoons/2026-11-02-five-days-of-promises.svg',
+    alt: 'Black-and-white editorial cartoon of two identical fictional election candidates squeezing through a front door with signs reading Promises and More Promises, while a tired voter at a kitchen table piled with rent, power and grocery bills asks if the promises can pay the rent',
+    headline: 'Five more days of promises, one more week of rent',
+    summary: 'New Zealanders vote on Saturday 7 November, and the cost of living and housing are expected to decide a tight race. The campaign doorknock is in its final week — the bills on the kitchen table are not going anywhere.',
+    sourceUrl:
+      'https://www.ottumwacourier.com/news/national_news/new-zealand-election-scheduled-for-nov-7-with-the-costs-of-living-and-housing-the/article_10f735da-b2ce-5877-8025-22d0330d68d1.html',
+    sourceLabel:
+      'Associated Press — New Zealand election set for 7 November, with the cost of living and housing key issues',
+  },
+  {
     date: '1 November 2026',
     image: '/editorial-cartoons/2026-11-01-halloween-spending.jpg',
     alt: 'Black-and-white editorial cartoon of a fictional Australian family beside a pumpkin-shaped cash register as a Halloween receipt marked 510 million dollars frightens a friendly ghost',

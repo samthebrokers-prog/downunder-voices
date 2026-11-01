@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+<title id="title">Downunder Voices Cartoon of the Day — Five days of promises</title>
+<desc id="desc">Black-and-white editorial cartoon: two identical fictional election candidates squeeze through a front door waving signs reading Promises and More Promises, while a tired New Zealand voter at a kitchen table piled with rent, power and grocery bills asks whether the promises can pay the rent. A wall calendar has Saturday 7 November circled.</desc>
+<defs>
+  <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <line x1="0" y1="0" x2="0" y2="10" stroke="#111" stroke-width="2"/>
+  </pattern>
+  <pattern id="hatchLight" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+    <line x1="0" y1="0" x2="0" y2="14" stroke="#111" stroke-width="1.2"/>
+  </pattern>
+</defs>
+<rect width="1200" height="760" fill="#fff"/>
+<rect x="24" y="24" width="1152" height="712" rx="8" fill="#fff" stroke="#111" stroke-width="6"/>
+<text x="600" y="72" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="29">DOWNUNDER VOICES — CARTOON OF THE DAY</text>
+<text x="600" y="108" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="18">SATIRE • 2 NOVEMBER 2026</text>
+<line x1="70" y1="132" x2="1130" y2="132" stroke="#111" stroke-width="4"/>
+
+<!-- back wall texture and floor -->
+<rect x="30" y="560" width="1140" height="80" fill="url(#hatchLight)" opacity="0.35"/>
+<line x1="30" y1="640" x2="1170" y2="640" stroke="#111" stroke-width="5"/>
+<rect x="30" y="640" width="1140" height="20" fill="url(#hatch)"/>
+
+<g stroke="#111" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <!-- front door frame and open door -->
+  <rect x="70" y="250" width="290" height="390" fill="#fff"/>
+  <path d="M360 250 L430 228 L430 662 L360 640 Z" fill="url(#hatchLight)"/>
+  <circle cx="415" cy="450" r="7" fill="#111"/>
+  <path d="M70 250 H360" stroke-width="9"/>
+
+  <!-- candidate 1 -->
+  <path d="M110 640 V470 Q110 400 165 395 Q220 400 220 470 V640" fill="url(#hatch)"/>
+  <path d="M145 397 L165 440 L185 397" fill="#fff"/>
+  <path d="M160 410 L170 410 L172 470 L165 480 L158 470 Z" fill="#111"/>
+  <circle cx="165" cy="350" r="38" fill="#fff"/>
+  <path d="M132 335 Q165 300 198 335" stroke-width="7"/>
+  <circle cx="152" cy="352" r="3.5" fill="#111"/>
+  <circle cx="178" cy="352" r="3.5" fill="#111"/>
+  <path d="M146 368 Q165 392 184 368" fill="#fff"/>
+  <path d="M150 370 H180" stroke-width="3"/>
+  <circle cx="200" cy="440" r="13" fill="#fff"/>
+  <path d="M195 452 L190 476 M205 452 L210 476" stroke-width="4"/>
+  <!-- arm and placard 1 -->
+  <path d="M112 440 Q80 380 120 300" stroke-width="16"/>
+  <line x1="120" y1="300" x2="120" y2="235" stroke-width="7"/>
+  <rect x="40" y="172" width="168" height="66" fill="#fff" stroke-width="6"/>
+  <text x="124" y="214" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="25" fill="#111" stroke="none">PROMISES!</text>
+
+  <!-- candidate 2 (identical) -->
+  <path d="M215 640 V475 Q215 405 270 400 Q325 405 325 475 V640" fill="url(#hatch)"/>
+  <path d="M250 402 L270 445 L290 402" fill="#fff"/>
+  <path d="M265 415 L275 415 L277 475 L270 485 L263 475 Z" fill="#111"/>
+  <circle cx="270" cy="355" r="38" fill="#fff"/>
+  <path d="M237 340 Q270 305 303 340" stroke-width="7"/>
+  <circle cx="257" cy="357" r="3.5" fill="#111"/>
+  <circle cx="283" cy="357" r="3.5" fill="#111"/>
+  <path d="M251 373 Q270 397 289 373" fill="#fff"/>
+  <path d="M255 375 H285" stroke-width="3"/>
+  <circle cx="305" cy="445" r="13" fill="#fff"/>
+  <path d="M300 457 L295 481 M310 457 L315 481" stroke-width="4"/>
+  <!-- arm and placard 2 -->
+  <path d="M322 445 Q350 380 315 300" stroke-width="16"/>
+  <line x1="315" y1="300" x2="315" y2="224" stroke-width="7"/>
+  <rect x="222" y="150" width="236" height="74" fill="#fff" stroke-width="6"/>
+  <text x="340" y="196" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="21" fill="#111" stroke="none">MORE PROMISES!</text>
+
+  <!-- candidates' speech bubble -->
+  <path d="M440 318 L362 345 L462 336" fill="#fff"/>
+  <ellipse cx="595" cy="300" rx="198" ry="58" fill="#fff"/>
+  <path d="M444 320 L460 334" stroke="#fff" stroke-width="9"/>
+
+  <!-- wall calendar -->
+  <rect x="1010" y="170" width="130" height="150" fill="#fff"/>
+  <line x1="1010" y1="210" x2="1140" y2="210" stroke-width="4"/>
+  <circle cx="1075" cy="268" r="40" stroke-width="5"/>
+
+  <!-- kitchen table -->
+  <rect x="610" y="520" width="420" height="22" fill="#fff"/>
+  <path d="M635 542 V640 M1005 542 V640" stroke-width="10"/>
+
+  <!-- voter, seated behind table -->
+  <path d="M740 520 V450 Q740 395 820 390 Q900 395 900 450 V520" fill="#fff"/>
+  <path d="M760 430 L770 520 M880 430 L870 520" stroke-width="3"/>
+  <circle cx="820" cy="340" r="44" fill="#fff"/>
+  <path d="M778 330 Q790 290 822 295 Q860 290 864 332" fill="url(#hatch)"/>
+  <path d="M795 338 Q805 332 815 338 M828 338 Q838 332 848 338" stroke-width="4"/>
+  <path d="M800 350 Q808 356 816 350 M828 350 Q836 356 844 350" stroke-width="3"/>
+  <path d="M806 372 Q822 366 838 374" stroke-width="4"/>
+  <!-- tired lines under eyes -->
+  <path d="M798 358 Q806 362 814 358 M830 358 Q838 362 846 358" stroke-width="2"/>
+  <!-- hand on forehead -->
+  <path d="M900 450 Q930 400 880 330" stroke-width="16"/>
+  <circle cx="872" cy="326" r="13" fill="#fff"/>
+
+  <!-- pile of bills -->
+  <rect x="650" y="480" width="110" height="40" fill="#fff" transform="rotate(-6 705 500)"/>
+  <rect x="660" y="445" width="110" height="40" fill="#fff" transform="rotate(4 715 465)"/>
+  <rect x="648" y="410" width="110" height="40" fill="#fff" transform="rotate(-3 703 430)"/>
+  <!-- teacup -->
+  <path d="M940 478 H990 L984 518 H946 Z" fill="#fff"/>
+  <path d="M990 488 Q1008 492 988 508" stroke-width="4"/>
+  <path d="M955 468 Q950 455 958 445 M972 468 Q967 455 975 445" stroke-width="3"/>
+
+  <!-- voter's speech bubble -->
+  <path d="M865 238 L850 292 L895 244" fill="#fff"/>
+  <ellipse cx="862" cy="195" rx="146" ry="52" fill="#fff"/>
+  <path d="M867 242 L892 241" stroke="#fff" stroke-width="9"/>
+</g>
+
+<!-- bubble and label text -->
+<g font-family="Georgia,serif" font-weight="700" fill="#111" text-anchor="middle">
+  <text x="595" y="293" font-size="20">VOTE FOR US —</text>
+  <text x="595" y="321" font-size="20">EVERYTHING GETS CHEAPER!</text>
+  <text x="862" y="189" font-size="20">LOVELY. CAN I PAY</text>
+  <text x="862" y="217" font-size="20">THE RENT WITH IT?</text>
+  <text x="1075" y="198" font-size="18" font-family="Arial,sans-serif">NOVEMBER</text>
+  <text x="1075" y="282" font-size="40">7</text>
+  <text x="1075" y="308" font-size="13" font-family="Arial,sans-serif">SATURDAY</text>
+</g>
+<g font-family="Arial,sans-serif" font-weight="700" fill="#111" text-anchor="middle" font-size="16">
+  <text x="705" y="506" transform="rotate(-6 705 500)">RENT</text>
+  <text x="715" y="471" transform="rotate(4 715 465)">POWER</text>
+  <text x="703" y="436" transform="rotate(-3 703 430)">GROCERIES</text>
+</g>
+<text x="1075" y="345" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="16" fill="#111">VOTE</text>
+
+<!-- caption bar -->
+<rect x="30" y="670" width="1140" height="60" fill="#111"/>
+<text x="600" y="709" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="22" fill="#fff">NZ ELECTION: FIVE MORE DAYS OF PROMISES. ONE MORE WEEK OF RENT.</text>
+</svg>
