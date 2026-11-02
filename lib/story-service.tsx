@@ -113,7 +113,8 @@ function rowToStory(row: StoryRow): Story {
     sourceName: row.source_name,
     sourceUrl: row.source_url,
     image: (() => {
-      const imageUrl = row.image_url?.trim()
+      // Some feeds encode '&' in image links as '&#038;' or '&amp;', which breaks the picture.
+      const imageUrl = row.image_url?.trim().replace(/&#0?38;|&amp;/gi, '&')
       return imageUrl && imageUrl !== SHARED_DEFAULT_NEWS_IMAGE ? imageUrl : createFallbackImage(category, row.title)
     })(),
     communityAngle: row.community_angle || '',
@@ -121,6 +122,15 @@ function rowToStory(row: StoryRow): Story {
     status: row.status,
     publishedAt: row.published_at || undefined,
   }
+}
+
+// Drop empty paywall stubs, e.g. a story titled just "November 2026" whose text is "This content is locked".
+function isRealStory(story: Story): boolean {
+  const title = (story.title ?? '').trim()
+  const summary = (story.summary ?? '').toLowerCase()
+  if (/^(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{4}$/i.test(title)) return false
+  if (summary.includes('this content is locked')) return false
+  return true
 }
 
 function seedSorted(): Story[] {
@@ -135,7 +145,7 @@ export async function getPublishedStories(limit = 60): Promise<Story[]> {
     const rows = await dbRequest<StoryRow[]>('stories', {
       query: '?select=*' + '&status=eq.published' + '&order=published_at.desc.nullslast,created_at.desc' + `&limit=${limit}`,
     })
-    return rows.map(rowToStory)
+    return rows.map(rowToStory).filter(isRealStory)
   } catch (error) {
     console.error('Falling back to seed stories:', error)
     return seedSorted().slice(0, limit)
@@ -178,7 +188,7 @@ export async function getStoriesByCategory(category: CategorySlug, limit = 30): 
     const rows = await dbRequest<StoryRow[]>('stories', {
       query: '?select=*' + '&status=eq.published' + publicationFilter + `&category=in.(${encodedCategories})` + '&order=published_at.desc.nullslast,created_at.desc' + `&limit=${limit}`,
     })
-    return rows.map(rowToStory)
+    return rows.map(rowToStory).filter(isRealStory)
   } catch (error) {
     console.error(`Category lookup failed for ${normalisedCategory}:`, error)
     return seedSorted().filter((story) => normaliseCategorySlug(story.category) === normalisedCategory).slice(0, limit)
