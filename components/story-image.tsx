@@ -29,6 +29,8 @@ function usableSource(value: string) {
     "image-not-found",
     "spacer.gif",
     "blank.gif",
+    "rss-pixel",
+    "tracking-pixel",
   ];
 
   if (lower === "null" || lower === "undefined" || lower === "#" || lower.startsWith("data:")) return false;

@@ -3,20 +3,15 @@ import { notFound } from 'next/navigation'
 
 import { StoryCard } from '@/components/story-card'
 import {
-  categories,
   getCategory,
   type CategorySlug,
 } from '@/lib/news-data'
 import { getStoriesByCategory } from '@/lib/story-service'
 import { fetchFeed } from '@/lib/rss'
 
-export const revalidate = 300
-
-export function generateStaticParams() {
-  return categories.map((category) => ({
-    slug: category.slug,
-  }))
-}
+// Always render fresh from the database. Several sections were stuck on an
+// old cached copy from September, so these pages are no longer pre-built.
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({
   params,
@@ -351,10 +346,8 @@ export default async function CategoryPage({
   const filteredStories =
     rawStories
       .filter((story) => {
-        if (
-          category.slug !== 'sports' &&
-          category.slug !== 'social-issues'
-        ) {
+        // Opinion pieces stay; every news section shows only the last 14 days.
+        if (category.slug === 'editorial-view') {
           return true
         }
 
@@ -392,8 +385,21 @@ export default async function CategoryPage({
         return bTime - aTime
       })
 
+  // If a section has nothing from the last 14 days, show its newest
+  // stories rather than an empty page.
+  const fallbackStories =
+    filteredStories.length > 0
+      ? filteredStories
+      : [...rawStories]
+          .sort(
+            (a, b) =>
+              new Date(b.publishedAt ?? b.date ?? 0).getTime() -
+              new Date(a.publishedAt ?? a.date ?? 0).getTime(),
+          )
+          .slice(0, 12)
+
   const stories =
-    removeDuplicateStories(filteredStories)
+    removeDuplicateStories(fallbackStories)
 
   const freshEditorComments =
     category.slug === 'social-issues'

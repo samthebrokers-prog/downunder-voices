@@ -1,11 +1,17 @@
 import Link from 'next/link'
 
+import { StoryCard } from '@/components/story-card'
+import { getStoriesByCategory } from '@/lib/story-service'
+
+export const revalidate = 600
+
 export const metadata = {
   title: 'Downunder Original | Downunder Voices',
   description: 'Original stories, analysis and everyday issues from Australia and New Zealand.',
 }
 
-export default function DownunderOriginalPage() {
+export default async function DownunderOriginalPage() {
+  const originals = (await getStoriesByCategory('editorial-view', 12)).slice(0, 12)
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
       <header className="border-b border-slate-200 pb-6">
@@ -40,6 +46,18 @@ export default function DownunderOriginalPage() {
           </div>
         </article>
       </section>
+
+      {originals.length > 0 && (
+        <section className="border-t border-slate-200 py-8">
+          <h2 className="font-serif text-3xl font-black text-slate-950">Latest from the Editor</h2>
+          <p className="mt-2 text-sm text-slate-600">Original Downunder Voices commentary, updated every day.</p>
+          <div className="mt-6 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+            {originals.map((story) => (
+              <StoryCard key={story.id} story={story} />
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   )
 }
