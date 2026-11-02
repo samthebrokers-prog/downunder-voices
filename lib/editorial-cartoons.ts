@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '3 November 2026',
+    image: '/editorial-cartoons/2026-11-03-perth-cup-lunch.svg',
+    alt: 'Black-and-white pen-and-ink editorial cartoon of a Perth office at 12 noon, where fictional workers stop to watch the Melbourne Cup on a wall TV: a woman in a fascinator cheers with sweep ticket number 9, a man freezes with a sandwich halfway to his mouth, and a colleague at her desk holds a bowler hat full of sweep tickets',
+    headline: 'In Perth, the race that stops the nation also stops lunch',
+    summary:
+      'The 166th Melbourne Cup starts at 3pm AEDT on Tuesday, which lands at exactly 12 noon in Perth. Across the west, the office sweep and the lunch break are about to collide.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-02/melbourne-cup-time-how-to-watch-weather-forecast/107333664',
+    sourceLabel:
+      'ABC News — Melbourne Cup start times around the country, how to watch and the weather forecast',
+    question: 'Is your workplace running a Cup sweep this year, and does lunch wait for the race? Tell us below.',
+  },
+  {
     date: '2 November 2026',
     image: '/editorial-cartoons/2026-11-02-bluewater-emu.jpg',
     alt: 'Black-and-white editorial cartoon of a fictional female emu wearing an inspector cap and checking a yard-inspection clipboard beside a Bluewater letterbox',
