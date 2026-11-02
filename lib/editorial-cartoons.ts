@@ -12,6 +12,18 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '2 November 2026',
+    image: '/editorial-cartoons/2026-11-02-bluewater-emu.jpg',
+    alt: 'Black-and-white editorial cartoon of a fictional female emu wearing an inspector cap and checking a yard-inspection clipboard beside a Bluewater letterbox',
+    headline: 'The neighbourhood watch has feathers',
+    summary: 'A locally famous female emu known as Eric has become a persistent visitor around Bluewater, north of Townsville. Wildlife authorities say the bird has shown no concerning behaviour, while locals have embraced her as an unofficial mascot—and apparently a very thorough yard inspector.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-01/eric-the-emu-terrorising-pensioner/107288146',
+    sourceLabel:
+      'ABC North Queensland — Bluewater’s locally famous female emu becomes a regular yard visitor',
+    question: 'Would you trust this feathered inspector in your yard? Tell us below.',
+  },
+  {
+    date: '2 November 2026',
     image: '/editorial-cartoons/2026-11-02-five-days-of-promises.svg',
     alt: 'Black-and-white editorial cartoon of two identical fictional election candidates squeezing through a front door with signs reading Promises and More Promises, while a tired voter at a kitchen table piled with rent, power and grocery bills asks if the promises can pay the rent',
     headline: 'Five more days of promises, one more week of rent',
