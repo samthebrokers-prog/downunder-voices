@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '4 November 2026',
+    image: '/editorial-cartoons/2026-11-04-cup-day-surest-bet.svg',
+    alt: 'Black-and-white pen-and-ink editorial cartoon of a suburban lounge room decorated with Melbourne Cup bunting: a fictional man holding a losing betting ticket says his horse came in last, while a fictional woman in a fascinator holds up a bank letter reading New repayment: up again and says the bank’s horse won again. The TV shows a horse race and a ticker saying the cash rate is up 0.25 to 4.85 per cent, and a dog sleeps on the rug',
+    headline: 'Cup Day’s surest bet',
+    summary:
+      'On Melbourne Cup day the Reserve Bank lifted the cash rate by 0.25 percentage points to 4.85 per cent, its fifth rise this year and the highest level since 2008. For many households, the race result mattered less than what the decision means for the next mortgage repayment.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-03/rba-interest-rates-markets-live-coverage/107338216',
+    sourceLabel:
+      'ABC News — The Reserve Bank lifts the cash rate to an 18-year high of 4.85 per cent on Cup Day',
+    question: 'How are you handling this year’s rate rises at home? Tell us below.',
+  },
+  {
     date: '3 November 2026',
     image: '/editorial-cartoons/2026-11-03-cowgorithm.jpg',
     alt: 'Black-and-white editorial cartoon of fictional dairy cows wearing GPS collars following virtual fence lines toward a robotic milking bay while the lead cow holds a paddock-map tablet',
