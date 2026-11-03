@@ -6,7 +6,9 @@
  * ONE cheap AI call, and saves the result as a public JSON file. The
  * Audaisuki website simply reads that file — it needs no keys of its own.
  *
- * Cost: about US$0.005 per run (well under US$1 a month). Every call goes
+ * Each story also gets an easy-English version and 3–5 key words for English learners.
+ *
+ * Cost: about US$0.008 per run (well under US$1 a month). Every call goes
  * through the shared spending guard in lib/radio-budget.ts.
  */
 import { dbRequest } from '@/lib/db'
@@ -33,6 +35,10 @@ export type AudaisukiNewsItem = {
   summaryJa: string
   tag: string
   titleEn: string
+  /** Learn English from the news: 2–3 short sentences in easy English (older items may not have this). */
+  easyEn?: string
+  /** 3–5 key English words from the story with their Japanese meaning. */
+  words?: { en: string; ja: string }[]
   source: string
   link: string
   publishedAt: string
@@ -77,6 +83,8 @@ export async function produceAudaisukiNews() {
 - 日本人の読者に関係する点（ビザ、仕事、物価、安全など）があれば、事実の範囲で一言添えてよい。
 - tag は次から一つ選ぶ: ${TAGS.join('、')}
 - 各記事の id は入力の id をそのまま返すこと。
+- 英語学習者のために、easyEn に「やさしい英語」（英検3級〜準2級、CEFR A2〜B1程度）で2〜3文の短い要約を書くこと。短い文、よく使う単語だけを使い、事実は日本語要約と同じにすること。
+- words には、記事に出てくる役に立つ英単語・表現を3〜5個選び、en（英語）と ja（短い日本語の意味）を書くこと。オーストラリア英語の表現があれば優先してよい。
 `.trim()
 
   const input = fresh
@@ -93,12 +101,22 @@ export async function produceAudaisukiNews() {
         items: {
           type: 'object',
           additionalProperties: false,
-          required: ['id', 'titleJa', 'summaryJa', 'tag'],
+          required: ['id', 'titleJa', 'summaryJa', 'tag', 'easyEn', 'words'],
           properties: {
             id: { type: 'string' },
             titleJa: { type: 'string' },
             summaryJa: { type: 'string' },
             tag: { type: 'string', enum: TAGS },
+            easyEn: { type: 'string' },
+            words: {
+              type: 'array',
+              items: {
+                type: 'object',
+                additionalProperties: false,
+                required: ['en', 'ja'],
+                properties: { en: { type: 'string' }, ja: { type: 'string' } },
+              },
+            },
           },
         },
       },
@@ -115,7 +133,7 @@ export async function produceAudaisukiNews() {
       reasoning: { effort: 'low' },
       instructions,
       input,
-      max_output_tokens: 6000,
+      max_output_tokens: 9000,
       text: { format: { type: 'json_schema', name: 'audaisuki_news', schema, strict: true } },
     }),
   })
@@ -141,7 +159,9 @@ export async function produceAudaisukiNews() {
       .flatMap((o) => o.content || [])
       .map((c) => c.text || '')
       .join('')
-  const parsed = JSON.parse(text) as { items: { id: string; titleJa: string; summaryJa: string; tag: string }[] }
+  const parsed = JSON.parse(text) as {
+    items: { id: string; titleJa: string; summaryJa: string; tag: string; easyEn?: string; words?: { en: string; ja: string }[] }[]
+  }
 
   const now = new Date().toISOString()
   const bySlug = new Map(fresh.map((s) => [s.slug, s]))
@@ -155,6 +175,8 @@ export async function produceAudaisukiNews() {
       summaryJa: item.summaryJa.trim(),
       tag: item.tag,
       titleEn: s.title,
+      easyEn: item.easyEn?.trim() || undefined,
+      words: (item.words || []).filter((w) => w.en && w.ja).slice(0, 5),
       source: s.source_name || 'Downunder Voices',
       link: `${SITE}/story/${s.slug}`,
       publishedAt: s.published_at,
