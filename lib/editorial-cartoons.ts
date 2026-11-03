@@ -12,6 +12,18 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '3 November 2026',
+    image: '/editorial-cartoons/2026-11-03-cowgorithm.jpg',
+    alt: 'Black-and-white editorial cartoon of fictional dairy cows wearing GPS collars following virtual fence lines toward a robotic milking bay while the lead cow holds a paddock-map tablet',
+    headline: 'The cow-gorithm clocks on',
+    summary: 'A north-west Tasmanian dairy has become the first in Australia to combine GPS-enabled virtual fencing collars with robotic milking. The system can guide cattle to the dairy and identify each cow automatically—giving the farmers more time away from the morning shift.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-02/cows-moved-and-milked-by-ai-and-robots-in-australian-first/107327042',
+    sourceLabel:
+      'ABC News — Cows moved and milked by AI and robots in Australian first',
+    question: 'Would you trust a cow-gorithm to run the morning shift? Tell us below.',
+  },
+  {
+    date: '3 November 2026',
     image: '/editorial-cartoons/2026-11-03-perth-cup-lunch.svg',
     alt: 'Black-and-white pen-and-ink editorial cartoon of a Perth office at 12 noon, where fictional workers stop to watch the Melbourne Cup on a wall TV: a woman in a fascinator cheers with sweep ticket number 9, a man freezes with a sandwich halfway to his mouth, and a colleague at her desk holds a bowler hat full of sweep tickets',
     headline: 'In Perth, the race that stops the nation also stops lunch',
