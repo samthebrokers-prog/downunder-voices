@@ -5,6 +5,7 @@ import {
 import { writeArticle } from '@/lib/ai-writer'
 import { publishStoryToFacebook } from '@/lib/facebook'
 import { shouldImportStory } from '@/lib/news-filter'
+import { correctFeedCategory } from '@/lib/story-corrections'
 import {
   classifyCategory,
   fetchFeed,
@@ -1636,7 +1637,12 @@ export async function runNewsImport(): Promise<
                 finalTitle,
 
               category:
-                finalCategory,
+                correctFeedCategory(
+                  finalCategory,
+                  finalTitle,
+                  finalSummary,
+                  item.link,
+                ),
 
               summary:
                 finalSummary,

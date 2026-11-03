@@ -164,7 +164,8 @@ async function publish(candidate: Candidate, source: Story, createdTitles: strin
   if (existing.some(story => similar(story.title, candidate.title))) return false
 
   const slug = uniqueSlug(candidate.title, `${candidate.sourceUrl}-${Date.now()}`)
-  const imageUrl = source.image_url || null
+  // Originals use our own illustration, never the source outlet's photo (owner request, Nov 2026).
+  const imageUrl = null
 
   await dbRequest('stories', {
     method: 'POST',

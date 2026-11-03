@@ -5,6 +5,7 @@ import {
   type Story,
   type CategorySlug,
 } from '@/lib/news-data'
+import { correctFeedCategory, displaySourceName, isBorrowedImage, removeDuplicateStories } from '@/lib/story-corrections'
 
 type StoryRow = {
   id: string
@@ -102,7 +103,10 @@ function createFallbackImage(category: CategorySlug, title: string): string {
 }
 
 function rowToStory(row: StoryRow): Story {
-  const category = normaliseCategorySlug(row.category)
+  const isOriginal = row.import_method === 'automated-editorial'
+  const savedCategory = normaliseCategorySlug(row.category)
+  // Feed stories filed in the wrong region are corrected; our own pieces keep their section.
+  const category = isOriginal || !row.source_url ? savedCategory : correctFeedCategory(savedCategory, row.title, row.summary, row.source_url)
   return {
     id: row.id,
     slug: row.slug,
@@ -110,11 +114,13 @@ function rowToStory(row: StoryRow): Story {
     category,
     date: (row.published_at ?? row.created_at).slice(0, 10),
     summary: row.summary,
-    sourceName: row.source_name,
+    sourceName: displaySourceName(row.source_name, row.source_url),
     sourceUrl: row.source_url,
     image: (() => {
       // Some feeds encode '&' in image links as '&#038;' or '&amp;', which breaks the picture.
       const imageUrl = row.image_url?.trim().replace(/&#0?38;|&amp;/gi, '&')
+      // Our own originals never carry another outlet's photo: use our own illustration instead.
+      if (isOriginal && isBorrowedImage(imageUrl)) return createFallbackImage(category, row.title)
       return imageUrl && imageUrl !== SHARED_DEFAULT_NEWS_IMAGE ? imageUrl : createFallbackImage(category, row.title)
     })(),
     communityAngle: row.community_angle || '',
@@ -145,7 +151,7 @@ export async function getPublishedStories(limit = 60): Promise<Story[]> {
     const rows = await dbRequest<StoryRow[]>('stories', {
       query: '?select=*' + '&status=eq.published' + '&order=published_at.desc.nullslast,created_at.desc' + `&limit=${limit}`,
     })
-    return rows.map(rowToStory).filter(isRealStory)
+    return removeDuplicateStories(rows.map(rowToStory).filter(isRealStory))
   } catch (error) {
     console.error('Falling back to seed stories:', error)
     return seedSorted().slice(0, limit)
@@ -188,7 +194,14 @@ export async function getStoriesByCategory(category: CategorySlug, limit = 30): 
     const rows = await dbRequest<StoryRow[]>('stories', {
       query: '?select=*' + '&status=eq.published' + publicationFilter + `&category=in.(${encodedCategories})` + '&order=published_at.desc.nullslast,created_at.desc' + `&limit=${limit}`,
     })
-    return rows.map(rowToStory).filter(isRealStory)
+    // Leave out stories whose corrected section is a different one (e.g. an Australian story saved under World).
+    const accepted = new Set<string>(acceptedCategories)
+    return removeDuplicateStories(
+      rows
+        .map(rowToStory)
+        .filter(isRealStory)
+        .filter((story) => accepted.has(story.category) || (normalisedCategory === 'new-zealand' && story.category === 'nz-pacific')),
+    )
   } catch (error) {
     console.error(`Category lookup failed for ${normalisedCategory}:`, error)
     return seedSorted().filter((story) => normaliseCategorySlug(story.category) === normalisedCategory).slice(0, limit)
