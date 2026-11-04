@@ -33,7 +33,7 @@ function usableSource(value: string) {
     "tracking-pixel",
   ];
 
-  if (lower === "null" || lower === "undefined" || lower === "#" || lower.startsWith("data:")) return false;
+  if (lower === "null" || lower === "undefined" || lower === "#" || (lower.startsWith("data:") && !lower.startsWith("data:image/svg+xml"))) return false;
   if (!lower.startsWith("http://") && !lower.startsWith("https://") && !lower.startsWith("/")) return false;
   return !blockedImages.some((blocked) => lower.includes(blocked));
 }

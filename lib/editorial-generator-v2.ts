@@ -1,6 +1,7 @@
 import { dbRequest, isDatabaseConfigured } from '@/lib/db'
 import { uniqueSlug } from '@/lib/slug'
 import { publishStoryToFacebook } from '@/lib/facebook'
+import { editorialImageUrl } from '@/lib/editorial-image'
 
 type Region = 'Australia' | 'New Zealand' | 'World'
 
@@ -164,8 +165,9 @@ async function publish(candidate: Candidate, source: Story, createdTitles: strin
   if (existing.some(story => similar(story.title, candidate.title))) return false
 
   const slug = uniqueSlug(candidate.title, `${candidate.sourceUrl}-${Date.now()}`)
-  // Originals use our own illustration, never the source outlet's photo (owner request, Nov 2026).
-  const imageUrl = null
+  // Originals use our own illustration, never the source outlet's photo, and
+  // must ALWAYS have a picture (owner rules, Nov 2026).
+  const imageUrl = editorialImageUrl(slug)
 
   await dbRequest('stories', {
     method: 'POST',
@@ -193,7 +195,7 @@ async function publish(candidate: Candidate, source: Story, createdTitles: strin
       title: candidate.title,
       slug,
       summary: candidate.summary,
-      imageUrl: imageUrl || undefined,
+      imageUrl,
     })
     if (!facebook.ok) console.error(`Editorial published but Facebook delivery failed: ${candidate.title}`)
   }
