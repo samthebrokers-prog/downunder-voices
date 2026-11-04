@@ -29,6 +29,55 @@ const TOPICS: Array<[string, RegExp]> = [
   ['Technology', /\b(technology|cyber|artificial intelligence|ai|data|online|social media)\b/i],
 ]
 
+// Search words for a real photo from Pexels (free licence) for each topic.
+const PHOTO_QUERIES: Record<string, string> = {
+  'Councils & Rates': 'city council building',
+  Housing: 'suburban houses street',
+  Health: 'hospital corridor',
+  Education: 'school classroom',
+  Politics: 'parliament building',
+  Trade: 'container port ship',
+  'Energy & Climate': 'power lines electricity',
+  Justice: 'courthouse',
+  'Jobs & Economy': 'workers office',
+  'Cost of Living': 'supermarket shopping',
+  Environment: 'australian farm landscape',
+  Technology: 'cyber security computer',
+}
+const REGION_QUERIES: Record<string, string> = {
+  'New Zealand': 'auckland city',
+  Australia: 'sydney city',
+  World: 'world city skyline',
+}
+
+function hash(value: string) {
+  let h = 0
+  for (let i = 0; i < value.length; i++) h = (h * 31 + value.charCodeAt(i)) >>> 0
+  return h
+}
+
+// Owner request (4 Nov 2026): editorials need real pictures. Pick a real,
+// freely licensed Pexels photo that matches the topic. Different editorials
+// on the same topic get different photos. Returns null if Pexels is not set up.
+async function pexelsPhoto(query: string, slug: string): Promise<string | null> {
+  const key = process.env.PEXELS_API_KEY
+  if (!key) return null
+  try {
+    const res = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&orientation=landscape&per_page=30`, {
+      headers: { Authorization: key },
+      signal: AbortSignal.timeout(8000),
+    })
+    if (!res.ok) return null
+    const data = (await res.json()) as { photos?: Array<{ src?: { landscape?: string; large?: string } }> }
+    const photos = (data.photos ?? []).filter((p) => p.src?.landscape || p.src?.large)
+    if (!photos.length) return null
+    const pick = photos[hash(slug) % photos.length]
+    return pick.src?.landscape || pick.src?.large || null
+  } catch {
+    return null
+  }
+}
+
 function topicOf(text: string) {
   return TOPICS.find(([, pattern]) => pattern.test(text))?.[0] ?? 'Commentary'
 }
@@ -59,6 +108,16 @@ export async function GET(_request: Request, { params }: RouteContext) {
   const text = `${story?.title || ''} ${(story?.summary || '').slice(0, 600)}`
   const topic = topicOf(text)
   const region = regionOf(text)
+
+  const photo = await pexelsPhoto(PHOTO_QUERIES[topic] ?? REGION_QUERIES[region], slug)
+  if (photo) {
+    return new Response(null, {
+      status: 302,
+      headers: { Location: photo, 'Cache-Control': 'public, s-maxage=604800, stale-while-revalidate=2592000' },
+    })
+  }
+
+  // No photo available: plain newspaper opinion panel instead.
 
   const serifText = `“${topic}Downunder Voices`
   const serif = await loadSerif(serifText)

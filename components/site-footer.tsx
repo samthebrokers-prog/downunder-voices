@@ -118,6 +118,7 @@ export function SiteFooter() {
 
         <div className="mt-8 flex flex-col justify-between gap-3 border-t border-slate-800 pt-6 text-xs text-slate-500 sm:flex-row">
           <p>© {new Date().getFullYear()} Downunder Voices. All rights reserved.</p>
+          <p>Editorial photos provided by <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer" className="underline">Pexels</a>.</p>
           <p>Giving Communities a Voice. Holding Power Accountable.</p>
         </div>
       </div>
