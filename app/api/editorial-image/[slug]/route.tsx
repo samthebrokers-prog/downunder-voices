@@ -6,33 +6,49 @@ export const runtime = 'edge'
 type RouteContext = { params: Promise<{ slug: string }> }
 
 /*
- * Original Downunder Voices artwork for every "From the Editor" editorial.
- * Owner rule (Nov 2026): an editorial must ALWAYS have a picture, and it is
- * always our own illustration, never another outlet's photo. The drawing and
- * colours are picked from the editorial's topic so each one looks different.
+ * Picture for every "From the Editor" editorial (owner rule, Nov 2026: an
+ * editorial must ALWAYS have a picture, and it is our own artwork, never
+ * another outlet's photo). Owner feedback 4 Nov 2026: cartoon clip-art looked
+ * like "a day care school notice", so this is a plain, serious newspaper
+ * opinion-column panel: dark ground, red quotation mark, topic and region.
+ * The headline is not repeated here because it already sits beside/below it.
  */
 
-type Motif = 'house' | 'money' | 'health' | 'school' | 'vote' | 'ship' | 'power' | 'justice' | 'globe' | 'council'
-
-const MOTIFS: Array<[Motif, RegExp]> = [
-  ['council', /\b(council|rates|ratepayer|mayor|local government)\b/i],
-  ['house', /\b(housing|house|home|rent|renters|mortgage|property|landlord|tenant)\b/i],
-  ['health', /\b(health|hospital|doctor|nurse|gp|medical|patients?|mental health|pharmac)\b/i],
-  ['school', /\b(school|education|teacher|students?|university|tertiary|childcare)\b/i],
-  ['vote', /\b(election|vote|voters|ballot|candidate|campaign|parliament|mp|labour|national|liberal|greens|coalition)\b/i],
-  ['ship', /\b(trade|tariff|shipping|port|export|import|freight|customs|supply chain)\b/i],
-  ['power', /\b(energy|electricity|power|fuel|petrol|climate|emissions|gas)\b/i],
-  ['justice', /\b(court|justice|police|crime|law|judge|prison|sentenc)\b/i],
-  ['money', /\b(cost of living|inflation|wage|budget|tax|price|prices|spending|interest rate|economy|jobs|benefit|pension)\b/i],
+const TOPICS: Array<[string, RegExp]> = [
+  ['Councils & Rates', /\b(council|councillors?|rates|ratepayers?|mayor|local government)\b/i],
+  ['Housing', /\b(housing|house prices|homes?|rent|renters|mortgage|property|landlords?|tenants?)\b/i],
+  ['Health', /\b(health|hospitals?|doctors?|nurses?|gp|medical|patients?|mental health|pharmac)\b/i],
+  ['Education', /\b(schools?|education|teachers?|students?|university|tertiary|childcare)\b/i],
+  ['Politics', /\b(election|vote|voters|ballot|candidates?|campaign|parliament|mp|minister|government)\b/i],
+  ['Trade', /\b(trade|tariffs?|shipping|ports?|exports?|imports?|freight|customs|supply chain)\b/i],
+  ['Energy & Climate', /\b(energy|electricity|power prices|fuel|petrol|climate|emissions|gas)\b/i],
+  ['Justice', /\b(court|justice|police|crime|judge|prison|sentenc\w*)\b/i],
+  ['Jobs & Economy', /\b(jobs|unemployment|labour market|wages?|workers|economy|recession)\b/i],
+  ['Cost of Living', /\b(cost of living|inflation|prices|budget|tax|spending|interest rates?|benefits?|pension)\b/i],
+  ['Environment', /\b(environment|wildlife|conservation|farmers?|farming|dingoes|cane toads?|biosecurity)\b/i],
+  ['Technology', /\b(technology|cyber|artificial intelligence|ai|data|online|social media)\b/i],
 ]
 
-const THEMES = [
-  { bg1: '#3f0d0d', bg2: '#111827', accent: '#dc2626' },
-  { bg1: '#0b1a33', bg2: '#1e293b', accent: '#ef4444' },
-  { bg1: '#1c1917', bg2: '#44403c', accent: '#f97316' },
-  { bg1: '#052e2b', bg2: '#0f172a', accent: '#f59e0b' },
-  { bg1: '#1e1b4b', bg2: '#0f172a', accent: '#e11d48' },
-]
+// Search words for a real photo for each topic.
+const PHOTO_QUERIES: Record<string, string> = {
+  'Councils & Rates': 'town hall',
+  Housing: 'suburban houses street',
+  Health: 'hospital ward',
+  Education: 'school classroom',
+  Politics: 'parliament building',
+  Trade: 'container port ship',
+  'Energy & Climate': 'power lines electricity',
+  Justice: 'courthouse',
+  'Jobs & Economy': 'factory workers',
+  'Cost of Living': 'supermarket aisle',
+  Environment: 'australian outback farm',
+  Technology: 'computer server room',
+}
+const REGION_QUERIES: Record<string, string> = {
+  'New Zealand': 'auckland skyline',
+  Australia: 'sydney skyline',
+  World: 'city skyline night',
+}
 
 function hash(value: string) {
   let h = 0
@@ -40,166 +56,129 @@ function hash(value: string) {
   return h
 }
 
-function pickMotif(text: string, slug: string): Motif {
-  const found = MOTIFS.find(([, pattern]) => pattern.test(text))
-  if (found) return found[0]
-  const spare: Motif[] = ['globe', 'money', 'council', 'vote']
-  return spare[hash(slug) % spare.length]
+// Owner request (4 Nov 2026): editorials need real pictures. Pick a real
+// photo from Wikimedia Commons that matches the topic. Only public-domain /
+// CC0 photos are used, so no credit line is legally needed (credit is still
+// given in the site footer). No account or key is needed. Different
+// editorials on the same topic get different photos. Returns null if nothing
+// suitable is found, and the plain opinion panel is shown instead.
+async function commonsPhoto(query: string, slug: string): Promise<string | null> {
+  try {
+    const api = new URL('https://commons.wikimedia.org/w/api.php')
+    api.search = new URLSearchParams({
+      action: 'query',
+      format: 'json',
+      generator: 'search',
+      gsrsearch: `${query} filetype:bitmap`,
+      gsrnamespace: '6',
+      gsrlimit: '40',
+      prop: 'imageinfo',
+      iiprop: 'url|size|mime|extmetadata',
+      iiurlwidth: '1200',
+      origin: '*',
+    }).toString()
+    const res = await fetch(api.toString(), {
+      headers: { 'Api-User-Agent': 'DownunderVoices/1.0 (https://www.downundervoices.com)' },
+      signal: AbortSignal.timeout(8000),
+    })
+    if (!res.ok) return null
+    type Info = { thumburl?: string; width?: number; height?: number; mime?: string; extmetadata?: Record<string, { value?: string }> }
+    const data = (await res.json()) as { query?: { pages?: Record<string, { title?: string; imageinfo?: Info[] }> } }
+    const photos = Object.values(data.query?.pages ?? {})
+      .map((page) => page.imageinfo?.[0])
+      .filter((info): info is Info => {
+        if (!info?.thumburl || info.mime !== 'image/jpeg') return false
+        if (!info.width || !info.height || info.width < 1200 || info.width < info.height * 1.25) return false
+        const licence = `${info.extmetadata?.LicenseShortName?.value ?? ''} ${info.extmetadata?.License?.value ?? ''}`.toLowerCase()
+        return /public domain|\bpd\b|cc0|pd-/.test(licence)
+      })
+    if (!photos.length) return null
+    return photos[hash(slug) % photos.length].thumburl ?? null
+  } catch {
+    return null
+  }
 }
 
-function regionTag(text: string) {
-  if (/\b(new zealand|aotearoa|auckland|wellington|christchurch|nz)\b/i.test(text)) return 'Aotearoa New Zealand'
-  if (/\b(australia|australian|sydney|melbourne|brisbane|perth|adelaide|canberra|nsw|victoria|queensland)\b/i.test(text)) return 'Australia'
-  return 'Australia · New Zealand · World'
+function topicOf(text: string) {
+  return TOPICS.find(([, pattern]) => pattern.test(text))?.[0] ?? 'Commentary'
 }
 
-function Drawing({ motif, accent }: { motif: Motif; accent: string }) {
-  const paper = '#f8fafc'
-  const ink = '#0f172a'
-  const grey = '#94a3b8'
-  switch (motif) {
-    case 'house':
-      return (
-        <svg width="380" height="380" viewBox="0 0 380 380">
-          <path d="M60 190 L190 80 L320 190 Z" fill={accent} />
-          <rect x="90" y="185" width="200" height="140" fill={paper} />
-          <rect x="165" y="245" width="50" height="80" fill={ink} />
-          <rect x="108" y="210" width="40" height="36" fill={grey} />
-          <rect x="232" y="210" width="40" height="36" fill={grey} />
-          <rect x="250" y="95" width="26" height="60" fill={paper} />
-          <text x="300" y="80" fontSize="64" fontWeight="700" fill={paper} fontFamily="Arial">$</text>
-        </svg>
-      )
-    case 'money':
-      return (
-        <svg width="380" height="380" viewBox="0 0 380 380">
-          <rect x="70" y="250" width="240" height="70" rx="10" fill={paper} />
-          <rect x="70" y="210" width="240" height="40" rx="8" fill={grey} />
-          <path d="M80 110 L150 160 L210 120 L300 70" fill="none" stroke={accent} strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M268 64 L306 66 L300 102" fill="none" stroke={accent} strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" />
-          <circle cx="190" cy="285" r="24" fill="none" stroke={ink} strokeWidth="6" />
-          <text x="179" y="297" fontSize="34" fontWeight="700" fill={ink} fontFamily="Arial">$</text>
-        </svg>
-      )
-    case 'health':
-      return (
-        <svg width="380" height="380" viewBox="0 0 380 380">
-          <rect x="70" y="130" width="240" height="190" rx="10" fill={paper} />
-          <rect x="160" y="60" width="60" height="70" fill={paper} />
-          <rect x="172" y="160" width="36" height="110" rx="4" fill={accent} />
-          <rect x="135" y="197" width="110" height="36" rx="4" fill={accent} />
-          <rect x="95" y="285" width="190" height="10" rx="5" fill={grey} />
-        </svg>
-      )
-    case 'school':
-      return (
-        <svg width="380" height="380" viewBox="0 0 380 380">
-          <path d="M40 150 L190 80 L340 150 L190 220 Z" fill={paper} />
-          <path d="M100 180 L100 260 Q190 310 280 260 L280 180 L190 222 Z" fill={grey} />
-          <path d="M320 160 L320 260" stroke={accent} strokeWidth="10" strokeLinecap="round" />
-          <circle cx="320" cy="270" r="16" fill={accent} />
-        </svg>
-      )
-    case 'vote':
-      return (
-        <svg width="380" height="380" viewBox="0 0 380 380">
-          <rect x="70" y="170" width="240" height="160" rx="14" fill={paper} />
-          <rect x="70" y="170" width="240" height="40" rx="14" fill={accent} />
-          <rect x="140" y="182" width="100" height="12" rx="6" fill={ink} />
-          <g transform="rotate(-8 190 120)">
-            <rect x="130" y="50" width="120" height="140" rx="8" fill="#ffffff" stroke="#cbd5e1" strokeWidth="4" />
-            <path d="M154 94 L163 103 L182 76" fill="none" stroke={accent} strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" />
-            <rect x="186" y="86" width="48" height="8" rx="4" fill={grey} />
-            <rect x="150" y="130" width="84" height="8" rx="4" fill={grey} />
-          </g>
-        </svg>
-      )
-    case 'ship':
-      return (
-        <svg width="380" height="380" viewBox="0 0 380 380">
-          <rect x="110" y="150" width="60" height="50" fill={accent} />
-          <rect x="175" y="150" width="60" height="50" fill={paper} />
-          <rect x="240" y="150" width="50" height="50" fill={grey} />
-          <rect x="140" y="98" width="60" height="50" fill={paper} />
-          <rect x="205" y="98" width="60" height="50" fill={accent} />
-          <path d="M50 205 L330 205 L295 280 L85 280 Z" fill={ink} stroke={paper} strokeWidth="5" />
-          <path d="M30 310 Q70 290 110 310 T190 310 T270 310 T350 310" fill="none" stroke={paper} strokeWidth="8" strokeLinecap="round" />
-        </svg>
-      )
-    case 'power':
-      return (
-        <svg width="380" height="380" viewBox="0 0 380 380">
-          <circle cx="190" cy="190" r="130" fill={paper} />
-          <path d="M210 70 L130 205 L188 205 L165 315 L255 165 L198 165 Z" fill={accent} />
-        </svg>
-      )
-    case 'justice':
-      return (
-        <svg width="380" height="380" viewBox="0 0 380 380">
-          <rect x="182" y="70" width="16" height="230" fill={paper} />
-          <rect x="120" y="300" width="140" height="22" rx="6" fill={paper} />
-          <rect x="80" y="100" width="220" height="12" rx="6" fill={paper} />
-          <path d="M95 112 L60 200 L130 200 Z" fill="none" stroke={paper} strokeWidth="5" />
-          <path d="M285 112 L250 200 L320 200 Z" fill="none" stroke={paper} strokeWidth="5" />
-          <path d="M55 200 Q95 240 135 200 Z" fill={accent} />
-          <path d="M245 200 Q285 240 325 200 Z" fill={accent} />
-        </svg>
-      )
-    case 'council':
-      return (
-        <svg width="380" height="380" viewBox="0 0 380 380">
-          <path d="M60 140 L190 70 L320 140 Z" fill={paper} />
-          <rect x="70" y="140" width="240" height="18" fill={grey} />
-          <rect x="90" y="165" width="26" height="120" fill={paper} />
-          <rect x="145" y="165" width="26" height="120" fill={paper} />
-          <rect x="209" y="165" width="26" height="120" fill={paper} />
-          <rect x="264" y="165" width="26" height="120" fill={paper} />
-          <rect x="60" y="290" width="260" height="24" fill={paper} />
-          <rect x="230" y="40" width="110" height="64" rx="8" fill={accent} />
-          <text x="246" y="84" fontSize="30" fontWeight="700" fill="#ffffff" fontFamily="Arial">RATES</text>
-        </svg>
-      )
-    default:
-      return (
-        <svg width="380" height="380" viewBox="0 0 380 380">
-          <circle cx="190" cy="190" r="130" fill="none" stroke={paper} strokeWidth="8" />
-          <ellipse cx="190" cy="190" rx="60" ry="130" fill="none" stroke={paper} strokeWidth="6" />
-          <path d="M60 190 L320 190 M80 125 L300 125 M80 255 L300 255" stroke={paper} strokeWidth="6" />
-          <circle cx="262" cy="262" r="26" fill={accent} />
-        </svg>
-      )
+function regionOf(text: string) {
+  if (/\b(new zealand|aotearoa|auckland|wellington|christchurch|dunedin|hamilton|tauranga|nz)\b/i.test(text)) return 'New Zealand'
+  if (/\b(australia|australian|sydney|melbourne|brisbane|perth|adelaide|canberra|hobart|darwin|nsw|victoria|queensland|tasmania)\b/i.test(text)) return 'Australia'
+  return 'World'
+}
+
+// A proper newspaper serif (Playfair Display). If it can't be loaded the
+// picture still renders in the default font.
+async function loadSerif(text: string): Promise<ArrayBuffer | null> {
+  try {
+    const css = await (await fetch(`https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&text=${encodeURIComponent(text)}`)).text()
+    const url = css.match(/src: url\((.+?)\) format\('(opentype|truetype)'\)/)?.[1]
+    if (!url) return null
+    const res = await fetch(url)
+    return res.ok ? await res.arrayBuffer() : null
+  } catch {
+    return null
   }
 }
 
 export async function GET(_request: Request, { params }: RouteContext) {
   const { slug } = await params
   const story = await getStoryBySlug(slug).catch(() => null)
-  const title = story?.title || 'From the Editor'
-  const text = `${title} ${(story?.summary || '').slice(0, 600)}`
-  const motif = pickMotif(text, slug)
-  const theme = THEMES[hash(slug) % THEMES.length]
-  const tag = regionTag(text)
+  const text = `${story?.title || ''} ${(story?.summary || '').slice(0, 600)}`
+  const topic = topicOf(text)
+  const region = regionOf(text)
+
+  const photo = (await commonsPhoto(PHOTO_QUERIES[topic] ?? REGION_QUERIES[region], slug))
+    ?? (PHOTO_QUERIES[topic] ? await commonsPhoto(REGION_QUERIES[region], slug) : null)
+  if (photo) {
+    return new Response(null, {
+      status: 302,
+      headers: { Location: photo, 'Cache-Control': 'public, s-maxage=604800, stale-while-revalidate=2592000' },
+    })
+  }
+
+  // No photo available: plain newspaper opinion panel instead.
+
+  const serifText = `“${topic}Downunder Voices`
+  const serif = await loadSerif(serifText)
+  const serifFamily = serif ? 'Playfair' : 'serif'
 
   return new ImageResponse(
     (
-      <div style={{ width: '100%', height: '100%', display: 'flex', position: 'relative', overflow: 'hidden', background: `linear-gradient(135deg, ${theme.bg1} 0%, ${theme.bg2} 100%)`, color: 'white', fontFamily: 'Georgia, serif' }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 14, display: 'flex', background: theme.accent }} />
-        <div style={{ position: 'absolute', right: -140, top: -140, width: 560, height: 560, borderRadius: 9999, display: 'flex', background: theme.accent, opacity: 0.14 }} />
-        <div style={{ position: 'absolute', right: 50, top: 125, display: 'flex' }}>
-          <Drawing motif={motif} accent={theme.accent} />
+      <div style={{ width: '100%', height: '100%', display: 'flex', position: 'relative', background: '#15171a', color: '#f5f1e8' }}>
+        <div style={{ position: 'absolute', left: 0, top: 0, width: 14, height: '100%', display: 'flex', background: '#b91c1c' }} />
+        <div style={{ position: 'absolute', left: 150, right: 150, top: 120, height: 2, display: 'flex', background: '#3a3d42' }} />
+        <div style={{ position: 'absolute', left: 150, right: 150, bottom: 120, height: 2, display: 'flex', background: '#3a3d42' }} />
+
+        <div style={{ position: 'absolute', right: 150, top: 64, display: 'flex', fontFamily: 'sans-serif', fontSize: 22, letterSpacing: 4, color: '#9ca3af' }}>
+          FROM THE EDITOR
         </div>
-        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%', padding: '64px 72px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontFamily: 'Arial, sans-serif', fontSize: 26, fontWeight: 700, letterSpacing: 2 }}>
-            <span style={{ background: theme.accent, padding: '10px 20px', borderRadius: 6 }}>FROM THE EDITOR</span>
-          </div>
-          <div style={{ display: 'flex', maxWidth: 680, fontSize: title.length > 80 ? 44 : 54, lineHeight: 1.12, fontWeight: 700 }}>{title}</div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', fontFamily: 'Arial, sans-serif', fontSize: 25, fontWeight: 700 }}>
-            <span>DOWNUNDER VOICES</span>
-            <span style={{ opacity: 0.85 }}>{tag}</span>
-          </div>
+
+        <div style={{ position: 'absolute', left: 135, top: 105, display: 'flex', fontFamily: serifFamily, fontSize: 420, lineHeight: 1, color: '#b91c1c' }}>
+          “
+        </div>
+
+        <div style={{ position: 'absolute', left: 470, right: 150, top: 210, bottom: 150, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', fontFamily: serifFamily, fontSize: topic.length > 14 ? 76 : 92, fontWeight: 700, lineHeight: 1.05 }}>{topic}</div>
+          <div style={{ display: 'flex', marginTop: 26, width: 90, height: 4, background: '#dc2626' }} />
+          <div style={{ display: 'flex', marginTop: 24, fontFamily: 'sans-serif', fontSize: 28, letterSpacing: 5, color: '#d1d5db' }}>{region.toUpperCase()}</div>
+        </div>
+
+        <div style={{ position: 'absolute', left: 150, bottom: 54, display: 'flex', fontFamily: serifFamily, fontSize: 34, fontWeight: 700 }}>
+          Downunder Voices
+        </div>
+        <div style={{ position: 'absolute', right: 150, bottom: 60, display: 'flex', fontFamily: 'sans-serif', fontSize: 18, letterSpacing: 3, color: '#9ca3af' }}>
+          AUSTRALIA · NEW ZEALAND · WORLD
         </div>
       </div>
     ),
-    { width: 1200, height: 630, headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800' } },
+    {
+      width: 1200,
+      height: 630,
+      fonts: serif ? [{ name: 'Playfair', data: serif, weight: 700, style: 'normal' }] : undefined,
+      headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800' },
+    },
   )
 }
