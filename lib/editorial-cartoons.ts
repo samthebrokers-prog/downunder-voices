@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '5 November 2026',
+    image: '/editorial-cartoons/2026-11-05-snapper-night-surf-moon.svg',
+    alt: 'Black-and-white pen-and-ink editorial cartoon of a beach at night below a rocky headland: two floodlight towers marked Night surf trial light up the waves for a lone surfer, while baby sea turtles climb out of a nest beside a Turtle nesting, please keep lights low sign and march towards the floodlights instead of the sea. A fictional beach ranger in a wide-brimmed hat and hi-vis vest points up at the real moon as the lead hatchling asks which one of those is the moon',
+    headline: 'Which one of those is the moon?',
+    summary:
+      'A Gold Coast council committee has backed a temporary lighting trial so surfers can ride Snapper Rocks at night during next year’s world surfing tour stop. A Griffith University turtle expert says the lights should be kept well away from nesting areas, because bright coastal lighting can confuse hatchlings that use the night horizon to find the sea.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-04/gold-coast-local-news-briefing/107344084',
+    sourceLabel:
+      'ABC Gold Coast — Council committee backs a night-surf lighting trial at Snapper Rocks as a turtle expert urges caution',
+    question: 'Should beaches light up for night surfing, or stay dark for the turtles? Tell us below.',
+  },
+  {
     date: '4 November 2026',
     image: '/editorial-cartoons/2026-11-04-blue-corn-graduation.jpg',
     alt: 'Black-and-white editorial cartoon of an original blue-corn cob graduating with a commercial-crop diploma after six years studying Australian conditions in a Victorian farm field',
