@@ -15,38 +15,38 @@ type RouteContext = { params: Promise<{ slug: string }> }
  */
 
 const TOPICS: Array<[string, RegExp]> = [
+  ['Environment', /\b(environment|wildlife|conservation|farmers?|farming|dingoes|cane toads?|biosecurity)\b/i],
   ['Councils & Rates', /\b(council|councillors?|rates|ratepayers?|mayor|local government)\b/i],
   ['Housing', /\b(housing|house prices|homes?|rent|renters|mortgage|property|landlords?|tenants?)\b/i],
   ['Health', /\b(health|hospitals?|doctors?|nurses?|gp|medical|patients?|mental health|pharmac)\b/i],
   ['Education', /\b(schools?|education|teachers?|students?|university|tertiary|childcare)\b/i],
-  ['Politics', /\b(election|vote|voters|ballot|candidates?|campaign|parliament|mp|minister|government)\b/i],
   ['Trade', /\b(trade|tariffs?|shipping|ports?|exports?|imports?|freight|customs|supply chain)\b/i],
   ['Energy & Climate', /\b(energy|electricity|power prices|fuel|petrol|climate|emissions|gas)\b/i],
   ['Justice', /\b(court|justice|police|crime|judge|prison|sentenc\w*)\b/i],
   ['Jobs & Economy', /\b(jobs|unemployment|labour market|wages?|workers|economy|recession)\b/i],
   ['Cost of Living', /\b(cost of living|inflation|prices|budget|tax|spending|interest rates?|benefits?|pension)\b/i],
-  ['Environment', /\b(environment|wildlife|conservation|farmers?|farming|dingoes|cane toads?|biosecurity)\b/i],
+  ['Politics', /\b(election|voters|ballot|candidates?|campaign|parliament|polls?)\b/i],
   ['Technology', /\b(technology|cyber|artificial intelligence|ai|data|online|social media)\b/i],
 ]
 
-// Search words for a real photo for each topic.
-const PHOTO_QUERIES: Record<string, string> = {
-  'Councils & Rates': 'town hall',
-  Housing: 'suburban houses street',
-  Health: 'hospital ward',
-  Education: 'school classroom',
-  Politics: 'parliament building',
-  Trade: 'container port ship',
-  'Energy & Climate': 'power lines electricity',
-  Justice: 'courthouse',
-  'Jobs & Economy': 'factory workers',
-  'Cost of Living': 'supermarket aisle',
-  Environment: 'australian outback farm',
-  Technology: 'computer server room',
+// Search words for a real photo for each topic, local to the region where it helps.
+const PHOTO_QUERIES: Record<string, Partial<Record<string, string>> & { any: string }> = {
+  'Councils & Rates': { 'New Zealand': 'Auckland Town Hall', Australia: 'Sydney Town Hall', any: 'town hall' },
+  Housing: { 'New Zealand': 'Auckland suburb houses', Australia: 'Australian suburb houses', any: 'suburban houses street' },
+  Health: { 'New Zealand': 'New Zealand hospital', Australia: 'Australian hospital', any: 'hospital ward' },
+  Education: { 'New Zealand': 'New Zealand school', Australia: 'Australian school', any: 'school classroom' },
+  Politics: { 'New Zealand': 'New Zealand Parliament Buildings Wellington', Australia: 'Parliament House Canberra', any: 'parliament chamber' },
+  Trade: { 'New Zealand': 'Port of Tauranga', Australia: 'Port Botany containers', any: 'container port ship' },
+  'Energy & Climate': { 'New Zealand': 'New Zealand wind farm', Australia: 'Australia solar farm', any: 'power lines electricity' },
+  Justice: { any: 'courthouse' },
+  'Jobs & Economy': { 'New Zealand': 'Auckland Queen Street', Australia: 'Sydney CBD street', any: 'city workers street' },
+  'Cost of Living': { 'New Zealand': 'New Zealand supermarket', Australia: 'Australian supermarket', any: 'supermarket aisle' },
+  Environment: { 'New Zealand': 'New Zealand farm landscape', Australia: 'Australian outback', any: 'farm landscape' },
+  Technology: { any: 'computer server room' },
 }
 const REGION_QUERIES: Record<string, string> = {
-  'New Zealand': 'auckland skyline',
-  Australia: 'sydney skyline',
+  'New Zealand': 'Auckland skyline',
+  Australia: 'Sydney skyline',
   World: 'city skyline night',
 }
 
@@ -90,7 +90,11 @@ async function commonsPhoto(query: string, slug: string): Promise<string | null>
         if (!info?.thumburl || info.mime !== 'image/jpeg') return false
         if (!info.width || !info.height || info.width < 1200 || info.width < info.height * 1.25) return false
         const licence = `${info.extmetadata?.LicenseShortName?.value ?? ''} ${info.extmetadata?.License?.value ?? ''}`.toLowerCase()
-        return /public domain|\bpd\b|cc0|pd-/.test(licence)
+        if (!/public domain|\bpd\b|cc0|pd-/.test(licence)) return false
+        // Modern photos only: public-domain collections lean to old black-and-white pictures.
+        const taken = `${info.extmetadata?.DateTimeOriginal?.value ?? ''} ${info.extmetadata?.DateTime?.value ?? ''}`
+        const years = (taken.match(/\b(1[89]\d\d|20\d\d)\b/g) ?? []).map(Number)
+        return years.length > 0 && Math.min(...years) >= 2000
       })
     if (!photos.length) return null
     return photos[hash(slug) % photos.length].thumburl ?? null
@@ -127,11 +131,15 @@ export async function GET(_request: Request, { params }: RouteContext) {
   const { slug } = await params
   const story = await getStoryBySlug(slug).catch(() => null)
   const text = `${story?.title || ''} ${(story?.summary || '').slice(0, 600)}`
-  const topic = topicOf(text)
+  // The headline decides the topic first; the opening text only if the headline doesn't.
+  const titleTopic = topicOf(story?.title || '')
+  const topic = titleTopic !== 'Commentary' ? titleTopic : topicOf(text)
   const region = regionOf(text)
 
-  const photo = (await commonsPhoto(PHOTO_QUERIES[topic] ?? REGION_QUERIES[region], slug))
-    ?? (PHOTO_QUERIES[topic] ? await commonsPhoto(REGION_QUERIES[region], slug) : null)
+  const q = PHOTO_QUERIES[topic]
+  const photo = (q ? await commonsPhoto(q[region] ?? q.any, slug) : null)
+    ?? (q && q[region] ? await commonsPhoto(q.any, slug) : null)
+    ?? (await commonsPhoto(REGION_QUERIES[region], slug))
   if (photo) {
     return new Response(null, {
       status: 302,
