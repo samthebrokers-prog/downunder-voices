@@ -12,6 +12,18 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '4 November 2026',
+    image: '/editorial-cartoons/2026-11-04-blue-corn-graduation.jpg',
+    alt: 'Black-and-white editorial cartoon of an original blue-corn cob graduating with a commercial-crop diploma after six years studying Australian conditions in a Victorian farm field',
+    headline: 'Six years to earn its Australian colours',
+    summary: 'Australia’s first commercial blue-corn crop has been harvested in Victoria after six years of seed work, research and field trials. The crop will be used to make traditional tortillas while retaining the grain’s Mexican heritage—an agricultural graduation with unusually colourful results.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-03/blue-corn-grown-in-australia-for-mexican-tortillas/107301030',
+    sourceLabel:
+      'ABC Rural — Bringing blue corn from Mexico to Australia for traditional tortillas',
+    question: 'Would you try tortillas made from Australian-grown blue corn? Tell us below.',
+  },
+  {
+    date: '4 November 2026',
     image: '/editorial-cartoons/2026-11-04-cup-day-surest-bet.svg',
     alt: 'Black-and-white pen-and-ink editorial cartoon of a suburban lounge room decorated with Melbourne Cup bunting: a fictional man holding a losing betting ticket says his horse came in last, while a fictional woman in a fascinator holds up a bank letter reading New repayment: up again and says the bank’s horse won again. The TV shows a horse race and a ticker saying the cash rate is up 0.25 to 4.85 per cent, and a dog sleeps on the rug',
     headline: 'Cup Day’s surest bet',
