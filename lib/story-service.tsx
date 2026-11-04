@@ -5,6 +5,7 @@ import {
   type Story,
   type CategorySlug,
 } from '@/lib/news-data'
+import { editorialImageUrl } from '@/lib/editorial-image'
 import { correctFeedCategory, displaySourceName, isBorrowedImage, removeDuplicateStories } from '@/lib/story-corrections'
 
 type StoryRow = {
@@ -120,7 +121,8 @@ function rowToStory(row: StoryRow): Story {
       // Some feeds encode '&' in image links as '&#038;' or '&amp;', which breaks the picture.
       const imageUrl = row.image_url?.trim().replace(/&#0?38;|&amp;/gi, '&')
       // Our own originals never carry another outlet's photo: use our own illustration instead.
-      if (isOriginal && isBorrowedImage(imageUrl)) return createFallbackImage(category, row.title)
+      // Editorials must always have a picture, so a missing one gets our editorial illustration.
+      if (isOriginal && (!imageUrl || isBorrowedImage(imageUrl) || imageUrl === SHARED_DEFAULT_NEWS_IMAGE)) return editorialImageUrl(row.slug)
       return imageUrl && imageUrl !== SHARED_DEFAULT_NEWS_IMAGE ? imageUrl : createFallbackImage(category, row.title)
     })(),
     communityAngle: row.community_angle || '',
