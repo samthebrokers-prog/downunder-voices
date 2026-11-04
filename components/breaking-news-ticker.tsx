@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import type { Story } from '@/lib/news-data'
+import { decodeNewsText } from '@/lib/decode-news-text'
 
 type BreakingNewsTickerProps = {
   stories: Story[]
@@ -38,7 +39,7 @@ export function BreakingNewsTicker({
                 <span className="inline-block size-1.5 rounded-full bg-white" />
 
                 <span className="whitespace-nowrap">
-                  {story.title}
+                  {decodeNewsText(story.title)}
                 </span>
               </Link>
             ))}

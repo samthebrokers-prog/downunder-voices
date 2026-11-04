@@ -6,6 +6,7 @@ import {
   type CategorySlug,
 } from '@/lib/news-data'
 import { editorialImageUrl } from '@/lib/editorial-image'
+import { decodeNewsText } from '@/lib/decode-news-text'
 import { correctFeedCategory, displaySourceName, isBorrowedImage, removeDuplicateStories } from '@/lib/story-corrections'
 
 type StoryRow = {
@@ -111,7 +112,7 @@ function rowToStory(row: StoryRow): Story {
   return {
     id: row.id,
     slug: row.slug,
-    title: row.title,
+    title: decodeNewsText(row.title ?? ''),
     category,
     date: (row.published_at ?? row.created_at).slice(0, 10),
     summary: row.summary,

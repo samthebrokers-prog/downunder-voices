@@ -1,3 +1,4 @@
+import { decodeNewsText } from '@/lib/decode-news-text'
 import {
   dbRequest,
   isDatabaseConfigured,
@@ -260,6 +261,7 @@ function cleanText(
     )
     .replace(/&lt;/gi, '<')
     .replace(/&gt;/gi, '>')
+    .replace(/&(#(?:x[0-9a-f]+|[0-9]+)|[a-z]+);/gi, (m) => decodeNewsText(m))
     .replace(/\s+/g, ' ')
     .trim()
 }
