@@ -51,7 +51,7 @@ export function SiteFooter() {
           <div>
             <Link href="/" className="inline-flex flex-col">
               <span className="font-serif text-2xl font-black tracking-tight">DOWNUNDER</span>
-              <span className="font-serif text-2xl font-black tracking-tight text-red-500">VOICES</span>
+              <span className="font-serif text-2xl font-black tracking-tight text-neutral-500">VOICES</span>
               <span className="mt-2 block text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-400">Australia · New Zealand · World</span>
             </Link>
 
@@ -63,7 +63,7 @@ export function SiteFooter() {
               {socialLinks.map((social) => {
                 const Icon = social.icon
                 return (
-                  <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} title={social.label} className="inline-flex size-10 items-center justify-center rounded-full border border-slate-700 text-slate-200 transition hover:border-red-600 hover:bg-red-700 hover:text-white">
+                  <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} title={social.label} className="inline-flex size-10 items-center justify-center rounded-full border border-slate-700 text-slate-200 transition hover:border-neutral-800 hover:bg-neutral-900 hover:text-white">
                     <Icon className="size-4" />
                   </a>
                 )
@@ -72,7 +72,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h2 className="text-sm font-black uppercase tracking-[0.16em] text-red-400">News Sections</h2>
+            <h2 className="text-sm font-black uppercase tracking-[0.16em] text-neutral-400">News Sections</h2>
             <ul className="mt-5 space-y-3 text-sm">
               {footerCategories.map((category) => (
                 <li key={category.href}><Link href={category.href} className="text-slate-300 transition hover:text-white">{category.label}</Link></li>
@@ -82,14 +82,14 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h2 className="text-sm font-black uppercase tracking-[0.16em] text-red-400">Information</h2>
+            <h2 className="text-sm font-black uppercase tracking-[0.16em] text-neutral-400">Information</h2>
             <ul className="mt-5 space-y-3 text-sm">
               {informationLinks.map((link) => (
                 <li key={link.href}><Link href={link.href} className="text-slate-300 transition hover:text-white">{link.label}</Link></li>
               ))}
             </ul>
 
-            <h2 className="mt-8 text-sm font-black uppercase tracking-[0.16em] text-red-400">Legal</h2>
+            <h2 className="mt-8 text-sm font-black uppercase tracking-[0.16em] text-neutral-400">Legal</h2>
             <ul className="mt-5 space-y-3 text-sm">
               {legalLinks.map((link) => (
                 <li key={link.href}><Link href={link.href} className="text-slate-300 transition hover:text-white">{link.label}</Link></li>
@@ -98,7 +98,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h2 className="text-sm font-black uppercase tracking-[0.16em] text-red-400">Read on Mobile</h2>
+            <h2 className="text-sm font-black uppercase tracking-[0.16em] text-neutral-400">Read on Mobile</h2>
             <div className="mt-5 rounded-xl border border-slate-700 bg-white p-4">
               <img src={qrCodeUrl} alt="QR code linking to Downunder Voices" width={190} height={190} loading="lazy" className="mx-auto h-auto w-full max-w-[190px] rounded-md" />
               <p className="mt-4 text-center text-sm font-bold text-slate-950">Scan to open Downunder Voices</p>
@@ -112,7 +112,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-6 rounded-lg border border-slate-800 bg-slate-900/70 p-5">
-          <h2 className="text-sm font-black uppercase tracking-[0.14em] text-red-400">Acknowledgement of Country</h2>
+          <h2 className="text-sm font-black uppercase tracking-[0.14em] text-neutral-400">Acknowledgement of Country</h2>
           <p className="mt-3 text-xs leading-6 text-slate-400">Downunder Voices acknowledges the Traditional Custodians of the lands and waters across Australia and recognises their continuing connection to Country, culture and community. We pay our respects to Aboriginal and Torres Strait Islander Elders past and present.</p>
         </div>
 

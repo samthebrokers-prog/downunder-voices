@@ -27,8 +27,8 @@ export default async function SportsPage() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <header className="mb-10 border-b-4 border-red-700 pb-6">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">
+      <header className="mb-10 border-b-4 border-neutral-900 pb-6">
+        <p className="text-xs font-black uppercase tracking-[0.18em] text-neutral-900">
           Section
         </p>
         <h1 className="mt-2 font-serif text-4xl font-black tracking-tight sm:text-5xl">
@@ -48,7 +48,7 @@ export default async function SportsPage() {
             className="flex min-h-64 items-center justify-center bg-black px-8 py-12 text-center text-white"
           >
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-red-400">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-neutral-400">
                 Sports Video of the Day
               </p>
               <p className="mt-4 font-serif text-3xl font-black">
@@ -64,7 +64,7 @@ export default async function SportsPage() {
           </a>
 
           <div className="flex flex-col justify-center p-7">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-neutral-900">
               Current AU/NZ sport
             </p>
             <h2 className="mt-2 font-serif text-2xl font-black">

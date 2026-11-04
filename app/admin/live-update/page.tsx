@@ -51,10 +51,10 @@ export default function LiveUpdatePage() {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <div className="rounded-2xl border border-red-700/30 bg-card p-6 shadow-sm sm:p-10">
+      <div className="rounded-2xl border border-neutral-900/30 bg-card p-6 shadow-sm sm:p-10">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-neutral-900">
               Downunder Voices newsroom
             </p>
             <h1 className="mt-2 font-serif text-3xl font-black sm:text-4xl">
@@ -77,7 +77,7 @@ export default function LiveUpdatePage() {
           type="button"
           onClick={runLiveUpdate}
           disabled={working}
-          className="mt-8 w-full rounded-xl bg-red-700 px-6 py-5 text-lg font-black uppercase tracking-[0.08em] text-white shadow-md transition hover:bg-red-800 disabled:cursor-wait disabled:opacity-60 sm:text-xl"
+          className="mt-8 w-full rounded-xl bg-neutral-900 px-6 py-5 text-lg font-black uppercase tracking-[0.08em] text-white shadow-md transition hover:bg-neutral-950 disabled:cursor-wait disabled:opacity-60 sm:text-xl"
         >
           {working ? '● LIVE UPDATE RUNNING…' : '● LIVE UPDATE NOW'}
         </button>

@@ -31,8 +31,8 @@ const channels = [
 export default function ContactPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-      <header className="border-b-4 border-red-700 pb-5">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-red-700">
+      <header className="border-b-4 border-neutral-900 pb-5">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-900">
           Get in touch
         </p>
 
@@ -56,7 +56,7 @@ export default function ContactPage() {
                 key={channel.title}
                 className="flex gap-4 rounded-lg border border-border bg-card p-5 shadow-sm"
               >
-                <div className="flex size-11 shrink-0 items-center justify-center rounded-md bg-red-700 text-white">
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-md bg-neutral-900 text-white">
                   <Icon className="size-5" />
                 </div>
 
@@ -74,7 +74,7 @@ export default function ContactPage() {
           })}
 
           <div className="rounded-lg border border-border bg-slate-950 p-5 text-white">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-red-400">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-neutral-400">
               Email
             </p>
 

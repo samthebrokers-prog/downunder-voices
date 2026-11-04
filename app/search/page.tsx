@@ -66,8 +66,8 @@ export default async function SearchPage({
       {!configured && <SetupBanner />}
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8 border-b-2 border-red-700 pb-6">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-700">
+        <div className="mb-8 border-b-2 border-neutral-900 pb-6">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-neutral-900">
             Downunder Voices
           </p>
 
@@ -98,13 +98,13 @@ export default async function SearchPage({
                 type="search"
                 defaultValue={query}
                 placeholder="Search news, topics, countries or keywords..."
-                className="h-12 w-full rounded-md border border-slate-300 bg-white pl-12 pr-4 text-base outline-none transition focus:border-red-700 focus:ring-2 focus:ring-red-700/20"
+                className="h-12 w-full rounded-md border border-slate-300 bg-white pl-12 pr-4 text-base outline-none transition focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/20"
               />
             </div>
 
             <button
               type="submit"
-              className="h-12 rounded-md bg-red-700 px-7 text-sm font-bold text-white transition hover:bg-red-800"
+              className="h-12 rounded-md bg-neutral-900 px-7 text-sm font-bold text-white transition hover:bg-neutral-950"
             >
               Search
             </button>
@@ -138,7 +138,7 @@ export default async function SearchPage({
                 <Link
                   key={topic}
                   href={`/search?q=${encodeURIComponent(topic)}`}
-                  className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-red-700 hover:text-red-700"
+                  className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-neutral-900 hover:text-neutral-900"
                 >
                   {topic}
                 </Link>
@@ -185,7 +185,7 @@ export default async function SearchPage({
 
             <Link
               href="/latest"
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-md bg-red-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-800"
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-md bg-neutral-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-neutral-950"
             >
               <ArrowLeft className="size-4" />
               Browse latest news

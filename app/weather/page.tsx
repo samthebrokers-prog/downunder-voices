@@ -111,8 +111,8 @@ export default async function WeatherPage() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <header className="border-b-4 border-red-700 pb-6">
-        <p className="text-sm font-black uppercase tracking-[0.2em] text-red-700">
+      <header className="border-b-4 border-neutral-900 pb-6">
+        <p className="text-sm font-black uppercase tracking-[0.2em] text-neutral-900">
           Downunder Weather
         </p>
         <h1 className="mt-2 font-serif text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">
@@ -189,10 +189,10 @@ export default async function WeatherPage() {
           For emergency warnings and official forecasts, always check the national weather authority for your location.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
-          <a href="https://www.bom.gov.au/" target="_blank" rel="noreferrer" className="rounded-md bg-slate-950 px-4 py-2 text-sm font-bold text-white hover:bg-red-700">
+          <a href="https://www.bom.gov.au/" target="_blank" rel="noreferrer" className="rounded-md bg-slate-950 px-4 py-2 text-sm font-bold text-white hover:bg-neutral-900">
             Bureau of Meteorology — Australia
           </a>
-          <a href="https://www.metservice.com/" target="_blank" rel="noreferrer" className="rounded-md bg-slate-950 px-4 py-2 text-sm font-bold text-white hover:bg-red-700">
+          <a href="https://www.metservice.com/" target="_blank" rel="noreferrer" className="rounded-md bg-slate-950 px-4 py-2 text-sm font-bold text-white hover:bg-neutral-900">
             MetService — New Zealand
           </a>
         </div>

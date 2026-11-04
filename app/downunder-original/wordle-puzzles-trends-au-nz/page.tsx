@@ -9,16 +9,16 @@ export default function Page() {
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
       <article>
-        <Link href="/downunder-original" className="text-sm font-bold text-red-700">← Downunder Original</Link>
-        <p className="mt-7 text-xs font-black uppercase tracking-[0.18em] text-red-700">Original Analysis · Digital Culture</p>
+        <Link href="/downunder-original" className="text-sm font-bold text-neutral-900">← Downunder Original</Link>
+        <p className="mt-7 text-xs font-black uppercase tracking-[0.18em] text-neutral-900">Original Analysis · Digital Culture</p>
         <h1 className="mt-3 font-serif text-4xl font-black leading-tight text-slate-950 sm:text-5xl">Wordle, Quordle and the Daily Routine: Why Australia and New Zealand Are Hooked on Word Puzzles</h1>
         <p className="mt-4 text-sm font-semibold text-slate-500">Downunder Voices · Original Analysis</p>
 
         <div className="my-8 flex min-h-48 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 px-6 text-center">
-          <div><div className="text-5xl font-black tracking-tight text-slate-900">WORDLE</div><div className="mt-3 text-sm font-black uppercase tracking-[0.16em] text-red-700">The daily puzzle habit across Australia + New Zealand</div></div>
+          <div><div className="text-5xl font-black tracking-tight text-slate-900">WORDLE</div><div className="mt-3 text-sm font-black uppercase tracking-[0.16em] text-neutral-900">The daily puzzle habit across Australia + New Zealand</div></div>
         </div>
 
-        <div className="prose prose-slate max-w-none prose-headings:font-serif prose-headings:font-black prose-a:text-red-700">
+        <div className="prose prose-slate max-w-none prose-headings:font-serif prose-headings:font-black prose-a:text-neutral-900">
           <p>For many Australians and New Zealanders, the morning routine has quietly gained another step: coffee, check the weather, scan the headlines, then solve a five-letter word.</p>
           <p>Online word puzzles such as Wordle and its more demanding relatives have become remarkably persistent digital habits. What began as a simple diversion has developed into something people return to every day — on the train, over breakfast, during a work break or before checking their email.</p>
           <p>The interesting question is no longer simply why these games became popular. It is why they have remained part of people's routines when so many other internet trends disappear almost as quickly as they arrive.</p>

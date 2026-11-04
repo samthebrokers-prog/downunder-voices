@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 export default function CartoonOfTheDayPage() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-      <header className="border-b-4 border-red-700 pb-5">
-        <p className="text-xs font-black uppercase tracking-[0.2em] text-red-700">Independent Australian & New Zealand satire</p>
+      <header className="border-b-4 border-neutral-900 pb-5">
+        <p className="text-xs font-black uppercase tracking-[0.2em] text-neutral-900">Independent Australian & New Zealand satire</p>
         <h1 className="mt-2 font-serif text-4xl font-black text-slate-950 sm:text-5xl">Cartoon of the Day</h1>
         <p className="mt-3 text-sm font-bold text-muted-foreground">{currentCartoon.date} · Original Downunder Voices cartoon</p>
       </header>
@@ -27,8 +27,8 @@ export default function CartoonOfTheDayPage() {
         <div className="space-y-4 p-6 sm:p-8">
           <h2 className="font-serif text-3xl font-black text-slate-950">{currentCartoon.headline}</h2>
           <p className="leading-7 text-slate-700">{currentCartoon.summary}</p>
-          <p className="rounded-md border-l-4 border-red-700 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600">This is satire based on a reported public event. The characters and dialogue are fictional. Artwork is original to Downunder Voices.</p>
-          <a href={currentCartoon.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex font-bold text-red-700 hover:underline">Source: {currentCartoon.sourceLabel} ↗</a>
+          <p className="rounded-md border-l-4 border-neutral-900 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600">This is satire based on a reported public event. The characters and dialogue are fictional. Artwork is original to Downunder Voices.</p>
+          <a href={currentCartoon.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex font-bold text-neutral-900 hover:underline">Source: {currentCartoon.sourceLabel} ↗</a>
         </div>
       </article>
 
@@ -41,9 +41,9 @@ export default function CartoonOfTheDayPage() {
               <article key={cartoon.image} className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
                 <div className="bg-white p-3"><img src={cartoon.image} alt={cartoon.alt} className="mx-auto block h-auto w-full object-contain" /></div>
                 <div className="space-y-2 p-5">
-                  <p className="text-xs font-black uppercase tracking-[0.14em] text-red-700">{cartoon.date}</p>
+                  <p className="text-xs font-black uppercase tracking-[0.14em] text-neutral-900">{cartoon.date}</p>
                   <h3 className="font-serif text-xl font-black text-slate-950">{cartoon.headline}</h3>
-                  <a href={cartoon.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex text-sm font-bold text-red-700 hover:underline">Source ↗</a>
+                  <a href={cartoon.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex text-sm font-bold text-neutral-900 hover:underline">Source ↗</a>
                 </div>
               </article>
             ))}

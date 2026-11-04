@@ -137,7 +137,7 @@ export function SiteHeader() {
 
             <Link
               href="/advertise"
-              className="font-bold text-white transition hover:text-red-400"
+              className="font-bold text-white transition hover:text-neutral-400"
             >
               Advertise with us
             </Link>
@@ -153,7 +153,7 @@ export function SiteHeader() {
           aria-label="Downunder Voices homepage"
         >
           <span
-            className="flex size-12 shrink-0 items-center justify-center rounded-md bg-red-700 font-serif text-xl font-black tracking-tight text-white shadow-sm sm:size-16 sm:text-2xl"
+            className="flex size-12 shrink-0 items-center justify-center rounded-md bg-neutral-900 font-serif text-xl font-black tracking-tight text-white shadow-sm sm:size-16 sm:text-2xl"
             aria-hidden="true"
           >
             DV
@@ -162,7 +162,7 @@ export function SiteHeader() {
           <span className="min-w-0">
             <span className="block whitespace-nowrap font-serif text-2xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
               DOWNUNDER
-              <span className="ml-2 text-red-700">
+              <span className="ml-2 text-neutral-900">
                 VOICES
               </span>
             </span>
@@ -189,7 +189,7 @@ export function SiteHeader() {
               )
               setOpen(false)
             }}
-            className="inline-flex size-10 items-center justify-center rounded-full border border-border text-slate-700 transition hover:border-red-700 hover:bg-red-700 hover:text-white"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-border text-slate-700 transition hover:border-neutral-900 hover:bg-neutral-900 hover:text-white"
           >
             {searchOpen ? (
               <X className="size-4" />
@@ -209,7 +209,7 @@ export function SiteHeader() {
                 rel="noopener noreferrer"
                 aria-label={social.label}
                 title={social.label}
-                className="inline-flex size-9 items-center justify-center rounded-full border border-border text-xs font-black text-slate-700 transition hover:border-red-700 hover:bg-red-700 hover:text-white"
+                className="inline-flex size-9 items-center justify-center rounded-full border border-border text-xs font-black text-slate-700 transition hover:border-neutral-900 hover:bg-neutral-900 hover:text-white"
               >
                 {social.symbol}
               </a>
@@ -268,13 +268,13 @@ export function SiteHeader() {
                 }
                 placeholder="Search news, topics, countries or keywords..."
                 autoFocus
-                className="h-12 w-full rounded-md border border-slate-300 bg-white pl-12 pr-4 text-base outline-none transition focus:border-red-700 focus:ring-2 focus:ring-red-700/20"
+                className="h-12 w-full rounded-md border border-slate-300 bg-white pl-12 pr-4 text-base outline-none transition focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/20"
               />
             </div>
 
             <button
               type="submit"
-              className="h-12 rounded-md bg-red-700 px-5 text-sm font-bold text-white transition hover:bg-red-800"
+              className="h-12 rounded-md bg-neutral-900 px-5 text-sm font-bold text-white transition hover:bg-neutral-950"
             >
               Search
             </button>
@@ -301,7 +301,7 @@ export function SiteHeader() {
                   topic,
                 )}`}
                 onClick={closeMenus}
-                className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-700 transition hover:border-red-700 hover:text-red-700"
+                className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-slate-700 transition hover:border-neutral-900 hover:text-neutral-900"
               >
                 {topic}
               </Link>
@@ -314,21 +314,21 @@ export function SiteHeader() {
         <div className="mx-auto flex max-w-7xl items-center gap-x-6 overflow-x-auto px-4 py-3 sm:px-6 lg:px-8">
           <Link
             href="/"
-            className="whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700"
+            className="whitespace-nowrap text-sm font-bold transition-colors hover:text-neutral-900"
           >
             Home
           </Link>
 
           <Link
             href="/latest"
-            className="whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700"
+            className="whitespace-nowrap text-sm font-bold transition-colors hover:text-neutral-900"
           >
             Latest
           </Link>
 
           <Link
             href="/radio"
-            className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-black text-red-700 transition-colors hover:text-red-900"
+            className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-black text-neutral-900 transition-colors hover:text-neutral-950"
           >
             <Radio className="size-4" /> Radio
           </Link>
@@ -337,7 +337,7 @@ export function SiteHeader() {
             <Link
               key={`${link.href}-${link.label}`}
               href={link.href}
-              className="whitespace-nowrap text-sm font-bold transition-colors hover:text-red-700"
+              className="whitespace-nowrap text-sm font-bold transition-colors hover:text-neutral-900"
             >
               {link.label}
             </Link>
@@ -367,7 +367,7 @@ export function SiteHeader() {
             <Link
               href="/radio"
               onClick={closeMenus}
-              className="flex items-center gap-2 border-b border-border py-3 text-sm font-black text-red-700"
+              className="flex items-center gap-2 border-b border-border py-3 text-sm font-black text-neutral-900"
             >
               <Radio className="size-4" /> Radio
             </Link>
@@ -403,7 +403,7 @@ export function SiteHeader() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="inline-flex size-10 items-center justify-center rounded-full border border-border text-xs font-black transition hover:border-red-700 hover:bg-red-700 hover:text-white"
+                  className="inline-flex size-10 items-center justify-center rounded-full border border-border text-xs font-black transition hover:border-neutral-900 hover:bg-neutral-900 hover:text-white"
                 >
                   {social.symbol}
                 </a>

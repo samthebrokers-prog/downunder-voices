@@ -481,7 +481,7 @@ export default async function StoryPage({
               </section>
 
               <section className="mt-9 rounded-xl bg-slate-950 p-6 text-white sm:p-8">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-red-400">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-neutral-400">
                   Join our community
                 </p>
 
@@ -500,7 +500,7 @@ export default async function StoryPage({
                     href="https://www.facebook.com/downundervoices"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-md bg-red-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-800"
+                    className="inline-flex items-center gap-2 rounded-md bg-neutral-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-neutral-950"
                   >
                     <Facebook className="size-4" />
                     Follow on Facebook
@@ -637,7 +637,7 @@ function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div className="mb-7">
-      <div className="h-1 w-16 bg-red-700" />
+      <div className="h-1 w-16 bg-neutral-900" />
 
       <div className="flex items-end justify-between gap-4 border-b border-border py-3">
         <h2 className="font-serif text-2xl font-black sm:text-3xl">
@@ -646,7 +646,7 @@ function SectionHeading({
 
         <Link
           href={href}
-          className="inline-flex shrink-0 items-center gap-1 text-sm font-bold text-red-700 hover:underline"
+          className="inline-flex shrink-0 items-center gap-1 text-sm font-bold text-neutral-900 hover:underline"
         >
           {linkText}
           <ArrowRight className="size-4" />

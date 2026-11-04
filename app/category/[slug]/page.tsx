@@ -464,8 +464,8 @@ export default async function CategoryPage({
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <header className="mb-10 border-b-4 border-red-700 pb-6">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">
+      <header className="mb-10 border-b-4 border-neutral-900 pb-6">
+        <p className="text-xs font-black uppercase tracking-[0.18em] text-neutral-900">
           Section
         </p>
 
@@ -488,7 +488,7 @@ export default async function CategoryPage({
               className="flex min-h-64 items-center justify-center bg-black px-8 py-12 text-center text-white"
             >
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-red-400">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-neutral-400">
                   Sports Video of the Day
                 </p>
                 <p className="mt-4 font-serif text-3xl font-black">
@@ -504,7 +504,7 @@ export default async function CategoryPage({
             </a>
 
             <div className="flex flex-col justify-center p-7">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-neutral-900">
                 Today in Australian sport
               </p>
               <h2 className="mt-2 font-serif text-2xl font-black">
@@ -521,9 +521,9 @@ export default async function CategoryPage({
       {stories.length > 0 ? (
         <>
           {freshEditorComments.length > 0 && (
-            <section className="mb-12 rounded-xl border-2 border-red-700 bg-red-50/60 p-5 dark:bg-red-950/20 sm:p-7">
-              <div className="mb-6 border-b border-red-200 pb-4 dark:border-red-900">
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-red-700">
+            <section className="mb-12 rounded-xl border-2 border-neutral-900 bg-neutral-100/60 p-5 dark:bg-neutral-950/20 sm:p-7">
+              <div className="mb-6 border-b border-neutral-200 pb-4 dark:border-neutral-950">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-neutral-900">
                   From the Editor
                 </p>
                 <h2 className="mt-2 font-serif text-3xl font-black">
@@ -596,13 +596,13 @@ export default async function CategoryPage({
                       />
                     </a>
                   ) : (
-                    <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-red-950 to-rose-700 px-6 text-center font-serif text-2xl font-black text-white">
+                    <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-neutral-950 to-rose-700 px-6 text-center font-serif text-2xl font-black text-white">
                       Entertainment
                     </div>
                   )}
 
                   <div className="flex flex-1 flex-col p-5">
-                    <p className="text-xs font-bold uppercase tracking-wider text-red-700">
+                    <p className="text-xs font-bold uppercase tracking-wider text-neutral-900">
                       {item.sourceName}
                     </p>
                     <h2 className="mt-2 font-serif text-xl font-bold leading-snug">
@@ -610,7 +610,7 @@ export default async function CategoryPage({
                         href={item.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-red-700"
+                        className="hover:text-neutral-900"
                       >
                         {item.title}
                       </a>
@@ -624,7 +624,7 @@ export default async function CategoryPage({
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-auto pt-5 text-sm font-black text-red-700 hover:underline"
+                      className="mt-auto pt-5 text-sm font-black text-neutral-900 hover:underline"
                     >
                       Read original story ↗
                     </a>

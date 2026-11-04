@@ -9,7 +9,7 @@ export const metadata = {
 export default function NationsWalkAwayPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-      <p className="text-xs font-black uppercase tracking-[0.18em] text-red-700">From the Editor · 25 October 2026</p>
+      <p className="text-xs font-black uppercase tracking-[0.18em] text-neutral-900">From the Editor · 25 October 2026</p>
       <h1 className="mt-3 font-serif text-4xl font-black leading-tight text-slate-950 sm:text-5xl">When Nations Walk Away: Is the Global System Starting to Fracture?</h1>
       <p className="mt-5 text-xl leading-8 text-slate-600">The United States has moved to withdraw from the World Health Organization while governments are again questioning the value, cost and influence of international institutions. What happens when powerful nations decide the global system no longer serves their interests — and could others follow?</p>
       <div className="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-white">
@@ -34,7 +34,7 @@ export default function NationsWalkAwayPage() {
         <p className="mt-2">World Health Organization: statement on notification of withdrawal of the United States, 24 January 2026.</p>
         <p>United Nations: General Assembly — 193 member states and the principle of equal representation.</p>
       </div>
-      <Link href="/" className="mt-8 inline-block font-bold text-red-700 hover:underline">← Back to Downunder Voices</Link>
+      <Link href="/" className="mt-8 inline-block font-bold text-neutral-900 hover:underline">← Back to Downunder Voices</Link>
     </main>
   )
 }

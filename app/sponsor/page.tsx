@@ -94,7 +94,7 @@ export default function SponsorPage() {
         <h2 className="font-serif text-2xl font-bold">Talk to us</h2>
         <p className="mt-3 max-w-2xl leading-7 text-slate-300">Tell us about your business and the programme you would like to support, and we’ll come back to you.</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href="/contact" className="inline-flex items-center gap-2 rounded-md bg-red-700 px-5 py-3 text-sm font-semibold text-white hover:bg-red-600">
+          <Link href="/contact" className="inline-flex items-center gap-2 rounded-md bg-neutral-900 px-5 py-3 text-sm font-semibold text-white hover:bg-neutral-800">
             Contact us <ArrowRight className="size-4" />
           </Link>
           <Link href="/radio" className="inline-flex items-center gap-2 rounded-md border border-slate-600 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-900">

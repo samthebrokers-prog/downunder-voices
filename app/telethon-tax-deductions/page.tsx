@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 
 export default function TelethonTaxEditorial() {
   return <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
-    <header className="border-b-4 border-red-700 pb-6">
-      <p className="text-xs font-black uppercase tracking-[.18em] text-red-700">Downunder Voices Editorial · 18 October 2026</p>
+    <header className="border-b-4 border-neutral-900 pb-6">
+      <p className="text-xs font-black uppercase tracking-[.18em] text-neutral-900">Downunder Voices Editorial · 18 October 2026</p>
       <h1 className="mt-3 font-serif text-4xl font-black leading-tight text-slate-950 sm:text-6xl">{title}</h1>
       <p className="mt-5 text-xl leading-8 text-slate-600">Ordinary Australians give because they care. Big donors can care too — but the tax system gives high-income donors a much larger financial benefit. That deserves scrutiny, not mythology.</p>
     </header>
@@ -52,7 +52,7 @@ export default function TelethonTaxEditorial() {
       <p><strong>That is the debate worth having: not whether generosity is bad, but whether generosity is being asked to do work that a fair economy and a properly funded public system should already be doing.</strong></p>
     </article>
 
-    <section className="mt-10 rounded-xl border-l-4 border-red-700 bg-slate-50 p-6 text-sm leading-7 text-slate-700">
+    <section className="mt-10 rounded-xl border-l-4 border-neutral-900 bg-slate-50 p-6 text-sm leading-7 text-slate-700">
       <strong>Fact-check note:</strong> This editorial was revised before publication to accurately describe Australian donation deductions. A deductible gift reduces taxable income; it is not a dollar-for-dollar refund of the donation. Individual tax rates used are the legislated 2026–27 resident rates. Company rates are 25% for eligible base-rate entities and 30% for other companies.
     </section>
   </main>

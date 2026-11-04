@@ -42,7 +42,7 @@ export function HomeEditorialFeature() {
         <Link href="/when-nations-walk-away" className="block overflow-hidden rounded-xl border border-slate-200 bg-slate-950 shadow-sm">
           <div className="flex min-h-[180px] items-center justify-center px-6 py-10 text-center sm:min-h-[240px]">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-red-500">From the Editor</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500">From the Editor</p>
               <h2 className="mt-3 font-serif text-3xl font-black leading-tight text-white sm:text-5xl">When Nations Walk Away</h2>
               <p className="mt-3 text-base font-semibold text-slate-300 sm:text-xl">Global Institutions Under Strain</p>
             </div>
@@ -79,15 +79,15 @@ export function HomeEditorialFeature() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={ed.image_url} alt={ed.title} className="h-52 w-full object-cover object-top sm:h-64 md:h-[340px]" loading={i === 0 ? 'eager' : 'lazy'} />
                 ) : (
-                  <div className="hidden bg-gradient-to-br from-red-900 to-slate-950 md:block" />
+                  <div className="hidden bg-gradient-to-br from-neutral-950 to-slate-950 md:block" />
                 )}
                 <div className="flex flex-col justify-center px-6 pb-12 pt-8 sm:px-10 md:min-h-[340px] md:py-10">
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-red-500">
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500">
                     From the Editor · {i === 0 && ed.isToday ? 'Editorial of the Day' : 'Editorial'} · {date}
                   </p>
                   <h2 className="mt-3 font-serif text-2xl font-black leading-snug text-white group-hover:underline sm:text-3xl">{ed.title}</h2>
                   {summary && <p className="mt-4 max-w-2xl text-base leading-7 text-slate-300">{summary}{(ed.summary || '').length > 170 ? '…' : ''}</p>}
-                  <span className="mt-6 inline-block text-sm font-black uppercase tracking-wider text-red-400">Read the editorial →</span>
+                  <span className="mt-6 inline-block text-sm font-black uppercase tracking-wider text-neutral-400">Read the editorial →</span>
                 </div>
               </Link>
             )
@@ -105,7 +105,7 @@ export function HomeEditorialFeature() {
                   type="button"
                   onClick={() => go(i)}
                   aria-label={`Show editorial ${i + 1}`}
-                  className={`h-2.5 rounded-full transition-all ${i === index ? 'w-6 bg-red-500' : 'w-2.5 bg-white/50 hover:bg-white/80'}`}
+                  className={`h-2.5 rounded-full transition-all ${i === index ? 'w-6 bg-neutral-500' : 'w-2.5 bg-white/50 hover:bg-white/80'}`}
                 />
               ))}
             </div>

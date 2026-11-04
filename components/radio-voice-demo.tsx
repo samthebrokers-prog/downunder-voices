@@ -73,11 +73,11 @@ export default function RadioVoiceDemo() {
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
       <div className="flex items-center gap-3">
-        <div className="rounded-full bg-red-100 p-2 text-red-700">
+        <div className="rounded-full bg-neutral-100 p-2 text-neutral-900">
           <Radio className="size-5" />
         </div>
         <div>
-          <p className="text-sm font-black uppercase tracking-[0.16em] text-red-700">
+          <p className="text-sm font-black uppercase tracking-[0.16em] text-neutral-900">
             Presenter voice test
           </p>
           <h2 className="mt-1 text-2xl font-black text-slate-950">Meet our two news voices</h2>
@@ -100,7 +100,7 @@ export default function RadioVoiceDemo() {
               type="button"
               onClick={() => playVoice(presenter)}
               disabled={loading !== null && !isLoading}
-              className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-5 py-4 text-left transition hover:border-red-300 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-5 py-4 text-left transition hover:border-neutral-300 hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <span>
                 <span className="block font-black text-slate-950">{label}</span>
