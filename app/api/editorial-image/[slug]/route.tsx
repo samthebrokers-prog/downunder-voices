@@ -33,14 +33,14 @@ const TOPICS: Array<[string, RegExp]> = [
 const PHOTO_QUERIES: Record<string, Partial<Record<string, string>> & { any: string }> = {
   'Councils & Rates': { 'New Zealand': 'Auckland Town Hall', Australia: 'Sydney Town Hall', any: 'town hall' },
   Housing: { 'New Zealand': 'Auckland suburb houses', Australia: 'Australian suburb houses', any: 'suburban houses street' },
-  Health: { any: 'hospital ward' },
-  Education: { any: 'school classroom' },
+  Health: { 'New Zealand': 'New Zealand hospital', Australia: 'Australian hospital', any: 'hospital ward' },
+  Education: { 'New Zealand': 'New Zealand school', Australia: 'Australian school', any: 'school classroom' },
   Politics: { 'New Zealand': 'New Zealand Parliament Buildings Wellington', Australia: 'Parliament House Canberra', any: 'parliament chamber' },
   Trade: { 'New Zealand': 'Port of Tauranga', Australia: 'Port Botany containers', any: 'container port ship' },
   'Energy & Climate': { 'New Zealand': 'New Zealand wind farm', Australia: 'Australia solar farm', any: 'power lines electricity' },
   Justice: { any: 'courthouse' },
-  'Jobs & Economy': { any: 'factory workers' },
-  'Cost of Living': { any: 'supermarket aisle' },
+  'Jobs & Economy': { 'New Zealand': 'Auckland Queen Street', Australia: 'Sydney CBD street', any: 'city workers street' },
+  'Cost of Living': { 'New Zealand': 'New Zealand supermarket', Australia: 'Australian supermarket', any: 'supermarket aisle' },
   Environment: { 'New Zealand': 'New Zealand farm landscape', Australia: 'Australian outback', any: 'farm landscape' },
   Technology: { any: 'computer server room' },
 }
@@ -90,7 +90,11 @@ async function commonsPhoto(query: string, slug: string): Promise<string | null>
         if (!info?.thumburl || info.mime !== 'image/jpeg') return false
         if (!info.width || !info.height || info.width < 1200 || info.width < info.height * 1.25) return false
         const licence = `${info.extmetadata?.LicenseShortName?.value ?? ''} ${info.extmetadata?.License?.value ?? ''}`.toLowerCase()
-        return /public domain|\bpd\b|cc0|pd-/.test(licence)
+        if (!/public domain|\bpd\b|cc0|pd-/.test(licence)) return false
+        // Modern photos only: public-domain collections lean to old black-and-white pictures.
+        const taken = `${info.extmetadata?.DateTimeOriginal?.value ?? ''} ${info.extmetadata?.DateTime?.value ?? ''}`
+        const years = (taken.match(/\b(1[89]\d\d|20\d\d)\b/g) ?? []).map(Number)
+        return years.length > 0 && Math.min(...years) >= 2000
       })
     if (!photos.length) return null
     return photos[hash(slug) % photos.length].thumburl ?? null
