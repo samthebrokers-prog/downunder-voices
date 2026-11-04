@@ -29,25 +29,25 @@ const TOPICS: Array<[string, RegExp]> = [
   ['Technology', /\b(technology|cyber|artificial intelligence|ai|data|online|social media)\b/i],
 ]
 
-// Search words for a real photo from Pexels (free licence) for each topic.
+// Search words for a real photo for each topic.
 const PHOTO_QUERIES: Record<string, string> = {
-  'Councils & Rates': 'city council building',
+  'Councils & Rates': 'town hall',
   Housing: 'suburban houses street',
-  Health: 'hospital corridor',
+  Health: 'hospital ward',
   Education: 'school classroom',
   Politics: 'parliament building',
   Trade: 'container port ship',
   'Energy & Climate': 'power lines electricity',
   Justice: 'courthouse',
-  'Jobs & Economy': 'workers office',
-  'Cost of Living': 'supermarket shopping',
-  Environment: 'australian farm landscape',
-  Technology: 'cyber security computer',
+  'Jobs & Economy': 'factory workers',
+  'Cost of Living': 'supermarket aisle',
+  Environment: 'australian outback farm',
+  Technology: 'computer server room',
 }
 const REGION_QUERIES: Record<string, string> = {
-  'New Zealand': 'auckland city',
-  Australia: 'sydney city',
-  World: 'world city skyline',
+  'New Zealand': 'auckland skyline',
+  Australia: 'sydney skyline',
+  World: 'city skyline night',
 }
 
 function hash(value: string) {
@@ -56,23 +56,44 @@ function hash(value: string) {
   return h
 }
 
-// Owner request (4 Nov 2026): editorials need real pictures. Pick a real,
-// freely licensed Pexels photo that matches the topic. Different editorials
-// on the same topic get different photos. Returns null if Pexels is not set up.
-async function pexelsPhoto(query: string, slug: string): Promise<string | null> {
-  const key = process.env.PEXELS_API_KEY
-  if (!key) return null
+// Owner request (4 Nov 2026): editorials need real pictures. Pick a real
+// photo from Wikimedia Commons that matches the topic. Only public-domain /
+// CC0 photos are used, so no credit line is legally needed (credit is still
+// given in the site footer). No account or key is needed. Different
+// editorials on the same topic get different photos. Returns null if nothing
+// suitable is found, and the plain opinion panel is shown instead.
+async function commonsPhoto(query: string, slug: string): Promise<string | null> {
   try {
-    const res = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&orientation=landscape&per_page=30`, {
-      headers: { Authorization: key },
+    const api = new URL('https://commons.wikimedia.org/w/api.php')
+    api.search = new URLSearchParams({
+      action: 'query',
+      format: 'json',
+      generator: 'search',
+      gsrsearch: `${query} filetype:bitmap`,
+      gsrnamespace: '6',
+      gsrlimit: '40',
+      prop: 'imageinfo',
+      iiprop: 'url|size|mime|extmetadata',
+      iiurlwidth: '1200',
+      origin: '*',
+    }).toString()
+    const res = await fetch(api.toString(), {
+      headers: { 'Api-User-Agent': 'DownunderVoices/1.0 (https://www.downundervoices.com)' },
       signal: AbortSignal.timeout(8000),
     })
     if (!res.ok) return null
-    const data = (await res.json()) as { photos?: Array<{ src?: { landscape?: string; large?: string } }> }
-    const photos = (data.photos ?? []).filter((p) => p.src?.landscape || p.src?.large)
+    type Info = { thumburl?: string; width?: number; height?: number; mime?: string; extmetadata?: Record<string, { value?: string }> }
+    const data = (await res.json()) as { query?: { pages?: Record<string, { title?: string; imageinfo?: Info[] }> } }
+    const photos = Object.values(data.query?.pages ?? {})
+      .map((page) => page.imageinfo?.[0])
+      .filter((info): info is Info => {
+        if (!info?.thumburl || info.mime !== 'image/jpeg') return false
+        if (!info.width || !info.height || info.width < 1200 || info.width < info.height * 1.25) return false
+        const licence = `${info.extmetadata?.LicenseShortName?.value ?? ''} ${info.extmetadata?.License?.value ?? ''}`.toLowerCase()
+        return /public domain|\bpd\b|cc0|pd-/.test(licence)
+      })
     if (!photos.length) return null
-    const pick = photos[hash(slug) % photos.length]
-    return pick.src?.landscape || pick.src?.large || null
+    return photos[hash(slug) % photos.length].thumburl ?? null
   } catch {
     return null
   }
@@ -109,7 +130,8 @@ export async function GET(_request: Request, { params }: RouteContext) {
   const topic = topicOf(text)
   const region = regionOf(text)
 
-  const photo = await pexelsPhoto(PHOTO_QUERIES[topic] ?? REGION_QUERIES[region], slug)
+  const photo = (await commonsPhoto(PHOTO_QUERIES[topic] ?? REGION_QUERIES[region], slug))
+    ?? (PHOTO_QUERIES[topic] ? await commonsPhoto(REGION_QUERIES[region], slug) : null)
   if (photo) {
     return new Response(null, {
       status: 302,
