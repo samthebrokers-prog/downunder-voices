@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '5 November 2026',
+    image: '/editorial-cartoons/2026-11-05-25-hour-eco-cycle.jpg',
+    alt: 'Black-and-white newspaper cartoon of a fictional customer arriving at a generic washer-dryer with a suitcase and pillow because its eco wash-and-dry cycle takes 25 hours',
+    headline: 'The 25-hour eco cycle',
+    summary:
+      'CHOICE gave a 2026 Shonky Award to a washer-dryer whose nominated energy-rating programs take about 25 hours in total: roughly 12 hours to wash and 13 hours to dry. It may save electricity on paper, but the laundry now needs overnight accommodation.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-04/choice-hands-shonky-awards-to-virgin-sony-ticketing-giants/107329220',
+    sourceLabel:
+      'ABC News and CHOICE — 2026 Shonky Awards include a washer-dryer with a 25-hour eco cycle',
+    question: 'Would you wait 25 hours for an eco wash and dry? Tell us below.',
+  },
+  {
+    date: '5 November 2026',
     image: '/editorial-cartoons/2026-11-05-snapper-night-surf-moon.svg',
     alt: 'Black-and-white pen-and-ink editorial cartoon of a beach at night below a rocky headland: two floodlight towers marked Night surf trial light up the waves for a lone surfer, while baby sea turtles climb out of a nest beside a Turtle nesting, please keep lights low sign and march towards the floodlights instead of the sea. A fictional beach ranger in a wide-brimmed hat and hi-vis vest points up at the real moon as the lead hatchling asks which one of those is the moon',
     headline: 'Which one of those is the moon?',
