@@ -11,6 +11,18 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '6 November 2026',
+    image: '/editorial-cartoons/2026-11-06-loneliest-echidna.svg',
+    alt: 'Black-and-white pen-and-ink editorial cartoon of a windswept Bass Strait island with granite boulders, she-oaks and tussock grass. Beside a wildlife trail camera on a post, two echidnas meet on a sandy track: one asks "So… come here often?" and the other, shyly holding a bunch of wildflowers, replies "Only since the cats moved out." A fictional ranger peeks over a boulder, grinning, and changes the echidna count in his notebook from one to two',
+    headline: 'Australia’s loneliest echidna has found a plus-one',
+    summary:
+      'A ranger on Lungtalanana/Clarke Island in Bass Strait has seen an echidna with their own eyes for the first time in decades, after a trail camera first picked one up in 2023. Later camera images suggest there is more than one, and rangers credit their cat-trapping work for helping native wildlife.',
+    sourceUrl: 'https://www.abc.net.au/news/2026-11-05/northern-tas-local-news-briefing/107348518',
+    sourceLabel:
+      'ABC Northern Tasmania — Clarke Island’s “loneliest echidna” may not be alone after all',
+    question: 'Have you ever spotted an echidna in the wild? Tell us below.',
+  },
+  {
     date: '5 November 2026',
     image: '/editorial-cartoons/2026-11-05-25-hour-eco-cycle.jpg',
     alt: 'Black-and-white newspaper cartoon of a fictional customer arriving at a generic washer-dryer with a suitcase and pillow because its eco wash-and-dry cycle takes 25 hours',
