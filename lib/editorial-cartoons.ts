@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '6 November 2026',
+    image: '/editorial-cartoons/2026-11-06-bogong-express.jpg',
+    alt: 'Black-and-white newspaper cartoon of thousands of bogong moths arriving over Victoria’s alpine country like a transport service while a fictional mountain pygmy possum opens a welcome desk for summer',
+    headline: 'The Bogong Express arrives',
+    summary:
+      'Thousands of bogong moths have reached Victoria’s alpine region after journeys of more than 1,000 kilometres. Zoos Victoria’s Moth Tracker logged more than 14,000 sightings this year—well above its previous best of about 2,000—and researchers say the migration offers hope for mountain pygmy possums emerging from hibernation.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-05/bogong-moth-zoos-victoria-tracking-alps/107328100',
+    sourceLabel:
+      'ABC Goulburn Murray — Mass migration of bogong moths provides hope for endangered species',
+    question: 'Have you spotted bogong moths on their alpine journey this spring? Tell us below.',
+  },
+  {
+    date: '6 November 2026',
     image: '/editorial-cartoons/2026-11-06-loneliest-echidna.svg',
     alt: 'Black-and-white pen-and-ink editorial cartoon of a windswept Bass Strait island with granite boulders, she-oaks and tussock grass. Beside a wildlife trail camera on a post, two echidnas meet on a sandy track: one asks "So… come here often?" and the other, shyly holding a bunch of wildflowers, replies "Only since the cats moved out." A fictional ranger peeks over a boulder, grinning, and changes the echidna count in his notebook from one to two',
     headline: 'Australia’s loneliest echidna has found a plus-one',
