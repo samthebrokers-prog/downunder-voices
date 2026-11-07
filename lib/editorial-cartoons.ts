@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '7 November 2026',
+    image: '/editorial-cartoons/2026-11-07-brisbane-peacock-mirror-tour.jpg',
+    alt: 'Black-and-white newspaper cartoon of an original peacock character posing proudly before a generic suburban bathroom mirror with a small suitcase beside it',
+    headline: 'The great Brisbane mirror tour',
+    summary:
+      'Hex the peacock was reunited with his owners after a week-long escape and a suburb-wide community search. During the adventure, he wandered into a Brisbane couple’s home and was found admiring himself in their bathroom mirror—apparently conducting an unscheduled inspection of local facilities.',
+    sourceUrl:
+      'https://www.theguardian.com/environment/2026/nov/06/proud-as-a-peacock-community-effort-sees-bird-that-broke-into-brisbane-home-reunited-with-owners',
+    sourceLabel:
+      'Guardian Australia — Peacock that wandered into a Brisbane home is reunited with his owners',
+    question: 'What rating would this travelling peacock give your bathroom mirror? Tell us below.',
+  },
+  {
     date: '6 November 2026',
     image: '/editorial-cartoons/2026-11-06-bogong-express.jpg',
     alt: 'Black-and-white newspaper cartoon of thousands of bogong moths arriving over Victoria’s alpine country like a transport service while a fictional mountain pygmy possum opens a welcome desk for summer',
