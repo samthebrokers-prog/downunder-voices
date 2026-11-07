@@ -1688,7 +1688,13 @@ export async function runNewsImport(): Promise<
         const perthHour = Number(
           new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Perth', hour: 'numeric', hourCycle: 'h23' }).format(new Date()),
         )
+        // OFF (owner's rule, 2 Nov 2026, re-applied 7 Nov): Facebook gets only
+        // the daily cartoon and the one daily editorial. Imported news from
+        // other outlets stays on the website only — up to 8 link posts a day
+        // of other publishers' stories were burying the Page's reach.
+        const SHARE_IMPORTED_NEWS_TO_FACEBOOK = false
         const shareToFacebook =
+          SHARE_IMPORTED_NEWS_TO_FACEBOOK &&
           ['australia', 'new-zealand', 'social-issues'].includes(finalCategory) &&
           facebookPublished === 0 &&
           perthHour >= 7 && perthHour <= 21 && perthHour % 2 === 0

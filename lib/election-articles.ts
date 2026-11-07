@@ -257,12 +257,18 @@ export async function runElectionArticles(maxThisRun = 1): Promise<ElectionArtic
       },
     })
 
-    const facebook = await publishStoryToFacebook({
-      title: `OPINION | ${article.title}`,
-      slug,
-      summary: article.whyItMatters,
-    })
-    if (!facebook.ok) console.error(`Election article published but Facebook delivery failed: ${article.title}`)
+    // OFF (owner's rule, 2 Nov 2026, re-applied 7 Nov): Facebook gets only the
+    // daily cartoon and the one daily editorial. Election articles stay on the
+    // website only.
+    const POST_ELECTION_ARTICLES_TO_FACEBOOK = false
+    if (POST_ELECTION_ARTICLES_TO_FACEBOOK) {
+      const facebook = await publishStoryToFacebook({
+        title: `OPINION | ${article.title}`,
+        slug,
+        summary: article.whyItMatters,
+      })
+      if (!facebook.ok) console.error(`Election article published but Facebook delivery failed: ${article.title}`)
+    }
 
     created.push(article.title)
   }
