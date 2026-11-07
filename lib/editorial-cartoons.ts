@@ -11,6 +11,17 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '8 November 2026',
+    image: '/editorial-cartoons/2026-11-08-nz-special-votes-wait.svg',
+    alt: 'Black-and-white newspaper cartoon of a fictional election official in a community hall behind a table piled with vote envelopes, while two identical campaign volunteers with blank rosettes sleep in folding chairs and a small kiwi delivers one more envelope; a calendar has 27 November circled',
+    headline: 'Too close to call? Pull up a chair',
+    summary:
+      'New Zealand’s general election on Saturday ended election night without a clear winner, with the two largest parties running close in the early count. Special votes, including those cast from overseas, are still to be counted, and the official result is due by 27 November.',
+    sourceUrl: 'https://www.abc.net.au/news/2026-11-07/nz-election-2026-live-blog/107355448',
+    sourceLabel: 'ABC News — NZ election night ends close, with special votes still to be counted',
+    question: 'How long would you be happy to wait for a final election result? Tell us below.',
+  },
+  {
     date: '7 November 2026',
     image: '/editorial-cartoons/2026-11-07-brisbane-peacock-mirror-tour.jpg',
     alt: 'Black-and-white newspaper cartoon of an original peacock character posing proudly before a generic suburban bathroom mirror with a small suitcase beside it',
