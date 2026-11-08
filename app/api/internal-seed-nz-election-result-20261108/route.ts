@@ -47,7 +47,7 @@ export async function GET() {
     if (existing[0]) return NextResponse.json({ ok: true, existing: true, id: existing[0].id, slug: story.slug })
     const rows = await dbRequest<Array<{ id: string; slug: string }>>('stories', {
       method: 'POST',
-      body: { ...story, author: 'Downunder Voices Election Desk', status: 'published', published_at: new Date().toISOString(), import_method: 'manual-editorial' },
+      body: { ...story, author: 'Downunder Voices Election Desk', status: 'published', published_at: new Date().toISOString(), import_method: 'manual' },
       prefer: 'return=representation',
     })
     return NextResponse.json({ ok: true, created: true, id: rows[0]?.id, slug: story.slug })
