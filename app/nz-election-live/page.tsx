@@ -67,7 +67,7 @@ export default function NzElectionLivePage() {
         NZ Election 2026: too close to call
       </h1>
       <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
-        Labour and National finished almost level on the party vote. The governing coalition has a one-seat majority on election-night figures, but around {electionInfo.specialVotesExpected} special votes, including votes from Kiwis in Australia and around the world, are still being counted.
+        Labour and National finished almost level on the party vote. The governing coalition has a one-seat majority on election-night figures, but {electionInfo.specialVotesExpected} special votes, including votes from Kiwis in Australia and around the world, are still being counted.
       </p>
 
       <div className="mt-5 flex flex-wrap gap-2">
