@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '9 November 2026',
+    image: '/editorial-cartoons/2026-11-09-mitta-mitta-handover.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of a fictional elderly country couple in a north-east Victorian backyard handing a thick logbook labelled Rainfall 1963–2026 to a new automatic weather station, while a kelpie looks puzzled, a kookaburra laughs from a fence post and a pair of gumboots waits beside the station',
+    headline: 'Big gumboots to fill',
+    summary:
+      'After 63 years of recording the weather in Mitta Mitta, in Victoria’s north-east, a local couple would like the Bureau of Meteorology to take over with an automatic weather station. Whatever replaces them will be inheriting more than six decades of careful backyard record-keeping.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-09/mitta-mitta-couple-weather-data-63-years-bom-weather-station/107345098',
+    sourceLabel:
+      'ABC News — Mitta Mitta couple who recorded the weather for 63 years want the BOM to take over',
+    question: 'Do you keep a rain gauge or weather diary at home? Tell us below.',
+  },
+  {
     date: '8 November 2026',
     image: '/editorial-cartoons/2026-11-08-sydney-jacaranda-photo-queue.jpg',
     alt: 'Black-and-white newspaper cartoon of an original queue of fictional photographers beneath Sydney jacarandas, each photographing the person ahead while a council worker keeps the purple photo queue moving',
