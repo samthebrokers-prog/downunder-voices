@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '8 November 2026',
+    image: '/editorial-cartoons/2026-11-08-sydney-jacaranda-photo-queue.jpg',
+    alt: 'Black-and-white newspaper cartoon of an original queue of fictional photographers beneath Sydney jacarandas, each photographing the person ahead while a council worker keeps the purple photo queue moving',
+    headline: 'Sydney’s purple photo queue',
+    summary:
+      'Sydney’s jacarandas are in full spring bloom, carpeting streets and parks with blossoms and drawing sightseers, photographers—and people taking photos of people taking photos. The city’s purple patch now appears to have its own unofficial queue.',
+    sourceUrl:
+      'https://www.theguardian.com/australia-news/gallery/2026/nov/08/sydney-jacaranda-season-in-pictures',
+    sourceLabel:
+      'Guardian Australia — Sydney’s jacarandas put on their spring show',
+    question: 'Would you join Sydney’s purple photo queue? Tell us below.',
+  },
+  {
+    date: '8 November 2026',
     image: '/editorial-cartoons/2026-11-08-nz-special-votes-wait.svg',
     alt: 'Black-and-white newspaper cartoon of a fictional election official in a community hall behind a table piled with vote envelopes, while two identical campaign volunteers with blank rosettes sleep in folding chairs and a small kiwi delivers one more envelope; a calendar has 27 November circled',
     headline: 'Too close to call? Pull up a chair',
