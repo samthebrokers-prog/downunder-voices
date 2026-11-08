@@ -63,6 +63,7 @@ export function MainHeader() {
         <span className="truncate text-slate-300">{today}</span>
         <div className="flex shrink-0 items-center gap-4">
           <span className="hidden text-slate-400 sm:inline">Independent Australian &amp; New Zealand news and opinion</span>
+          <Link href="/nz-election-live" className="font-black text-red-400 hover:text-white">● NZ ELECTION LIVE</Link>
           <Link href="/weather" className="font-black text-sky-300 hover:text-white">☀ WEATHER</Link>
           <a href="https://www.fuelwatch.wa.gov.au/" target="_blank" rel="noopener noreferrer" className="hidden font-black text-amber-300 hover:text-white sm:inline">⛽ WA FUEL</a>
           <Link href="/radio" className="font-black text-neutral-400 hover:text-white">● RADIO</Link>
