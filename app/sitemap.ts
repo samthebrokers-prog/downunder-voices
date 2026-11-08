@@ -22,6 +22,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      url: `${base}/nz-election-live`,
+      lastModified: new Date(),
+      changeFrequency: 'hourly',
+      priority: 0.95,
+    },
+    {
       url: `${base}/latest`,
       lastModified: new Date(),
       changeFrequency: 'hourly',
