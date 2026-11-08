@@ -78,7 +78,6 @@ const ANGLES = [
     brief:
       'Governance and transparency under the current NPP government: appointments, procurement, use of state resources, treatment of critics, independence of institutions, anti-corruption claims versus practice. Use a current, documented news development.',
     images: [
-      ['President of Sri Lanka Mr. Anura Kumara Dissanayake in India.jpg', 'President Anura Kumara Dissanayake'],
       ['Old Parliament - the national Presidential Secretariat.- Sri Lanka.jpg', 'Presidential Secretariat (old Parliament), Colombo'],
       ['New Sri Lankan Parliament in Kotte.jpg', 'Parliament of Sri Lanka, Sri Jayawardenepura Kotte'],
     ],
