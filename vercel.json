@@ -49,5 +49,16 @@
       "path": "/api/cron/lankawitness-analysis",
       "schedule": "40 23,5,11 * * *"
     }
+  ],
+  "headers": [
+    {
+      "source": "/reels/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
   ]
 }
