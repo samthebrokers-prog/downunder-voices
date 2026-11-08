@@ -16,6 +16,9 @@ body>main main>div.mx-auto img{max-width:100%}
   body>main main>div.mx-auto>section:first-child img[src=""],
   body>main main>div.mx-auto>section:first-child img:not([src]){display:none!important}
   body>main main>div.mx-auto>section:first-child img{max-height:430px;object-fit:cover}
+  body>main main>div.mx-auto>section:first-child article img{max-height:none}
+  /* Top Story: picture and headline share the width evenly. */
+  body>main main>div.mx-auto>section:first-child article h2{font-size:2.1rem;line-height:1.08}
 
   /* Keep Cartoon of the Day full-width so the page never leaves a dead blank column. */
   body>main main>div.mx-auto>section:has(a[href="/cartoon-of-the-day"]){width:100%;margin-left:0;margin-right:0;border-radius:0;box-shadow:none}

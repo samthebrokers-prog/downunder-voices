@@ -23,7 +23,7 @@ export function BreakingNewsTicker({
       aria-label="Breaking news"
       className="border-b border-red-900 bg-red-700 text-white"
     >
-      <div className="mx-auto flex max-w-7xl items-stretch">
+      <div className="mx-auto flex max-w-7xl items-stretch sm:px-6 lg:px-8">
         <div className="relative z-20 flex shrink-0 items-center bg-red-900 px-4 py-3 text-xs font-black uppercase tracking-[0.16em] sm:px-6">
           Breaking
         </div>
