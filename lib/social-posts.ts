@@ -32,5 +32,5 @@ export function embedUrl(post: SocialPost, width = 500) {
     return id ? `https://www.youtube-nocookie.com/embed/${id}` : null
   }
   const kind = /\/(videos|reel)\//.test(post.url) ? 'video' : 'post'
-  return `https://www.facebook.com/plugins/${kind}.php?href=${encodeURIComponent(post.url)}&show_text=true&width=${width}`
+  return `https://www.facebook.com/plugins/${kind}.php?href=${encodeURIComponent(post.url)}&show_text=${kind === 'post'}&width=${width}&height=500`
 }

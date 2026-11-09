@@ -18,12 +18,12 @@ export function SocialVoices({ limit, showLink = true }: { limit?: number; showL
       </div>
       <div className="mt-6 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
         {posts.map(p => (
-          <article key={p.url} className="flex flex-col gap-3">
-            {p.platform === 'youtube'
-              ? <div className="relative w-full overflow-hidden rounded-lg bg-black" style={{ aspectRatio: '16 / 9' }}><iframe src={embedUrl(p)!} title={p.note ?? 'YouTube video'} className="absolute inset-0 h-full w-full" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen/></div>
-              : <iframe src={embedUrl(p)!} title={p.note ?? 'Facebook post'} width="100%" height="560" className="w-full overflow-hidden rounded-lg border border-slate-200" style={{ border: 'none' }} loading="lazy" scrolling="no" allow="encrypted-media; picture-in-picture; web-share" allowFullScreen/>}
-            {p.note && <p className="text-sm leading-6 text-slate-700">{p.note}</p>}
-            <a href={p.url} target="_blank" rel="noopener noreferrer nofollow" className="text-xs font-bold text-slate-500 hover:underline">View on {p.platform === 'youtube' ? 'YouTube' : 'Facebook'} · added {p.added}</a>
+          <article key={p.url} className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <div className="relative h-[500px] w-full overflow-hidden rounded-lg bg-neutral-950">
+              <iframe src={embedUrl(p, 360)!} title={p.note ?? (p.platform === 'youtube' ? 'YouTube video' : 'Facebook post')} className="absolute inset-0 h-full w-full" style={{ border: 'none' }} loading="lazy" scrolling="no" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen/>
+            </div>
+            {p.note && <p className="line-clamp-3 min-h-[4.5rem] text-sm leading-6 text-slate-700">{p.note}</p>}
+            <a href={p.url} target="_blank" rel="noopener noreferrer nofollow" className="mt-auto text-xs font-bold text-slate-500 hover:underline">View on {p.platform === 'youtube' ? 'YouTube' : 'Facebook'} · added {p.added}</a>
           </article>
         ))}
       </div>
