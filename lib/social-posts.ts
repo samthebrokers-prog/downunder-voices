@@ -10,6 +10,7 @@ export type SocialPost = {
 }
 
 export const SOCIAL_POSTS: SocialPost[] = [
+  { platform: 'facebook', url: 'https://www.facebook.com/reel/1840632030286280/', added: '2026-11-09', note: 'The Green Party says 2026 is its biggest result in New Zealand history, with special votes still being counted.' },
   { platform: 'facebook', url: 'https://www.facebook.com/reel/2177779609483942/', added: '2026-11-09', note: 'Labour leader Chris Hipkins says power bills are up 25% in three years under Christopher Luxon, and families hit hardest are locked out of cheaper solar power.' },
   { platform: 'facebook', url: 'https://www.facebook.com/reel/2357480045066993/', added: '2026-11-09', note: 'Chris Hipkins on the cost of living, which he calls the issue the National-led government failed to get under control.' },
   { platform: 'facebook', url: 'https://www.facebook.com/chrishipkinsmp/posts/pfbid02U579kEi7jLGnDmymQ4Gw83bp3Soc1sDdP7t6qJDMtoWzwyHR265RYuYz6ptXFsFSl', added: '2026-11-09', note: 'Chris Hipkins makes the case for three free GP visits a year to ease pressure on families and the health system.' },
