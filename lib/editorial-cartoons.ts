@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '9 November 2026',
+    image: '/editorial-cartoons/2026-11-09-november-surprise-snow.jpg',
+    alt: 'Black-and-white newspaper cartoon of an original snowman wearing a bicycle helmet on a mountain bike while a fictional alpine worker changes the weather board from sunshine to snow beneath a November calendar',
+    headline: 'November’s surprise snow day',
+    summary:
+      'A strong cold front brought spring snow to the NSW Alps just weeks before summer. Thredbo fell to minus 5 degrees overnight, hikers met big flakes and mountain-biking preparations found winter had apparently returned for one more shift.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-08/snow-falls-parts-of-nsw-after-strong-cold-front/107361014',
+    sourceLabel:
+      'ABC News — Snow blankets parts of NSW after a strong cold front',
+    question: 'Have you ever packed for spring and arrived in winter? Tell us below.',
+  },
+  {
+    date: '9 November 2026',
     image: '/editorial-cartoons/2026-11-09-mitta-mitta-handover.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of a fictional elderly country couple in a north-east Victorian backyard handing a thick logbook labelled Rainfall 1963–2026 to a new automatic weather station, while a kelpie looks puzzled, a kookaburra laughs from a fence post and a pair of gumboots waits beside the station',
     headline: 'Big gumboots to fill',
