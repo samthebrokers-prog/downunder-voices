@@ -6,6 +6,7 @@ import { SetupBanner } from '@/components/setup-banner'
 import { StoryCard } from '@/components/story-card'
 import { StoryImage } from '@/components/story-image'
 import { SocialVoices } from '@/components/social-voices'
+import { GovRails } from '@/components/gov-rails'
 import { isDatabaseConfigured } from '@/lib/db'
 import { currentCartoon } from '@/lib/editorial-cartoons'
 import { categories, normaliseCategorySlug, type CategorySlug } from '@/lib/news-data'
@@ -26,7 +27,7 @@ export default async function HomePage(){
  const primary=[...(lead?[lead]:[]),...topStories,...latest]; const breakingStories=uniqueStories(rankedStories,6,[]);
  const briefingPool=visibleStories.filter(s=>!isDuplicateOfAny(s,primary)); const ninetySeconds=buildNinetySecondBriefing(briefingPool); const featured=[...primary,...ninetySeconds.map(i=>i.story)];
  const opinionStories=distinctEditorials(allStories.filter(isEditorialStory),3);
- return <>{!configured&&<SetupBanner/>}<main><h1 className="sr-only">Downunder Voices — independent news from Australia, New Zealand and the world</h1><BreakingNewsTicker stories={breakingStories}/><div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+ return <>{!configured&&<SetupBanner/>}<main><h1 className="sr-only">Downunder Voices — independent news from Australia, New Zealand and the world</h1><BreakingNewsTicker stories={breakingStories}/><GovRails/><div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
  {lead&&<section><SectionHeading title="Top Story" href="/latest" linkText="View latest"/><div className="overflow-hidden rounded-lg border border-border bg-card shadow-sm"><StoryCard story={lead} variant="feature"/></div></section>}
  <section className="mt-12 overflow-hidden rounded-xl border border-amber-300 bg-amber-50 shadow-sm"><div className="flex flex-wrap items-center justify-between gap-3 border-b border-amber-300 px-5 py-4 sm:px-7"><div><p className="text-xs font-black uppercase tracking-[0.18em] text-neutral-900">Original Downunder Voices satire</p><h2 className="mt-1 font-serif text-3xl font-black text-slate-950">Cartoon of the Day</h2></div><Link href="/cartoon-of-the-day" className="inline-flex items-center gap-1 text-sm font-black text-neutral-900 hover:underline">Open today&apos;s cartoon <ArrowRight className="size-4"/></Link></div><Link href="/cartoon-of-the-day" className="block"><img src={currentCartoon.image} alt={currentCartoon.alt} className="h-auto w-full"/></Link></section>
  <SocialVoices limit={3}/>
