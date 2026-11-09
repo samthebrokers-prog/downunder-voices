@@ -6,6 +6,8 @@ const AU = [
   { name: 'Australian Taxation Office', tip: 'Tax time, deadlines & news', url: 'https://www.ato.gov.au/' },
   { name: 'Fair Work Ombudsman', tip: 'Pay rates & work rights', url: 'https://www.fairwork.gov.au/' },
   { name: 'Australian Border Force', tip: 'Travel & import updates', url: 'https://www.abf.gov.au/' },
+  { name: 'Home Affairs (Visas)', tip: 'Visas & citizenship', url: 'https://immi.homeaffairs.gov.au/' },
+  { name: 'myGov', tip: 'Sign in to Centrelink, Medicare & ATO', url: 'https://my.gov.au/' },
 ]
 const NZ = [
   { name: 'Inland Revenue (IRD)', tip: 'Tax, KiwiSaver & Working for Families', url: 'https://www.ird.govt.nz/' },
@@ -15,7 +17,7 @@ const NZ = [
 ]
 function Rail({ title, flag, items, side }: { title: string; flag: string; items: typeof AU; side: 'left' | 'right' }) {
   return (
-    <aside aria-label={title} className="fixed top-[280px] z-10 hidden w-[200px] min-[1720px]:block" style={side === 'left' ? { left: 'calc((100vw - 80rem) / 2 - 220px)' } : { right: 'calc((100vw - 80rem) / 2 - 220px)' }}>
+    <aside aria-label={title} className="fixed top-[200px] z-10 hidden w-[200px] min-[1720px]:block" style={side === 'left' ? { left: 'calc((100vw - 80rem) / 2 - 220px)' } : { right: 'calc((100vw - 80rem) / 2 - 220px)' }}>
       <div className="overflow-hidden rounded-xl border border-slate-300 bg-white shadow-sm">
         <div className="bg-neutral-900 px-4 py-3 text-white"><p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-300">Government updates</p><p className="mt-1 font-serif text-lg font-black">{flag} {title}</p></div>
         <ul className="divide-y divide-slate-200">

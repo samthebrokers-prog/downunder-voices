@@ -5,8 +5,9 @@ import {
   type Story,
   type CategorySlug,
 } from '@/lib/news-data'
-import { editorialImageUrl } from '@/lib/editorial-image'
+import { editorialImageUrl, upgradeEditorialImageUrl } from '@/lib/editorial-image'
 import { decodeNewsText } from '@/lib/decode-news-text'
+import { isJunkTitle } from '@/lib/news-filter'
 import { correctFeedCategory, displaySourceName, isBorrowedImage, removeDuplicateStories } from '@/lib/story-corrections'
 
 type StoryRow = {
@@ -120,7 +121,7 @@ function rowToStory(row: StoryRow): Story {
     sourceUrl: row.source_url,
     image: (() => {
       // Some feeds encode '&' in image links as '&#038;' or '&amp;', which breaks the picture.
-      const imageUrl = row.image_url?.trim().replace(/&#0?38;|&amp;/gi, '&')
+      const imageUrl = upgradeEditorialImageUrl(row.image_url?.trim().replace(/&#0?38;|&amp;/gi, '&'), row.slug)
       // Our own originals never carry another outlet's photo: use our own illustration instead.
       // Editorials must always have a picture, so a missing one gets our editorial illustration.
       if (isOriginal && (!imageUrl || isBorrowedImage(imageUrl) || imageUrl === SHARED_DEFAULT_NEWS_IMAGE)) return editorialImageUrl(row.slug)
@@ -139,6 +140,7 @@ function isRealStory(story: Story): boolean {
   const summary = (story.summary ?? '').toLowerCase()
   if (/^(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{4}$/i.test(title)) return false
   if (summary.includes('this content is locked')) return false
+  if (isJunkTitle(title)) return false
   return true
 }
 
