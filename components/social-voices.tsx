@@ -12,7 +12,7 @@ export function SocialVoices({ limit, showLink = true }: { limit?: number; showL
         <div>
           <p className="text-xs font-black uppercase tracking-[0.18em] text-neutral-900">From Facebook &amp; YouTube</p>
           <h2 className="mt-1 font-serif text-3xl font-black text-slate-950">Voices on the Government</h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">Public posts and videos by others about the National, ACT and NZ First government, shared for discussion. Views are the authors&apos; own, not Downunder Voices&apos;.</p>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">Videos of the Prime Minister, ACT and the Opportunity Party after the 2026 election, shared for discussion. Views are the authors&apos; own, not Downunder Voices&apos;.</p>
         </div>
         {showLink && <Link href="/from-facebook" className="inline-flex items-center gap-1 text-sm font-black text-neutral-900 hover:underline">See all <ArrowRight className="size-4"/></Link>}
       </div>
