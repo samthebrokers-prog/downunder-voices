@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { dbRequest } from '@/lib/db'
-import { editorialImageUrl } from '@/lib/editorial-image'
+import { editorialImageUrl, upgradeEditorialImageUrl } from '@/lib/editorial-image'
 
 export const runtime = 'nodejs'
 export const revalidate = 600
@@ -41,7 +41,7 @@ export async function GET() {
     })
     if (!rows.length) return NextResponse.json({ editorial: null, editorials: [] })
     // Every editorial always has a picture: fill any missing one with our illustration.
-    for (const r of rows) if (!r.image_url) r.image_url = editorialImageUrl(r.slug)
+    for (const r of rows) r.image_url = r.image_url ? (upgradeEditorialImageUrl(r.image_url, r.slug) ?? null) : editorialImageUrl(r.slug)
 
     const latestDay = sydneyDate(rows[0].published_at)
     const sameDay = rows.filter((r) => sydneyDate(r.published_at) === latestDay)

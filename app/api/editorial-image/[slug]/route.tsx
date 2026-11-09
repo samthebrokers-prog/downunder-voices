@@ -15,11 +15,13 @@ type RouteContext = { params: Promise<{ slug: string }> }
  */
 
 const TOPICS: Array<[string, RegExp]> = [
+  // Politics is checked first so an election editorial that mentions
+  // hospitals or schools in passing still gets a parliament picture.
+  ['Politics', /\b(elections?|electoral|votes?|voters|voting|ballots?|turnout|candidates?|campaign|parliament|mps?|ministers?|government|coalition)\b/i],
   ['Councils & Rates', /\b(council|councillors?|rates|ratepayers?|mayor|local government)\b/i],
   ['Housing', /\b(housing|house prices|homes?|rent|renters|mortgage|property|landlords?|tenants?)\b/i],
   ['Health', /\b(health|hospitals?|doctors?|nurses?|gp|medical|patients?|mental health|pharmac)\b/i],
   ['Education', /\b(schools?|education|teachers?|students?|university|tertiary|childcare)\b/i],
-  ['Politics', /\b(election|vote|voters|ballot|candidates?|campaign|parliament|mp|minister|government)\b/i],
   ['Trade', /\b(trade|tariffs?|shipping|ports?|exports?|imports?|freight|customs|supply chain)\b/i],
   ['Energy & Climate', /\b(energy|electricity|power prices|fuel|petrol|climate|emissions|gas)\b/i],
   ['Justice', /\b(court|justice|police|crime|judge|prison|sentenc\w*)\b/i],
@@ -33,7 +35,7 @@ const TOPICS: Array<[string, RegExp]> = [
 const PHOTO_QUERIES: Record<string, string> = {
   'Councils & Rates': 'town hall',
   Housing: 'suburban houses street',
-  Health: 'hospital ward',
+  Health: 'modern hospital building',
   Education: 'school classroom',
   Politics: 'parliament building',
   Trade: 'container port ship',
@@ -43,6 +45,9 @@ const PHOTO_QUERIES: Record<string, string> = {
   'Cost of Living': 'supermarket aisle',
   Environment: 'australian outback farm',
   Technology: 'computer server room',
+}
+const PARLIAMENT_PHOTOS: Record<string, string> = {
+  'New Zealand': 'https://commons.wikimedia.org/wiki/Special:FilePath/Bowen_House_Beehive_Parliament.JPG?width=1280',
 }
 const REGION_QUERIES: Record<string, string> = {
   'New Zealand': 'auckland skyline',
@@ -130,7 +135,10 @@ export async function GET(_request: Request, { params }: RouteContext) {
   const topic = topicOf(text)
   const region = regionOf(text)
 
-  const photo = (await commonsPhoto(PHOTO_QUERIES[topic] ?? REGION_QUERIES[region], slug))
+  // Politics: NZ always gets the Beehive; Australia searches for Parliament House Canberra.
+  const fixed = topic === 'Politics' ? PARLIAMENT_PHOTOS[region] : undefined
+  const query = topic === 'Politics' && region === 'Australia' ? 'Parliament House Canberra' : (PHOTO_QUERIES[topic] ?? REGION_QUERIES[region])
+  const photo = fixed ?? (await commonsPhoto(query, slug))
     ?? (PHOTO_QUERIES[topic] ? await commonsPhoto(REGION_QUERIES[region], slug) : null)
   if (photo) {
     return new Response(null, {

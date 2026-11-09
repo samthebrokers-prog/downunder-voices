@@ -36,6 +36,22 @@ const BLOCKED_TERMS = [
   'ethereum price prediction',
 ]
 
+// Headlines that are really instructions to a writer or an AI (they slip
+// through some feeds by mistake), e.g. "Examine the assignment and publish
+// the post on container-news.com". Never show these as news.
+const JUNK_TITLE_PATTERNS = [
+  /\b(examine|complete|read|review|check) the (assignment|instructions?)\b/i,
+  /\bpublish (the|this|a) (post|article)\b/i,
+  /\b(write|create|draft) (an?|the) (article|post|blog|press release)\b/i,
+  /\bignore (all |the )?(previous|prior|above) instructions\b/i,
+  /\b(as an ai|language model|your task is|assignment:|instructions?:)\b/i,
+  /\blorem ipsum\b/i,
+]
+
+export function isJunkTitle(title: string): boolean {
+  return JUNK_TITLE_PATTERNS.some((p) => p.test(title || ''))
+}
+
 const BLOCKED_SOURCE_PATTERNS = [
   'finance.yahoo.com/news/rssindex',
 ]
@@ -46,6 +62,8 @@ export function shouldImportStory(
   sourceName = '',
   sourceUrl = '',
 ): boolean {
+  if (isJunkTitle(title)) return false
+
   const text = `${title} ${description}`.toLowerCase()
 
   const sourceText =
