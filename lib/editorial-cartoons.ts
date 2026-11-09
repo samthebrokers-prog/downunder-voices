@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '10 November 2026',
+    image: '/editorial-cartoons/2026-11-10-christmas-beetle-gold.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of a backyard podium made from wooden crates under an Insect of the Year banner, with a shiny gold Christmas beetle wearing a winner’s medal, a spotted ladybird in second and a glowing glow-worm in third, while a fictional grandfather in a bush hat peers through a magnifying glass and a fictional girl photographs the beetle on her phone',
+    headline: 'Gold for the Christmas beetle',
+    summary:
+      'The gold Christmas beetle has been voted the 2026 Australian Insect of the Year, finishing well ahead of a ladybird and the Otway glow-worm in an ABC poll. Scientists say Christmas beetles are being seen less often than a few decades ago and are asking the public to log sightings in a nationwide beetle count.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-10/gold-christmas-beetle-voted-2026-australian-insect-of-the-year/107344830',
+    sourceLabel:
+      'ABC News — Gold Christmas beetle voted Australian Insect of the Year',
+    question: 'When did you last spot a Christmas beetle in your backyard? Tell us below.',
+  },
+  {
     date: '9 November 2026',
     image: '/editorial-cartoons/2026-11-09-november-surprise-snow.jpg',
     alt: 'Black-and-white newspaper cartoon of an original snowman wearing a bicycle helmet on a mountain bike while a fictional alpine worker changes the weather board from sunshine to snow beneath a November calendar',
