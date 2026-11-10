@@ -20,22 +20,22 @@ export const electionInfo = {
   electionDate: '7 November 2026',
   officialResultIso: '2026-11-27T14:00:00+13:00',
   officialResultLabel: 'Friday 27 November 2026',
-  lastUpdated: '9 November 2026, 1:45am NZT',
+  lastUpdated: '11 November 2026, 1:45am NZT',
   totalSeats: 131,
   majority: 66,
   overhang: 11,
-  specialVotesExpected: 'about 700,000',
+  specialVotesExpected: 'about 400,000',
   sourceUrl: 'https://electionresults.govt.nz/ge2026/',
 }
 
 export const parties: PartyResult[] = [
   { name: 'National', short: 'NAT', bloc: 'right', color: '#1f4e9c', votePct: '29.21%', electorate: 42, list: 0 },
-  { name: 'ACT', short: 'ACT', bloc: 'right', color: '#f5c400', votePct: '≈11%', electorate: 1, list: 12 },
-  { name: 'NZ First', short: 'NZF', bloc: 'right', color: '#222222', votePct: '≈9.8%', electorate: 0, list: 12 },
+  { name: 'ACT', short: 'ACT', bloc: 'right', color: '#f5c400', votePct: '10.92%', electorate: 1, list: 12 },
+  { name: 'NZ First', short: 'NZF', bloc: 'right', color: '#222222', votePct: '9.78%', electorate: 0, list: 12 },
   { name: 'Labour', short: 'LAB', bloc: 'left', color: '#d82a20', votePct: '29.36%', electorate: 21, list: 15 },
   { name: 'Greens', short: 'GRN', bloc: 'left', color: '#2e9e44', votePct: '13.30%', electorate: 2, list: 14 },
-  { name: 'Te Pāti Māori', short: 'TPM', bloc: 'left', color: '#7a1f2b', votePct: '<1%', electorate: 5, list: 0 },
-  { name: 'Opportunity', short: 'TOP', bloc: 'other', color: '#0fa3a3', votePct: '≈6%', electorate: 0, list: 7 },
+  { name: 'Te Pāti Māori', short: 'TPM', bloc: 'left', color: '#7a1f2b', votePct: '0.56%', electorate: 5, list: 0 },
+  { name: 'Opportunity', short: 'TOP', bloc: 'other', color: '#0fa3a3', votePct: '5.96%', electorate: 0, list: 7 },
 ]
 
 export const closeSeats = [
@@ -49,6 +49,26 @@ export const closeSeats = [
 ]
 
 export const updates = [
+  {
+    time: '10 Nov',
+    headline: 'Luxon confirms talks with Opportunity\'s Qiulae Wong',
+    body: 'The Prime Minister confirmed he has spoken with the Opportunity leader. He said New Zealanders would not thank the parties for going back to the polls if no government can be formed, but repeated that National can govern with its current partners and that everyone must wait for the special votes.',
+  },
+  {
+    time: '10 Nov',
+    headline: 'Hipkins: National "manipulated" the electoral system',
+    body: 'The Labour leader pointed out that National lost the party vote but still won the most seats because of the overhang. Labour is waiting for the final count before deciding its next steps.',
+  },
+  {
+    time: '10 Nov',
+    headline: 'Chris Bishop says he is out of Parliament',
+    body: 'The senior National minister lost Hutt South to Labour\'s Ginny Andersen by fewer than 900 votes and does not expect special votes to change it. He called the vote-splitting overhang campaign "terribly confusing for voters" and wants the electoral system reviewed.',
+  },
+  {
+    time: '9–10 Nov',
+    headline: '35 new MPs arrive at Parliament',
+    body: 'Inductions for the new MPs began at Parliament while about 400,000 special votes are still being counted. National says any decision on replacing deputy leader Nicola Willis, who is out on preliminary figures, will wait for the final result.',
+  },
   {
     time: '9 Nov, 1:45am NZT',
     headline: 'Live page opened: the wait for special votes begins',
