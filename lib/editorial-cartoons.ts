@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '11 November 2026',
+    image: '/editorial-cartoons/2026-11-11-coral-tape-ran-out.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon set underwater, where a vast rose coral colony stretches to the horizon while a fictional diver holds up an empty tape-measure reel whose tape runs back to a 0 m flag, and a second fictional diver in the distance holds a slate reading Still coral! with arrows pointing onward',
+    headline: 'The tape ran out before the coral did',
+    summary:
+      'Scientists have mapped a single rose coral colony stretching about 1.56 kilometres off the Cocos (Keeling) Islands, roughly three MCGs in area. Divers began with tape measures, switched to GPS once the size became clear, and needed 12 dives to reach the end of it.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-11/massive-coral-colony-found-off-the-cocos-keeling-islands/107367586',
+    sourceLabel:
+      'ABC News — Divers map a kilometre-long coral colony off the Cocos (Keeling) Islands',
+    question: 'What is the biggest natural wonder you have seen up close? Tell us below.',
+  },
+  {
     date: '10 November 2026',
     image: '/editorial-cartoons/2026-11-10-stump-jump-plough.jpg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of an original horse-drawn stump-jump plough springing over three tree stumps like an obstacle course while a fictional 1870s farmer waves a chequered flag and holds a stopwatch',
