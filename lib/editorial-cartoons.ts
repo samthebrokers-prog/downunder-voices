@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '10 November 2026',
+    image: '/editorial-cartoons/2026-11-10-stump-jump-plough.jpg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of an original horse-drawn stump-jump plough springing over three tree stumps like an obstacle course while a fictional 1870s farmer waves a chequered flag and holds a stopwatch',
+    headline: 'Australia’s original all-terrain technology',
+    summary:
+      'South Australia’s stump-jump plough has marked 150 years since Richard and Clarence Smith demonstrated it at the 1876 Moonta Agricultural Show. Its hinged, weighted shears could rise over stubborn mallee stumps and return to the soil, turning a broken-plough insight into an invention that opened difficult scrub country to farming.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-09/stump-jump-plough-150th-anniversary-yorke-peninsula/107349432',
+    sourceLabel:
+      'ABC Rural — Stump-jump plough commemorated 150 years after invention in SA',
+    question: 'Which Australian invention deserves its own obstacle course? Tell us below.',
+  },
+  {
+    date: '10 November 2026',
     image: '/editorial-cartoons/2026-11-10-christmas-beetle-gold.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of a backyard podium made from wooden crates under an Insect of the Year banner, with a shiny gold Christmas beetle wearing a winner’s medal, a spotted ladybird in second and a glowing glow-worm in third, while a fictional grandfather in a bush hat peers through a magnifying glass and a fictional girl photographs the beetle on her phone',
     headline: 'Gold for the Christmas beetle',
