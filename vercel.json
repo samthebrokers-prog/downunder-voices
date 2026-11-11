@@ -51,7 +51,7 @@
     },
     {
       "path": "/api/originals/sync",
-      "schedule": "7 * * * *"
+      "schedule": "*/10 * * * *"
     }
   ],
   "headers": [

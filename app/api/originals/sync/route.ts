@@ -11,7 +11,8 @@ export async function GET() {
   const existing: string[] = []
   const failed: { slug: string; error: string }[] = []
 
-  for (const a of DV_ORIGINALS) {
+  // Only the newest entries need checking; older ones are already in the database.
+  for (const a of DV_ORIGINALS.slice(0, 15)) {
     try {
       const found = await dbRequest<Array<{ id: string }>>('stories', {
         query: `?select=id&slug=eq.${encodeURIComponent(a.slug)}&limit=1`,

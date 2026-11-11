@@ -18,7 +18,7 @@
 export type DvOriginal = {
   slug: string // kebab-case, unique, ends with -YYYY
   publishedAt: string // ISO timestamp
-  category: 'australia' | 'new-zealand' | 'world' | 'social-issues' | 'small-business' | 'trade-logistics' | 'community'
+  category: 'editorial-view' | 'australia' | 'new-zealand' | 'world' | 'social-issues' | 'small-business' | 'trade-logistics' | 'community' // 'editorial-view' shows as Opinion
   title: string
   summary: string // 1–2 sentence standfirst
   body: string // full article, ends with "Sources: …" and "Photo: … via Wikimedia Commons (licence)."
