@@ -50,11 +50,15 @@ type Region = 'australia' | 'new-zealand' | 'world'
 
 const AU = /\b(australia|australian|australians|aussie|canberra|sydney|melbourne|brisbane|perth|adelaide|hobart|darwin|gold coast|new south wales|nsw|queensland|qld|victoria|victorian|tasmania|tasmanian|western australia|wa minister|wa premier|wa government|wa police|wa's|south australia|northern territory|albanese|anthony albanese|sussan ley|peter dutton|pauline hanson|one nation|mark latham|helen haines|federal labor|labor government|coalition government|federal parliament|parliament house|centrelink|ndis|medicare|asx|rba|reserve bank of australia|afl|nrl)\b/i
 const NZ = /\b(new zealand|new zealander|new zealanders|aotearoa|kiwi|kiwis|auckland|wellington|christchurch|hamilton|tauranga|dunedin|rotorua|invercargill|palmerston north|napier|nelson|queenstown|whangārei|whangarei|porirua|beehive|luxon|chris hipkins|te pāti māori|pharmac|rnz)\b/i
-const WORLD = /\b(united states|usa|u\.s|america|american|americans|trump|white house|midterms?|congress|united kingdom|britain|british|england|london|europe|european|china|chinese|beijing|india|indian|japan|japanese|canada|canadian|germany|german|france|french|ukraine|ukrainian|russia|russian|kremlin|putin|middle east|israel|israeli|israelis|palestinian|palestinians|gaza|west bank|hebron|jerusalem|iran|iranian|iraq|syria|lebanon|africa|african|asia|fiji|tonga|samoa|vanuatu|solomon islands|papua new guinea|al jazeera|un security council|nato)\b/i
+const WORLD = /\b(united states|usa|u\.s|america|american|americans|trump|white house|midterms?|congress|united kingdom|britain|british|england|london|europe|european|china|chinese|beijing|india|indian|japan|japanese|canada|canadian|germany|german|france|french|ukraine|ukrainian|russia|russian|kremlin|putin|middle east|israel|israeli|israelis|palestinian|palestinians|gaza|west bank|hebron|jerusalem|iran|iranian|iraq|syria|lebanon|africa|african|asia|fiji|tonga|samoa|vanuatu|solomon islands|papua new guinea|al jazeera|un security council|nato|argentina|argentine|milei|brazil|mexico|vatican|pope|pontiff|cop30|cop31)\b/i
 
 const CELEBRITY = /\b(britney spears|kardashian|taylor swift|beyonc[ée]|kanye|justin bieber|selena gomez|pop star|popstar|hollywood|reality star|reality tv|red carpet)\b/i
 const BUSINESS_WORDS = /\b(business|businesses|company|companies|economy|economic|industry|jobs|bank|banks|interest rates?|inflation|retail|retailer|profit|profits|investment|market|markets|shares|stores|trade|tariffs?)\b/i
 const CONFLICT_WORDS = /\b(soldiers|troops|military|army|airstrikes?|strikes|raid|raids|war|ceasefire|journalist arrested|arrest|arrested|blindfolded)\b/i
+
+const STRONG_SPORT = /\b(rugby|cricket|football|soccer|netball|nrl|afl|olympics?|tennis|golf|basketball|all blacks|wallabies|matildas|socceroos|black caps|a-league|premier league|world cup|grand slam|racing|motorsport|formula 1|f1|supercars|boxing|ufc)\b/i
+const FREIGHT_WORDS = /\b(freight|forwarder|forwarders|shipping|container|containers|cargo|logistics|supply chain|ports?|terminal|carriers?|dsv|kuehne|k\+n|maersk|msc|dhl)\b/i
+const EARNINGS_WORDS = /\b(earnings|profit|profits|revenue|quarterly|q[1-4]|shares|shareholders|investors|analysts?|stock)\b/i
 
 const REGIONAL = new Set<string>(['australia', 'new-zealand', 'nz-pacific', 'world'])
 
@@ -87,6 +91,17 @@ export function correctFeedCategory(
   // Overseas conflict news filed under Business moves to World.
   if ((category === 'small-business' || category === 'business') && !BUSINESS_WORDS.test(cleanTitle.replace(/west bank/gi, '')) && CONFLICT_WORDS.test(cleanTitle) && WORLD.test(fullText)) {
     return 'world' as CategorySlug
+  }
+
+  // Freight and company-earnings stories that only *sound* sporty ("earnings season champ", "beat to the punch") leave Sports.
+  if (category === 'sports' && !STRONG_SPORT.test(fullText) && (FREIGHT_WORDS.test(fullText) || EARNINGS_WORDS.test(fullText))) {
+    return (FREIGHT_WORDS.test(fullText) ? 'trade-logistics' : 'small-business') as CategorySlug
+  }
+
+  // A politics or world-affairs headline with no business word in it doesn't belong in Business.
+  if ((category === 'small-business' || category === 'business') && !BUSINESS_WORDS.test(cleanTitle) && !FREIGHT_WORDS.test(cleanTitle)) {
+    const titleRegion = regionOf(cleanTitle)
+    if (titleRegion) return titleRegion as CategorySlug
   }
 
   if (!REGIONAL.has(category)) return category

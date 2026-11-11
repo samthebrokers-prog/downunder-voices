@@ -9,6 +9,15 @@ function getDisplayCategoryName(category: Story['category']) {
 }
 
 const publisherMap: Array<[string, string]> = [
+  ['abc.net.au', 'ABC News'],
+  ['sbs.com.au', 'SBS News'],
+  ['theguardian.com', 'The Guardian'],
+  ['9news.com.au', '9News'],
+  ['nzherald.co.nz', 'NZ Herald'],
+  ['stuff.co.nz', 'Stuff'],
+  ['1news.co.nz', '1News'],
+  ['dw.com', 'DW'],
+  ['propublica.org', 'ProPublica'],
   ['rnz.co.nz', 'RNZ'],
   ['aljazeera.com', 'Al Jazeera'],
   ['npr.org', 'NPR'],
@@ -28,7 +37,10 @@ function publisherFromUrl(url?: string | null) {
     const hostname = new URL(url).hostname.toLowerCase().replace(/^www\./, '')
     const mapped = publisherMap.find(([domain]) => hostname === domain || hostname.endsWith(`.${domain}`))
     if (mapped) return mapped[1]
-    const base = hostname.split('.').slice(-2, -1)[0] || hostname
+    // Skip country-code endings such as .net.au, .com.au and .co.nz so ABC isn't shown as "Net".
+    const parts = hostname.split('.')
+    const secondLevel = new Set(['com', 'net', 'org', 'co', 'gov', 'edu', 'govt', 'ac'])
+    const base = (parts.length > 2 && secondLevel.has(parts[parts.length - 2]) ? parts[parts.length - 3] : parts[parts.length - 2]) || hostname
     return base ? base.charAt(0).toUpperCase() + base.slice(1) : ''
   } catch {
     return ''
@@ -37,7 +49,7 @@ function publisherFromUrl(url?: string | null) {
 
 function cleanSourceName(name?: string | null, url?: string | null) {
   const value = (name || '').trim()
-  const vague = !value || /^https?:\/\//i.test(value) || /rss\.xml/i.test(value) || /^news source$/i.test(value)
+  const vague = !value || /^https?:\/\//i.test(value) || /rss\.xml/i.test(value) || /^news source$/i.test(value) || /^(net|com|au|nz|co|www|news|rss|feeds?)$/i.test(value)
   if (!vague) return value
   return publisherFromUrl(url) || 'Original publisher'
 }

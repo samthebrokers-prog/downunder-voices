@@ -34,6 +34,8 @@ export function BreakingNewsTicker({
               <Link
                 key={`${story.id}-${index}`}
                 href={`/story/${story.slug ?? story.id}`}
+                aria-hidden={index >= stories.length || undefined}
+                tabIndex={index >= stories.length ? -1 : undefined}
                 className="flex shrink-0 items-center gap-3 px-6 py-3 text-sm font-semibold transition hover:bg-red-800"
               >
                 <span className="inline-block size-1.5 rounded-full bg-white" />
