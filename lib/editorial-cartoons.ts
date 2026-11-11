@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '12 November 2026',
+    image: '/editorial-cartoons/2026-11-12-fee-shy-twin.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon in a fictional bank branch, where a fictional baker in a floury apron holds a receipt so long it drapes to the floor and has circled a tiny second fee printed under the normal one, while a cheerful fictional teller behind a glass screen explains that it is the fee’s shy twin',
+    headline: 'The fee with a shy twin',
+    summary:
+      'The corporate regulator ASIC has taken a major bank to court, alleging tens of thousands of business customers were charged a second fee on direct debits and credits that its terms did not clearly spell out. The bank says it stopped the charges in 2025 and has already paid back millions, and the allegations have not yet been tested in court.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-12/asic-sues-commonwealth-bank-alleges-overcharged-millions-in-fees/107376156',
+    sourceLabel:
+      'ABC News — ASIC alleges business banking customers were charged fees that were not clearly disclosed',
+    question: 'Do you read the fine print on your bank statements? Tell us below.',
+  },
+  {
     date: '11 November 2026',
     image: '/editorial-cartoons/2026-11-11-desert-frog-rain-alarm.jpg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon showing three original desert frogs waking in an underground dormitory when a raincloud alarm clock rings, while rain fills a temporary claypan above them',
