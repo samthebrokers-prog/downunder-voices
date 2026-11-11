@@ -14,6 +14,7 @@
 import { dbRequest } from '@/lib/db'
 import { canSpend, PRICES, recordFailure, recordSpend } from '@/lib/radio-budget'
 import { getJson, publicUrl, putJson } from '@/lib/radio-storage'
+import { openAiKey } from '@/lib/ai-switch'
 
 const FILE = 'audaisuki/news.json'
 const KEEP = 60
@@ -123,7 +124,7 @@ export async function produceAudaisukiNews() {
     },
   }
 
-  const apiKey = process.env.OPENAI_API_KEY
+  const apiKey = openAiKey()
   if (!apiKey) throw new Error('OPENAI_API_KEY is not configured')
   const response = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',

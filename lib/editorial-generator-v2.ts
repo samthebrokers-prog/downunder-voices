@@ -2,6 +2,7 @@ import { dbRequest, isDatabaseConfigured } from '@/lib/db'
 import { uniqueSlug } from '@/lib/slug'
 import { publishStoryToFacebook } from '@/lib/facebook'
 import { editorialImageUrl } from '@/lib/editorial-image'
+import { openAiKey } from '@/lib/ai-switch'
 
 type Region = 'Australia' | 'New Zealand' | 'World'
 
@@ -88,7 +89,7 @@ function sydneyDay(value: string | Date): string {
 }
 
 async function generateCandidates(news: Story[], previous: Story[], lead = false): Promise<Candidate[]> {
-  const apiKey = process.env.OPENAI_API_KEY
+  const apiKey = openAiKey()
   if (!apiKey) throw new Error('OPENAI_API_KEY is missing.')
 
   const material = news.map((story, index) => [

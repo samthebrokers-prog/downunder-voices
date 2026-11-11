@@ -15,6 +15,7 @@
  * Reaching a cap never stops the station: only new AI generation stops.
  */
 import { getJson, putJson } from '@/lib/radio-storage'
+import { aiEnabled } from '@/lib/ai-switch'
 
 const num = (value: string | undefined, fallback: number) => {
   const n = Number(value)
@@ -99,6 +100,7 @@ export type SpendKind = 'news' | 'programme'
 
 /** May we spend about `usd` more on this kind of work right now? */
 export async function canSpend(kind: SpendKind, usd: number) {
+  if (!aiEnabled()) return { ok: false, reason: 'AI switched off by the owner (no OpenAI spending)' }
   const ledger = await current()
   if (ledger.failures >= CAPS.failuresPerDay) {
     return { ok: false, reason: `paused for today after ${ledger.failures} failed calls` }

@@ -14,6 +14,7 @@
  */
 import { canSpend, PRICES, recordFailure, recordSpend } from '@/lib/radio-budget'
 import { getJson, putJson } from '@/lib/radio-storage'
+import { openAiKey } from '@/lib/ai-switch'
 
 const FILE = 'lankawitness/analysis.json'
 const KEEP = 90
@@ -203,7 +204,7 @@ export async function produceLankaAnalysis(options: { force?: boolean } = {}) {
   const leads = STORY_LEADS.map((l) => `- ${l}`).join('\n')
   const today = new Date().toISOString().slice(0, 10)
 
-  const apiKey = process.env.OPENAI_API_KEY
+  const apiKey = openAiKey()
   if (!apiKey) throw new Error('OPENAI_API_KEY is not configured')
   const response = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',

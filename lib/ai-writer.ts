@@ -1,3 +1,5 @@
+import { openAiKey } from '@/lib/ai-switch'
+
 type ArticleMode = 'news' | 'opinion'
 
 type WriteArticleInput = {
@@ -270,7 +272,7 @@ Return only the required JSON.
 export async function writeArticle(
   input: WriteArticleInput,
 ): Promise<WrittenArticle> {
-  const apiKey = process.env.OPENAI_API_KEY
+  const apiKey = openAiKey()
   const mode: ArticleMode = input.mode ?? 'news'
 
   if (!apiKey) {

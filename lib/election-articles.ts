@@ -1,6 +1,7 @@
 import { dbRequest, isDatabaseConfigured } from '@/lib/db'
 import { uniqueSlug } from '@/lib/slug'
 import { publishStoryToFacebook } from '@/lib/facebook'
+import { openAiKey } from '@/lib/ai-switch'
 
 /*
  * Daily election opinion: three original Downunder Voices articles a day on
@@ -123,7 +124,7 @@ function raceBrief(race: Race): string {
 }
 
 async function writeArticle(race: Race, news: Story[], previousTitles: string[]): Promise<Article | null> {
-  const apiKey = process.env.OPENAI_API_KEY
+  const apiKey = openAiKey()
   if (!apiKey) throw new Error('OPENAI_API_KEY is missing.')
 
   const material = news.map((story, index) => [

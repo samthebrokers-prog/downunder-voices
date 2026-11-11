@@ -47,6 +47,7 @@ import {
   sha,
 } from '@/lib/radio-storage'
 import { HOUSE_SPONSOR_PROMO, sponsorFor } from '@/lib/radio-sponsors'
+import { openAiKey } from '@/lib/ai-switch'
 
 export type BroadcastKind = 'news' | 'programme'
 
@@ -163,7 +164,7 @@ type WriterOptions = {
 }
 
 async function callWriter(instructions: string, input: string, opts: WriterOptions) {
-  const apiKey = process.env.OPENAI_API_KEY
+  const apiKey = openAiKey()
   if (!apiKey) throw new Error('OPENAI_API_KEY is not configured')
 
   const response = await fetch('https://api.openai.com/v1/responses', {
@@ -243,7 +244,7 @@ function splitForSpeech(script: string) {
 }
 
 async function speak(script: string, presenter: RadioPresenter, kind: SpendKind, note: string) {
-  const apiKey = process.env.OPENAI_API_KEY
+  const apiKey = openAiKey()
   if (!apiKey) throw new Error('OPENAI_API_KEY is not configured')
   const profile = getRadioVoice(presenter)
 

@@ -7,6 +7,7 @@ import {
 import { scoreStory } from '@/lib/story-score'
 import { buildEditorialTopicBank } from '@/lib/editorial-topic-bank'
 import { publishStoryToFacebook } from '@/lib/facebook'
+import { openAiKey } from '@/lib/ai-switch'
 
 type EditorialRegion =
   | 'Australia'
@@ -559,7 +560,7 @@ async function generateEditorialCandidates(
   GeneratedEditorial[]
 > {
   const apiKey =
-    process.env.OPENAI_API_KEY
+    openAiKey()
 
   if (!apiKey) {
     throw new Error(
