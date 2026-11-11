@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '11 November 2026',
+    image: '/editorial-cartoons/2026-11-11-desert-frog-rain-alarm.jpg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon showing three original desert frogs waking in an underground dormitory when a raincloud alarm clock rings, while rain fills a temporary claypan above them',
+    headline: 'The rain alarm finally rang',
+    summary:
+      'Recent storms have given Central Australians a rare chance to hear elusive desert frogs. Some burrowing species can wait more than a metre underground for months or potentially years, then emerge after rain to feed and breed. Scientists are asking residents to record their calls during FrogID Week.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-10/scientists-call-for-help-to-find-elusive-desert-frogs-id-week/107341972',
+    sourceLabel:
+      'ABC Alice Springs — Scientists call for help to find elusive desert frogs',
+    question: 'What sound tells you the wet weather has finally arrived? Tell us below.',
+  },
+  {
+    date: '11 November 2026',
     image: '/editorial-cartoons/2026-11-11-coral-tape-ran-out.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon set underwater, where a vast rose coral colony stretches to the horizon while a fictional diver holds up an empty tape-measure reel whose tape runs back to a 0 m flag, and a second fictional diver in the distance holds a slate reading Still coral! with arrows pointing onward',
     headline: 'The tape ran out before the coral did',
