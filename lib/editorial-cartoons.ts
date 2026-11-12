@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '13 November 2026',
+    image: '/editorial-cartoons/2026-11-13-otways-snail-neighbours.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon on a misty Otways hill farm, where a fictional older neighbour in a flat cap and flannel shirt hands a bucket heaped with garden snails to a delighted fictional farmer in a wide-brimmed hat, apron and gumboots, while more neighbours queue behind with jars and a wheelbarrow of snails beside mesh-covered snail pens and a row of nibbled lettuces',
+    headline: 'The vegie patch’s biggest crop',
+    summary:
+      'A French expat is building what she says will be Australia’s only commercial snail farm of its kind at Beech Forest in Victoria’s Otway Ranges, aiming for close to 300,000 snails to supply restaurants. Her pens hold about 3,000 snails so far, and helpful neighbours have been dropping off garden snails along the way.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-13/snail-farm-otways-french-lean-protein-restaurant-supply/107353084',
+    sourceLabel:
+      'ABC South West Victoria — A new Otways farm hopes to raise snails for Australian restaurants',
+    question: 'Would you try locally farmed snails if they turned up on a menu near you? Tell us below.',
+  },
+  {
     date: '12 November 2026',
     image: '/editorial-cartoons/2026-11-12-kingoonya-big-fly-swat.jpg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of three original bush flies in hard hats nervously inspecting an enormous roadside fly swatter while a fictional outback worker proudly polishes its base',
