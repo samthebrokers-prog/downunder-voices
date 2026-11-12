@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '12 November 2026',
+    image: '/editorial-cartoons/2026-11-12-kingoonya-big-fly-swat.jpg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of three original bush flies in hard hats nervously inspecting an enormous roadside fly swatter while a fictional outback worker proudly polishes its base',
+    headline: 'The outback’s latest big thing',
+    summary:
+      'Kingoonya, a tiny South Australian outback settlement of about 13 people, has unveiled a giant steel fly swatter topped with a recycled-metal fly. The community hopes its characteristically Australian “big thing” will create a buzz and encourage more travellers to stop in town.',
+    sourceUrl:
+      'https://www.abc.net.au/btn/newsbreak/btn-newsbreak-20261111/106837738',
+    sourceLabel:
+      'ABC BTN — Kingoonya unveils South Australia’s Big Fly Swat',
+    question: 'Which oversized Australian attraction deserves a place on your road trip? Tell us below.',
+  },
+  {
+    date: '12 November 2026',
     image: '/editorial-cartoons/2026-11-12-fee-shy-twin.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon in a fictional bank branch, where a fictional baker in a floury apron holds a receipt so long it drapes to the floor and has circled a tiny second fee printed under the normal one, while a cheerful fictional teller behind a glass screen explains that it is the fee’s shy twin',
     headline: 'The fee with a shy twin',
