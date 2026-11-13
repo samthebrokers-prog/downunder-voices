@@ -8,7 +8,7 @@ const story = {
   title: "Locked in: Canberra's Microsoft habit is a national risk",
   category: 'australia',
   image_url:
-    'https://commons.wikimedia.org/wiki/Special:FilePath/Canberra_(AU),_Parliament_House_and_Old_Parliament_House_--_2019_--_1767.jpg?width=1280',
+    'https://commons.wikimedia.org/wiki/Special:FilePath/Microsoft_sign_closeup.jpg?width=1280',
   source_name: 'Downunder Voices Editorial',
   source_url: 'https://www.itnews.com.au/news/dta-signs-sixth-iteration-of-microsoft-licensing-deal-623893',
   community_angle:
@@ -79,13 +79,21 @@ This is an opinion piece. Downunder Voices welcomes responses from readers of al
 
 Sources: GovTech Review and iTnews (VSA6, February 2026); TechRepublic (August 2026); Digital Transformation Agency Copilot trial briefing; ACS Information Age (2024); Norton Rose Fulbright on the CLOUD Act; Computer Weekly; Associated Press (May 2025); The Register (18 February 2026); ProPublica and Nextgov (2025); The Canberra Times (Red Hat white paper); Cybernews; It's FOSS.
 
-Photo: Parliament House and Old Parliament House, Canberra, by Dietmar Rabich via Wikimedia Commons (CC BY-SA 4.0).`,
+Photo: Microsoft sign at the company's Redmond campus, via Wikimedia Commons. Microsoft's logo is used here only to identify the company discussed; Downunder Voices is not affiliated with or endorsed by Microsoft.`,
 }
 
 export async function GET() {
   try {
     const existing = await dbRequest<Array<{ id: string; slug: string }>>('stories', { query: `?select=id,slug&slug=eq.${encodeURIComponent(story.slug)}&limit=1` })
-    if (existing[0]) return NextResponse.json({ ok: true, existing: true, id: existing[0].id, slug: story.slug })
+    if (existing[0]) {
+      // Owner request (13 Nov 2026): swap the picture to a Microsoft sign photo.
+      await dbRequest('stories', {
+        method: 'PATCH',
+        query: `?id=eq.${existing[0].id}`,
+        body: { image_url: story.image_url, summary: story.summary },
+      })
+      return NextResponse.json({ ok: true, existing: true, updated: true, id: existing[0].id, slug: story.slug })
+    }
     const rows = await dbRequest<Array<{ id: string; slug: string }>>('stories', {
       method: 'POST',
       body: {
