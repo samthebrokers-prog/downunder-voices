@@ -60,4 +60,4 @@ function likelySameStory(a:string,b:string){const first=headlineTokens(a),second
 function headlineTokens(title:string){return title.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu,' ').split(/\s+/).map(w=>w.trim()).filter(w=>w.length>=3&&!duplicateStopWords.has(w))}
 function shortSummary(value:string,max:number){const cleaned=value.replace(/\s+/g,' ').trim();return cleaned.length<=max?cleaned:`${cleaned.slice(0,max-1).trim()}…`}
 // Top Story should have a real picture (owner, 13 Nov 2026): skip stories with no image or only our fallback graphic.
-function hasRealImage(src?:string|null){if(!src)return false;const l=src.toLowerCase();return !/fallback|placeholder|no-image|default-image/.test(l)}
+function hasRealImage(src?:string|null){if(!src)return false;const l=src.toLowerCase().trim();if(!/^(https?:\/\/|\/)/.test(l))return false;return !/fallback|placeholder|default[-_]image|no[-_]image|image-not-found|spacer\.gif|blank\.gif|rss-pixel|tracking-pixel|\/api\/editorial-image\//.test(l)}
