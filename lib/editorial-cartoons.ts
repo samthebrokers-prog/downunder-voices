@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '13 November 2026',
+    image: '/editorial-cartoons/2026-11-13-turtle-time-record.jpg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of an original turtle arriving at a fictional records desk with a wagon of turtle trinkets after a fifty-year journey, presenting a certificate for 5,373 items',
+    headline: 'An overnight success — in turtle time',
+    summary:
+      'A Hervey Bay collector has earned a Guinness World Record for 5,373 turtle and tortoise-related items gathered across five decades. Verifying the collection required two independent witnesses to spend about 17 hours counting it on video—proof that even a turtle-speed passion can eventually race into the record books.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-12/qld-womans-turtle-obsession-leads-to-guinness-world-record/107369632',
+    sourceLabel:
+      'ABC Wide Bay — Guinness World Record set for largest collection of turtle and tortoise-related items',
+    question: 'What small collection of yours could become a very big one in fifty years? Tell us below.',
+  },
+  {
+    date: '13 November 2026',
     image: '/editorial-cartoons/2026-11-13-otways-snail-neighbours.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon on a misty Otways hill farm, where a fictional older neighbour in a flat cap and flannel shirt hands a bucket heaped with garden snails to a delighted fictional farmer in a wide-brimmed hat, apron and gumboots, while more neighbours queue behind with jars and a wheelbarrow of snails beside mesh-covered snail pens and a row of nibbled lettuces',
     headline: 'The vegie patch’s biggest crop',
