@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '14 November 2026',
+    image: '/editorial-cartoons/2026-11-14-mackay-bus-stop-bushwalk.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of a suburban Mackay street with cane fields, a Queenslander house and a picket fence, where a fictional man dressed for an expedition with bush hat, backpack, bedroll, canteen, walking pole and map stands at his gate beside a sign reading Bus stop 4 km, while a fictional woman leaning out of the family car calls, Ring me from base camp',
+    headline: 'Where the bus stop is a bushwalk',
+    summary:
+      'New research reported by the ABC names Mackay as the most car-dependent regional city in Australia, with Paywise data showing just 1.1 per cent of residents live within 400 metres of a bus stop. Only about a third of homes are within walking distance of a supermarket, and the researchers say relying on the car leaves locals carrying the full weight of rising fuel prices.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-13/tropical-north-queensland-local-news-briefing/107381190',
+    sourceLabel:
+      'ABC Tropical North Queensland — Study finds Mackay is the most car-dependent regional city',
+    question: 'How far is your nearest bus stop, and do you ever use it? Tell us below.',
+  },
+  {
     date: '13 November 2026',
     image: '/editorial-cartoons/2026-11-13-turtle-time-record.jpg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of an original turtle arriving at a fictional records desk with a wagon of turtle trinkets after a fifty-year journey, presenting a certificate for 5,373 items',
