@@ -28,6 +28,144 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'rnz-deficit-staff-should-not-pay-for-governance-failure-2026',
+    publishedAt: '2026-11-13T21:40:00.000Z',
+    category: 'editorial-view',
+    title: 'Opinion: RNZ\'s $11.8m hole was a failure at the top, and staff and listeners should not pay for it',
+    summary: 'RNZ lost $11.8 million last year against a forecast loss of $470,000 and now plans to cut 58 jobs. The people who made the programmes did not cause this, and the next government should protect public broadcasting rather than shrink it further.',
+    body: `Public broadcasting in New Zealand has taken a hit it did not need. RNZ has reported a loss of $11.8 million for the year to June, against a forecast loss of just $470,000, and says it will cut 58 roles to recover. That is roughly one in six jobs at the country's public radio and digital news service.
+
+This column argues that the people who put RNZ on air every day are being asked to pay for mistakes made well above their heads, at the end of two years in which the outgoing government steadily squeezed RNZ's funding. A Labour-led government, with the Greens and The Opportunity Party, should fix the governance, protect the newsroom and give RNZ stable funding it can plan around.
+
+What went wrong
+
+The numbers come from RNZ's own annual result, reported by 1News on 9 November. RNZ said its internal financial reporting during the year did not accurately reflect its real position, so neither the board nor management took action in time. It said costs were not cut after a 7% drop in its baseline funding. Around $2 million from land sales was wrongly counted as revenue. Staff costs ran $3.2 million over budget, including $1.4 million in redundancy payments. Other operating costs ran $6.4 million over, including about $1.85 million for moving the Auckland office and $1.7 million for remediation work at the Titahi Bay site.
+
+There is more. According to 1News, the auditor EY, acting for the Auditor-General, found RNZ had set up a $5 million overdraft without ministers' approval when it was only authorised to borrow $3.5 million. RNZ says it drew no more than $2.3 million and the facility is now closed. Its cash fell from $18.8 million to $8.5 million over the year, and it is forecasting a further loss of $7.8 million this year.
+
+The chief financial officer resigned and left on 2 October. Board chair Brent Impey has said there is no suggestion of criminality, and David Seymour, one of RNZ's two shareholding ministers, told TVNZ's Breakfast on 10 November that there was currently no suggestion of fraud. That matters, and it should be said clearly. This looks like a failure of financial control and oversight, not of honesty. Mr Impey summed it up himself: "It's a crisis, but it has to be fixed, and we'll do it."
+
+Experts were blunt. Stephen Walker, a former executive director at Audit New Zealand, said the result showed "a real weakness in forecasting and budgeting", The Spinoff reported on 10 November, and Auckland University's Norman Wong called counting land sales as income a basic error. Mr Walker told RNZ a board should be checking results every month.
+
+Who pays
+
+Now look at who is paying. RNZ says the 58 cuts, made up of 18 roles already announced and 40 new ones, will reach right across the organisation, including news, audio, technical and operations staff as well as senior management. Its workforce would fall from 347 to 289 by the end of March. In August RNZ had already said it would cut 25 to 30 roles, about 10% of staff, because of "a further reduction in our funding this year", with more reductions signalled for the next two years, 1News reported on 14 August.
+
+Unionised RNZ staff have announced protests, according to the Council of Trade Unions' daily news roundup on 13 November. They have every reason to. Reporters, producers and technicians did not set the budget, did not sign off the overdraft and did not book land sales as income. Yet most of the pain of fixing the hole will land on them and on the listeners who rely on what they make.
+
+The squeeze came first
+
+It is also worth remembering how RNZ got so little room to absorb a shock. In Budget 2025 the government cut RNZ's funding by $18 million over four years, Metronews reported in June 2025, with part of the money redirected to regional journalism through other channels. Labour's media spokesperson at the time, Reuben Davidson, called it a "giant step back". Stephen Walker made a similar point from a neutral position: "Virtually every public entity has had their annual budget reduced."
+
+None of that excuses poor reporting inside RNZ. A smaller budget makes accurate forecasting more important, not less. But it does explain why one bad year now threatens one in six jobs. An organisation that has been cut year after year has no cushion left, and the first casualties are the reporters who cover the regions, the courts and the councils that commercial outlets have increasingly left behind.
+
+What should happen next
+
+First, the independent review that the RNZ board has promised must be published in full, so the public can see who knew what and when. Accountability should start at the top. That is the standard the public should expect of every public body, and it should apply here.
+
+Second, the job cuts should be paused until the review is finished. Even Mr Seymour has said there may be room to save some of the 58 roles because the budgeting assumptions were wrong. If the shareholding minister believes that, the board should test it before anyone is made redundant.
+
+Third, the next government should give RNZ multi-year funding it can plan around, tied to clear standards for financial reporting. Public media is part of the infrastructure of a democracy, like courts and libraries. It cannot do its job if every Budget brings a fresh cut and every mistake becomes a reason to shrink it again. A Labour-led government that values trusted, independent news should say so in its first Budget.
+
+Fourth, protect what makes RNZ worth having: regional reporting, te reo Māori and Pacific programming, and free, ad-free news for everyone. Those are exactly the things a struggling commercial media market will not replace.
+
+The government's case
+
+The outgoing government's view deserves a fair hearing. Mr Seymour has called RNZ's finances disastrous for taxpayers, audiences and staff, and said that on the reporting ministers received there was no reason to think anything was wrong. He has argued that the board's audit and risk committee was the body that should have caught the problem. "Clearly, the buck stops somewhere," he said. Ministers have also argued that every public entity has had to find savings, and Media Minister Paul Goldsmith said in 2025 that part of RNZ's funding was redirected to regional newsrooms. Those are reasonable points: boards must own their mistakes, and taxpayers are entitled to tight control of public money.
+
+But accountability for a board is not the same as cutting the newsroom. The people in charge should answer for this. The people who report the news should not lose their jobs because of it.
+
+The bottom line
+
+Victoria University media professor Peter Thompson called the shortfall unprecedented, and he is right. An unprecedented failure deserves a careful, honest response, not a rushed round of redundancies. New Zealanders own RNZ. Whoever forms the next government should make sure it comes out of this crisis better run, properly funded and still on air in every corner of the country.
+
+Sources: 1News, 9 November 2026; 1News, 10 November 2026; The Spinoff (Henry Oliver), 10 November 2026; RNZ (Mary Argue) via Otago Daily Times, 9 November 2026; 1News, 14 August 2026; NZCTU Union News, 13 November 2026; Metronews, 3 June 2025.
+
+Photo: Bowen House, the Beehive and Parliament House, Wellington, by Midnighttonight via Wikimedia Commons (CC BY-SA 3.0).`,
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Bowen_House_Beehive_Parliament.JPG?width=1280',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'bottom-trawling-phase-out-healthy-oceans-2026',
+    publishedAt: '2026-11-13T21:30:00.000Z',
+    category: 'editorial-view',
+    title: 'Opinion: Start phasing out bottom trawling now and give our seabed a chance to recover',
+    summary: 'The Opportunity Party wants a phase-out of bottom trawling to begin straight away, starting with sensitive areas like the Hauraki Gulf. With so little of our ocean protected, the conservation case is strong, and a careful plan can look after fishing exports and port towns too.',
+    body: `New Zealand likes to sell itself to the world as clean and green. Under the water, that promise is harder to keep. Bottom trawling, which drags heavy nets across the seafloor, still brings in most of the fish caught in our waters. After this month's election, the question of whether to phase it out has moved from the margins to the negotiating table.
+
+This column backs a phase-out. The Opportunity Party (TOP) has made it one of its five bottom lines, and Labour leader Chris Hipkins has signalled he is open to it. A Labour-led government, working with the Greens and TOP, should make it happen, carefully and with the industry, but starting now.
+
+What is on the table
+
+TOP set out its bottom lines in September. According to 1News on 29 September, one is that the next government must begin phasing out bottom trawling immediately, working with industry, iwi and coastal communities. Party leader Qiulae Wong argued that bottom trawling cannot be squared with healthy oceans. RNZ reported on 8 October that TOP wants an end to the practice in sensitive areas, including the Hauraki Gulf, first, followed by a progressive phase-out elsewhere.
+
+TOP's own policy page says New Zealand has the fifth-largest ocean territory on earth, yet only about 0.5% of it is protected as marine reserve. It wants 30% protected by 2035, cameras on commercial fishing boats and an ecosystem-based approach to quota. It also points out that three companies control about 60% of fishing quota. Those are party figures, but they frame the choice well: this is a public resource, and the public is entitled to a say in how it is managed.
+
+Why it matters now
+
+The provisional results give National, ACT and NZ First 67 seats, with special votes still to be counted and the final result due on 27 November, 1News reported on 10 November. TOP holds seven seats. Ms Wong met Christopher Luxon on 9 November and Mr Hipkins the following day. Whoever governs may need TOP, so its ocean policy is now part of the deal-making.
+
+At a televised leaders' debate before the election, Mr Hipkins answered yes when asked about phasing in a ban, RNZ reported. Since the election he has said his concern is mainly about method. "It all comes down to a question of how," he told The Spinoff on 10 November. That is the right question, and it has good answers: start with the most fragile places, set a clear timetable, fund new gear and training, and back the workers and port towns that depend on fishing.
+
+The other side
+
+The industry's concerns are real and should be stated plainly. Moana New Zealand chief executive Steve Tarrant told RNZ that about 70% of the volume caught in New Zealand comes from bottom trawling, and called a blanket ban irresponsible. Sealord chief executive Doug Paulin described the policy as populist and said no other technique can catch those species economically. Mr Luxon said he was "open to" a phase-in, but stressed the need to balance it against the two billion dollars and 9000 jobs he linked to the practice. Even Greenpeace, RNZ reported, favours a phased, targeted ban on the most damaged areas rather than an immediate nationwide one.
+
+Those points argue for doing this well, not for doing nothing. A phase-out with a timetable gives companies time to change boats and methods. Starting with sensitive places like the Hauraki Gulf protects the areas that matter most while the rest of the plan is worked out.
+
+The bottom line
+
+A seabed scraped bare does not grow back in an election cycle. Protecting it is a long-term investment in fish stocks, in the communities that catch them and in the reputation that sells New Zealand seafood overseas. Labour, the Greens and TOP should agree on a sensible, staged plan and get on with it.
+
+Sources: 1News, 29 September 2026; RNZ (Felix Walton) via Otago Daily Times, 8 October 2026; The Opportunity Party, Healthy Oceans policy (accessed 14 November 2026); 1News, 10 November 2026; The Spinoff (Lyric Waiwiri-Smith), 10 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/bottom-trawling-phase-out-healthy-oceans-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'australia-essential-workers-priced-out-of-rentals-2026',
+    publishedAt: '2026-11-13T21:20:00.000Z',
+    category: 'editorial-view',
+    title: 'Opinion: When nurses and cleaners cannot afford to rent, Australia needs far more social housing',
+    summary: 'Anglicare\'s latest snapshot found fewer than 1% of rental listings were affordable for cleaners, retail workers and social workers on the full-time minimum wage. The people who keep the country running deserve a secure home, and that means building much more social and affordable housing.',
+    body: `Ask almost any Australian town what it needs and the answer is the same: more nurses, more carers, more teachers, more people to clean, cook and serve. Then ask where those workers are supposed to live. A new report suggests that, for many of them, there is no realistic answer.
+
+This column argues that the rental crisis has become a crisis for essential work itself, and that the answer is a much larger, faster build of social and affordable housing, along with a fairer deal for renters.
+
+What the snapshot found
+
+Anglicare Australia's annual Rental Affordability Snapshot looked at 48,776 rental listings across the country and tested them against the full-time minimum wage for 16 essential jobs, the ABC reported on 5 November. Only three of those 16 occupations saw affordability improve on last year. For retail workers, social workers and cleaners, fewer than 1% of listings were affordable. For nursing it was 1.1%, and for teaching 3.3%. In the Northern Territory, the report found no affordable rental at all for a hospitality worker.
+
+The ABC also cited Cotality data showing unit rents up 44.3% over five years and house rents up 36.6%. Anglicare executive director Kasy Chambers said wages had risen by less than half as much, so most of the pay rises have gone straight into rent.
+
+Behind the numbers are people. The ABC reported on 7 November on a 61-year-old disability support worker in Albany, Western Australia, who has moved seven times in 18 months and now splits a rent of $850 a week with a housemate. Anglicare found just one property across WA's Great Southern and South West regions that was within budget for key health and childcare workers. In Karratha, a local mechanic told the ABC that a lack of housing was stopping him from taking on more staff.
+
+The pressure is not easing. A property industry daily brief on 13 November, summarising REA Group research, reported that rent increases have been the steepest since the 1980s, even as home values have slipped from their March peak.
+
+Why this is everyone's problem
+
+When a nurse cannot find a rental near the hospital, the hospital runs short. When a childcare worker cannot afford to live in a regional town, families there lose childcare and parents lose work hours. Housing is not just a private worry for renters; it decides whether communities can keep the services they depend on.
+
+Ms Chambers put the cause plainly: successive governments stopped building and funding housing. The result, as housing advocates have long argued, is a system that rewards owning several properties while leaving the people who staff our hospitals and aged care homes moving from lease to lease.
+
+What should change
+
+First, build social and affordable housing at a scale that matches the problem, with a clear share set aside for essential workers near where they work, especially in the regions. Second, give renters more security, including limits on unfair rent rises and no-grounds evictions, so a worker does not have to move seven times in 18 months. Third, keep reviewing tax settings that tilt the market towards investors rather than people looking for a home to live in. The first of these is exactly what Anglicare is calling for.
+
+The government's case
+
+The federal government says it is acting. A spokesperson for Housing Minister Clare O'Neil told the ABC: "We're building 55,000 social and affordable homes, with more than 8,000 already complete." The minister's office also pointed to below-market rentals for essential workers. That is a real commitment, and it deserves credit.
+
+But Anglicare's snapshot shows how far there is still to go. When fewer than one listing in a hundred is affordable for a cleaner on the minimum wage, the current pace is not enough. Australia's essential workers have kept the country going through fires, floods and a pandemic. The least we owe them is somewhere affordable to live.
+
+Sources: ABC News (Emma Johnson and Amy Rossbach), 5 November 2026; ABC News (Rachel Jennings, Andrew Chounding and Amy Rossbach), 7 November 2026; Property Buzz daily brief, 13 November 2026, summarising REA Group.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/australia-essential-workers-priced-out-of-rentals-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'kaitaia-triboard-mill-northland-jobs-plan-2026',
     publishedAt: '2026-11-12T21:40:00.000Z',
     category: 'editorial-view',
