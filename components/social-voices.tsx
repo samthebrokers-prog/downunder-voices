@@ -1,10 +1,15 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { SOCIAL_POSTS, embedUrl } from '@/lib/social-posts'
+import { latestPoliticalVideos } from '@/lib/social-feed'
 
 // Public Facebook posts and YouTube videos about the NZ Government. Hidden when empty.
-export function SocialVoices({ limit, showLink = true }: { limit?: number; showLink?: boolean }) {
-  const posts = (limit ? SOCIAL_POSTS.slice(0, limit) : SOCIAL_POSTS).filter(p => embedUrl(p))
+// Newest NZ political videos from the news outlets' feeds (refreshed every 24 hours) come first;
+// the hand-picked posts follow on the See all page and fill in if the feeds are empty.
+export async function SocialVoices({ limit, showLink = true }: { limit?: number; showLink?: boolean }) {
+  const fresh = await latestPoliticalVideos()
+  const all = [...fresh, ...SOCIAL_POSTS.filter(p => !fresh.some(f => f.url === p.url))].filter(p => embedUrl(p))
+  const posts = limit ? all.slice(0, limit) : all
   if (!posts.length) return null
   return (
     <section className="mt-12 rounded-xl border border-slate-300 bg-white p-5 shadow-sm sm:p-7">
@@ -12,14 +17,14 @@ export function SocialVoices({ limit, showLink = true }: { limit?: number; showL
         <div>
           <p className="text-xs font-black uppercase tracking-[0.18em] text-neutral-900">From Facebook &amp; YouTube</p>
           <h2 className="mt-1 font-serif text-3xl font-black text-slate-950">Voices on the Government</h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">Public posts and videos from across the parties after the 2026 election, including the Prime Minister, ACT, Opportunity, Labour and the Greens, shared for discussion. Views are the authors&apos; own, not Downunder Voices&apos;.</p>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">The latest videos on New Zealand politics from RNZ, 1News, the Herald, Stuff and other outlets, updated every day, plus public posts from across the parties. Views are the speakers&apos; own, not Downunder Voices&apos;.</p>
         </div>
         {showLink && <Link href="/from-facebook" className="inline-flex items-center gap-1 text-sm font-black text-neutral-900 hover:underline">See all <ArrowRight className="size-4"/></Link>}
       </div>
       <div className="mt-6 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
         {posts.map(p => (
           <article key={p.url} className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
-            <div className="relative h-[500px] w-full overflow-hidden rounded-lg bg-neutral-950">
+            <div className={`relative w-full overflow-hidden rounded-lg bg-neutral-950 ${p.platform === 'youtube' && !p.url.includes('/shorts/') ? 'aspect-video' : 'h-[500px]'}`}>
               <iframe src={embedUrl(p, 360)!} title={p.note ?? (p.platform === 'youtube' ? 'YouTube video' : 'Facebook post')} className="absolute inset-0 h-full w-full" style={{ border: 'none' }} loading="lazy" scrolling="no" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen/>
             </div>
             {p.note && <p className="line-clamp-3 min-h-[4.5rem] text-sm leading-6 text-slate-700">{p.note}</p>}
