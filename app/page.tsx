@@ -22,7 +22,7 @@ const ninetySecondInterestTerms=['breaking','exclusive','scandal','corruption','
 const duplicateStopWords=new Set(['a','an','and','are','as','at','be','by','for','from','has','have','in','into','is','it','of','on','or','says','the','their','this','to','with','after','amid','over','new','live','latest','breaking'])
 
 export default async function HomePage(){
- const configured=isDatabaseConfigured(); const allStories=await getPublishedStories(160); const visibleStories=allStories.filter(s=>!isEditorialStory(s)); const rankedStories=rankForHomepage(visibleStories); const mixed=mixedLatest(rankedStories); const [lead,...others]=mixed;
+ const configured=isDatabaseConfigured(); const allStories=await getPublishedStories(160); const visibleStories=allStories.filter(s=>!isEditorialStory(s)); const rankedStories=rankForHomepage(visibleStories); const mixedRaw=mixedLatest(rankedStories); const leadAt=mixedRaw.findIndex((s,i)=>i<8&&hasRealImage(s.image)); const mixed=leadAt>0?[mixedRaw[leadAt],...mixedRaw.filter((_,i)=>i!==leadAt)]:mixedRaw; const [lead,...others]=mixed;
  const topStories=uniqueStories(others,4,lead?[lead]:[]); const latest=uniqueStories(others.filter(s=>!topStories.some(t=>t.id===s.id)),6,[...(lead?[lead]:[]),...topStories]);
  const primary=[...(lead?[lead]:[]),...topStories,...latest]; const breakingStories=uniqueStories(rankedStories,6,[]);
  const briefingPool=visibleStories.filter(s=>!isDuplicateOfAny(s,primary)); const ninetySeconds=buildNinetySecondBriefing(briefingPool); const featured=[...primary,...ninetySeconds.map(i=>i.story)];
@@ -59,3 +59,5 @@ function ninetySecondScore(story:HomeStory){const text=`${story.title} ${story.s
 function likelySameStory(a:string,b:string){const first=headlineTokens(a),second=headlineTokens(b);if(!first.length||!second.length)return false;const fs=new Set(first),ss=new Set(second);let shared=0;for(const word of fs)if(ss.has(word))shared++;return shared/Math.min(fs.size,ss.size)>=.62}
 function headlineTokens(title:string){return title.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu,' ').split(/\s+/).map(w=>w.trim()).filter(w=>w.length>=3&&!duplicateStopWords.has(w))}
 function shortSummary(value:string,max:number){const cleaned=value.replace(/\s+/g,' ').trim();return cleaned.length<=max?cleaned:`${cleaned.slice(0,max-1).trim()}…`}
+// Top Story should have a real picture (owner, 13 Nov 2026): skip stories with no image or only our fallback graphic.
+function hasRealImage(src?:string|null){if(!src)return false;const l=src.toLowerCase();return !/fallback|placeholder|no-image|default-image/.test(l)}

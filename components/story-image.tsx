@@ -60,6 +60,8 @@ export function StoryImage({
       unoptimized
       sizes={sizes}
       className={className}
+      // The fallback graphic is a text panel: show it whole, never cropped.
+      style={source === neutralFallback ? { objectFit: "contain", backgroundColor: "#f8fafc" } : undefined}
       onError={() => setSource(neutralFallback)}
     />
   );
