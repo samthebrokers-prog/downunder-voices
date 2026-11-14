@@ -8,7 +8,7 @@ import {
 import { editorialImageUrl, upgradeEditorialImageUrl } from '@/lib/editorial-image'
 import { decodeNewsText } from '@/lib/decode-news-text'
 import { isJunkTitle } from '@/lib/news-filter'
-import { correctFeedCategory, displaySourceName, isBorrowedImage, removeDuplicateStories } from '@/lib/story-corrections'
+import { cleanSummary, correctFeedCategory, displaySourceName, fixHeadline, isBorrowedImage, removeDuplicateStories } from '@/lib/story-corrections'
 
 type StoryRow = {
   id: string
@@ -113,10 +113,10 @@ function rowToStory(row: StoryRow): Story {
   return {
     id: row.id,
     slug: row.slug,
-    title: decodeNewsText(row.title ?? ''),
+    title: isOriginal ? decodeNewsText(row.title ?? '') : fixHeadline(decodeNewsText(row.title ?? '')),
     category,
     date: (row.published_at ?? row.created_at).slice(0, 10),
-    summary: row.summary,
+    summary: isOriginal ? row.summary : cleanSummary(decodeNewsText(row.summary ?? '')),
     sourceName: displaySourceName(row.source_name, row.source_url),
     sourceUrl: row.source_url,
     image: (() => {

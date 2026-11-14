@@ -25,7 +25,7 @@ const duplicateStopWords=new Set(['a','an','and','are','as','at','be','by','for'
 export default async function HomePage(){
  const configured=isDatabaseConfigured(); const allStories=await getPublishedStories(160); const visibleStories=allStories.filter(s=>!isEditorialStory(s)); const rankedStories=rankForHomepage(visibleStories); const mixedRaw=mixedLatest(rankedStories); const leadAt=mixedRaw.findIndex((s,i)=>i<8&&hasRealImage(s.image)); const mixed=leadAt>0?[mixedRaw[leadAt],...mixedRaw.filter((_,i)=>i!==leadAt)]:mixedRaw; const [lead,...others]=mixed;
  const topStories=uniqueStories(others,4,lead?[lead]:[]); const latest=uniqueStories(others.filter(s=>!topStories.some(t=>t.id===s.id)),6,[...(lead?[lead]:[]),...topStories]);
- const primary=[...(lead?[lead]:[]),...topStories,...latest]; const breakingStories=uniqueStories(rankedStories,6,[]);
+ const primary=[...(lead?[lead]:[]),...topStories,...latest]; const breakingPool=rankedStories.filter(s=>!primary.some(p=>p.id===s.id)); const breakingStories=uniqueStories(breakingPool.length>=4?breakingPool:rankedStories,6,breakingPool.length>=4?primary:[]);
  const briefingPool=visibleStories.filter(s=>!isDuplicateOfAny(s,primary)); const ninetySeconds=buildNinetySecondBriefing(briefingPool); const featured=[...primary,...ninetySeconds.map(i=>i.story)];
  const opinionStories=distinctEditorials(allStories.filter(isEditorialStory),3);
  return <>{!configured&&<SetupBanner/>}<main><h1 className="sr-only">Downunder Voices — independent news from Australia, New Zealand and the world</h1><BreakingNewsTicker stories={breakingStories}/><ChristmasMusic/><GovRails/><div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">

@@ -50,22 +50,25 @@ type Region = 'australia' | 'new-zealand' | 'world'
 
 const AU = /\b(australia|australian|australians|aussie|canberra|sydney|melbourne|brisbane|perth|adelaide|hobart|darwin|gold coast|new south wales|nsw|queensland|qld|victoria|victorian|tasmania|tasmanian|western australia|wa minister|wa premier|wa government|wa police|wa's|south australia|northern territory|albanese|anthony albanese|sussan ley|peter dutton|pauline hanson|one nation|mark latham|helen haines|federal labor|labor government|coalition government|federal parliament|parliament house|centrelink|ndis|medicare|asx|rba|reserve bank of australia|afl|nrl)\b/i
 const NZ = /\b(new zealand|new zealander|new zealanders|aotearoa|kiwi|kiwis|auckland|wellington|christchurch|hamilton|tauranga|dunedin|rotorua|invercargill|palmerston north|napier|nelson|queenstown|whangārei|whangarei|porirua|beehive|luxon|chris hipkins|te pāti māori|pharmac|rnz)\b/i
-const WORLD = /\b(united states|usa|u\.s|america|american|americans|trump|white house|midterms?|congress|united kingdom|britain|british|england|london|europe|european|china|chinese|beijing|india|indian|japan|japanese|canada|canadian|germany|german|france|french|ukraine|ukrainian|russia|russian|kremlin|putin|middle east|israel|israeli|israelis|palestinian|palestinians|gaza|west bank|hebron|jerusalem|iran|iranian|iraq|syria|lebanon|africa|african|asia|fiji|tonga|samoa|vanuatu|solomon islands|papua new guinea|al jazeera|un security council|nato|argentina|argentine|milei|brazil|mexico|vatican|pope|pontiff|cop30|cop31)\b/i
+const WORLD = /\b(united states|usa|u\.s|america|american|americans|trump|white house|midterms?|congress|united kingdom|britain|british|england|london|europe|european|china|chinese|beijing|india|indian|japan|japanese|canada|canadian|germany|german|france|french|ukraine|ukrainian|russia|russian|kremlin|putin|middle east|israel|israeli|israelis|palestinian|palestinians|gaza|west bank|hebron|jerusalem|iran|iranian|iraq|syria|lebanon|africa|african|asia|fiji|tonga|samoa|vanuatu|solomon islands|papua new guinea|al jazeera|un security council|nato|argentina|argentine|milei|brazil|mexico|vatican|pope|pontiff|cop30|cop31|faa|federal aviation administration|washington|d\.c|new york|new orleans|california|texas|florida|chicago|haiti|spain|spanish|italy|italian|netherlands|dutch|norway|norwegian|(?<!south )wales|welsh|scotland|scottish|ireland|irish|korea|korean|taiwan|philippines|indonesia|indonesian|malaysia|singapore|thailand|vietnam|pakistan|bangladesh|sri lanka|nigeria|kenya|egypt|turkey|saudi|qatar|dubai|peru|chile|colombia|venezuela|cuba|greece|poland|sweden|denmark|finland|switzerland|austria|belgium|portugal)\b/i
 
 const CELEBRITY = /\b(britney spears|kardashian|taylor swift|beyonc[ée]|kanye|justin bieber|selena gomez|pop star|popstar|hollywood|reality star|reality tv|red carpet)\b/i
 const BUSINESS_WORDS = /\b(business|businesses|company|companies|economy|economic|industry|jobs|bank|banks|interest rates?|inflation|retail|retailer|profit|profits|investment|market|markets|shares|stores|trade|tariffs?)\b/i
 const CONFLICT_WORDS = /\b(soldiers|troops|military|army|airstrikes?|strikes|raid|raids|war|ceasefire|journalist arrested|arrest|arrested|blindfolded)\b/i
 
-const STRONG_SPORT = /\b(rugby|cricket|football|soccer|netball|nrl|afl|olympics?|tennis|golf|basketball|all blacks|wallabies|matildas|socceroos|black caps|a-league|premier league|world cup|grand slam|racing|motorsport|formula 1|f1|supercars|boxing|ufc)\b/i
+const SPORT_TITLE = /\b(cricket|rugby|football|soccer|netball|nrl|afl|tennis|golf|olympics?|goalkeeper|striker|wicket|innings|ufc|mma|boxing|formula 1|f1|supercars|grand prix|all blacks|wallabies|matildas|socceroos|black caps|world cup|test match|nations championship|six nations|bledisloe|premier league|a-league|champions league)\b/i
+const STRONG_SPORT = /\b(rugby|cricket|football|soccer|netball|nrl|afl|olympics?|tennis|golf|basketball|all blacks|wallabies|matildas|socceroos|black caps|a-league|premier league|world cup|grand slam|racing|motorsport|formula 1|f1|supercars|boxing|ufc|mma|goalkeeper|striker|midfielder|wicket|innings|test match|nations championship|six nations|rugby league|grand prix|la liga|serie a|bundesliga|champions league|socceroos|kiwis league|super rugby|black ferns|silver ferns|diamonds|wimbledon|bledisloe)\b/i
 const FREIGHT_WORDS = /\b(freight|forwarder|forwarders|shipping|container|containers|cargo|logistics|supply chain|ports?|terminal|carriers?|dsv|kuehne|k\+n|maersk|msc|dhl)\b/i
 const EARNINGS_WORDS = /\b(earnings|profit|profits|revenue|quarterly|q[1-4]|shares|shareholders|investors|analysts?|stock)\b/i
 
 const REGIONAL = new Set<string>(['australia', 'new-zealand', 'nz-pacific', 'world'])
 
+const US_UPPER = /\b(US|NY|UK|EU|UN)\b/
+
 function regionOf(text: string): Region | null {
   const au = AU.test(text)
   const nz = NZ.test(text)
-  const world = WORLD.test(text)
+  const world = WORLD.test(text) || US_UPPER.test(text)
   const hits = [au, nz, world].filter(Boolean).length
   if (hits !== 1) return null
   return au ? 'australia' : nz ? 'new-zealand' : 'world'
@@ -84,6 +87,15 @@ export function correctFeedCategory(
 ): CategorySlug {
   const cleanTitle = (title ?? '').trim()
   const fullText = `${cleanTitle} ${summary ?? ''}`
+
+  // A clear sport headline belongs in Sports, wherever the feed filed it.
+  if (category !== 'sports' && category !== 'editorial-view' && SPORT_TITLE.test(cleanTitle) && !FREIGHT_WORDS.test(cleanTitle)) return 'sports' as CategorySlug
+
+  // A story filed under Sports with no sport in it at all moves to its region (e.g. a union inquiry).
+  if (category === 'sports' && !STRONG_SPORT.test(fullText) && !FREIGHT_WORDS.test(fullText) && !EARNINGS_WORDS.test(fullText)) {
+    const sportlessRegion = regionOf(cleanTitle) ?? regionOf(fullText)
+    if (sportlessRegion) return sportlessRegion as CategorySlug
+  }
 
   // A celebrity story belongs in Entertainment, not a news region.
   if (REGIONAL.has(category) && CELEBRITY.test(cleanTitle)) return 'entertainment' as CategorySlug
@@ -141,13 +153,36 @@ function words(title: string): Set<string> {
   )
 }
 
+const COMMON_WORDS = new Set(['australia', 'australian', 'zealand', 'government', 'says', 'said', 'police', 'after', 'with', 'from', 'over', 'into', 'their', 'what', 'when', 'will', 'this', 'that', 'have', 'about', 'more', 'live', 'breaking', 'news', 'latest', 'update', 'year', 'years', 'first', 'people'])
+
+function stem(word: string): string {
+  return word.replace(/(ings|ing|ed|es|s)$/, '')
+}
+
+function keyWords(title: string): Set<string> {
+  return new Set(
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .split(/\s+/)
+      .filter((word) => word.length >= 3 && !COMMON_WORDS.has(word))
+      .map(stem),
+  )
+}
+
 function similarTitles(a: string, b: string): boolean {
   const left = words(a)
   const right = words(b)
   if (!left.size || !right.size) return false
   let shared = 0
   for (const word of left) if (right.has(word)) shared += 1
-  return shared / Math.min(left.size, right.size) >= 0.75
+  if (shared / Math.min(left.size, right.size) >= 0.75) return true
+  // Same event from two outlets ("FAA grounds all flights" / "FAA issues ground stop for all flights").
+  const keyLeft = keyWords(fixHeadline(a))
+  const keyRight = keyWords(fixHeadline(b))
+  let keyShared = 0
+  for (const word of keyLeft) if (keyRight.has(word)) keyShared += 1
+  return keyShared >= 3 && keyShared / Math.min(keyLeft.size, keyRight.size) >= 0.45
 }
 
 /** Keeps the first copy of each story; later copies with the same photo, link or near-identical headline are dropped. */
@@ -166,4 +201,40 @@ export function removeDuplicateStories<T extends { title: string; image?: string
     kept.push(story)
   }
   return kept
+}
+
+/* ---------- headline typos and messy feed text ---------- */
+
+// Known typos copied from source headlines (owner request, 14 Nov 2026 health check).
+const HEADLINE_FIXES: Array<[RegExp, string]> = [
+  [/\b(grounds?|grounded|grounding|cancels?|cancelled|delays?|delayed) all fights\b/gi, '$1 all flights'],
+  [/\bfights (grounded|cancelled|delayed|halted)\b/gi, 'flights $1'],
+  [/\b(\d{1,2})\. (\d{2}\s?(am|pm))\b/gi, '$1.$2'],
+]
+
+export function fixHeadline(title: string): string {
+  let fixed = title
+  for (const [pattern, replacement] of HEADLINE_FIXES) fixed = fixed.replace(pattern, replacement)
+  return fixed
+}
+
+/** Removes feed leftovers ("The post … appeared first on …", "Read more") and trims a summary cut off mid-sentence. */
+export function cleanSummary(summary: string | null | undefined): string {
+  let text = (summary ?? '').replace(/\s+/g, ' ').trim()
+  if (!text) return ''
+  text = text
+    .replace(/\s*The post .{0,300}? appeared first on .{0,80}?(\.|$)/gi, ' ')
+    .replace(/\s*(Continue reading|Read more|Read the full story|Click here to read).{0,60}$/i, '')
+    .replace(/\s*\[(…|\.\.\.)\]\s*$/, '')
+    .replace(/(\d{1,2})\. (\d{2}\s?(am|pm))\b/gi, '$1.$2')
+    .trim()
+  // Cut off mid-number ("$11.") or mid-sentence: keep only the complete sentences.
+  const cutMidNumber = /[$€£]?\d[\d,]*\.$/.test(text)
+  const endsCleanly = /[.!?"'’”)]$/.test(text) && !cutMidNumber
+  if (!endsCleanly) {
+    const body = cutMidNumber ? text.replace(/[$€£]?\d[\d,]*\.$/, '') : text
+    const lastStop = Math.max(body.lastIndexOf('. '), body.lastIndexOf('! '), body.lastIndexOf('? '))
+    text = lastStop > 60 ? body.slice(0, lastStop + 1) : body.replace(/[\s,;:–-]+$/, '') + '…'
+  }
+  return text
 }
