@@ -19,9 +19,9 @@ export const FREE_VOICE = process.env.DV_FREE_TTS_VOICE || 'en-AU-NatashaNeural'
 const RATE = process.env.DV_FREE_TTS_RATE || '+0%'
 
 function secMsGec(nowMs = Date.now()) {
-  let ticks = BigInt(Math.floor(nowMs / 1000)) + 11644473600n
-  ticks -= ticks % 300n
-  ticks *= 10000000n
+  let ticks = BigInt(Math.floor(nowMs / 1000)) + BigInt(11644473600)
+  ticks -= ticks % BigInt(300)
+  ticks *= BigInt(10000000)
   return createHash('sha256').update(`${ticks}${TRUSTED_CLIENT_TOKEN}`, 'ascii').digest('hex').toUpperCase()
 }
 
