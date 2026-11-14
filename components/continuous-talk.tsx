@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-export default function ContinuousTalk({onTalk}: {onTalk:(active:boolean)=>void}) {
+export default function ContinuousTalk({onTalk, registerControls}: {onTalk:(active:boolean)=>void; registerControls:(controls:{start:()=>void;stop:()=>void})=>void}) {
  const running=useRef(false)
  const timeout=useRef<ReturnType<typeof setTimeout>|null>(null)
  const [active,setActive]=useState(false)
@@ -34,9 +34,10 @@ export default function ContinuousTalk({onTalk}: {onTalk:(active:boolean)=>void}
   if(!('speechSynthesis' in window)){setError('Browser speech unavailable');return}
   speechSynthesis.cancel();speechSynthesis.getVoices();running.current=true;setActive(true);setError('');onTalk(true);void cycle()
  }
+ useEffect(()=>{registerControls({start,stop})})
  useEffect(()=>()=>{running.current=false;if(timeout.current)clearTimeout(timeout.current);if('speechSynthesis' in window)speechSynthesis.cancel()},[])
  return <div className="mt-5 border-t border-slate-800 pt-5">
-  <button type="button" onClick={active?stop:start} className="rounded-full border border-red-500 px-5 py-3 font-bold">{active?'Stop continuous talk':'Start free continuous talk'}</button>
+  <p className="text-sm font-semibold text-red-300">{active?'Continuous spoken programmes are ON':'Spoken programmes start with Listen Live'}</p>
   <p className="mt-2 text-sm text-slate-300">{active?'Speaking: '+title:'Spoken programmes play over the existing music; music lowers during speech.'}</p>
   {error&&<p role="alert" className="mt-2 text-sm text-amber-300">{error}</p>}
  </div>
