@@ -118,6 +118,11 @@ export function correctFeedCategory(
 
   if (!REGIONAL.has(category)) return category
 
+  // An Australian outlet's story with no NZ place in the headline isn't New Zealand news (and the reverse).
+  const sourceHost = hostOf(sourceUrl)
+  if ((category === 'new-zealand' || category === 'nz-pacific') && /\.au$/.test(sourceHost) && !NZ.test(cleanTitle) && !regionOf(fullText)) return 'australia' as CategorySlug
+  if (category === 'australia' && /\.nz$/.test(sourceHost) && !AU.test(cleanTitle) && !regionOf(fullText)) return 'new-zealand' as CategorySlug
+
   const region = regionOf(cleanTitle) ?? regionOf(fullText)
   if (region) return sameRegion(category, region) ? category : (region as CategorySlug)
 
@@ -153,7 +158,7 @@ function words(title: string): Set<string> {
   )
 }
 
-const COMMON_WORDS = new Set(['australia', 'australian', 'zealand', 'government', 'says', 'said', 'police', 'after', 'with', 'from', 'over', 'into', 'their', 'what', 'when', 'will', 'this', 'that', 'have', 'about', 'more', 'live', 'breaking', 'news', 'latest', 'update', 'year', 'years', 'first', 'people'])
+const COMMON_WORDS = new Set(['australia', 'australian', 'zealand', 'government', 'says', 'said', 'police', 'after', 'with', 'from', 'over', 'into', 'their', 'what', 'when', 'will', 'this', 'that', 'have', 'about', 'more', 'live', 'breaking', 'news', 'latest', 'update', 'year', 'years', 'first', 'people', 'for', 'the', 'and', 'but', 'its', 'has', 'was', 'are', 'who', 'how', 'why', 'new'])
 
 function stem(word: string): string {
   return word.replace(/(ings|ing|ed|es|s)$/, '')
@@ -182,7 +187,7 @@ function similarTitles(a: string, b: string): boolean {
   const keyRight = keyWords(fixHeadline(b))
   let keyShared = 0
   for (const word of keyLeft) if (keyRight.has(word)) keyShared += 1
-  return keyShared >= 3 && keyShared / Math.min(keyLeft.size, keyRight.size) >= 0.45
+  return keyShared >= 3 && keyShared / Math.min(keyLeft.size, keyRight.size) >= 0.4
 }
 
 /** Keeps the first copy of each story; later copies with the same photo, link or near-identical headline are dropped. */
