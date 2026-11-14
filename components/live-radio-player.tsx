@@ -24,6 +24,7 @@ function describe(data: NowPlaying | null) {
 
 export default function LiveRadioPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const speechControls = useRef<{start:()=>void;stop:()=>void}|null>(null)
   const [playing, setPlaying] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -59,6 +60,7 @@ export default function LiveRadioPlayer() {
     setError('')
 
     if (playing) {
+      speechControls.current?.stop()
       audio.pause()
       // Drop the connection so the next Play joins the live broadcast, not a buffered past.
       audio.removeAttribute('src')
@@ -68,6 +70,7 @@ export default function LiveRadioPlayer() {
     }
 
     try {
+      speechControls.current?.start()
       setLoading(true)
       audio.src = `${RADIO_STREAM_URL}?t=${Date.now()}`
       await audio.play()
@@ -122,7 +125,7 @@ export default function LiveRadioPlayer() {
         />
       </label>
 
-      <ContinuousTalk onTalk={setTalkActive} />
+      <ContinuousTalk onTalk={setTalkActive} registerControls={(controls)=>{speechControls.current=controls}} />
       {error && <p className="mt-4 text-sm font-semibold text-red-300">{error}</p>}
 
       <audio
