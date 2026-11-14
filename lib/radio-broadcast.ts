@@ -48,6 +48,17 @@ import {
 } from '@/lib/radio-storage'
 import { HOUSE_SPONSOR_PROMO, sponsorFor } from '@/lib/radio-sponsors'
 import { openAiKey } from '@/lib/ai-switch'
+import { freeSpeak } from '@/lib/free-tts'
+
+/** True while OpenAI is switched off: news is read by the free voice instead (no cost, no music). */
+const freeVoiceMode = () => !openAiKey()
+/** Spending check that always passes for the free voice. */
+async function affordable(kind: SpendKind, usd: number) {
+  if (freeVoiceMode()) return true
+  return (await canSpend(kind, usd)).ok
+}
+/** Keeps free-voice clips separate from old OpenAI-voiced clips so voices never mix. */
+const voiceTag = () => (freeVoiceMode() ? 'free' : NEWS_PRESENTER)
 
 export type BroadcastKind = 'news' | 'programme'
 
@@ -245,7 +256,7 @@ function splitForSpeech(script: string) {
 
 async function speak(script: string, presenter: RadioPresenter, kind: SpendKind, note: string) {
   const apiKey = openAiKey()
-  if (!apiKey) throw new Error('OPENAI_API_KEY is not configured')
+  if (!apiKey) return freeSpeak(script)
   const profile = getRadioVoice(presenter)
 
   const parts: Uint8Array[] = []
@@ -281,7 +292,7 @@ type StationIndex = Record<string, { file: string; text: string }>
 
 /** Audio for a fixed line, voiced once ever and reused. Null if not affordable. */
 async function stationClip(text: string, kind: SpendKind): Promise<Uint8Array | null> {
-  const key = await sha(`${STATION_PRESENTER}|${text}`)
+  const key = await sha(`${freeVoiceMode() ? 'free' : STATION_PRESENTER}|${text}`)
   const file = `clips/station/${key}.mp3`
   const index = await getJson<StationIndex>(STATION_INDEX, {})
   if (index[key]) {
@@ -292,7 +303,7 @@ async function stationClip(text: string, kind: SpendKind): Promise<Uint8Array | 
     }
   }
   const usd = estimateSpeechUsd(text.length)
-  if (!(await canSpend(kind, usd)).ok) return null
+  if (!(await affordable(kind, usd))) return null
   const audio = await speak(text, STATION_PRESENTER, kind, `station line "${text.slice(0, 40)}"`)
   await putObject(file, audio, 'audio/mpeg')
   const fresh = await getJson<StationIndex>(STATION_INDEX, {})
@@ -350,11 +361,12 @@ const SECTIONS = [
 ]
 
 async function storyKey(story: Story) {
-  return sha(`${NEWS_PRESENTER}|${story.category}|${clean(story.title)}|${clean(story.summary || '').slice(0, 400)}`)
+  return sha(`${voiceTag()}|${story.category}|${clean(story.title)}|${clean(story.summary || '').slice(0, 400)}`)
 }
 
 /** A few times a day: look for a major breaking story the website hasn't got yet. */
 async function breakingCheck(haveTitles: string[]): Promise<Breaking[]> {
+  if (freeVoiceMode()) return []
   if (!(await canSpend('news', 0.05)).ok) return []
   const instructions = `
 You are the duty editor for Downunder Voices Radio (Australia and New Zealand).
@@ -416,10 +428,31 @@ ${EDITORIAL_RULES}
   }
 }
 
+/** Free read: the headline, then the first one or two whole sentences of the summary. */
+function plainRead(c: Candidate) {
+  const title = speakable(clean(c.story?.title || c.title)).replace(/[.:;,\s]+$/, '')
+  const summary = speakable(clean(c.story?.summary || ''))
+  const sentences = summary.match(/[^.!?]+[.!?]+["’”]?/g) || (summary ? [summary] : [])
+  let body = ''
+  for (const s of sentences) {
+    if (body && (body + s).length > 360) break
+    body += s
+    if (body.length > 200) break
+  }
+  if (!body && summary) body = summary.slice(0, 300).replace(/\s+\S*$/, '') + '.'
+  if (!body.trim()) return `${title}.`
+  if (body.toLowerCase().startsWith(title.toLowerCase().slice(0, 40))) return body.trim()
+  return `${title}. ${body}`.trim()
+}
+
 /** Write spoken scripts for new stories in ONE cheap call (no web search). */
 async function writeStoryScripts(stories: Candidate[]) {
   const scripts = new Map<string, string>()
   if (!stories.length) return scripts
+  if (freeVoiceMode()) {
+    for (const c of stories) scripts.set(c.key, plainRead(c))
+    return scripts
+  }
   const instructions = `
 You write individual news items for the hourly bulletin on Downunder Voices Radio, an independent station for Australia and New Zealand.
 For EACH story supplied, write one self-contained spoken news item of 55 to 75 words (about 25 to 30 seconds).
@@ -468,10 +501,7 @@ Return one entry per story, using the story's id exactly as given.
   }
   // Anything missing falls back to a plain read of the headline and summary (no cost).
   for (const c of stories) {
-    if (!scripts.has(c.key)) {
-      const summary = clean(c.story?.summary || '').slice(0, 320)
-      scripts.set(c.key, `${clean(c.story?.title || c.title)}. ${summary}`.trim())
-    }
+    if (!scripts.has(c.key)) scripts.set(c.key, plainRead(c))
   }
   return scripts
 }
@@ -491,7 +521,7 @@ async function buildNews(now: Date, options: { forceBreakingCheck?: boolean }) {
   const overnight = hour >= 0 && hour < 6
   const maxAgeHours = overnight ? 20 : 14
   /** New stories we may voice this hour (each costs ~US$0.007). */
-  const newAllowance = Number(process.env.DV_RADIO_NEW_STORIES_PER_HOUR) || (overnight ? 1 : RADIO_PAUSED ? 2 : 3)
+  const newAllowance = freeVoiceMode() ? 20 : Number(process.env.DV_RADIO_NEW_STORIES_PER_HOUR) || (overnight ? 1 : RADIO_PAUSED ? 2 : 3)
 
   const [stories, index, savedBreaking] = await Promise.all([
     latestStories(80),
@@ -556,7 +586,7 @@ async function buildNews(now: Date, options: { forceBreakingCheck?: boolean }) {
       // Breaking items are always allowed (if the budget allows); others use the hourly allowance.
       if (!isBreaking && allowance <= 0) continue
       const cost = estimateSpeechUsd(500) + 0.002
-      if (!(await canSpend('news', cost)).ok) continue
+      if (!(await affordable('news', cost))) continue
       if (!isBreaking) allowance -= 1
       picked.push(c)
       seenTitles.add(t)
@@ -572,7 +602,7 @@ async function buildNews(now: Date, options: { forceBreakingCheck?: boolean }) {
     const script = c.script || scripts.get(c.key)
     if (!script) continue
     try {
-      if (!(await canSpend('news', estimateSpeechUsd(script.length))).ok) throw new Error('budget')
+      if (!(await affordable('news', estimateSpeechUsd(script.length)))) throw new Error('budget')
       const audio = await speak(script, NEWS_PRESENTER, 'news', `story "${c.title.slice(0, 50)}"`)
       const file = `clips/news/${c.key}.mp3`
       await putObject(file, audio, 'audio/mpeg')
