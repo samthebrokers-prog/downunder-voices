@@ -9,8 +9,6 @@ export const metadata: Metadata = {
 
 export const revalidate = 300
 
-const sportsVideoUrl = 'https://www.nrl.com/news/topic/match-highlights/'
-
 export default async function SportsPage() {
   const cutoff = Date.now() - 14 * 24 * 60 * 60 * 1000
   const stories = (await getStoriesByCategory('sports', 60))
@@ -41,38 +39,34 @@ export default async function SportsPage() {
 
       <section className="mb-10 overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div className="grid gap-0 md:grid-cols-[1.2fr_1fr]">
-          <a
-            href={sportsVideoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex min-h-64 items-center justify-center bg-black px-8 py-12 text-center text-white"
-          >
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-neutral-400">
-                Sports Video of the Day
-              </p>
-              <p className="mt-4 font-serif text-3xl font-black">
-                Australia PM&apos;s XIII v PNG PM&apos;s XIII
-              </p>
-              <p className="mt-3 text-sm text-zinc-300">
-                Latest official NRL match highlights
-              </p>
-              <span className="mt-6 inline-block rounded-full bg-white px-5 py-2 text-sm font-black text-black">
-                Watch official highlights ↗
-              </span>
+          <div className="bg-black">
+            <div className="relative aspect-video w-full">
+              <iframe
+                className="absolute inset-0 h-full w-full"
+                src="https://www.youtube-nocookie.com/embed/XtfgwJani0E"
+                title="Wales v New Zealand | Match Highlights | Nations Championship"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
             </div>
-          </a>
+            <p className="px-5 py-3 text-xs text-zinc-300">
+              Sports Video of the Day: Wales v New Zealand match highlights, Nations Championship. Video: SuperSport via YouTube.
+            </p>
+          </div>
 
           <div className="flex flex-col justify-center p-7">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-neutral-900">
               Current AU/NZ sport
             </p>
             <h2 className="mt-2 font-serif text-2xl font-black">
-              Fresh sport, not expired match previews
+              Wales 35, All Blacks 28
             </h2>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
-              This position highlights current official Australian and New Zealand sports video. Older event promotions are removed after the event.
+              Wales beat New Zealand for the first time since 1953. Watch the highlights, then read our full story.
             </p>
+            <a href="/story/wales-beat-all-blacks-73-year-drought-ends-cardiff-2026" className="mt-4 inline-block font-black underline">
+              Read: History in Cardiff →
+            </a>
           </div>
         </div>
       </section>
