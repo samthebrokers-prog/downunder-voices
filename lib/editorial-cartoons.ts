@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '15 November 2026',
+    image: '/editorial-cartoons/2026-11-15-adelaide-pageant-camp-chairs.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of an Adelaide street on Christmas pageant day under grey clouds, with a sleigh float carrying a waving Father Christmas past the crowd, while a fictional family on the footpath points at a row of empty folding camp chairs roped together beside a Reserved sign, covered in cobwebs',
+    headline: 'Santa came early. The camp chairs came earlier.',
+    summary:
+      'Adelaide’s Christmas pageant drew an estimated 335,000 people along its route on Saturday, with Father Christmas arriving under grey skies to the usual enthusiasm. For many families the real tradition starts days earlier, with the annual race to claim a patch of footpath with folding chairs.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-14/father-christmas-arrives-in-adelaide-at-annual-christmas-pageant/107385880',
+    sourceLabel:
+      'ABC News — Big crowd greets Father Christmas at Adelaide’s annual pageant',
+    question: 'How early would you get there to save a good spot for a parade? Tell us below.',
+  },
+  {
     date: '14 November 2026',
     image: '/editorial-cartoons/2026-11-14-corpse-flower-perfume-launch.jpg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of an original giant corpse flower staged like a perfume launch at fictional Geelong Botanic Gardens while a queue of generic visitors wearing nose pegs waits behind a velvet rope',
