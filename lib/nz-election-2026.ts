@@ -20,7 +20,7 @@ export const electionInfo = {
   electionDate: '7 November 2026',
   officialResultIso: '2026-11-27T14:00:00+13:00',
   officialResultLabel: 'Friday 27 November 2026',
-  lastUpdated: '11 November 2026, 1:45am NZT',
+  lastUpdated: '15 November 2026, 4:30am NZT',
   totalSeats: 131,
   majority: 66,
   overhang: 11,
@@ -49,6 +49,31 @@ export const closeSeats = [
 ]
 
 export const updates = [
+  {
+    time: '14 Nov',
+    headline: 'Poll: 45% trust Luxon less after his Opportunity U-turn',
+    body: 'A Stuff "Pulse of the Nation" survey of 533 people, taken after the election, found 45% are less likely to trust Christopher Luxon to keep his word after he met Opportunity\'s Qiulae Wong despite ruling the party out during the campaign. Only 8% said it made them more likely to trust him. Just 21% want MMP kept exactly as it is.',
+  },
+  {
+    time: '14 Nov',
+    headline: 'Right bloc only about 17,000 party votes ahead',
+    body: 'The Post\'s Henry Cooke reports that National, ACT and NZ First are only about 17,000 party votes ahead of the rest of Parliament, compared with a gap of about 256,000 in 2023. The Post also estimates each overhang MP costs about $2.1 million over a three-year term, and this Parliament has 11 of them.',
+  },
+  {
+    time: '13 Nov',
+    headline: 'Special votes still being counted',
+    body: 'About 399,000 special votes, roughly 14% of all votes, are still being checked and counted. Special votes have usually helped the left by one or two seats. The official result, and the start of formal coalition talks, is due on Friday 27 November.',
+  },
+  {
+    time: '10–11 Nov',
+    headline: 'Wong meets Hipkins; Swarbrick says it is time to "pick a side"',
+    body: 'Opportunity leader Qiulae Wong met Labour\'s Chris Hipkins for an hour, a day after meeting Luxon. Hipkins said the talk was about understanding each other\'s priorities. Wong says Opportunity will talk to National first but will turn to Labour if those talks stall. Greens co-leader Chlöe Swarbrick, who also caught up with Wong, has urged Opportunity to pick a side.',
+  },
+  {
+    time: '10 Nov',
+    headline: 'Opportunity: our five bottom lines will not move',
+    body: 'Wong said her party\'s five bottom lines are the minimum for joining any government and will not be dropped to help either side. She said nobody wants another election and that New Zealanders would love a government by Christmas.',
+  },
   {
     time: '10 Nov',
     headline: 'Luxon confirms talks with Opportunity\'s Qiulae Wong',

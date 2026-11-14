@@ -28,6 +28,138 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'luxon-opportunity-u-turn-trust-labour-led-option-2026',
+    publishedAt: '2026-11-14T15:20:00.000Z',
+    category: 'editorial-view',
+    title: 'Opinion: Luxon broke his word on Opportunity. Wong should test a Labour-led deal before propping him up',
+    summary: 'Christopher Luxon ruled out Opportunity all campaign, then sat down with Qiulae Wong within days of the count. Voters noticed, and Opportunity should make sure a Labour-led option gets a fair hearing before it signs anything.',
+    body: `Before polling day, Christopher Luxon was clear. National would not work with The Opportunity Party. Stuff counted nineteen separate times he ruled it out. Within two days of the preliminary count showing his coalition clinging to a one-seat buffer, he was hosting Opportunity leader Qiulae Wong in his office for an hour and describing the meeting as very positive and very constructive, the NZ Herald reported.
+
+This column argues that the U-turn tells Opportunity, and every voter, something important. A leader who drops a firm promise the moment the numbers get tight is not a safe partner. Opportunity should keep its bottom lines, wait for the special votes, and give a Labour-led government with the Greens a genuine chance before it hands Mr Luxon a second term.
+
+Voters noticed
+
+The public reaction has been sharp. A Stuff "Pulse of the Nation" survey of 533 people, reported by Isaac Davison on 14 November, found 45 per cent said the U-turn made them less likely to trust Mr Luxon to keep his word. Only 8 per cent said it made them more likely. Stuff also reported claims that Mr Luxon could have faced another leadership challenge from his own caucus had he refused to talk to Opportunity.
+
+That is the man asking Opportunity to keep him in power: a leader who has already faced two confidence votes among his own MPs this year, according to the Associated Press, and whose promise on this very question lasted barely a weekend.
+
+The mandate is thin
+
+National's claim to govern rests on being the largest party in Parliament. But Labour narrowly won the party vote on election night, 29.36 per cent to National's 29.21 per cent, according to the Electoral Commission's preliminary count. National ended up with more seats because its electorate wins created a record overhang.
+
+The Post's Henry Cooke reported that the three right-bloc parties are only about 17,000 party votes ahead of the rest of Parliament. Three years ago the gap was about 256,000. That is not a ringing endorsement of the outgoing government. It is a country split almost down the middle, with roughly 399,000 special votes still to be counted, according to interest.co.nz. Specials have usually helped the left by a seat or two.
+
+Labour and the Greens did not need a U-turn
+
+The contrast with the other side is striking. Labour and the Greens were open to working with Opportunity before a single vote was cast, 1News reported on 4 November. Since the election, Chris Hipkins and Greens co-leader Chlöe Swarbrick both reached out to Ms Wong, and Ms Swarbrick caught up with her over a beer. The Spinoff observed that Mr Hipkins is far more eager than his National counterpart to form a government with Opportunity, and more prepared to compromise in talks.
+
+Mr Hipkins met Ms Wong for an hour on 10 November. He described it as a chance to understand each other's priorities. That is how a partnership should start: with respect, not a reluctant phone call two days late.
+
+There is also the question of who Opportunity represents. The Herald's Thomas Coughlan has pointed out that Opportunity's voters are concentrated in urban Wellington seats that elected Labour or Green MPs. Many of those voters chose Opportunity as a fresh, evidence-based voice, not as a route to keeping ACT and New Zealand First in cabinet.
+
+What Opportunity should do
+
+Ms Wong has said Opportunity will talk to National first and turn to Labour if those talks stall, 1News reported. She has also said her five bottom lines are non-negotiable. Holding firm on them is right. But "National first" should not mean "National only". On issues such as ending bottom trawling, a cleaner tax system and evidence-based policy, Opportunity has more in common with Labour and the Greens than with ACT, or with New Zealand First, which ruled Opportunity out during the campaign.
+
+The best outcome for New Zealand is a stable government that reflects the full count. If the specials move even one or two seats, a Labour-led government with the Greens and Opportunity would be the natural fit, and Opportunity should be ready for it.
+
+The other side
+
+Mr Luxon's supporters make a fair point: on the provisional numbers National, ACT and NZ First already hold 67 of 131 seats, one more than needed, and Mr Luxon says he does not need Opportunity's support at all. National is the largest party in Parliament. The Herald's Coughlan has also argued that any left-leaning deal relying on Te Pāti Māori would be very risky, which is why many commentators expect Opportunity to lean right.
+
+Those arguments deserve a hearing. But trust is the currency of any coalition, and on that measure the outgoing Prime Minister has started these talks in deficit. Opportunity should keep every door open until 27 November, and walk through the one that leads to a fairer, more honest government.
+
+Sources: NZ Herald, 10 November 2026; Stuff (Isaac Davison), 14 November 2026; The Post (Henry Cooke), via The Democracy Project briefing, 14 November 2026; NZ Herald (Thomas Coughlan), via The Democracy Project briefing, 14 November 2026; 1News, 4 and 10 November 2026; The Spinoff, 10 November 2026; interest.co.nz, 9 November 2026; Associated Press, 8 November 2026; NZ Electoral Commission preliminary results.
+
+Photo: Bowen House, the Beehive and Parliament House, Wellington, by Midnighttonight via Wikimedia Commons (CC BY-SA 3.0).`,
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Bowen_House_Beehive_Parliament.JPG?width=1280',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'nz-election-one-week-on-what-happens-before-27-november-2026',
+    publishedAt: '2026-11-14T15:10:00.000Z',
+    category: 'new-zealand',
+    title: 'NZ election one week on: where the numbers stand and what happens before 27 November',
+    summary: 'A week after polling day New Zealand still has no clear winner. Here is where the seats sit, why special votes matter, and how a government could be formed.',
+    body: `A week after New Zealanders voted on 7 November, nobody can yet say who will govern. Christopher Luxon's National-led government stays on as a caretaker while the Electoral Commission counts the last votes. Here is a plain guide to where things stand.
+
+The numbers on election night
+
+On the preliminary count, National has 42 seats, Labour 36, the Greens 16, ACT 13, New Zealand First 12, The Opportunity Party 7 and Te Pāti Māori 5. That makes a Parliament of 131 seats, so 66 are needed to govern.
+
+National, ACT and New Zealand First together have 67, just one more than they need. Labour, the Greens and Te Pāti Māori have 57. Opportunity's seven MPs sit in between.
+
+On the party vote, Labour finished narrowly ahead of National, 29.36 per cent to 29.21 per cent. National still has more seats because it won many electorates, which created 11 overhang seats, an unusually high number.
+
+Why special votes matter
+
+About 399,000 special votes, roughly 14 per cent of the total, are still being checked and counted, according to interest.co.nz. Special votes include ballots from New Zealanders overseas and people who voted outside their home electorate. In past elections they have usually helped the left by one or two seats.
+
+Several electorates are also very close. Wairarapa was separated by only 139 votes on election night and Mt Roskill by 252. A change in either could shift the overall numbers.
+
+The official result is due on Friday 27 November.
+
+Who is talking to whom
+
+National leader Christopher Luxon ruled out working with Opportunity throughout the campaign, but met Opportunity leader Qiulae Wong for an hour on 9 November. Labour leader Chris Hipkins met her the following day. Wong has said Opportunity will talk to National first and turn to Labour if those talks stall, and that its five bottom lines are not negotiable, 1News and the NZ Herald reported.
+
+Luxon has said formal coalition talks will start once the official result is declared, the Herald reported. He maintains National, ACT and New Zealand First can govern on the current numbers. Labour and the Greens are waiting for the final count, and have said they are willing to work with Opportunity.
+
+Three possible outcomes
+
+If the special votes barely change things, National, ACT and New Zealand First keep a narrow majority and can govern on their own, though with almost no room for error.
+
+If the specials take a seat or two from the right, the coalition loses its majority and Opportunity's support becomes essential for either side. Opportunity would then effectively decide who governs.
+
+If no stable government can be formed, the Associated Press notes New Zealand could face a fresh election. Every party leader has said they want to avoid that.
+
+A debate about the system itself
+
+The result has started a wider argument about MMP. A Stuff survey of 533 people, published on 14 November, found only 21 per cent want the system kept exactly as it is, while about a third would like a new system. The Post has estimated that each overhang MP costs taxpayers about $2.1 million over a three-year term. Labour's Chris Hipkins and the Greens' Chlöe Swarbrick have both said they are open to reforms to stop large overhangs in future.
+
+Downunder Voices will keep its NZ Election 2026 Live page updated until a government is formed.
+
+Sources: NZ Electoral Commission preliminary results; interest.co.nz, 9 November 2026; 1News, 4 and 10 November 2026; NZ Herald, 9 and 10 November 2026; Associated Press, 8 November 2026; Stuff, 14 November 2026; The Post, via The Democracy Project briefing, 14 November 2026.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/nz-election-one-week-on-what-happens-before-27-november-2026',
+    author: 'Downunder Voices Desk',
+  },
+  {
+    slug: 'victoria-election-two-weeks-out-one-nation-preferences-2026',
+    publishedAt: '2026-11-14T15:00:00.000Z',
+    category: 'australia',
+    title: 'Victoria votes in two weeks: Labor trails as the Coalition and One Nation swap preferences',
+    summary: 'Early voting opens on Wednesday 18 November. Polls put Jess Wilson\'s Coalition well ahead, and the biggest question for voters may be how much influence One Nation would have in the next government.',
+    body: `Victorians go to the polls on Saturday 28 November to elect all 88 members of the Legislative Assembly and all 40 members of the Legislative Council. Early voting opens this Wednesday, 18 November, and runs until Friday 27 November, from 9am to 6pm every day except Sunday 22 November, according to the Victorian Electoral Commission. Nobody needs a reason to vote early, and on election day voters can use any voting centre in the state.
+
+Where the polls stand
+
+Labor goes into the final fortnight in serious trouble. A Lighthouse tracking poll for News Corp, surveying 1,351 voters and reported on 13 November, put the Liberal-National Coalition on 32 per cent, One Nation on 23 per cent, Labor on 21 per cent and the Greens on 14 per cent. Opposition Leader Jess Wilson had a net favourability of plus 17, compared with minus 19 for Premier Ben Carroll. The same report said Mr Carroll is at risk of losing his own seat of Niddrie in Melbourne's north-west.
+
+Other polls tell a similar story. A DemosAU survey taken from 30 October to 5 November had Labor on just 18 per cent and the Coalition ahead 56 to 44 after preferences.
+
+Mr Carroll replaced Jacinta Allan as premier on 28 July, four months before the election, promising a new direction after 11 years of Labor government. So far there has been no poll bounce. The ABC reported on 1 November that some Labor MPs privately concede they cannot win.
+
+The preference question
+
+The biggest issue in the final fortnight may be preferences. The Coalition and One Nation have agreed to put each other ahead of Labor on how-to-vote cards in key seats, NCA NewsWire reported on 12 November, and AAP reported the Coalition will largely rank One Nation above Labor across the state. Ms Wilson has ruled out a formal deal with One Nation and has said the Coalition will put Labor, the Greens and the Victorian Socialists last.
+
+Labor has gone the other way. Labor's Anthony Carbines told reporters Labor would put One Nation at the bottom of its how-to-vote cards, calling it a principled decision. Labor's campaign has warned that a vote for the Coalition risks a Liberal-One Nation government, a line Prime Minister Anthony Albanese has also used.
+
+Polls suggest the Coalition could win a majority in its own right. But in a close finish, One Nation, led in Victoria by Warren Pickering, could hold real bargaining power in the upper house or in a hung lower house. Voters are entitled to a straight answer from Ms Wilson before 28 November about what role, if any, One Nation would have in a government she leads.
+
+What each side is saying
+
+Mr Carroll argues that only Labor can stop a Liberal-One Nation government, and has offered to debate Ms Wilson only if One Nation's leader is also on stage. Labor has pitched policies at health workers, including tougher action against violent patients.
+
+Coalition supporters argue that 11 years of Labor has left Victoria with high debt, cost blowouts on major projects and rising crime, and that change is overdue. They point out that she has refused a formal deal with One Nation, and say preference decisions are a normal part of campaigning under Victoria's voting system.
+
+Whoever wins, this is shaping up as one of the most fragmented elections in Victoria's history, with four parties all polling well into double figures. With up to 60 per cent of voters expected to vote early, according to the VEC, much of the result may be locked in well before election night.
+
+Sources: Victorian Electoral Commission; Parliament of Victoria; NCA NewsWire / Yahoo News Australia, 12 November 2026; DemosAU poll, 30 October to 5 November 2026; AAP; ABC News, 1 November 2026.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/victoria-election-two-weeks-out-one-nation-preferences-2026',
+    author: 'Downunder Voices Desk',
+  },
+  {
     slug: 'rnz-deficit-staff-should-not-pay-for-governance-failure-2026',
     publishedAt: '2026-11-13T21:40:00.000Z',
     category: 'editorial-view',
