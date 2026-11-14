@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: { unoptimized: true },
-  // The free radio voice uses the 'ws' package; keep it unbundled so it works on the server.
-  serverExternalPackages: ['ws'],
   async redirects() {
     return [
       {

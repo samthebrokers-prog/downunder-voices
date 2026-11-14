@@ -7,7 +7,7 @@
  * Plain voice only — no background music is ever mixed in.
  */
 import { createHash, randomUUID } from 'node:crypto'
-import WebSocket from 'ws'
+import { connectMiniWs } from '@/lib/mini-ws'
 
 const TRUSTED_CLIENT_TOKEN = '6A5AA1D4EAFF4E9FB37E23D68491D6F4'
 const EDGE_VERSION = '130.0.2849.68'
@@ -65,24 +65,15 @@ export function edgeSpeak(text: string, voice = FREE_VOICE, endpoint = EDGE_URL,
   return new Promise((resolve, reject) => {
     const connectionId = randomUUID().replace(/-/g, '')
     const url = `${endpoint}?TrustedClientToken=${TRUSTED_CLIENT_TOKEN}&Sec-MS-GEC=${secMsGec()}&Sec-MS-GEC-Version=1-${EDGE_VERSION}&ConnectionId=${connectionId}`
-    const ws = new WebSocket(url, {
-      headers: {
-        Pragma: 'no-cache',
-        'Cache-Control': 'no-cache',
-        Origin: 'chrome-extension://jdiccldimpdaibmpdkjnbmckianbfold',
-        'User-Agent': USER_AGENT,
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Accept-Language': 'en-US,en;q=0.9',
-      },
-    })
     const audio: Buffer[] = []
     let done = false
+    let conn: { close: () => void } | null = null
     const finish = (err?: Error) => {
       if (done) return
       done = true
       clearTimeout(timer)
       try {
-        ws.close()
+        conn?.close()
       } catch {
         /* ignore */
       }
@@ -93,33 +84,43 @@ export function edgeSpeak(text: string, voice = FREE_VOICE, endpoint = EDGE_URL,
     }
     const timer = setTimeout(() => finish(new Error('Edge TTS timed out')), timeoutMs)
 
-    ws.on('open', () => {
-      const ts = new Date().toString()
-      ws.send(
-        `X-Timestamp:${ts}\r\nContent-Type:application/json; charset=utf-8\r\nPath:speech.config\r\n\r\n` +
-          '{"context":{"synthesis":{"audio":{"metadataoptions":{"sentenceBoundaryEnabled":"false","wordBoundaryEnabled":"false"},"outputFormat":"audio-24khz-48kbitrate-mono-mp3"}}}}\r\n',
-      )
-      const ssml =
-        `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'>` +
-        `<voice name='${voiceLongName(voice)}'><prosody pitch='+0Hz' rate='${RATE}' volume='+0%'>${xmlEscape(text)}</prosody></voice></speak>`
-      ws.send(
-        `X-RequestId:${randomUUID().replace(/-/g, '')}\r\nContent-Type:application/ssml+xml\r\nX-Timestamp:${ts}Z\r\nPath:ssml\r\n\r\n${ssml}`,
-      )
-    })
-    ws.on('message', (data: Buffer | ArrayBuffer | Buffer[], isBinary: boolean) => {
-      const buf = Buffer.isBuffer(data) ? data : Array.isArray(data) ? Buffer.concat(data) : Buffer.from(data as ArrayBuffer)
-      if (!isBinary) {
-        if (buf.toString('utf8').includes('Path:turn.end')) finish()
-        return
-      }
-      if (buf.length < 2) return
-      const headerLen = buf.readUInt16BE(0)
-      const header = buf.subarray(2, 2 + headerLen).toString('utf8')
-      if (header.includes('Path:audio')) audio.push(buf.subarray(2 + headerLen))
-    })
-    ws.on('unexpected-response', (_req: unknown, res: { statusCode?: number }) => finish(new Error(`Edge TTS refused (${res.statusCode})`)))
-    ws.on('error', (err: unknown) => finish(err instanceof Error ? err : new Error(String(err))))
-    ws.on('close', () => finish(audio.length ? undefined : new Error('Edge TTS closed early')))
+    conn = connectMiniWs(
+      url,
+      {
+        Pragma: 'no-cache',
+        'Cache-Control': 'no-cache',
+        Origin: 'chrome-extension://jdiccldimpdaibmpdkjnbmckianbfold',
+        'User-Agent': USER_AGENT,
+        'Accept-Language': 'en-US,en;q=0.9',
+      },
+      {
+        onOpen: (send) => {
+          const ts = new Date().toString()
+          send(
+            `X-Timestamp:${ts}\r\nContent-Type:application/json; charset=utf-8\r\nPath:speech.config\r\n\r\n` +
+              '{"context":{"synthesis":{"audio":{"metadataoptions":{"sentenceBoundaryEnabled":"false","wordBoundaryEnabled":"false"},"outputFormat":"audio-24khz-48kbitrate-mono-mp3"}}}}\r\n',
+          )
+          const ssml =
+            `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'>` +
+            `<voice name='${voiceLongName(voice)}'><prosody pitch='+0Hz' rate='${RATE}' volume='+0%'>${xmlEscape(text)}</prosody></voice></speak>`
+          send(
+            `X-RequestId:${randomUUID().replace(/-/g, '')}\r\nContent-Type:application/ssml+xml\r\nX-Timestamp:${ts}Z\r\nPath:ssml\r\n\r\n${ssml}`,
+          )
+        },
+        onMessage: (buf, isBinary) => {
+          if (!isBinary) {
+            if (buf.toString('utf8').includes('Path:turn.end')) finish()
+            return
+          }
+          if (buf.length < 2) return
+          const headerLen = buf.readUInt16BE(0)
+          const header = buf.subarray(2, 2 + headerLen).toString('utf8')
+          if (header.includes('Path:audio')) audio.push(buf.subarray(2 + headerLen))
+        },
+        onError: (err) => finish(err),
+        onClose: () => finish(audio.length ? undefined : new Error('Edge TTS closed early')),
+      },
+    )
   })
 }
 
