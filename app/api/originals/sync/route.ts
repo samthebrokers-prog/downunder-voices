@@ -31,7 +31,7 @@ export async function GET() {
           community_angle: a.body,
           image_url: a.imageUrl,
           source_name: 'Downunder Voices Original Analysis',
-          source_url: null,
+          source_url: '', // column is NOT NULL; empty keeps the article's own section
           author: a.author,
           status: 'published',
           published_at: a.publishedAt,
