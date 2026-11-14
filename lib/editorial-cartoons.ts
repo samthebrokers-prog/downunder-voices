@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '14 November 2026',
+    image: '/editorial-cartoons/2026-11-14-corpse-flower-perfume-launch.jpg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of an original giant corpse flower staged like a perfume launch at fictional Geelong Botanic Gardens while a queue of generic visitors wearing nose pegs waits behind a velvet rope',
+    headline: 'The sell-out event with its own fragrance',
+    summary:
+      'Geelong Botanic Gardens is preparing for crowds when its 1.5-metre corpse flower “Pete” blooms for just 24 to 48 hours. The rare plant can take seven to 10 years between blooms and heats its central spike to help spread a smell likened to rotting flesh—making this perhaps Australia’s only botanical event where a long queue and a nose peg are both signs of enthusiasm.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-13/giant-corpse-flower-about-to-bloom-in-geelong/107378284',
+    sourceLabel:
+      'ABC Geelong — Geelong prepares for crowds when corpse flower Pete blooms',
+    question: 'Would you wait in line to experience a rare flower famous for its terrible smell? Tell us below.',
+  },
+  {
+    date: '14 November 2026',
     image: '/editorial-cartoons/2026-11-14-mackay-bus-stop-bushwalk.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of a suburban Mackay street with cane fields, a Queenslander house and a picket fence, where a fictional man dressed for an expedition with bush hat, backpack, bedroll, canteen, walking pole and map stands at his gate beside a sign reading Bus stop 4 km, while a fictional woman leaning out of the family car calls, Ring me from base camp',
     headline: 'Where the bus stop is a bushwalk',
