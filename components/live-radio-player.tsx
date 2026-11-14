@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { Pause, Play, Radio, Volume2 } from 'lucide-react'
+import ContinuousTalk from './continuous-talk'
 
 // ONE station, ONE live stream. Every listener joins the same broadcast
 // already in progress — nothing is generated in the listener's browser.
@@ -27,6 +28,7 @@ export default function LiveRadioPlayer() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [volume, setVolume] = useState(0.9)
+  const [talkActive, setTalkActive] = useState(false)
   const [nowPlaying, setNowPlaying] = useState<NowPlaying | null>(null)
 
   useEffect(() => {
@@ -48,8 +50,8 @@ export default function LiveRadioPlayer() {
   }, [])
 
   useEffect(() => {
-    if (audioRef.current) audioRef.current.volume = volume
-  }, [volume])
+    if (audioRef.current) audioRef.current.volume = talkActive ? volume * 0.18 : volume
+  }, [volume, talkActive])
 
   const toggle = async () => {
     const audio = audioRef.current
@@ -120,6 +122,7 @@ export default function LiveRadioPlayer() {
         />
       </label>
 
+      <ContinuousTalk onTalk={setTalkActive} />
       {error && <p className="mt-4 text-sm font-semibold text-red-300">{error}</p>}
 
       <audio
