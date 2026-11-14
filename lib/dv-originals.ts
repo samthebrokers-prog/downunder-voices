@@ -18,7 +18,7 @@
 export type DvOriginal = {
   slug: string // kebab-case, unique, ends with -YYYY
   publishedAt: string // ISO timestamp
-  category: 'editorial-view' | 'australia' | 'new-zealand' | 'world' | 'social-issues' | 'small-business' | 'trade-logistics' | 'community' // 'editorial-view' shows as Opinion
+  category: 'editorial-view' | 'sports' | 'australia' | 'new-zealand' | 'world' | 'social-issues' | 'small-business' | 'trade-logistics' | 'community' // 'editorial-view' shows as Opinion
   title: string
   summary: string // 1–2 sentence standfirst
   body: string // full article, ends with "Sources: …" and "Photo: … via Wikimedia Commons (licence)."
@@ -27,6 +27,42 @@ export type DvOriginal = {
 }
 
 export const DV_ORIGINALS: DvOriginal[] = [
+  {
+    slug: 'wales-beat-all-blacks-73-year-drought-ends-cardiff-2026',
+    publishedAt: '2026-11-14T16:10:00.000Z',
+    category: 'sports',
+    title: 'History in Cardiff: Wales beat the All Blacks for the first time since 1953',
+    summary: 'Seventy-three years of waiting are over. Wales have beaten New Zealand at the Principality Stadium, their first win over the All Blacks since December 1953.',
+    body: `Wales have beaten the All Blacks. Read that again, because no Welsh rugby fan under the age of about 80 has ever seen it happen.
+
+The final whistle in Cardiff on Saturday night ended a run that began on 19 December 1953, when Wales won 13-8 at Cardiff Arms Park. Since that day New Zealand had won 34 Tests in a row against Wales. Before this match, Wales had beaten the All Blacks only three times in 38 attempts: in 1905, 1935 and 1953.
+
+A flying start
+
+Wales came out firing. Scrum-half Tomos Williams scored inside the first two minutes, and captain Dewi Lake crashed over soon after. With Sam Costelow converting both, the home side led 14-0 before New Zealand had settled. Prop Archie Griffin added a third try midway through the half.
+
+The All Blacks fought back, as they always do. Tries to Cortez Ratima and Wallace Sititi, plus a score just before the break, levelled it at 21-21 at half-time.
+
+The second half
+
+Early in the second half, tries from Eddie James and Louis Rees-Zammit pushed Wales clear again, and Costelow kept landing his kicks. New Zealand replied through Fehi Fineanganofo and Peter Lakai, with Richie Mo'unga converting every try, to keep the pressure on until the very end.
+
+In the final minute the All Blacks threw everything at the Welsh line, desperate to win the ball back. Wales held on, the ball was booted into the stands, and the Principality Stadium erupted.
+
+What it means
+
+For Wales it is a night for the history books, and the kind of result that changes how a whole generation of players believes in itself. Captain Dewi Lake admitted before the match that most of Wales' long losing run came before he was born.
+
+For New Zealand, it is another painful result on a northern tour that has already included a heavy defeat at Twickenham. Questions will be asked back home. But on this night the story belongs to Wales.
+
+Final score details will be updated once confirmed.
+
+Sources: live match coverage from VAVEL and TNT Sports, 14 November 2026; Swansea Bay News, 14 November 2026; Planet Rugby, 14 November 2026; historical record from RugbyPass.
+
+Graphic: Downunder Voices.`,
+    imageUrl: '/news/wales-beat-all-blacks-cardiff-2026.png',
+    author: 'Downunder Voices Sport',
+  },
   {
     slug: 'luxon-opportunity-u-turn-trust-labour-led-option-2026',
     publishedAt: '2026-11-14T15:20:00.000Z',
