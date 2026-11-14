@@ -55,7 +55,7 @@ For Wales it is a night for the history books, and the kind of result that chang
 
 For New Zealand, it is another painful result on a northern tour that has already included a heavy defeat at Twickenham. Questions will be asked back home. But on this night the story belongs to Wales.
 
-Final score details will be updated once confirmed.
+Final score: Wales 35, New Zealand 28.
 
 Sources: live match coverage from VAVEL and TNT Sports, 14 November 2026; Swansea Bay News, 14 November 2026; Planet Rugby, 14 November 2026; historical record from RugbyPass.
 
