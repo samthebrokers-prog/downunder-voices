@@ -83,8 +83,8 @@ This is an opinion column. The prediction is ours, based on the reporting listed
 
 Sources: NZ Electoral Commission preliminary results; NZ Herald special-vote analysis (2020 and 2023) and official-result reports, 2020 and 2023; 1News and Newsroom, 3 November 2023; SBS, 8 November 2026; Reuters via The Star, 8 November 2026; RNZ, 8 November 2026; The Spinoff, 8 November 2026; 1News, 10 November 2026; RNZ, 9 November 2026; NZ Herald, 8 November 2026; Stuff, 12 and 14 November 2026; Wikipedia summary of Opportunity Party policy announcements, October 2026.
 
-Graphic: Downunder Voices, using Electoral Commission results for 2017, 2020, 2023 and the 2026 election-night count.`,
-    imageUrl: '/news/nz-election-specials-history-prediction-2026.png',
+Graphic: Downunder Voices, using Electoral Commission results for 2017, 2020, 2023 and the 2026 election-night count. 2026 figures are our prediction.`,
+    imageUrl: '/news/nz-election-specials-forecast-2026.png',
     author: 'Downunder Voices Opinion',
   },
   {
