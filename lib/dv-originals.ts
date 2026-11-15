@@ -31,23 +31,39 @@ export const DV_ORIGINALS: DvOriginal[] = [
     slug: 'nz-election-prediction-specials-hung-parliament-opportunity-decides-2026',
     publishedAt: '2026-11-15T15:30:00.000Z',
     category: 'editorial-view',
-    title: 'Opinion: Our prediction: the specials will cost Luxon his majority, and Opportunity will choose the next government',
-    summary: 'On election-night figures the coalition is one seat over the line. History, the overseas vote and a promise already broken all point the same way: by 27 November Christopher Luxon will need Qiulae Wong, and Chris Hipkins will be ready to deal.',
+    title: 'Opinion: History says the special votes will cost Luxon his majority. Our prediction: Opportunity chooses the next government',
+    summary: 'In 2017, 2020 and 2023 the special votes cost National two seats every time. Scaled to this year\'s smaller count, history points to the coalition falling from 67 seats to 65, one short of a majority, with Opportunity holding the balance of power.',
     body: `Eleven days before the official result, New Zealand is being told to wait and see. Downunder Voices will not sit on the fence. Here is our call: the special votes will take at least one seat, and more likely two, from National, ACT and NZ First. The coalition will fall below the 66 seats needed to govern, and the Opportunity Party will decide who leads the country.
 
 Where things stand
 
 On the Electoral Commission's preliminary count, Labour narrowly won the party vote, 29.36 per cent to National's 29.21 per cent, SBS reported. National, ACT and NZ First hold 67 seats in a 131-seat Parliament, one more than they need. About 399,000 special votes are still being counted, including about 96,000 from New Zealanders overseas. The official result is due on Friday 27 November.
 
-Why we think the majority goes
+What history tells us
 
-First, history. Special votes have tended to favour the left, Reuters reported after the election. In 2023 the specials cost National two seats and gave the Greens one more.
+Special votes are the votes cast by people overseas, people voting outside their electorate and people who enrolled late. They are counted after election night, and for more than 20 years they have moved in one direction. Since 1999, every party that has gained seats when the specials were added has been on the left, NZ Herald analysis found.
 
-Second, the arithmetic is unforgiving. RNZ's analysis shows that if the coalition loses one seat it sits on 66, just enough. Lose two and it drops to 65, with Labour, the Greens, Te Pāti Māori and Opportunity holding 66 between them.
+The last three elections show how steady the pattern is:
 
-Third, the overseas vote. Tens of thousands of Kiwis in Australia and further afield voted this time, many of them people who left because they could not get ahead at home. We do not believe they voted for three more years of the same.
+2017: about 420,000 special votes (16% of the total). National lost 2 seats. Labour and the Greens gained 1 each.
 
-There is one honest caveat. Changes to the electoral law mean there are about 30 per cent fewer special votes than usual, The Spinoff noted, so the swing could be smaller than in 2023. That is why our call is a hung result, not a landslide.
+2020: about 505,000 special votes (17%). National lost 2 seats and fell from 26.8 to 25.6 per cent. Labour gained 1 and Te Pāti Māori gained 1.
+
+2023: about 603,000 special votes (21%). National lost 2 seats, from 50 to 48, and slipped 0.9 percentage points. The Greens gained 1 and Te Pāti Māori gained 2. Labour's share did not move, while ACT and NZ First each lost 0.4 points. National and ACT lost the majority they appeared to have on election night, and had to bring in NZ First.
+
+That is three elections in a row in which National lost exactly two seats, and three in a row in which the right bloc went backwards.
+
+Our prediction for 2026
+
+This year there are fewer specials: about 399,000, roughly 14 per cent of all votes, according to RNZ. That is about 30 per cent fewer than usual, because changes to the law mean same-day enrolments are no longer counted as special votes, The Spinoff noted. Fewer specials means a smaller swing.
+
+So we have scaled history down to match. If 2026's specials lean the way they did in 2017, 2020 and 2023, but with only around two-thirds of the weight, National should drop between half a point and a point of the party vote and lose one or two seats. Labour, which narrowly won the party vote on election night, should stay ahead of National and is the most likely party to pick up a seat, with the Greens next.
+
+Our call: the coalition falls from 67 seats to 65, one short of the 66 needed. Labour, the Greens, Te Pāti Māori and Opportunity would then hold 66.
+
+RNZ's analysis spells out what that means. If the coalition loses one seat it sits on 66, just enough to govern. Lose two and it drops to 65, and the four other parties hold the majority.
+
+The overseas vote matters here too. About 96,000 special votes came from New Zealanders overseas, SBS reported, many of them in Australia. Kiwis abroad have been part of the left-leaning special vote in every recent election, and we see no reason for that to change.
 
 What happens next
 
@@ -65,10 +81,10 @@ Those are fair points. But a one-seat majority built on a record overhang, with 
 
 This is an opinion column. The prediction is ours, based on the reporting listed below.
 
-Sources: NZ Electoral Commission preliminary results; SBS, 8 November 2026; Reuters via The Star, 8 November 2026; RNZ, 8 November 2026; The Spinoff, 8 November 2026; 1News, 10 November 2026; RNZ, 9 November 2026; NZ Herald, 8 November 2026; Stuff, 12 and 14 November 2026; Wikipedia summary of Opportunity Party policy announcements, October 2026.
+Sources: NZ Electoral Commission preliminary results; NZ Herald special-vote analysis (2020 and 2023) and official-result reports, 2020 and 2023; 1News and Newsroom, 3 November 2023; SBS, 8 November 2026; Reuters via The Star, 8 November 2026; RNZ, 8 November 2026; The Spinoff, 8 November 2026; 1News, 10 November 2026; RNZ, 9 November 2026; NZ Herald, 8 November 2026; Stuff, 12 and 14 November 2026; Wikipedia summary of Opportunity Party policy announcements, October 2026.
 
-Graphic: Downunder Voices, using election-night seat figures from the NZ Electoral Commission.`,
-    imageUrl: '/news/nz-election-who-will-govern-2026.png',
+Graphic: Downunder Voices, using Electoral Commission results for 2017, 2020, 2023 and the 2026 election-night count.`,
+    imageUrl: '/news/nz-election-specials-history-prediction-2026.png',
     author: 'Downunder Voices Opinion',
   },
   {
