@@ -28,6 +28,50 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'nz-election-prediction-specials-hung-parliament-opportunity-decides-2026',
+    publishedAt: '2026-11-15T15:30:00.000Z',
+    category: 'editorial-view',
+    title: 'Opinion: Our prediction: the specials will cost Luxon his majority, and Opportunity will choose the next government',
+    summary: 'On election-night figures the coalition is one seat over the line. History, the overseas vote and a promise already broken all point the same way: by 27 November Christopher Luxon will need Qiulae Wong, and Chris Hipkins will be ready to deal.',
+    body: `Eleven days before the official result, New Zealand is being told to wait and see. Downunder Voices will not sit on the fence. Here is our call: the special votes will take at least one seat, and more likely two, from National, ACT and NZ First. The coalition will fall below the 66 seats needed to govern, and the Opportunity Party will decide who leads the country.
+
+Where things stand
+
+On the Electoral Commission's preliminary count, Labour narrowly won the party vote, 29.36 per cent to National's 29.21 per cent, SBS reported. National, ACT and NZ First hold 67 seats in a 131-seat Parliament, one more than they need. About 399,000 special votes are still being counted, including about 96,000 from New Zealanders overseas. The official result is due on Friday 27 November.
+
+Why we think the majority goes
+
+First, history. Special votes have tended to favour the left, Reuters reported after the election. In 2023 the specials cost National two seats and gave the Greens one more.
+
+Second, the arithmetic is unforgiving. RNZ's analysis shows that if the coalition loses one seat it sits on 66, just enough. Lose two and it drops to 65, with Labour, the Greens, Te Pāti Māori and Opportunity holding 66 between them.
+
+Third, the overseas vote. Tens of thousands of Kiwis in Australia and further afield voted this time, many of them people who left because they could not get ahead at home. We do not believe they voted for three more years of the same.
+
+There is one honest caveat. Changes to the electoral law mean there are about 30 per cent fewer special votes than usual, The Spinoff noted, so the swing could be smaller than in 2023. That is why our call is a hung result, not a landslide.
+
+What happens next
+
+Opportunity leader Qiulae Wong has said she will talk to National first, because it won the most seats, and will turn to Labour if those talks stall, 1News reported. Her five bottom lines include regulating lobbying and capping political donations, RNZ reported. Mr Luxon has said real negotiations will not start until the official result.
+
+Our prediction is that the National talks stall. Mr Luxon ruled Opportunity out nineteen times during the campaign, according to Stuff, and a Stuff poll found 45 per cent of people now trust him less after his U-turn. ACT's David Seymour is already talking to him about the finance job, Stuff reported, and NZ First ruled Opportunity out during the campaign. A National-led deal would mean Ms Wong's young party sitting at the cabinet table with ACT and Winston Peters. That is a hard sell to her own voters.
+
+Chris Hipkins, by contrast, was open to Opportunity before a single vote was cast, and met Ms Wong within days of the count. If the coalition falls to 65, we expect a Labour-led government with the Greens and Opportunity, relying on Te Pāti Māori for confidence and supply. It would be untidy. It would also reflect how New Zealanders actually voted: Labour first on the party vote, and a clear message that people want change on the cost of living.
+
+The other side
+
+Our prediction could be wrong, and the case against it is real. On the night, the coalition already had a majority without Opportunity, and Mr Luxon has said he does not need Ms Wong's support. If the specials move only one seat, he can govern as before. Ms Wong has also said Opportunity would drop its tax reform plans in return for concessions in talks with the centre-right, which makes a deal with National easier than it looked during the campaign. And a Labour-led government would need four parties to agree on every confidence vote, which critics warn would be unstable.
+
+Those are fair points. But a one-seat majority built on a record overhang, with the left ahead on the party vote, is not a mandate. When the final count lands on 27 November, we expect the balance to tip, and Qiulae Wong to choose change.
+
+This is an opinion column. The prediction is ours, based on the reporting listed below.
+
+Sources: NZ Electoral Commission preliminary results; SBS, 8 November 2026; Reuters via The Star, 8 November 2026; RNZ, 8 November 2026; The Spinoff, 8 November 2026; 1News, 10 November 2026; RNZ, 9 November 2026; NZ Herald, 8 November 2026; Stuff, 12 and 14 November 2026; Wikipedia summary of Opportunity Party policy announcements, October 2026.
+
+Graphic: Downunder Voices, using election-night seat figures from the NZ Electoral Commission.`,
+    imageUrl: '/news/nz-election-who-will-govern-2026.png',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'wales-beat-all-blacks-73-year-drought-ends-cardiff-2026',
     publishedAt: '2026-11-14T16:10:00.000Z',
     category: 'sports',
