@@ -70,6 +70,11 @@ export default function NzElectionLivePage() {
         Labour and National finished almost level on the party vote. The governing coalition has a one-seat majority on election-night figures, but {electionInfo.specialVotesExpected} special votes, including votes from Kiwis in Australia and around the world, are still being counted.
       </p>
 
+      <Link href="/story/nz-election-prediction-specials-hung-parliament-opportunity-decides-2026" className="mt-5 block rounded-xl border-l-4 border-red-700 bg-slate-50 p-4 hover:bg-slate-100">
+        <span className="text-xs font-black uppercase tracking-wide text-red-700">Opinion · Our prediction</span>
+        <span className="mt-1 block font-serif text-xl font-black text-slate-950">History says the special votes will cost Luxon his majority →</span>
+      </Link>
+
       <div className="mt-5 flex flex-wrap gap-2">
         {shareLinks.map((s) => (
           <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold text-slate-800 hover:border-neutral-900">
@@ -180,6 +185,7 @@ export default function NzElectionLivePage() {
       <div className="mt-10 border-t border-slate-200 pt-6 text-sm leading-6 text-slate-500">
         Downunder Voices reports these results neutrally and will update this page as news comes in. Figures are preliminary until the Electoral Commission declares the official result.
         <div className="mt-3 flex flex-wrap gap-4">
+          <Link href="/story/nz-election-prediction-specials-hung-parliament-opportunity-decides-2026" className="font-bold text-red-700 hover:underline">Our prediction: what the special votes will do →</Link>
           <Link href="/story/nz-election-2026-too-close-to-call-national-labour-level" className="font-bold text-neutral-900 hover:underline">Read our full report →</Link>
           <Link href="/category/new-zealand" className="font-bold text-neutral-900 hover:underline">More New Zealand news →</Link>
         </div>
