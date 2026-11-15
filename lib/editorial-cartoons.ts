@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '15 November 2026',
+    image: '/editorial-cartoons/2026-11-15-kimberley-shell-career-move.jpg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of an original pearl oyster at a fictional Kimberley careers office archiving its old button-maker résumé and accepting a new bone-repair appointment',
+    headline: 'From buttons to bones — a solid career move',
+    summary:
+      'A bone-graft substitute made from sustainably sourced mother-of-pearl shell from Western Australia’s Kimberley has received clearance from the US Food and Drug Administration. The UWA-developed technology turns nacre into a bone-mineral matrix—giving Broome’s historic pearl-shell industry a remarkable new job in biomedical manufacturing.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-14/pearlbone-receives-us-fda-clearance-wa-research-milestone/107355146',
+    sourceLabel:
+      'ABC Kimberley — Mother-of-pearl bone graft substitute receives US FDA clearance',
+    question: 'What other Australian byproducts could be given a clever second career? Tell us below.',
+  },
+  {
+    date: '15 November 2026',
     image: '/editorial-cartoons/2026-11-15-adelaide-pageant-camp-chairs.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of an Adelaide street on Christmas pageant day under grey clouds, with a sleigh float carrying a waving Father Christmas past the crowd, while a fictional family on the footpath points at a row of empty folding camp chairs roped together beside a Reserved sign, covered in cobwebs',
     headline: 'Santa came early. The camp chairs came earlier.',
