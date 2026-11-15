@@ -12,7 +12,7 @@ export function LiveElectionBanner() {
           <span className="absolute inline-flex size-full animate-ping rounded-full bg-white opacity-75" />
           <span className="relative inline-flex size-3 rounded-full bg-white" />
         </span>
-        <span>LIVE — NZ Election: too close to call</span>
+        <span>NZ Election: special votes being counted — result 27 Nov</span>
       </Link>
     </div>
   )

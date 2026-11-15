@@ -58,7 +58,7 @@ export default function NzElectionLivePage() {
 
       <div className="flex flex-wrap items-center gap-3">
         <span className="inline-flex items-center gap-2 rounded-full bg-red-700 px-4 py-1.5 text-xs font-black uppercase tracking-wide text-white">
-          <span className="size-2 animate-pulse rounded-full bg-white" /> Live
+          <span className="size-2 animate-pulse rounded-full bg-white" /> Counting special votes
         </span>
         <span className="text-sm font-semibold text-slate-500">Last updated {electionInfo.lastUpdated}</span>
       </div>

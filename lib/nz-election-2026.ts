@@ -20,7 +20,7 @@ export const electionInfo = {
   electionDate: '7 November 2026',
   officialResultIso: '2026-11-27T14:00:00+13:00',
   officialResultLabel: 'Friday 27 November 2026',
-  lastUpdated: '15 November 2026, 4:30am NZT',
+  lastUpdated: '16 November 2026, 4:30am NZT',
   totalSeats: 131,
   majority: 66,
   overhang: 11,
@@ -50,6 +50,11 @@ export const closeSeats = [
 
 export const updates = [
   {
+    time: '16 Nov',
+    headline: 'Day 9 of the special-vote count: 11 days to the official result',
+    body: 'The Electoral Commission is still checking and counting about 399,000 special votes, including about 96,000 from overseas. No new results are released until the official count on Friday 27 November. On election-night figures, a swing of just one or two seats would take the National, ACT and NZ First coalition from 67 seats to 65, short of the 66 needed, which would put Opportunity in the kingmaker role.',
+  },
+  {
     time: '14 Nov',
     headline: 'Poll: 45% trust Luxon less after his Opportunity U-turn',
     body: 'A Stuff "Pulse of the Nation" survey of 533 people, taken after the election, found 45% are less likely to trust Christopher Luxon to keep his word after he met Opportunity\'s Qiulae Wong despite ruling the party out during the campaign. Only 8% said it made them more likely to trust him. Just 21% want MMP kept exactly as it is.',
@@ -63,6 +68,11 @@ export const updates = [
     time: '13 Nov',
     headline: 'Special votes still being counted',
     body: 'About 399,000 special votes, roughly 14% of all votes, are still being checked and counted. Special votes have usually helped the left by one or two seats. The official result, and the start of formal coalition talks, is due on Friday 27 November.',
+  },
+  {
+    time: '12 Nov',
+    headline: 'Seymour has raised the finance job with Luxon',
+    body: 'ACT leader David Seymour says he has discussed the finance minister role with Christopher Luxon, but only in terms of how a wider government would be formed, and that serious negotiations will wait until all votes are counted. The Council of Trade Unions has urged Luxon to keep finance with National and keep ACT away from workplace relations.',
   },
   {
     time: '10–11 Nov',
