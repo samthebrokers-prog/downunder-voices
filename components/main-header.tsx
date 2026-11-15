@@ -57,7 +57,7 @@ export function MainHeader() {
     router.push(`/search?q=${encodeURIComponent(query)}`)
   }
 
-  return <header className="sticky top-0 z-50 border-b border-slate-300 bg-white/95 backdrop-blur">
+  return <header className="sticky top-0 z-50 border-b border-slate-300 bg-white">
     <div className="border-b border-slate-200 bg-slate-950 text-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-1.5 text-xs sm:px-6 lg:px-8">
         <span className="truncate text-slate-300">{today}</span>
