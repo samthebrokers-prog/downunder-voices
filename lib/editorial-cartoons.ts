@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '16 November 2026',
+    image: '/editorial-cartoons/2026-11-16-airport-heat-arrival.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of a sun-baked western Sydney backyard beside a new airport, where an arrivals board lists Summer on time, Heatwave early and Cool change delayed, while a fictional woman in a sun hat hoses down a fictional man sitting in a camp chair with his feet in a paddling pool',
+    headline: 'The new airport’s first big arrival? The heat.',
+    summary:
+      'Western Sydney already records some of the hottest days of any part of the city, and concern is being raised that the vast paved expanse of the new Western Sydney International Airport could act as a summer “heat sink”, warming the homes around it. As the region heads into summer, the question of shade, trees and cooling around big new infrastructure is getting harder to ignore.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-16/nsw-wsi-airport-heat-impact-summer-western-sydney/107297220',
+    sourceLabel:
+      'ABC News — Concern Western Sydney’s new airport could become a summer “heat sink”',
+    question: 'How do you keep cool when summer really bites where you live? Tell us below.',
+  },
+  {
     date: '15 November 2026',
     image: '/editorial-cartoons/2026-11-15-kimberley-shell-career-move.jpg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of an original pearl oyster at a fictional Kimberley careers office archiving its old button-maker résumé and accepting a new bone-repair appointment',
