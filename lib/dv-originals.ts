@@ -28,6 +28,164 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'nz-election-hidden-money-third-party-donor-disclosure-2026',
+    publishedAt: '2026-11-15T21:20:00.000Z',
+    category: 'editorial-view',
+    title: 'Opinion: Voters still do not know who paid for the 2026 campaign. Fix the donation rules before 2029',
+    summary: 'Registered campaign groups could each spend $424,000 on election ads without telling anyone where the money came from. Whoever forms the next government should make full donor disclosure a first-year law.',
+    body: `New Zealand has voted, the special votes are being counted and the coalition talks are under way. One question has no answer and, under the current law, never will: who paid for the advertising that tried to change our minds?
+
+Political parties have to tell the Electoral Commission who gives them large donations. Groups that campaign alongside the parties do not. That gap was legal in 2026. It should not be legal in 2029.
+
+How the gap works
+
+Any group can register with the Electoral Commission as a "third-party promoter" and campaign for or against parties and policies. In 2026 a registered promoter could spend up to $424,000 on election advertising, The Spinoff reported on 13 November. An unregistered promoter could spend up to $17,000. For comparison, a party's own advertising limit was just over $1.5 million, and each electorate candidate was limited to $36,000.
+
+The catch is on the other side of the ledger. The Electoral Commission's guidance tells third-party promoters they do not need to record or report the donations they receive, the Democracy Project's Bryce Edwards noted in September. They file a spending return only if they spend more than $100,000, The Spinoff reported. So a group can raise hundreds of thousands of dollars, spend it attacking one side, and never say where a cent of it came from.
+
+This is not a small corner of the system. There were 25 registered promoters at this election, Newsroom's Jonathan Milne reported, according to the Democracy Project's summary of his work on 5 November. Each was entitled to spend up to $424,000 without naming its funders.
+
+The groups that campaigned
+
+The best-known is the Taxpayers' Union. It is a registered promoter, and its membership list is confidential unless a supporter chooses to go public, Edwards reported. Its executive director, Jordan Williams, has been open about the group's purpose. The Union's annual review set the aim to "do everything in our power to ensure that Labour does not return to office", Edwards reported.
+
+There is nothing wrong with a lobby group having a political view. Voters, though, deserve to know whose view it is. When a campaign tells you a party's tax plan will wreck the economy, it matters whether the money behind that message came from thousands of small donors or from a handful of people who would pay the tax.
+
+Writing in the Sunday Star Times, Andrea Vance worked out that five like-minded groups, including the Taxpayers' Union, the Free Speech Union, Hobson's Pledge and the Sensible Sentencing Trust, could in theory spend $2.12 million between them, according to the Democracy Project's 15 November briefing. No donor to any of them has to be named.
+
+Online, the picture is murkier still. The Spinoff's analysis of Meta and Google ad data found that Centrist NZ, founded by Canadian Jim Grenon, spent more than $10,000 on Meta ads without being a registered third-party advertiser. TikTok's transparency tool does not even work in New Zealand, the same analysis found, so nobody can check spending there at all.
+
+The parties are not short of money either
+
+The parties themselves raised large sums this cycle. National has taken more than $13.4 million, ACT more than $6.2 million, NZ First more than $3 million and Labour more than $5 million, Newsroom reported, according to the Democracy Project's summary. At least party donations above the threshold are eventually published. The full party spending returns for 2026 are not due until April next year, The Spinoff noted. That means we will learn the details of this campaign's money five months after the votes were counted.
+
+Big money and hidden money are two separate problems, and the second is easier to fix.
+
+What should change
+
+First, every registered third-party promoter should have to disclose donors on the same terms as political parties. Vance has proposed disclosure of donations above $6,000, the Democracy Project reported. That is a sensible starting point.
+
+Second, groups that share staff, offices or directors should share a single spending cap. Otherwise one well-funded network can multiply its limit simply by registering more names.
+
+Third, foreign money should be banned from third-party campaigns as it is from party donations. Vance proposed this too.
+
+Fourth, the online rules need to catch up. Every paid political ad on every platform should carry a clear name and appear in a public library that New Zealanders can search.
+
+None of this is radical. It is the same standard we already apply to parties. Labour, the Greens and the Opportunity Party should make it a shared priority in any talks. Whoever ends up in government after 27 November should pass this in its first year, well before the next campaign starts, so that no party can be accused of changing the rules to suit itself.
+
+It should also cover every side. Unions run third-party campaigns too: the Council of Trade Unions spent $23,800 on Google ads, against the Taxpayers' Union's $25,800, The Spinoff found. Rules that ask the left to open its books along with the right are a feature, not a cost. We are confident progressive campaigns can live with them.
+
+The other side
+
+Defenders of the current rules make reasonable points. Third-party campaigning is a form of free speech, and groups argue that naming donors could expose ordinary supporters to harassment. Mr Williams has said that about two-thirds of the Taxpayers' Union's money comes from small online donations and less than 3 per cent from industry, Edwards reported. Others argue the spending caps already limit any one group's reach, and that tougher rules would mostly add paperwork for small community campaigns.
+
+Those concerns can be met. A disclosure threshold of several thousand dollars protects small donors, and caps already keep the amounts in check. What cannot be defended is a system where the people with the deepest pockets can shape an election in private.
+
+The 2026 election was close, and the final result may still turn on the special votes. In a contest that tight, every hidden dollar matters. The next Parliament has three years to make sure that in 2029, voters know who is talking to them.
+
+This is an opinion column.
+
+Sources: The Spinoff (Shanti Mathias), 13 November 2026; Democracy Project (Bryce Edwards), "The influence of the Taxpayers' Union in the election", 22 September 2026; Democracy Project News Briefing, 5 November 2026 (summarising Newsroom reporting by Jonathan Milne); Democracy Project News Briefing, 15 November 2026 (summarising Andrea Vance, Sunday Star Times); Electoral Commission third-party promoter guidance, 2026.
+
+Photo: Bowen House, the Beehive and Parliament House, Wellington, by Midnighttonight via Wikimedia Commons (CC BY-SA 3.0).`,
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Bowen_House_Beehive_Parliament.JPG?width=1280',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'mason-clinic-mental-health-vacancies-staffing-2026',
+    publishedAt: '2026-11-15T21:10:00.000Z',
+    category: 'editorial-view',
+    title: 'Opinion: 35 empty jobs at the Mason Clinic is a budget choice, and patients and staff are paying for it',
+    summary: 'The union for mental health staff says Health NZ is leaving dozens of roles unfilled at the country\'s largest forensic mental health service to stay within budget. Safe staffing should not wait for the coalition talks to end.',
+    body: `While politicians negotiate in Wellington, the people who staff New Zealand's most demanding mental health service say they have run out of patience.
+
+The Public Service Association (PSA) has taken Health New Zealand to the Employment Relations Authority over staffing at the Mason Clinic in Auckland, which the union describes as the country's largest forensic mental health service. RNZ reported the legal action on 7 November.
+
+What the union says
+
+According to the PSA's statement of 6 November, 35 nursing and allied health roles at the clinic were unfilled as of late September, some of them since 2025. The union says Health NZ is breaching two collective agreements that require it to take all reasonable and practicable steps to fill vacancies as soon as they occur.
+
+The union's account of the reason is the most troubling part. The PSA says Health NZ told it the roles were not being filled because there was no approval to fill them, and that recruitment goes ahead only where a district is within budget. The PSA says it has raised the issue repeatedly since March, that staff told it in July they were at breaking point, and that a September letter went unanswered until the union chased it a month later.
+
+PSA national secretary Fleur Fitzsimons called the situation "a dangerous gamble with the safety of patients, staff and the public."
+
+The union is asking the authority to find that Health NZ breached the agreements and to order it to fill the vacancies. It also says the problem is not limited to the Mason Clinic, because moving staff between mental health units simply opens new gaps elsewhere.
+
+Why this matters to everyone
+
+Forensic mental health services care for some of the most unwell people in the country, many of them referred through the courts. Short staffing in that setting is not only a workplace issue. It affects whether patients get treatment that helps them recover, whether staff go home safe, and whether the public can trust the system.
+
+It also fits a wider pattern. In the same week, RNZ reported Health NZ figures showing about 5,000 fewer planned procedures in July and August than in May and June, as winter flu pressure pushed operations back. A health system that runs this close to the edge has no room to absorb a bad winter, let alone a hiring freeze.
+
+The National-led government has repeatedly said that frontline services are protected while it cuts back-office spending. If the PSA's account is right, a hiring rule that waits for a district to be within budget is not protecting the front line. It is rationing it.
+
+What should happen
+
+Labour and the Greens have argued throughout this term that the health system needs proper funding and a workforce plan, not budget caps that leave wards short. The Mason Clinic case shows why. Whatever government emerges from the talks this month, its first health decision should be simple: approved, funded roles in mental health and other safety-critical services get filled, without waiting for a district's books to balance.
+
+That means a clear instruction to Health NZ, money set aside to make it happen, and regular public reporting of vacancies in mental health services so the problem cannot hide again. It also means listening to the nurses, occupational therapists and other staff who raised the alarm months before they went to the authority.
+
+The government's case
+
+Health NZ has not publicly responded to the PSA's statement in the material we reviewed, and the union's description of its budget rules is the union's account. The NZ Herald has reported that Health NZ denies the facility is understaffed. Health NZ and ministers have argued that the system must live within its means after years of overspending, and that new roles should go where they are most needed rather than being filled automatically. The authority will now weigh the evidence.
+
+That is a fair process, and its outcome should be respected. But nobody should need a legal ruling to know that a secure mental health service running dozens of staff short is a risk worth fixing now.
+
+This is an opinion column.
+
+Sources: PSA press release, "Govt's Health Squeeze Leaves Mason Clinic Short-Staffed", via Scoop, 6 November 2026; RNZ, 7 November 2026; RNZ, 13 November 2026; NZ Herald report on Health NZ's response, November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/mason-clinic-mental-health-vacancies-staffing-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'australia-december-budget-cuts-protect-struggling-households-2026',
+    publishedAt: '2026-11-15T21:00:00.000Z',
+    category: 'editorial-view',
+    title: 'Opinion: Australia\'s pre-Christmas spending cuts must not land on the people already going under',
+    summary: 'With the cash rate at 4.85 per cent and unemployment at a five-year high, the Albanese Government is hunting for savings before Christmas. It should look at tax breaks and gas profits before it looks at families on the edge.',
+    body: `Australians are heading into Christmas with less money, more debt pressure and fewer secure jobs than at any time in years. The federal government has promised more spending cuts in its December budget update. The question is who will pay for them.
+
+How tight things are
+
+On Melbourne Cup Day, 3 November, the Reserve Bank lifted the cash rate to 4.85 per cent, its fifth increase this year, on a split six to three vote, SBS reported. Unemployment was 4.7 per cent in September, the highest in five years.
+
+The ABC's Jessica Irvine reported that the Reserve Bank expects inflation to reach 4.5 per cent by the end of the year and mortgage repayments to hit their highest level since 2007 and 2008. Real wages are forecast to fall by 1 per cent this year, AAP reported. Governor Michele Bullock warned that the rate rises would make people feel like it's a recession, according to Seven's reporting republished by The Nightly.
+
+Job losses are piling up. NAB is cutting 2,500 roles, Canva more than 1,200 and Woodside at least 500, SBS reported on 9 November, with 732,000 Australians out of work.
+
+In Tasmania, independent senator Jacqui Lambie told the ABC's Insiders the financial strain was the worst since Covid, news.com.au reported on 16 November.
+
+The savings hunt
+
+Treasurer Jim Chalmers said on 3 November that the government had already found almost $180 billion in savings since 2022 and would find more in the December update. "Australians are already struggling and this will stretch their budgets even further," he said. Finance Minister Katy Gallagher said no area was exempt, SBS reported. Employment Minister Amanda Rishworth has since said there will be no cuts to aged care or health, news.com.au reported.
+
+We welcome that promise. It needs to go further.
+
+Where the money should come from
+
+A government that is serious about inflation can trim spending without making poor households poorer. The JobSeeker base rate is $808.70 a fortnight for a single person, the ABC reported in August. That is not a payment anyone gets rich on, and people on it spend nearly every dollar on rent, food and power. Cutting payments, tightening eligibility or freezing indexation would hurt the people least able to cope and would do little to cool an economy driven by global oil prices, which Mr Chalmers said had risen above $110 a barrel.
+
+There are better places to look. Greens senator David Shoebridge proposed in October that the government tax gas export profits rather than cut the private health rebate for pensioners. Tax concessions that mostly benefit people who already own investment property or have large super balances cost the budget billions each year, and trimming them would cool demand from people who can most afford it.
+
+Labor came to office promising that no one would be left behind. A December budget update that protects pensioners, renters and people looking for work, and asks more of gas exporters and the most generous tax breaks, would keep that promise. One that does the opposite would hand the Coalition its best argument.
+
+The other side
+
+The Coalition and business groups argue that government spending is part of the inflation problem. Opposition Leader Angus Taylor has said the government is in denial and that the Coalition has a $31 billion savings plan, the ABC reported. Nationals leader Matt Canavan said the latest rate rise risked a recession and blamed government spending, The Nightly reported. The Business Council's Bran Black told AAP it was hard to ask families to tighten their belts when the government had not tightened its own. The government's spokespeople point out that JobSeeker has risen by about $4,300 a year since 2022, the ABC reported.
+
+Those arguments deserve a hearing, and some savings are fair. But a budget that balances itself on the people already going under is not responsible. It is just cruel at Christmas.
+
+This is an opinion column.
+
+Sources: SBS, 3 November 2026; Treasurer Jim Chalmers media release, 3 November 2026; ABC News (Jessica Irvine), 3 November 2026; AAP via Newcastle Herald, 3 November 2026; The Nightly (Seven), 4 and 8 November 2026; ABC politics live, 4 November 2026; SBS and AAP, 1 November 2026; SBS, 9 November 2026; news.com.au via CathNews, 16 November 2026; ABC News, 7 August 2026; Australian Greens statement, 14 October 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/australia-december-budget-cuts-protect-struggling-households-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'nz-election-prediction-specials-hung-parliament-opportunity-decides-2026',
     publishedAt: '2026-11-15T15:30:00.000Z',
     category: 'editorial-view',
