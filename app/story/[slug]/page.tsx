@@ -367,7 +367,7 @@ export default async function StoryPage({
               </p>
             </div>
 
-            <h1 className="mt-5 max-w-5xl text-balance font-serif text-4xl font-black leading-[1.08] text-foreground sm:text-5xl lg:text-6xl">
+            <h1 className="mt-5 max-w-4xl text-balance font-serif text-3xl font-black leading-[1.12] text-foreground sm:text-4xl lg:text-5xl">
               {story.title}
             </h1>
 
@@ -421,7 +421,7 @@ export default async function StoryPage({
             </div>
           </header>
 
-          <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl border border-border bg-muted shadow-sm">
+          <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-xl border border-border bg-muted shadow-sm">
             <StoryImage
               src={story.image}
               alt={story.title}
