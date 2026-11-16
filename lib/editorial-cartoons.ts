@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '16 November 2026',
+    image: '/editorial-cartoons/2026-11-16-brisbane-dinosaur-building-inspector.jpg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of an original small long-necked dinosaur acting as a building inspector outside a fictional Brisbane sandstone civic building, while a fictional modern inspector studies a very long heritage form and fossil footprints appear in the blocks',
+    headline: 'Brisbane’s first building inspection — 230 million years overdue',
+    summary:
+      'Fossilised footprints from 230-million-year-old dinosaurs have been found in sandstone from Brisbane’s former Petrie Quarry—the same stone used in landmarks including the General Post Office, Old Customs House and several historic churches. Researchers say more prehistoric evidence may still be hiding in plain sight across the city’s architecture.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-15/qld-dinosaur-footprints-sandstone-buildings/107370156',
+    sourceLabel:
+      'ABC News — Dinosaur footprints found in sandstone used to build Brisbane landmarks',
+    question: 'Which old Brisbane building deserves the next prehistoric inspection? Tell us below.',
+  },
+  {
+    date: '16 November 2026',
     image: '/editorial-cartoons/2026-11-16-airport-heat-arrival.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of a sun-baked western Sydney backyard beside a new airport, where an arrivals board lists Summer on time, Heatwave early and Cool change delayed, while a fictional woman in a sun hat hoses down a fictional man sitting in a camp chair with his feet in a paddling pool',
     headline: 'The new airport’s first big arrival? The heat.',
