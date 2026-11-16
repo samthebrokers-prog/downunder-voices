@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '17 November 2026',
+    image: '/editorial-cartoons/2026-11-17-wa-brick-shortage.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of a new Western Australian housing estate where a house is still a bare steel frame with only a few courses of bricks, as a fictional bricklayer in a hard hat proudly holds up a single brick and tells a dismayed fictional couple holding their house plans that the next brick arrives Tuesday, while a truck carries one chained-down brick and five bricks sit on a pallet behind a velvet rope marked Rationed',
+    headline: 'Building the dream home — one brick at a time',
+    summary:
+      'Western Australia’s brick shortage is still biting, with a Bunbury steel-frame maker urging builders to consider alternatives to traditional brick. The state has put together a $7.5 million package that includes a freight subsidy of 50 cents a brick to help keep supply moving to building sites.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-16/south-west-and-great-southern-wa-local-news-briefing/107389904',
+    sourceLabel:
+      'ABC News — WA builders urged to look beyond bricks as the shortage continues',
+    question: 'Building or renovating at the moment — what’s been the hardest thing to get hold of? Tell us below.',
+  },
+  {
     date: '16 November 2026',
     image: '/editorial-cartoons/2026-11-16-brisbane-dinosaur-building-inspector.jpg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of an original small long-necked dinosaur acting as a building inspector outside a fictional Brisbane sandstone civic building, while a fictional modern inspector studies a very long heritage form and fossil footprints appear in the blocks',
