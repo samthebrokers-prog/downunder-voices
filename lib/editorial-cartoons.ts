@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '18 November 2026',
+    image: '/editorial-cartoons/2026-11-18-bowen-rocket-take-a-number.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of a palm-lined beach at Bowen where a rocket waits on its launch tower with cobwebs on its engine and a countdown board reading T-minus: pending, while a fictional public servant behind a towering in-tray raises a rubber stamp and says the launch window is open 9 to 4, weekdays, except today, and a weary fictional engineer in a hard hat holds ticket number 4,812 under a Now Serving No. 12 sign as two locals wait in camp chairs',
+    headline: '3, 2, 1… please take a number',
+    summary:
+      'A rocket company hoping to launch from Bowen in north Queensland is aiming for early December, but it is still waiting on approvals from federal bodies including the Australian Space Agency. The approval is also holding up the company’s last fundraising milestone.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-17/tropical-north-queensland-local-news-briefing/107393318',
+    sourceLabel:
+      'ABC News — Bowen rocket launch pencilled in for December, pending federal approval',
+    question: 'What’s the longest you’ve ever waited for a form to be approved? Tell us below.',
+  },
+  {
     date: '17 November 2026',
     image: '/editorial-cartoons/2026-11-17-wa-brick-shortage.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of a new Western Australian housing estate where a house is still a bare steel frame with only a few courses of bricks, as a fictional bricklayer in a hard hat proudly holds up a single brick and tells a dismayed fictional couple holding their house plans that the next brick arrives Tuesday, while a truck carries one chained-down brick and five bricks sit on a pallet behind a velvet rope marked Rationed',
