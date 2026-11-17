@@ -28,6 +28,166 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'kiwisaver-hardship-withdrawals-fund-financial-mentors-2026',
+    publishedAt: '2026-11-17T21:10:00.000Z',
+    category: 'editorial-view',
+    title: 'Opinion: Record KiwiSaver hardship withdrawals are a warning light. The next government must fund the people who help families out of debt',
+    summary: 'More than 52,000 New Zealanders raided their retirement savings for hardship in a single year. The answer is not to lock the door on them but to properly fund free financial mentors and deal with the jobs crisis behind the numbers.',
+    body: `When people start emptying their retirement savings just to get through the week, something has gone badly wrong. In New Zealand that is now happening on a scale we have never seen.
+
+In the year to June 2026, 52,330 KiwiSaver members made a financial hardship withdrawal, according to Inland Revenue statistics updated on 19 October. Ten years earlier, in the 2016 financial year, the figure was 10,670. Hardship applications now outnumber first-home applications, according to new university research.
+
+The dollar figures tell the same story. Hardship withdrawals reached $443.6 million in the year to 31 March 2025, up from $264.3 million the year before, a rise of 50.8 per cent, Victoria University of Wellington law lecturer Victoria Stace wrote in research published by 1News and The Conversation on 17 November. One KiwiSaver provider told her research team that withdrawals were "roughly three times what we had pre-Covid".
+
+These are not people cashing in for a holiday. To get a hardship withdrawal you have to show you cannot meet basic living costs. Every one of those 52,000 applications is a household that has run out of other options.
+
+Why this is happening
+
+The obvious place to start is jobs. New Zealand's unemployment rate rose to 5.7 per cent in the September 2026 quarter, the highest in more than a decade, interest.co.nz reported on 4 November from Stats NZ figures. About 174,000 people were out of work. Annual wage growth slowed to 2.1 per cent.
+
+That is the economy the National-led government has presided over for three years. Its answer to a slowing economy was to cut public spending hard and wait for the private sector to pick up the slack. For tens of thousands of families, the slack has instead been picked up by their own retirement savings.
+
+Every dollar taken out now is a dollar, plus decades of compound growth, that will not be there at 65. Today's hardship becomes tomorrow's poverty in old age, and eventually a cost the rest of us share through the pension and the welfare system.
+
+The people doing the hard work
+
+There is a group of New Zealanders who see this up close every day: financial mentors, the mostly community-based workers who help people with debt for free. Many are volunteers.
+
+Their umbrella body, FinCap, told Parliament's Social Services and Community Committee in May that mentors closed 30,000 financial hardship cases in 2025, a 57 per cent increase since 2021. A FinCap survey found mentors now spend 40 per cent of their time on KiwiSaver hardship applications.
+
+That second figure should alarm any government. It means that a large share of the country's free debt-help workforce has been turned into a paperwork service for retirement withdrawals, instead of doing what mentors do best: negotiating with creditors, sorting out benefit entitlements and, where needed, helping people through formal insolvency so that the debt stops growing.
+
+FinCap has put a price on fixing this. In March it identified a $30.5 million funding gap and called for total sector funding of $50 million, with $25 million to come from the industries that benefit when their customers get help, such as banks, lenders, KiwiSaver providers, power companies and telcos. It described mentoring as a "fence at the top of the cliff".
+
+What the research recommends
+
+Dr Stace's research, commissioned by FinCap, makes four sensible proposals. Anyone applying for a hardship withdrawal should be offered a session with a financial mentor first. There should be a central hardship assessment and support service, so people are not dealing with very different forms and rules depending on which provider they happen to be with. The government should look at trialling "sidecar" emergency savings accounts linked to KiwiSaver. And Inland Revenue and the Retirement Commission should work with providers to collect better data and standardise the process.
+
+None of these ideas is expensive. All of them would keep more money in people's retirement accounts while still helping them when they are in trouble.
+
+What the parties are offering
+
+KiwiSaver reform is already on the table in the coalition talks. A National-led government would likely make KiwiSaver contributions compulsory, Dr Stace noted. Labour has promised compulsory employer contributions. The Opportunity Party's "KiwiSaver 2.0" plan includes a compulsory scheme with no hardship withdrawals at all, she wrote.
+
+Labour's approach is the right foundation. Making employers contribute for every worker lifts the savings of low-paid people without taking more out of pay packets that are already stretched.
+
+The Opportunity Party is right that hardship withdrawals are a poor substitute for a proper safety net, and its focus on long-term savings deserves a serious hearing in any negotiation. But simply banning hardship withdrawals, without first building something better, would leave desperate families with nowhere to turn except high-interest lenders. The sensible order is to build the support first, and then tighten the rules.
+
+The Greens' long-standing call for a guaranteed minimum income points in the right direction. If benefits and support payments covered basic costs, far fewer people would need to break open their retirement savings in the first place.
+
+A practical plan for the next government
+
+Whoever forms the next government after the official results on 27 November should do four things in its first budget.
+
+First, close FinCap's funding gap and require the industries that profit from lending and essential services to share the cost.
+
+Second, put a financial mentor at the front door of every hardship application, as the research recommends.
+
+Third, set up the central hardship service and standard rules across every KiwiSaver provider.
+
+Fourth, and most importantly, treat rising unemployment as the emergency it is. Public investment in housing, infrastructure and training would put people back to work. That is the surest way to bring these withdrawal numbers down.
+
+The other side
+
+The government's supporters would argue that rising unemployment reflects high interest rates set to bring inflation down, and that a recovery is coming. They also point out that hardship withdrawals exist precisely so people can use their own money when they need it. Others argue that compulsory industry levies would raise costs that are passed on to customers, and that mentoring services should be funded through normal budget decisions rather than new charges.
+
+Those are fair points, but they do not change the basic picture. More than 52,000 New Zealanders took money out of their retirement savings last year because they could not pay for the basics. A government that is serious about both today's cost of living and tomorrow's retirements should be helping them before they reach that point.
+
+This is an opinion column.
+
+Sources: Inland Revenue, KiwiSaver withdrawal statistics by number, updated 19 October 2026; Victoria Stace for The Conversation, republished by 1News, 17 November 2026; interest.co.nz (Mandy Te), Stats NZ September quarter labour market figures, 4 November 2026; FinCap, "Social Services and Community Committee hear our request for funding", 18 May 2026; FinCap, "Call for industry co-funding to support essential financial mentors", 25 March 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/kiwisaver-hardship-withdrawals-fund-financial-mentors-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'supermarket-break-up-advice-coriolis-competition-2026',
+    publishedAt: '2026-11-17T21:05:00.000Z',
+    category: 'editorial-view',
+    title: 'Opinion: The supermarket advice voters did not see shows we need real competition powers, not election slogans',
+    summary: 'Advice to the government found a Foodstuffs split on its own would barely move grocery prices, and it was kept out of public view until shortly before the election. Shoppers deserve a tougher, more honest plan.',
+    body: `Grocery prices are one of the biggest worries for New Zealand families, so any plan to fix them deserves an honest public debate. It now appears that voters did not get one.
+
+Advice commissioned by the Ministry of Business, Innovation and Employment from consultancy Coriolis was not a firm endorsement of breaking up the supermarket chains, NZ Herald journalist Jenée Tibshraeny reported, according to the Democracy Project's 17 November briefing. Nicola Willis's office twice turned down the Herald's Official Information Act requests for the advice, and it was released only to a journalist shortly before the election, the briefing said. Meanwhile MBIE published a more favourable analysis by Sense Partners on its own website. Tibshraeny wrote that the handling "feels cynical".
+
+What the advice said
+
+Coriolis has since published a summary of five reports released by MBIE, totalling more than 580 pages. The work began with slides for a meeting with Ms Willis in April 2025 and continued through September 2025.
+
+The findings are sobering. Coriolis estimated that splitting the chains alone would cut prices by about one cent in the dollar, and that its three demerger options would lower consumer prices by 0.5 to 1 per cent. It found "no easy fixes" and singled out attracting a limited-range discounter such as Aldi as the standout opportunity. Business news site B2B News reported on 10 November that the work pointed to biosecurity rules and labour costs as bigger drivers of grocery prices.
+
+Compare that with the campaign. National's 2026 platform promised to split Foodstuffs into two, creating three national chains, and its own modelling claimed prices would be 3.5 per cent lower after one year and 5 per cent lower after six, B2B News reported. Ms Willis put household savings at up to $1,320 a year, B2B News reported.
+
+Why this matters
+
+There is a pattern here worth naming. When advice supports a minister's plan, it goes on the website. When it does not, the public has to fight for it under the Official Information Act. That is not how good government is meant to work, whichever party is in charge.
+
+None of this means the supermarket problem is imaginary. The Commerce Commission's 2022 market study found the sector was not workably competitive, Coriolis noted. Families paying more each week for basics know that already.
+
+What it does mean is that a single headline policy will not fix it. The progressive parties have the better instinct here. The Opportunity Party has made stronger Commerce Commission powers one of its five bottom lines for coalition talks, interest.co.nz's Anna Whyte reported, according to the Democracy Project. That is a sensible bottom line, and Labour and the Greens should back it in any talks.
+
+A credible plan would give the Commerce Commission and the Grocery Commissioner sharper tools, free up land and planning rules so new competitors can actually open stores, actively court a discount chain, and make sure smaller grocers can get fair wholesale access. A break-up can still be on the table, but sold honestly, as one tool among several, not as a promise of big savings that the government's own advice did not support.
+
+The other side
+
+Supporters of the break-up argue that structural change is the only way to end the duopoly for good, and that even a 1 per cent saving adds up across billions of dollars of grocery sales. Ministers can also point out that the Coriolis advice was eventually released, and that the 2022 Sense Partners analysis found a net benefit from divestment over 20 years, according to B2B News. The New Zealand Initiative's Eric Crampton has argued the first step is simply making it easier to build supermarkets.
+
+That last point is one everyone should be able to agree on. Whatever the next government looks like after 27 November, it should publish all the supermarket advice it holds and give shoppers a plan built on the evidence, not on campaign numbers.
+
+This is an opinion column.
+
+Sources: Democracy Project (Bryce Edwards), News Briefing, 17 November 2026 (summarising Jenée Tibshraeny, NZ Herald, and Anna Whyte, interest.co.nz); Coriolis Research, "Restructuring New Zealand's Supermarket Duopoly", November 2026; B2B News, "Coriolis: Foodstuffs split cuts grocery prices only 1-3%", 10 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/supermarket-break-up-advice-coriolis-competition-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'victoria-regional-food-relief-funding-election-2026',
+    publishedAt: '2026-11-17T21:00:00.000Z',
+    category: 'editorial-view',
+    title: 'Opinion: Regional Victoria\'s food relief centres need a funding promise before polling day',
+    summary: 'Six regional food relief hubs that supply about 100,000 meals a week will lose state funding next July. With hunger rising and interest rates at an 18-year high, both major parties should commit to keeping them open.',
+    body: `Victorians vote in a state election this month, and the cost of living is the issue voters keep raising. Yet one of the simplest promises either major party could make has not been made: to keep regional food relief going.
+
+Six regional food relief centres, in Wodonga, Bendigo, Geelong, Shepparton, Mildura and Warrnambool, are due to run out of state government funding in July 2027, ABC News reported on 18 November. Between them they help supply about 100,000 meals a week.
+
+The 2025 state budget gave the Regional Food Security Alliance $6 million over two years for these centres. The alliance's chair, Cathie Steele, says $12 million is needed over the next four years to meet demand. "We just need to keep our services going," she told the ABC.
+
+Neither Labor nor the Coalition has committed to extending the grant, the ABC reported. Alliance chief executive Jacqui Watt said responses from candidates and sitting members had been "non-committal".
+
+Demand is rising, supply is falling
+
+The need is not hard to see. A Foodbank hunger report released in October found that more than half of food-insecure households had switched to cheaper alternatives, the ABC reported. In Bendigo, Foodshare has had a 21 per cent drop in fresh food supplies this year. Its chief executive, Michelle Murphy, said the warehouse was seeing less fresh produce coming through. Supermarkets are cutting waste, which is good for the environment but leaves less to donate.
+
+The national picture is just as worrying. A St Vincent de Paul Society survey found one in two Australians feel more financially stressed heading into Christmas, ABC NewsRadio reported on 16 November. Vinnies regional director Claire Van Doorn said up to 29 per cent of people seeking help were new to the charity, and some of them had jobs.
+
+Then there is the Reserve Bank. On 3 November it lifted the cash rate to 4.85 per cent, its highest level since 2008 and the fifth rise this year, the ABC reported. Canstar estimated repayments on a $600,000 mortgage were about $456 a month higher than at the start of the year. Renters and mortgage holders in regional towns are feeling every one of those rises.
+
+A small cost for a big return
+
+Twelve million dollars over four years is a tiny sum in a state budget. It buys a network that turns donated and surplus food into meals for families, pensioners and working people who have simply run out of money before payday.
+
+This should be an easy call for a Labor government. Labor's values are about making sure nobody is left behind when times get hard, and this is exactly that kind of moment. The government should commit the full $12 million before polling day and stop leaving the centres guessing.
+
+The Liberals and Nationals should match it. Rural and regional communities are their heartland, and these centres serve them directly.
+
+The other side
+
+A Victorian Liberals spokesperson told the ABC it was up to Labor to explain why future funding had not been secured. That is a fair challenge to the government, though it would be stronger with a commitment of its own. One Nation has promised $14 million over four years for the six centres if it forms government, the ABC reported. Treasurer Jim Chalmers has blamed the Middle East war for inflation, while Opposition Leader Angus Taylor has called the problem "homegrown", the ABC reported on 3 November.
+
+Voters can weigh those arguments. What they should not have to accept is a food relief network left facing a funding cliff while hunger rises. Both major parties have days left to fix that.
+
+This is an opinion column.
+
+Sources: ABC News (Isabella Davies and Ed Gannon), 18 November 2026; ABC NewsRadio, "Food becoming a 'discretionary spend' as the cost of living pressures mount", 16 November 2026; ABC News business live coverage, "RBA hikes cash rate to 18-year high of 4.85 per cent", 3 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/victoria-regional-food-relief-funding-election-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'nz-election-hidden-money-third-party-donor-disclosure-2026',
     publishedAt: '2026-11-15T21:20:00.000Z',
     category: 'editorial-view',
