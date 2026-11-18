@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '19 November 2026',
+    image: '/editorial-cartoons/2026-11-19-wollondilly-deer-bnb.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of a farm in Wollondilly where a weary fictional farmer in a bush hat and checked shirt holds a clipboard of tally marks labelled Guests and counts a huge herd of deer filling his paddocks, saying “…198, 199, 200. And the goats have booked the back paddock for Sunday,” while a stag waits by the open gate beside a suitcase under a No Vacancy sign, a doe eats the carrots in the vegie patch, a deer rests on the lawn and a spotted fawn wanders past',
+    headline: 'Wollondilly’s busiest B&B: 200 guests, not one booking',
+    summary:
+      'Wollondilly Council south-west of Sydney has unanimously backed talks with government agencies about feral deer, pigs, goats and rabbits, after one resident reported 150 to 200 deer on his property. The mayor says culls on public land can push deer onto neighbouring farms before they wander back.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-18/illawarra-local-news-briefing/107397194',
+    sourceLabel:
+      'ABC News — Wollondilly Council seeks a coordinated response to feral deer, pigs, goats and rabbits',
+    question: 'Have you had unexpected wildlife “guests” on your property or in your garden? Tell us below.',
+  },
+  {
     date: '18 November 2026',
     image: '/editorial-cartoons/2026-11-18-bowen-rocket-take-a-number.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of a palm-lined beach at Bowen where a rocket waits on its launch tower with cobwebs on its engine and a countdown board reading T-minus: pending, while a fictional public servant behind a towering in-tray raises a rubber stamp and says the launch window is open 9 to 4, weekdays, except today, and a weary fictional engineer in a hard hat holds ticket number 4,812 under a Now Serving No. 12 sign as two locals wait in camp chairs',
