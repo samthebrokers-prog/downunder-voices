@@ -28,6 +28,172 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'nz-flood-risk-scores-who-pays-adaptation-2026',
+    publishedAt: '2026-11-18T21:20:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Every home in New Zealand now has a flood score. The next government must decide who pays before the water arrives`,
+    summary: `New data rating every residential property for flood risk shows tens of thousands of families in Christchurch, Napier, Auckland and Lower Hutt are exposed. The caretaker government has pushed the question of who pays into the next term. That cannot wait any longer.`,
+    body: `For most New Zealanders, flood risk has been something you worried about after the rain, not before you bought the house. That changed this week.
+
+Property data firm Cotality has given every residential property in the country a flood risk score from zero to five, based on the combined risk from rivers, the coast and surface water, RNZ reported on 18 November in a story by Kate Newton carried by 1News. The analysis draws on detailed third-party data that some banks and insurers already use.
+
+The numbers are sobering. In Wairoa, still recovering from Cyclone Gabrielle, 66 per cent of homes score between three and five, the highest-risk bands. In Buller it is 61 per cent, in Napier 56 per cent, in Gore 50 per cent and in Westland 43 per cent.
+
+The biggest exposure, though, is in our cities. About 24,000 higher-scoring homes are in Christchurch, 13,900 in Napier, 11,300 in Auckland and 10,400 in Lower Hutt, according to the same report. Cotality chief property economist Kelvin Davidson pointed out that the largest financial threat may come from places with lower overall exposure but many more houses.
+
+The market is already moving
+
+This is not a distant problem. Earlier this year AA Insurance temporarily stopped offering new home insurance policies in Westport because of flood risk, RNZ reported. Westpac has said publicly that it will look more closely at riskier properties when it lends, and Mr Davidson suggested other banks may be doing the same quietly.
+
+Earth Sciences New Zealand data released late last year found more than a third of the population would be exposed to inland flooding in a major event, and buildings worth $235 billion are exposed to flood risk, more than half of them in Auckland, Wellington and Canterbury, RNZ reported.
+
+When insurers and banks start pricing in risk, the people who feel it first are ordinary homeowners. A family that bought a modest house in Napier or Lower Hutt twenty years ago, long before anyone published a flood score, can find that the biggest asset they own is suddenly harder to insure, harder to sell and harder to borrow against. Mr Davidson himself acknowledged there is a "fairness question" for people who bought decades before they knew of the risk.
+
+The government has kicked the can
+
+Here is the problem. The National-led government has had three years to settle the hardest question in climate adaptation: who pays to protect, move or compensate people whose homes are at risk. It has not answered it.
+
+According to RNZ, the government points to its adaptation framework, a set of high-level guiding principles, and a National Flood Map due early next year. But it has delayed decisions on how adaptation costs will be shared until the next term of government.
+
+Meanwhile, a government-commissioned report published last year concluded that the Crown could not keep buying out flood-affected properties at market rates, as it did after Cyclone Gabrielle in 2023. The chair of that reference group, Matt Whineray, said there would always be a role for government in relieving hardship. Councils have pushed for long-term co-funding for adaptation.
+
+So the message to homeowners is effectively this: the market is waking up to your risk, the old safety net is being wound back, and the new rules will come later. That leaves families in limbo, and it leaves councils carrying decisions they cannot afford alone.
+
+Councils are already at the front line
+
+Look at Gore. Mayor Ben Bell told RNZ that new flood maps show the town's floodbanks would not hold in a 75-year flood, and that most properties would need floor levels of 1.8 metres. In some cases that means living quarters only on the second floor. He said the council could not allow people to build in that context.
+
+A small town council should not have to choose between halting growth and putting new families in harm's way with no national plan to back it up. This is exactly where central government leadership is needed.
+
+What a fair adaptation deal looks like
+
+The coalition talks after the official results on 27 November give the parties of the centre-left a chance to put this at the top of the agenda. Labour, the Greens and The Opportunity Party should insist on four things in any agreement.
+
+First, a clear national cost-sharing law. Homeowners, councils, insurers, banks and the Crown all have a stake. People deserve to know, before the next storm, what support exists and what does not.
+
+Second, a properly funded adaptation fund that pays for protection where it makes sense, such as stopbanks, drainage and planting, and for planned, voluntary relocation where it does not. Planned retreat, done early and fairly, is far cheaper and kinder than emergency buyouts after a disaster.
+
+Third, fairness for existing owners. Families who bought in good faith decades ago should not carry the whole loss alone. Support should be means-tested and focused on owner-occupiers, not investors, so that public money goes to those who need it most.
+
+Fourth, an end to building new homes in places we already know will flood. That protects future buyers and stops the bill growing. It also means councils need the money and legal backing to say no.
+
+The Opportunity Party has long argued for pricing risk honestly, and there is merit in that, as long as it is paired with real help for people who cannot move on their own. The Greens have consistently pushed for stronger climate action, and Labour's record after Cyclone Gabrielle shows it understands that the state must stand behind communities when disaster strikes. Together they could deliver the long-term settlement this issue needs.
+
+The government's case
+
+The caretaker government's supporters would argue that a National Flood Map and agreed principles are necessary foundations before any cost-sharing law, and that rushing a scheme could create an open-ended liability for taxpayers. They would also say that market signals, such as insurance prices, help steer building away from risky land. Mr Davidson cautioned that "we shouldn't necessarily panic about it", noting there has been no wholesale move away from higher-risk properties yet.
+
+Those are reasonable points. A flood map is useful, and nobody wants a blank cheque. But a map without a plan simply tells families how worried to be. With insurers and banks already acting, the cost of waiting falls on households first.
+
+The water will not wait for the next term of government. Neither should the decision about who helps the people in its path.
+
+This is an opinion column.
+
+Sources: RNZ (Kate Newton), "Every residential property in NZ given a score for flood risk", published by 1News, 18 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/nz-flood-risk-scores-who-pays-adaptation-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'nz-deadlock-no-fresh-election-stable-government-2026',
+    publishedAt: '2026-11-18T21:15:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: A deadlocked result is not a reason for a fresh election. The parties must do the work and form a stable government`,
+    summary: `With the final count due on 27 November and Parliament required to meet by 14 January, talk of a snap election is a distraction. MMP is built for negotiation, and the centre-left parties should show they can deliver.`,
+    body: `New Zealand is in an unusual place. The election produced no clear winner on the night, the final results are not due until 27 November, and the country is being run by a caretaker government led by Christopher Luxon.
+
+In that kind of uncertainty, some people reach for a simple fix: just vote again. That would be a mistake.
+
+The rules give us time
+
+University of Auckland political scientist Grant Duncan set out the timetable in an analysis for The Conversation, republished by 1News on 18 November. Parliament must assemble by 14 January, whether or not a new government has been sworn in. Ministers who lost their seats see their warrants expire on 4 December, so a reshuffle of the caretaker team is likely if talks drag on.
+
+When Parliament meets, the government faces a confidence vote. If the three caretaker parties hold a majority, they continue. If they fall short but another party abstains or supports them, they may carry on for now. If they lose, the Prime Minister resigns and the Governor-General asks whoever can command a majority to form a government. That could be Mr Luxon, Labour's Chris Hipkins or someone else, without another election.
+
+As Dr Duncan put it, "A temporary deadlock does not necessarily mean a fresh election." He argues that the Governor-General's reserve power to dissolve Parliament has never been needed in New Zealand and should be avoided, and that if the parties compromise, the process could be finished by Christmas.
+
+Why a snap election is the wrong answer
+
+A second election would cost money, delay decisions on the cost of living, health and housing, and most likely produce a similar result. Voters have already spoken. Their message is that no single bloc has an easy majority, and that the parties need to work together.
+
+That is how MMP is meant to work. It rewards parties that can negotiate in good faith and punishes those that treat compromise as weakness.
+
+The opportunity for the centre-left
+
+This is a moment for Labour, the Greens and The Opportunity Party to show they can be the stable option. Opportunity, which has provisionally secured seven seats according to 1News, holds real leverage.
+
+Its deputy leader Daniel Eb told RNZ the party expects a "pretty gnarly negotiation period" and that its published bottom lines are a good starting point. He said the party is planning for several scenarios, including staying on the crossbench, but will wait for the special votes.
+
+That is a responsible approach. Opportunity's bottom lines are public, which means voters can judge any deal against them. Labour and the Greens should engage seriously with those ideas rather than dismiss them. A Labour-led arrangement that delivers on fair taxes, housing and climate, and gives Opportunity real policy wins, would be a stronger and more honest government than a National-led one that only courted Opportunity after the votes were counted.
+
+Stability is not the same as the status quo. A new government that has to negotiate every major decision across several parties can be more careful, more transparent and more representative than a single-party majority.
+
+The other side
+
+National's supporters argue that the right bloc remains the largest grouping, and that the incumbent Prime Minister should have the first chance to form a government. A former ACT chief of staff, Andrew Ketels, told 1News' Breakfast programme the right bloc would be confident of governing. Some commentators also worry that a multi-party government including newer parties could prove unstable.
+
+Those concerns are understandable. But the test is simple: who can command a majority in the House and keep it. That should be settled through honest negotiation and a vote in Parliament, not a rerun of an election that has already happened. As Dr Duncan wrote, "A majority can always be found, when the will is there."
+
+This is an opinion column.
+
+Sources: Grant Duncan for The Conversation, "Stable government is parliament's top priority – a fresh election isn't the answer", published by 1News, 18 November 2026; RNZ (Lillian Hanly), "Opportunity deputy leader predicts 'gnarly negotiation period' ahead", published by 1News, 18 November 2026.
+
+Photo: Bowen House, the Beehive and Parliament House, Wellington, by Midnighttonight via Wikimedia Commons (CC BY-SA 3.0).`,
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Bowen_House_Beehive_Parliament.JPG?width=1280',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'australia-young-workers-rate-hikes-real-wages-2026',
+    publishedAt: '2026-11-18T21:10:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Young Australians are paying the price for the fight against inflation. Canberra needs a plan for their jobs`,
+    summary: `Youth unemployment is above 11 per cent and real wages have gone backwards for a full year, while the Reserve Bank has lifted rates five times in 2026. A Labor government should make sure the young are not left to carry the load.`,
+    body: `When the economy slows, young people are usually the first to feel it. They are the last hired, the first let go, and the most likely to be on casual hours with no buffer.
+
+That is what makes the latest numbers in Australia worrying.
+
+The numbers
+
+Youth unemployment was 11.1 per cent in September, compared with 4.7 per cent for the workforce as a whole, according to Australian Bureau of Statistics figures reported by the ABC on 15 November. Economists are watching for that rate to rise as the economy softens.
+
+SEEK chief economist Blair Chapman told the ABC: "We tend to see younger workers affected more heavily when there is a slowdown". SEEK says graduate job advertisements have been trending down from their post-pandemic highs. Commonwealth Bank economist Harry Ottley said youth unemployment is now rising faster than for other groups.
+
+At the same time, the cost of borrowing has climbed sharply. EY chief economist Cherelle Murphy noted that the cash rate has risen from 3.6 per cent to 4.85 per cent this year after five increases, the ABC's business blog reported on 18 November.
+
+Wages are rising, but not fast enough
+
+The September quarter wage figures, released on 18 November, showed the Wage Price Index up 1.1 per cent in the quarter and 3.5 per cent over the year, the ABC reported. That is better than expected. The ABS said decisions by the Fair Work Commission, including its 4.75 per cent increase to award wages, drove much of the private sector rise.
+
+But prices have now outpaced wages for four quarters in a row, which Oxford Economics described as a full year of negative real wage growth. For a young worker on casual hours paying rent, that is a year of falling living standards.
+
+The ABC's reporting included Lachlan Riddell, a 24-year-old with a music diploma who has applied for hundreds of jobs over three years, works casually and relies on JobSeeker. He rejects the idea that his generation does not want to work. His story is a reminder that behind each percentage point are people doing everything asked of them and still falling behind.
+
+What Labor should do
+
+The Albanese government did not set interest rates, and taming inflation matters. But a Labor government has a duty to make sure the burden of that fight is shared fairly, and not dumped on those with the least power in the labour market.
+
+First, it should back the Fair Work Commission's approach to award wages. The 4.75 per cent rise helped low-paid workers, many of them young, and the ABS figures show it made a real difference. Any suggestion that award increases should be held down to help the Reserve Bank should be resisted.
+
+Second, it should treat youth unemployment as a priority, not a side effect. That means targeted, paid training and apprenticeships in areas with real vacancies, such as care, health and construction, and support for employers who take on young jobseekers. Skills and Training Minister Andrew Giles told the ABC that young people need to understand where the vacancies are. Government can do much more to help them get there.
+
+Third, it should look again at the adequacy of income support for young people looking for work, so that searching for a job is not also a slide into debt.
+
+The other side
+
+Economists and the Coalition would argue that the priority must be bringing inflation down, and that stronger wage growth could keep it higher for longer. CBA senior economist Ashwin Clarke said the wage data was stronger than expected and keeps the Reserve Bank watchful into 2027. Others note that by some measures, such as participation, young people are still more engaged in the labour market than before the pandemic.
+
+Those points are fair. But a recovery that leaves a generation of young workers stuck at the start of their careers is not much of a recovery. Fighting inflation and protecting young people's first jobs are not opposites. A Labor government should be doing both.
+
+This is an opinion column.
+
+Sources: ABC News (Fiona Blackwood), "Economists are watching for higher youth unemployment as economy softens", 15 November 2026; ABC News business blog (David Taylor and Gareth Hutchens), "Wage growth picks up, Nvidia rules out return of Jensen Huang, ASX falls — as it happened", 18 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/australia-young-workers-rate-hikes-real-wages-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'kiwisaver-hardship-withdrawals-fund-financial-mentors-2026',
     publishedAt: '2026-11-17T21:10:00.000Z',
     category: 'editorial-view',
