@@ -326,6 +326,13 @@ export default async function StoryPage({
       story.sourceUrl,
     )
 
+  const isOpinionPiece = /editor|election desk|sam's view|opinion|analysis/i.test(
+    story.author || '',
+  )
+
+  const isInHouseArticle =
+    !hasGenuineOriginalSource || isOpinionPiece
+
   return (
     <main>
       <script
@@ -362,6 +369,15 @@ export default async function StoryPage({
                 )}
               </Link>
 
+              {isOpinionPiece && (
+                <Link
+                  href="/editorial-policy#opinion"
+                  className="rounded-sm border border-foreground px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-foreground"
+                >
+                  Opinion &amp; Analysis
+                </Link>
+              )}
+
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 {formatDate(story.date)}
               </p>
@@ -380,6 +396,22 @@ export default async function StoryPage({
                 ) : (
                   <p className="text-sm font-semibold text-foreground">
                     Downunder Voices Newsroom
+                  </p>
+                )}
+
+                {isInHouseArticle && (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {isOpinionPiece
+                      ? 'This is opinion, not straight news. '
+                      : ''}
+                    Prepared with AI assistance and published under our{' '}
+                    <Link
+                      href="/editorial-policy"
+                      className="underline"
+                    >
+                      editorial standards
+                    </Link>
+                    .
                   </p>
                 )}
 

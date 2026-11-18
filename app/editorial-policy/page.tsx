@@ -16,11 +16,36 @@ export default function Page() {
         </section>
 
         <section>
+          <h2>Standards we follow</h2>
+          <p>
+            Downunder Voices follows the Australian Press Council&apos;s
+            Statement of General Principles and Standards of Practice. In
+            short, we aim to be accurate, fair and balanced, to correct
+            mistakes promptly, to respect privacy, to avoid causing
+            unnecessary harm, and to separate fact from opinion.
+          </p>
+
+          <p>
+            Downunder Voices is independently owned and published in Perth,
+            Western Australia. It is not owned or funded by any political
+            party, government agency or candidate.
+          </p>
+        </section>
+
+        <section id="opinion">
           <h2>News, opinion and promotional content</h2>
           <p>
             We distinguish factual news coverage from opinion and commentary.
             Opinion articles represent the views of the identified writer and
-            are labelled accordingly.
+            are labelled accordingly. Editorials, &quot;From the Editor&quot;
+            pieces and Election Desk analysis are opinion and carry an
+            &quot;Opinion &amp; Analysis&quot; label.
+          </p>
+
+          <p>
+            Opinion may take a clear side on an issue. Even so, the facts it
+            relies on must be accurate, and we will publish a reasonable
+            response from any party, candidate or organisation it criticises.
           </p>
 
           <p>
@@ -48,6 +73,22 @@ export default function Page() {
           <p>
             Where information is incomplete, developing or not independently
             confirmed, we aim to make that limitation clear to readers.
+          </p>
+        </section>
+
+        <section>
+          <h2>Use of artificial intelligence</h2>
+          <p>
+            Some Downunder Voices articles, editorials and images are prepared
+            with the help of artificial intelligence tools. We tell readers
+            when this is the case. AI-assisted content must meet the same
+            accuracy, fairness and correction standards as everything else we
+            publish, and the editor remains responsible for it.
+          </p>
+
+          <p>
+            We do not use AI to create fake quotes, invented people or
+            images presented as real photographs of actual events.
           </p>
         </section>
 
