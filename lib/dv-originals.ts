@@ -28,6 +28,180 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'nz-pay-equity-high-court-ruling-repeal-2026',
+    publishedAt: '2026-11-19T21:20:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: New Zealand's High Court says the pay equity law discriminated against women. It has to go`,
+    summary: `A judge has found the 2025 law that cancelled 33 pay equity claims unjustifiably discriminated on the basis of sex, and that saving money was the main driver. Whoever leads next must repeal it and restore a fair process.`,
+    body: `For eighteen months, the women who care for our sick, teach our children and keep our public services running have been told that their pay equity claims were scrapped for their own good. This week the High Court said otherwise.
+
+In a decision released on 19 November, Justice Paul Radich declared that the Equal Pay Amendment Act, which the National-led government passed under urgency in May 2025, is inconsistent with the New Zealand Bill of Rights Act, 1News political reporter Justin Hu reported. The judge found that the workers affected had been subject to unjustified discrimination on the basis of their sex.
+
+That is a remarkable finding about a law that was supposed to make pay equity work better. It should change the conversation in every coalition room in Wellington.
+
+What the 2025 law did
+
+The facts are worth setting out plainly, because they were rushed through so quickly that many New Zealanders never saw them.
+
+According to 1News, the law passed all three readings in a single day, with no select committee and no chance for the public to be heard. It cancelled 33 active pay equity claims, many of them years in the making. It raised the test for a female-dominated workforce from 60 per cent to 70 per cent, sustained for at least ten consecutive years. And it limited the comparisons claimants could draw to their own industry or sector.
+
+That last change matters more than it sounds. The whole point of pay equity is to ask whether work done mostly by women has been undervalued compared with work of similar skill and responsibility done mostly by men. If you can only compare within a sector that is already dominated by women, you are measuring an undervalued job against other undervalued jobs. The test becomes much harder to pass, almost by design.
+
+What the court found
+
+Five unions representing health staff, teachers, public servants and tertiary education staff brought the challenge, 1News reported.
+
+Justice Radich looked at the official papers behind the law and found nothing tangible showing that the old system was broken. Instead, he concluded that "the main driver was fiscal". He also found that the changes were not proportionate to their stated objectives.
+
+In plain English: the government said it was fixing a flawed process, but the court found the evidence pointed to saving money, and that the way it did so discriminated against women.
+
+The unions did not win every point. The court found that passing the law under urgency without consultation was lawful, and that cancelling the claims did not breach natural justice. That is important to note, because it shows this was a careful judgment, not a blanket win for one side.
+
+A declaration of inconsistency also does not strike the law down. It stays in force. The Crown can still appeal. If the declaration stands, the Attorney-General must tell Parliament, and the government must give a formal response within six months, 1News reported.
+
+Why this is a test for the next government
+
+So the court has done its job. Now Parliament has to do its job.
+
+The law cannot be quietly left on the books while the next government is formed. A statute that a senior judge has found discriminates against women on the basis of their sex is not a technical problem for officials to manage. It is a matter of basic fairness, and of whether Parliament respects the rights it wrote into law in 1990.
+
+Labour, the Greens and Te Pāti Māori opposed the bill when it passed in May 2025, as the parliamentary record shows. That stand has now been vindicated by the High Court. Any government that Labour leads should commit, in its coalition agreement, to repealing the 2025 changes and restoring a fair pathway for the claims that were cancelled.
+
+The Opportunity Party now holds the balance in many scenarios. According to 1News, it opposed the 2025 changes, but repealing them was not one of its five published bottom lines for coalition talks. The Public Service Association has called on Opportunity to take leadership on the issue and said no coalition deal should leave the law in place.
+
+That is a fair challenge, and Opportunity should take it up. The party prides itself on evidence-based policy. Here is a court ruling that tested the evidence and found it lacking. If Opportunity wants to be the party of good process and honest numbers, it should insist that pay equity is restored in any agreement it signs, whichever side it talks to.
+
+The real cost of "fiscal" decisions
+
+It is worth remembering who sits behind the 33 cancelled claims. They are working people in health, schools, the public service and tertiary education, many of them the workers who held the country together during the pandemic and who are now being asked to do more with less in a stretched public service.
+
+Pay equity is not a pay rise for its own sake. It is a correction for decades in which work done mainly by women was paid less simply because women did it. The previous system, built by consensus across Parliament, was slow and imperfect. But it was producing settlements, including the landmark care and support worker settlement of 2017 under a National-led government. Fixing its flaws was always possible. Scrapping live claims overnight was a choice.
+
+When the court says that choice was driven by money, ordinary voters understand exactly what that means. Budgets were balanced, in part, by deciding that women's work could wait.
+
+What should happen now
+
+First, the caretaker government should not appeal this decision. Spending public money to defend a law that the High Court has found discriminatory, in the dying weeks of a government that may not be returned, would compound the original mistake.
+
+Second, every party in coalition talks should state clearly whether it will repeal or fix the 2025 changes. Voters are entitled to know before any deal is signed.
+
+Third, the next government should restore a proper process, with a full select committee, so that unions, employers and the public can design a pay equity system that is fair and affordable. Done properly, that is the opposite of what happened in May 2025.
+
+The government's case
+
+Outgoing Workplace Relations Minister Brooke van Velden said officials were carefully considering the decision, that the Crown must decide whether to appeal, and that because of that and the caretaker period she would not comment further, 1News reported. When it passed the law, the government argued that the old regime had the wrong settings, that claims were too easy to start and too costly and uncertain for taxpayers, and that the changes would make the system more workable.
+
+Those concerns about cost and process deserve a serious answer. But the right answer was to consult, design and legislate carefully, not to cancel 33 live claims in a day. The court has now said, in effect, that saving money was not a good enough reason to treat women's work unequally.
+
+The next government has six months, at most, to show it agrees.
+
+This is an opinion column.
+
+Sources: 1News (Justin Hu), "Govt's pay equity changes breached women's rights, High Court rules", 19 November 2026; New Zealand Parliament, Equal Pay Amendment Bill votes, May 2025.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/nz-pay-equity-high-court-ruling-repeal-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'nz-low-level-drug-charges-rise-2019-promise-2026',
+    publishedAt: '2026-11-19T21:15:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: More New Zealanders are being charged for low-level drug use. The 2019 promise of help first is being broken`,
+    summary: `A Drug Foundation report finds low-level drug charges at a ten-year high, with Māori charged at nearly five times the rate of non-Māori. Police should be chasing the gangs, not people caught with a pipe.`,
+    body: `In 2019, Parliament made a sensible decision. Police were told not to prosecute people for possessing or using drugs unless a prosecution was required in the public interest, and to consider a health-centred response instead. New figures suggest that promise is quietly being broken.
+
+A new report from the NZ Drug Foundation, "Drugs and the Justice System in Aotearoa", built from Ministry of Justice and Police data, found that more people were charged with low-level drug offences in 2025-26 than at any point in the past decade, 1News reported on 20 November.
+
+The numbers
+
+According to the report, 4230 people were charged in 2025-26 with drug possession or use as their most serious drug offence. In 960 cases, possession or use was the only charge. Sixty-two people were convicted solely for having a drug utensil, such as a pipe, the most in five years. Fifteen people were sent to prison for possession or use alone.
+
+The share of cases ending up in court tells the story. After the 2019 law change, court proceedings fell to 18.9 per cent of cases in 2021. By 2025 they had climbed back to 43.2 per cent, higher than before the reform, according to the figures reported by 1News.
+
+The burden is not shared fairly. Māori were charged at 4.8 times the rate of non-Māori and faced 47 per cent of all drug charges, despite making up about 15 per cent of the population aged 15 and over. Māori were more than half of those convicted for possession or use, and nearly 58 per cent of those imprisoned for it.
+
+Young people are caught too. Over the past decade, 943 people under 25 were convicted for possession or use with no other charge.
+
+Why this matters
+
+The Drug Foundation's executive director Sarah Helm put it bluntly: "Punishing people for using drugs does not work – it makes things much worse." A conviction can follow a young person for life, closing doors to jobs, travel and housing, without doing anything to treat addiction.
+
+Ms Helm also pointed to where the money goes. According to the foundation, around $334 million a year is spent on drug law enforcement, twice what is spent on prevention, addiction treatment and harm reduction combined. She noted that three people a week die from preventable accidental overdoses.
+
+To be fair, the rise in court action began before the current government took office. The low point was 2021. But the caretaker government has spent three years promoting a tougher approach to crime, and the signal that sends to the front line is clear. Discretion that leans towards help has gradually given way to discretion that leans towards the courts.
+
+What should change
+
+Labour passed the 2019 reform. The Greens have long called for drug use to be treated as a health issue, and The Opportunity Party has argued for evidence-based drug policy rather than slogans. Together they should make this part of any coalition agreement.
+
+The Drug Foundation's recommendations are a good starting point: remove criminal penalties for low-level possession and use; review the police instructions on the 2019 law and report regularly on how discretion is used; fund more Kaupapa Māori services; expand Te Pae Oranga iwi community panels and the Alcohol and Other Drug Treatment Courts; and move money from low-level enforcement to serious organised crime, treatment and harm reduction.
+
+None of that is soft. It frees police to chase the gangs that profit from the drug trade, instead of processing people caught with a pipe.
+
+The other side
+
+Police see things differently. Detective Superintendent Greg Williams, director of the national organised crime group, told 1News that prosecutions are needed because transnational crime groups and gangs are operating in New Zealand, and that most people charged with possession also face other offences. He said around 8000 people were charged from July 2024 and more than 4000 of them were dealt with outside court. He welcomed expanding treatment courts, but disagreed that all funding should shift to treatment, and said a review should be considered but was hard to justify on one report.
+
+Those are fair points, and police deserve the tools to tackle organised crime. But the figures for people charged with possession or use alone, and the stark overrepresentation of Māori, show the 2019 promise is not being kept. The next government should keep it.
+
+This is an opinion column.
+
+Sources: 1News (River Lin), "More people now being charged with low-level drug offences", 20 November 2026; NZ Drug Foundation, "Drugs and the Justice System in Aotearoa", as reported 20 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/nz-low-level-drug-charges-rise-2019-promise-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'australia-jobless-rise-jobs-first-plan-2026',
+    publishedAt: '2026-11-19T21:10:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Australia's jobless rate has hit 4.9 per cent. It is time for a jobs-first plan, not more pain`,
+    summary: `Unemployment jumped in October as 43,500 jobs disappeared, and households say it already feels like a recession. The Reserve Bank should hold off, and Canberra's December update must protect workers.`,
+    body: `Australia does not have to be in a technical recession for it to feel like one. For a growing number of households, it already does.
+
+Official figures released on 19 November showed the unemployment rate rose to 4.9 per cent in October, up from 4.7 per cent in September, ABC News reported. About 43,500 jobs disappeared in the month, when economists had expected a gain. Westpac described it as the highest jobless rate since the pandemic, and analysts at RBC noted that part-time jobs made up more than 90 per cent of the losses.
+
+That follows a fall of more than 36,000 jobs in September, according to Westpac figures cited by the ABC. Two bad months in a row is not a blip.
+
+People are already feeling it
+
+ABC reporter Hanan Dervisevic spoke to Australians living through the squeeze. An Albury woman told of having about $50 to $60 a fortnight for groceries and fearing redundancy. A Queensland mother said her family's mortgage repayments now equal her husband's entire income. A Melbourne publican said customers were spending less.
+
+Big employers including Bunnings, Canva, NAB, Bendigo Bank, ING and Qantas have announced job cuts, the ABC reported. Consumer confidence is at a seven-month low, according to a Roy Morgan poll.
+
+Even Reserve Bank governor Michele Bullock has acknowledged the strain. After the bank lifted the cash rate to 4.85 per cent, she said conditions "are going to make people feel like it's a recession because they feel poorer", the ABC reported.
+
+The lesson for the Reserve Bank
+
+The cash rate has been raised five times in nine months, according to RBC analysis reported by the ABC. Inflation needed to be brought down. But the cost of that fight is now landing on workers, especially part-time and younger workers, who have the least room to absorb it.
+
+The ACTU has warned against a sixth increase, and several bank economists now expect the Reserve Bank to hold. That is the right call. Australia should not try to cure inflation by pushing tens of thousands more people out of work.
+
+What Canberra should do
+
+Federal Labor will release its mid-year budget update in December. Finance Minister Katy Gallagher has promised sensible savings. Foreign Minister Penny Wong said: "We're a Labor government, we're always focused on jobs."
+
+That focus now needs to show up in the numbers. The Australian Council of Social Service chief executive Cassandra Goldie has urged the government and the Reserve Bank to act together, noting that about a quarter of a million people have left paid work since 2022.
+
+A jobs-first update would avoid cuts that fall on people who have just lost work, lift support for the unemployed so they can keep looking for work with dignity, and bring forward training and apprenticeship places so people can move into sectors that are still hiring, such as building, care and clean energy. Cutting spending into a downturn would only deepen it.
+
+The other side
+
+Opposition Leader Angus Taylor said Australia is in an economic crisis and blamed federal government spending for the rise in unemployment. Deputy Liberal leader Jane Hume said the economy was not working for Australians. Acting Prime Minister Richard Marles responded that there are 83,500 more jobs than a year ago, while acknowledging the moment is difficult. Some economists also caution that Australia is not in a technical recession: GDP grew 0.4 per cent in the June quarter and 2.1 per cent over the year, the ABC reported.
+
+Those are fair points to put on the record. But a political argument about who is to blame will not pay anyone's rent. The priority now is to stop a slowdown becoming a slump, and to make sure the people who lose their jobs are not left to fall alone.
+
+This is an opinion column.
+
+Sources: ABC News, "Federal politics: Taylor says Australia is in 'economic crisis' following rise in jobless rate", live blog, 19 November 2026; ABC News, business and markets live blog, 19 November 2026; ABC News (Hanan Dervisevic), "Australians describe life in a recession-like squeeze", 20 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/australia-jobless-rise-jobs-first-plan-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'nz-flood-risk-scores-who-pays-adaptation-2026',
     publishedAt: '2026-11-18T21:20:00.000Z',
     category: 'editorial-view',
