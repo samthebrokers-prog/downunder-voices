@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '20 November 2026',
+    image: '/editorial-cartoons/2026-11-20-gravity-message.png',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon showing two fictional university scientists using a 1950s elevator and its counterweight to send a gravitational message through a thick brick wall to a gravimeter in a bathroom, where one scientist says that at one bit a minute it may still beat the office Wi-Fi',
+    headline: 'The most unblockable message — arriving eventually',
+    summary:
+      'University of Queensland physicists used a 1950s elevator’s 1.8-tonne counterweight to encode binary zeroes and ones in tiny changes to the gravitational field. A gravimeter in an adjacent bathroom recovered the word “Gravity” through a brick wall at one bit per minute, taking nearly an hour.',
+    sourceUrl:
+      'https://news.uq.edu.au/2026-11-uq-researchers-send-unblockable-message-using-gravity',
+    sourceLabel:
+      'University of Queensland — researchers send an unblockable message using gravity',
+    question: 'Would you wait an hour for a message if no wall could block it? Tell us below.',
+  },
+  {
     date: '19 November 2026',
     image: '/editorial-cartoons/2026-11-19-wollondilly-deer-bnb.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of a farm in Wollondilly where a weary fictional farmer in a bush hat and checked shirt holds a clipboard of tally marks labelled Guests and counts a huge herd of deer filling his paddocks, saying “…198, 199, 200. And the goats have booked the back paddock for Sunday,” while a stag waits by the open gate beside a suitcase under a No Vacancy sign, a doe eats the carrots in the vegie patch, a deer rests on the lawn and a spotted fawn wanders past',
