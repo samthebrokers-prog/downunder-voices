@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '22 November 2026',
+    image: '/editorial-cartoons/2026-11-22-tiny-tim-tape-measure.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of a roadside paddock near Waroona where a fictional farmer in a bush hat and checked shirt stands on a step stool to rest a tape measure on the back of an enormous black-and-white Holstein-Friesian steer, saying one-ninety-two and that is with him slouching, while a smaller Texas longhorn steer with very long horns says nobody ever measures the horns and two tourists behind the fence take photos',
+    headline: 'Tiny Tim: 192 centimetres of understatement',
+    summary:
+      'An eight-year-old Holstein-Friesian steer called Tiny Tim, who lives on a farm at Waroona south of Perth, stands 192 cm tall and weighs about 1,400 kg. He could be Australia’s tallest living steer, just short of the famous WA steer Knickers, and has become a local celebrity alongside his Texas longhorn mate.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-21/tiny-tim-could-be-australias-next-biggest-steer/107396504',
+    sourceLabel:
+      'ABC News — Waroona’s Tiny Tim could be Australia’s tallest living steer',
+    question: 'What’s the most famous animal in your town or suburb? Tell us below.',
+  },
+  {
     date: '21 November 2026',
     image: '/editorial-cartoons/2026-11-21-lanternfish-night-shift.png',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of a huge school of original, googly-eyed lanternfish commuting upward from the dark ocean twilight zone with glowing photophores like headlights, while a foreground fish carrying a work satchel says night shift again and at least they bring their own headlights',
