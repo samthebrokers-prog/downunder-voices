@@ -28,6 +28,166 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'mmp-overhang-131-seats-fix-before-2029-2026',
+    publishedAt: '2026-11-21T21:20:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: An 11-seat overhang has pushed Parliament to 131 MPs. Fix MMP's weak spot before 2029, not after`,
+    summary: `Forty-six electoral experts say the overhang now threatens the proportional heart of MMP. Labour, the Greens and Opportunity should make a fair, cross-party fix a condition of the next government, and National should stop hiding behind a routine review.`,
+    body: `New Zealanders voted for proportional representation three times: in 1992, in 1993 and again in 2011. The deal was simple. The share of seats a party gets in Parliament should match the share of party votes it wins. This year that deal has been bent further out of shape than at any time since MMP began.
+
+Preliminary results from the 7 November election show an overhang of 11 seats, pushing the House from its usual 120 members to 131, according to reporting summarised by Newswire on 18 November. RNZ's Russell Palmer reported the same day that seven of those extra seats belong to National and four to Te Pāti Māori. The official result is due on 27 November, after special votes are counted, so the exact numbers may still move. But the shape of the problem will not.
+
+What the experts are saying
+
+On 18 November, 46 legal, political and public policy experts published an open letter called "Keep the 'P' in MMP". It was led by Otago University law professor Andrew Geddis, political scientist Lara Greaves and researcher Max Rashbrooke, Stuff and RNZ reported. Their message was that the overhang now puts the proportionality of the whole system at risk, and that politicians must act before the next election.
+
+Geddis described the current outcome, Newswire reported, as "Not really the way democracy is supposed to work". He also noted the clock is ticking: there are only three years before New Zealanders vote again.
+
+The experts are careful not to blame only one side. As RNZ reported, Geddis said Te Pāti Māori's overhang came from a deliberate strategy of winning electorates while collecting few party votes, while National's was more of an organic result of holding many electorate seats as its party vote fell. The Spinoff's figures, cited by Newswire, show National won 42 electorates on a party vote that would have entitled it to about 35 seats, while Te Pāti Māori won five of the seven Māori seats with well under one per cent of the party vote.
+
+Rashbrooke warned that, unless the rules change, parties could start engineering overhangs on purpose, turning future elections into an arms race of split-vote tactics. That is the real danger. Once one party benefits from gaming the system, every party is under pressure to copy it, and voters lose the clear link between how they vote and who governs.
+
+Why this matters for fairness
+
+Overhangs are not new. Newswire notes they followed the 2005, 2008, 2011, 2014 and 2023 elections. But they used to be one or two seats. An 11-seat overhang is different in kind. In a close election it can decide which bloc governs, even when the other bloc won more party votes.
+
+The experts themselves drew the comparison with 1978 and 1981, RNZ reported, when National kept power under first-past-the-post despite Labour winning more votes. MMP was supposed to end that kind of result. It would be a bitter irony if MMP slowly drifted back towards it.
+
+This is not about which party wins this particular count. A fair rule should be one you would accept whether it helps you or hurts you. That is exactly why Labour, the Greens and The Opportunity Party should champion it now, while the next government is still being formed.
+
+The fix was recommended in 2012
+
+None of this is a surprise. After the 2011 referendum kept MMP, the Electoral Commission reviewed the system and recommended in 2012 that overhang seats be abolished, as RNZ and Newswire both reported. Governments led by both National and Labour have since changed electoral law without acting on it. Labour should own its share of that failure, and then fix it.
+
+The experts' letter sets out five options. Parliament could add list seats so the House grows to restore proportion; reduce the number of electorates; remove extra electorate seats from parties that win more than their party-vote share, as Germany now does, perhaps allowing one or two overhang seats; move to a single vote that counts for both electorate and party; or weight MPs' votes in the House by party-vote share. Each has costs. Geddis has said plainly that there is no perfect electoral system.
+
+The German-style option is worth serious attention. It keeps the principle that party vote decides the size of each party's caucus, while still letting electorates choose a local MP. It would also take away the incentive to game the system.
+
+The other side
+
+National's position, as reported by The Spinoff and summarised by Newswire, is that the usual post-election review by the Electoral Commission and Parliament's Justice Committee is enough. ACT's David Seymour has said voters are entitled to use their two votes however they choose, and that is a fair point about voter freedom. Earlier this year Christopher Luxon said National would hold a referendum on MMP itself if re-elected, an idea NZ First, ACT, Labour and the Greens all opposed. Labour's Kieran McAnulty has warned that overhang tactics are likely to become permanent unless the rules change.
+
+Those are real arguments, and they deserve a hearing. But a routine review that ends in a report on a shelf is how the 2012 recommendation was lost. And a referendum on scrapping MMP would be the wrong answer to a problem that can be fixed inside MMP.
+
+What the next government should do
+
+The experts want a dedicated select committee to work through the options quickly. That is the minimum. Labour, the Greens and Opportunity should go further and write a firm commitment into any coalition or confidence agreement: a cross-party process that reports within a year, followed by legislation in time for 2029.
+
+They should also invite National, ACT, NZ First and Te Pāti Māori into that process. Electoral law works best when it is built across the aisle, so that the next change of government does not simply reverse it. Every party should sign up to one principle: no party should get more seats than its share of the party vote earns it.
+
+Opportunity in particular has an opening here. A party that campaigns on evidence-based reform could make fixing the overhang one of its price-of-support items, whichever way it leans. Labour and the Greens should welcome that and back it.
+
+The last word
+
+MMP has served New Zealand well because voters trust that it is fair. That trust is earned one election at a time. An 11-seat overhang tells us the system has a hole in it, and that parties are learning how to drive through it.
+
+The next government has three years to close that hole. If it waits for another review, it will have chosen to run the 2029 election on rules everyone already knows are broken.
+
+This is an opinion column.
+
+Sources: RNZ (Russell Palmer), "Experts call for urgent MMP reform over election overhang", 18 November 2026, as republished by Farmers Weekly; Stuff (Emma Ricketts), "46 electoral experts sign open letter calling for MMP reform", 18 November 2026; Newswire, "46 experts urge New Zealand politicians to fix the MMP overhang as Parliament grows to 131 seats", 18 November 2026; Electoral Commission, Review of the MMP voting system, 2012.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/mmp-overhang-131-seats-fix-before-2029-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'nz-nurse-numbers-2100-claim-safe-staffing-2026',
+    publishedAt: '2026-11-21T21:15:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: The "2100 extra nurses" line has collapsed. New Zealand needs safe staffing, not spin`,
+    summary: `Health NZ's own figures show nursing numbers barely moved after the end of Labour's hiring drive, and the latest data arrived only after the election. The next government must fund vacancies and legislate safe staffing.`,
+    body: `Throughout the campaign, voters were told the National-led government had hired 2100 extra nurses. Nurses on the wards knew it did not match what they saw on their shifts. The figures now tell the same story.
+
+What the numbers show
+
+AAP FactCheck examined the claim on 7 October and rated it misleading. Christopher Luxon told the TVNZ leaders' debate that "2100 extra nurses have been hired during my time in government". But AAP found National's figure was built by starting the count in September 2023, almost two months before the coalition took office. Almost all of the growth happened between 30 September 2023 and 31 March 2024, the tail end of a recruitment drive started under Labour.
+
+From April 2024 to March 2026, AAP found, Health NZ added about 54 full-time-equivalent nurses. Health Minister Simeon Brown had conceded that 54 figure in Parliament in August.
+
+Kai Tiaki Nursing New Zealand, the nurses' union magazine, reported in August that total nursing FTEs went from 29,404 in March 2024 to 29,458 in March 2026. At the time, Labour health spokesperson Ayesha Verrall said about 1,445 nursing vacancies were unfilled across Health NZ, many for two years, Kai Tiaki reported.
+
+The latest figures, released only after the vote, do not change the picture. The Post's Andrea Vance reported this week, as summarised in Bryce Edwards's Democracy Project briefing of 20 November, that Health NZ added a net 117 full-time nurses in the year to June, for about 29,474 in total. The same report said Health NZ declined an urgent request to release the data before polling day, and that its "corporate and other" staff category grew by more than 3,100 FTEs since June 2024.
+
+Why it matters
+
+This is not a row about statistics. A nursing FTE that is never filled is a patient who waits longer for pain relief, a ward that runs short overnight, and a nurse who goes home exhausted and starts thinking about Australia. NZNO kaiwhakahaere Kerri Nuku told Kai Tiaki many nurses are under enormous pressure and considering leaving.
+
+Voters were entitled to the best available figures before they voted. If Health NZ held workforce data until after the election, that is a problem for public trust, regardless of who governs. Official information should not run on a political timetable.
+
+The government's case
+
+National argues its 2100 figure came straight from Health NZ's quarterly workforce reports, using September 2023 as the baseline because it reflected the previous government, a spokesperson told AAP. Ministers also point to the large Health NZ deficit they inherited, which AAP reported was driven in part by unbudgeted nurse hiring that a Deloitte review linked to weak oversight. Brown has said there is more work to do and that he wants to progress nurse-to-patient ratios. Those are fair points: Labour's hiring surge was not well managed financially, and that should be acknowledged.
+
+What should happen now
+
+But you cannot fix a budget by leaving wards short. Labour, the Greens and Opportunity should make three commitments in any government they form.
+
+First, fund and fill the long-standing vacancies, starting with graduate nurses. Kai Tiaki reported fewer than half of new graduates are being hired in each intake, while we recruit overseas.
+
+Second, legislate safe staffing. Nurse-to-patient ratios work in Victoria and Queensland. If the minister supports progress on ratios, there should be cross-party room to get it done.
+
+Third, require Health NZ to publish workforce data on a fixed schedule, election year or not, so no government can pick its moment.
+
+Nurses held the health system together through a pandemic. They deserve honest numbers and enough colleagues on every shift.
+
+This is an opinion column.
+
+Sources: AAP FactCheck (George Driver), "Nursing workforce debate obscures Health NZ budget debacle", 7 October 2026; Kai Tiaki Nursing New Zealand (Joel Maxwell and Mary Longmore), "Government 'fudging' hiring figures as nurses face intense pressure", 11 August 2026; The Post (Andrea Vance), nurse workforce report, as summarised in the Democracy Project News Briefing, 20 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/nz-nurse-numbers-2100-claim-safe-staffing-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'rnz-deficit-job-cuts-public-media-funding-2026',
+    publishedAt: '2026-11-21T21:10:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: RNZ's $11.8 million hole should bring accountability at the top, not cuts to the newsroom`,
+    summary: `New Zealand's public broadcaster faces 58 job losses after a deficit far larger than forecast and an overdraft set up without Crown approval. Staff and listeners should not pay for failures in management and oversight.`,
+    body: `RNZ belongs to every New Zealander. When the power goes out in a storm or an earthquake hits, it is the voice people trust. So the news that the broadcaster will lose 58 jobs after an $11.8 million deficit should worry everyone, whatever their politics.
+
+What we know
+
+Stuff reported on 9 November that RNZ will cut 58 jobs, and that RNZ itself said its financial reporting for the year "did not accurately reflect" its real position.
+
+An investigation by RNZ's Checkpoint team, republished by 1News on 20 November, set out more detail. The deficit was more than 25 times the roughly $470,000 loss that had been forecast. RNZ's annual report disclosed a $5 million overdraft set up without the Crown approval required under the Crown Entities Act, though no more than $2.3 million was drawn. The move to a new Auckland office ran $1.85 million over budget, and personnel spending was $3.2 million over.
+
+The same report described a rift between senior executives, and questions about who approved spending, based on unnamed sources. Those claims are not proven, and an independent review ordered by the board should be allowed to test them. Chair Brent Impey briefed Media Minister Paul Goldsmith when the problems surfaced.
+
+Who should carry the cost
+
+Here is the core problem. The people losing their jobs did not set up the overdraft, approve the office fit-out or sign off the accounts. Reporters, producers and technicians are being asked to pay for failures that happened above them.
+
+Governance expert Angus Ogilvie put it simply in the Checkpoint report: "If there were errors in the financial statements, that's a management issue." That responsibility runs to the board too. A Crown entity that breaks the rules on borrowing needs better oversight, not a smaller newsroom.
+
+There is also a bigger question. RNZ has been running on tight funding for years while being asked to do more across radio, online and Pacific services. A public broadcaster that is always one bad year from cuts cannot plan for the long term.
+
+The other side
+
+The government's view is that RNZ must live within its budget like any Crown entity, and that taxpayers should not simply cover a deficit caused by poor management. RNZ's acting leadership says the cuts are needed to balance the books, and the board has ordered an independent review. Those are reasonable positions. Public money must be spent carefully, and nobody wants a bailout with no strings.
+
+What should happen
+
+But balance-the-books cuts are the wrong first step when the review has not yet reported. Labour, the Greens and Opportunity should press for three things.
+
+First, pause compulsory redundancies until the independent review is finished and published in full, so decisions rest on facts.
+
+Second, strengthen governance: require financial expertise on RNZ's audit committee and limit the use of non-disclosure agreements that keep the public in the dark. Employment lawyer Barbara Buckett told Checkpoint the difficulty arises when such agreements are used to suppress information.
+
+Third, give public media multi-year funding that rises with costs, so RNZ is not forced into crisis cuts every time something goes wrong.
+
+Strong public journalism is part of a healthy democracy, especially in a year when coalition talks will decide who governs. RNZ needs to get its house in order. It should not lose its voice while it does.
+
+This is an opinion column.
+
+Sources: Stuff, "RNZ to cut 58 jobs after $11.8 million deficit", 9 November 2026; RNZ Checkpoint (Craig McCulloch, Lisa Owen and Lee Taylor), "Fallout at RNZ: A leadership rift and the role of a Chief People Officer", republished by 1News, 20 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/rnz-deficit-job-cuts-public-media-funding-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'nz-pay-equity-high-court-ruling-repeal-2026',
     publishedAt: '2026-11-19T21:20:00.000Z',
     category: 'editorial-view',
