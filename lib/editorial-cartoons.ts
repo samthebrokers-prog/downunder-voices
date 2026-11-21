@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '21 November 2026',
+    image: '/editorial-cartoons/2026-11-21-lanternfish-night-shift.png',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of a huge school of original, googly-eyed lanternfish commuting upward from the dark ocean twilight zone with glowing photophores like headlights, while a foreground fish carrying a work satchel says night shift again and at least they bring their own headlights',
+    headline: 'The world’s biggest commute — with built-in headlights',
+    summary:
+      'Lanternfishes rise from the ocean twilight zone each night in what CSIRO describes as the biggest daily migration of any animal on the planet. Australian researchers now have a comprehensive illustrated guide covering 30 genera and 141 lanternfish species found in Australia’s Exclusive Economic Zone.',
+    sourceUrl:
+      'https://www.csiro.au/en/news/All/Articles/2026/November/Shining-a-light-on-lanternfishes',
+    sourceLabel:
+      'CSIRO — Shining a light on Australia’s lanternfishes',
+    question: 'Would you take the night shift if your headlights were built in? Tell us below.',
+  },
+  {
     date: '20 November 2026',
     image: '/editorial-cartoons/2026-11-20-gravity-message.png',
     alt: 'Black-and-white pen-and-ink newspaper cartoon showing two fictional university scientists using a 1950s elevator and its counterweight to send a gravitational message through a thick brick wall to a gravimeter in a bathroom, where one scientist says that at one bit a minute it may still beat the office Wi-Fi',
