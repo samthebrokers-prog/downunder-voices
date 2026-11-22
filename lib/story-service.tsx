@@ -8,6 +8,7 @@ import {
 import { editorialImageUrl, upgradeEditorialImageUrl } from '@/lib/editorial-image'
 import { decodeNewsText } from '@/lib/decode-news-text'
 import { isJunkTitle } from '@/lib/news-filter'
+import { DV_ORIGINALS } from '@/lib/dv-originals'
 import { cleanSummary, correctFeedCategory, displaySourceName, fixHeadline, isBorrowedImage, removeDuplicateStories } from '@/lib/story-corrections'
 
 type StoryRow = {
@@ -144,8 +145,28 @@ function isRealStory(story: Story): boolean {
   return true
 }
 
+// When the database is unavailable, show our own original articles kept in the code
+// (lib/dv-originals.ts) so the site never shows empty pages.
+function originalsAsStories(): Story[] {
+  return DV_ORIGINALS.map((a) => ({
+    id: a.slug,
+    slug: a.slug,
+    title: a.title,
+    category: normaliseCategorySlug(a.category),
+    date: a.publishedAt.slice(0, 10),
+    summary: a.summary,
+    sourceName: 'Downunder Voices Original Analysis',
+    sourceUrl: `https://www.downundervoices.com/story/${a.slug}`,
+    image: a.imageUrl,
+    communityAngle: a.body,
+    author: a.author,
+    status: 'published' as const,
+    publishedAt: a.publishedAt,
+  }))
+}
+
 function seedSorted(): Story[] {
-  return [...seedStories]
+  return [...seedStories, ...originalsAsStories()]
     .map((story) => ({ ...story, category: normaliseCategorySlug(story.category), slug: story.slug ?? story.id, status: 'published' as const }))
     .sort((a, b) => b.date.localeCompare(a.date))
 }
