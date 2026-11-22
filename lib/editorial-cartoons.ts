@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '23 November 2026',
+    image: '/editorial-cartoons/2026-11-23-spirit-autopilot-gone-fishing.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon on the bridge of a new Bass Strait ferry, where a relaxed fictional bearded captain sips from a Skipper mug with one hand on a big wooden ship’s wheel, saying relax folks, she’s got power steering, it’s called Shaz, while a fictional second officer with a ponytail strains and sweats as she hauls the wheel with both hands; the autopilot unit has a Gone Fishing card and a fishing rod poking out of an open window, and a Hand Steering Roster hangs on the wall',
+    headline: 'Autopilot has gone fishing — Bass Strait goes manual',
+    summary:
+      'The Australian Maritime Safety Authority has told the operator of the new Spirit of Tasmania ferries to keep both ships in hand steering for the whole Bass Strait crossing while a steering fault on Spirit IV is investigated. TT-Line calls the problems teething issues, says each ship needs two extra crew, and expects travel times to stay the same.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-22/spirit-of-tasmania-ferries-unable-to-use-autopilot/107414328',
+    sourceLabel:
+      'ABC News — Spirit of Tasmania ferries told to stay in hand steering for whole voyages',
+    question: 'Would you trust a ship more with people at the wheel or a computer? Tell us below.',
+  },
+  {
     date: '22 November 2026',
     image: '/editorial-cartoons/2026-11-22-tiny-tim-tape-measure.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of a roadside paddock near Waroona where a fictional farmer in a bush hat and checked shirt stands on a step stool to rest a tape measure on the back of an enormous black-and-white Holstein-Friesian steer, saying one-ninety-two and that is with him slouching, while a smaller Texas longhorn steer with very long horns says nobody ever measures the horns and two tourists behind the fence take photos',
