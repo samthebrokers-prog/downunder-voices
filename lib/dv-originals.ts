@@ -28,6 +28,164 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'nz-dental-care-cost-free-public-dental-2026',
+    publishedAt: '2026-11-22T21:30:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Four in ten adults are skipping the dentist because of cost. The next government must bring teeth into the public health system`,
+    summary: `The latest New Zealand Health Survey shows cost now keeps 42.6 per cent of adults away from dental care. Labour, the Greens and Opportunity have all offered ways to fix it, and whoever forms the next government should start building free public dental care.`,
+    body: `There is a strange line running through New Zealand's health system. Until your 18th birthday, the dentist is free. The day after, you are on your own. For a growing number of adults, that means not going at all.
+
+The Ministry of Health's New Zealand Health Survey for 2025/26, released on 18 November, found that 42.6 per cent of adults had avoided seeing a dentist or dental worker in the past year because of the price, as reported by Newswire on 20 November. The survey interviewed 8,833 adults and 2,777 children face to face between July 2025 and July 2026. Stuff, running an RNZ report on 21 November, summed it up in a headline: half of Kiwi adults are skipping the dentist.
+
+That is not a small group of people who have let things slide. It is close to half the adult population, and it includes working people, parents, pensioners and students. A problem that large is not a matter of personal choice. It is a gap in the system.
+
+The cost of looking away
+
+It is also not only about teeth. The same survey found that cost stopped 17.1 per cent of adults from seeing a GP, up from 10.2 per cent in 2020/21, according to Newswire's summary of the Ministry's release. When people cannot afford a check-up, small problems become big ones, and big ones end up in emergency departments that the public already pays for.
+
+The campaign group Dental for All has tried to put a number on that. In a report produced by the consultancy FrankAdvice using Treasury's own cost-benefit tool, reported by RNZ on 4 November 2024, it estimated that the current system costs the country $2.5 billion a year in lost productivity and $3.1 billion in lost quality of life, including $103 million in sick days. The same RNZ report put the average dental visit at $353, a sum many households simply do not have spare in a tight month.
+
+Current help is thin. Work and Income can pay up to $1,000 a year for immediate and essential dental treatment, as Pacific Media Network reported in March 2024, and RNZ noted that grants of this kind do not cover check-ups or cleaning. In other words, the state will help you once the tooth is already broken, but not to stop it breaking. That is the definition of an ambulance at the bottom of the cliff.
+
+The Dental Association's chief executive, Mo Amso, told Pacific Media Network the funding approach was "a very poorly funded, ancient model that's not fit for purpose". When the dentists' own professional body says that, politicians should listen.
+
+Three parties, three serious answers
+
+The good news is that the centre-left parties have already done the policy thinking.
+
+The Greens went into this election promising free, publicly delivered dental care for everyone, funded by new taxes on the wealthiest New Zealanders, as Waatea News reported on 29 July 2026. The WhichParty election guide records that the Greens would start with community care clinics in the areas of highest need. That is the right sequence: begin where the damage is worst, then build out.
+
+The Opportunity Party has proposed free primary care for people under 30 through its "Teal Card", including free dental and mental health care for the same age group, according to WhichParty. Targeting young adults makes sense. It catches people at exactly the age they lose free care, and it builds habits that last a lifetime.
+
+Labour campaigned in 2023 on free dental care for under-30s, to be expanded step by step, and its health spokesperson Ayesha Verrall told RNZ in 2024 that this remained party policy. Verrall put the principle well: "There's no logical reason why free healthcare stops at your teeth." Labour's 2026 health centrepiece was its Medicard, offering three free GP visits a year at a cost of $550 million funded from a capital gains tax, WhichParty reports. A Labour-led government should treat dental care as the natural next step from that card.
+
+Te Pāti Māori, for its part, has proposed free primary care and dental care for whānau earning under $60,000, according to WhichParty.
+
+Put those together and there is a clear path. Start with young adults, as Labour and Opportunity propose. Add low-income households, as Te Pāti Māori proposes. Build public community clinics in the highest-need areas first, as the Greens propose. Then extend cover over time until no adult in New Zealand has to choose between a filling and the power bill.
+
+What it would cost
+
+Nobody should pretend this is cheap. Dental for All's April 2026 proposal, reported by Rova on 23 April, estimated free adult care through a network of publicly owned community clinics would cost around $936 million a year, plus a one-off capital investment of $1.1 billion. Its 2024 report put the cost of a universal scheme at up to $2 billion a year, RNZ reported. Private dentists would keep operating under the proposal.
+
+Those are real sums. But they need to be set against the billions in lost productivity and quality of life already being paid every year, just in a less visible way. Rova also reported Dental for All's polling showing more than eight in ten adults support bringing dental care into the public health system. This is not a fringe idea. It is a mainstream demand waiting for a government willing to act.
+
+A phased approach also lets the workforce grow with demand. The campaigners themselves have called for more dental training places and more oral health therapists, Rova reported. Funding those places should begin in the first budget of the next government, because a clinic without staff helps nobody.
+
+The government's case
+
+The outgoing National-led government has argued that the health system needs to be fixed before new services are added. In 2024 Prime Minister Christopher Luxon pointed RNZ to an extra $17 billion for health over three years, and WhichParty notes National invested $447 million in primary care capacity in Budget 2025 instead of offering free GP visits. Finance Minister Nicola Willis has criticised Labour's Medicard as "free GP visits for millionaires", arguing help should be targeted. Those are fair questions about priorities and targeting, and any scheme should be designed carefully.
+
+But after three years, the survey shows cost barriers to care rising, not falling. Fixing the system has to include fixing the part of the body the system leaves out.
+
+What should happen next
+
+Coalition talks are still under way and the official election result is due on 27 November. Whoever forms the next government, Labour, the Greens and Opportunity should make a first stage of public dental care a non-negotiable part of any deal they sign. A sensible first step would be free dental care for everyone under 30, a funded workforce plan, and the first public community clinics in the regions with the worst access.
+
+New Zealand was a pioneer in free dental care for children a century ago. It can lead again. Four in ten adults staying away from the dentist because of cost is a choice the country has been making quietly for years. It is time to make a different one.
+
+This is an opinion column.
+
+Sources: Newswire, "NZ Health Survey 2025/26", 20 November 2026 (reporting the Ministry of Health release of 18 November 2026); Stuff/RNZ, "Half of Kiwi adults are skipping the dentist", 21 November 2026; RNZ, "Dental system costing NZ $2.5b a year in lost productivity, $103m in sick days - report", 4 November 2024; Pacific Media Network (Khalia Strong), "Almost half of NZ avoiding dentist due to cost", 5 March 2024; Rova (Rebekah Hunt), "'Filling the gap': Kiwi adults could all get free dental care with new proposal", 23 April 2026; Waatea News (Matthew Tukaki), "Greens put free dental care back on the table", 29 July 2026; WhichParty NZ, "Health policy: where NZ parties stand in 2026", accessed 23 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/nz-dental-care-cost-free-public-dental-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'christchurch-enable-fibre-sale-keep-public-assets-2026',
+    publishedAt: '2026-11-22T21:25:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Selling Christchurch's fibre network for a one-off payday would be a mistake the city cannot undo`,
+    summary: `Christchurch councillors decide on Wednesday whether to put the sale of Enable, worth up to $1 billion, to the public as their preferred option. A rates cap should not push the city into selling a profitable public asset.`,
+    body: `On Wednesday 25 November, Christchurch city councillors will decide whether selling Enable Networks, the city's fibre broadband company, becomes their preferred option for public consultation in the draft 2027 to 2037 long-term plan, Chris Lynch Media reported on 20 November. The case for selling is being made loudly. The case for keeping it deserves just as loud a hearing.
+
+What is on the table
+
+Enable was set up in 2007 and now operates as a regional broadband wholesaler. In the 2026 financial year it paid a $25 million dividend to Christchurch City Holdings, the council's investment arm, according to Chris Lynch Media. City Holdings has recommended selling its whole stake, while an independent review found a credible case both for keeping and for selling, and recommended the public be asked.
+
+Finance committee chair Sam MacDonald backs a sale. He says it could raise about $1 billion, with roughly $500 million used to repay City Holdings debt and another $500 million placed in a professionally managed Future Fund. He estimates the council would borrow about $250 million less over a decade and save around $90 million in interest. "I want an iron fence around the Future Fund," he told Chris Lynch Media. The Press, as summarised by The Kākā on 20 November, reported that Deloitte valued Enable at $776 million as at 30 June.
+
+The rates cap is doing the pushing
+
+This debate does not come out of nowhere. The National-led government's proposed rates cap would limit council increases to between 2 and 4 per cent a year, the Otago Daily Times reported in December 2025. Christchurch's own modelling showed a 4 per cent cap would require rates in 2029/30 to be $80.3 million lower than planned. MacDonald told the ODT at the time: "I think the rates cap will help us have a conversation about Enable."
+
+That is the problem in one sentence. A cap imposed from Wellington, without new funding for the infrastructure councils are expected to maintain, is steering cities towards selling the assets that earn them money. It is a short-term fix for a long-term squeeze.
+
+Why keeping Enable is the better bet
+
+First, a sale is permanent. Once a strategic network is sold, the city does not get it back, and future councils lose both the income and the say over how it is run. Fibre is not a luxury; it is the backbone that schools, small businesses, hospitals and people working from home now depend on.
+
+Second, a promised "iron fence" is only as strong as the next council's vote. Future funds can be raided, rules can be rewritten, and a fund invested in markets rises and falls with them. An asset that has paid a steady dividend is not obviously worse than a pot of money whose protection depends on politicians not touching it.
+
+Third, the public has spoken on this kind of question before. In the 2013 citizens-initiated referendum on central government asset sales, about two thirds of voters opposed selling shares in state power companies, according to the Electoral Commission's results. Labour and the Greens campaigned against those sales. The same principle applies locally: assets built with public money should not be sold to plug holes created by policy choices elsewhere.
+
+Christchurch has also learned the value of what it owns. Mayor Phil Mauger has opposed selling Lyttelton Port, Orion and Christchurch Airport, the ODT reported. Enable belongs in the same category of long-term infrastructure, and People's Choice co-chair Paul McMahon was right to warn the ODT that chasing a sale is shortsighted.
+
+The other side
+
+Supporters of a sale make a serious argument. Paying down debt reduces interest costs, a Future Fund could spread returns across generations, and council chief executive Bede Carran has stressed that Wednesday's decision is about what to consult on, not a final call. Some councillors, such as Aaron Keown, say they would support a sale only if it stacks up financially. Those are reasonable positions, and the public should see the full numbers.
+
+What councillors should do
+
+Councillors should put both options to residents fairly, with independent figures on dividends, interest savings and the long-term value of the network. They should not present a sale as the preferred path simply because a rates cap makes the books harder to balance. And the incoming government in Wellington, whoever leads it, should rethink a rates cap that pushes councils to sell the family silver rather than giving them better ways to fund growth.
+
+Christchurch rebuilt itself once. It should not now sell off one of the few modern assets it built for the long term.
+
+This is an opinion column.
+
+Sources: Chris Lynch Media (Kineta Knight), "Finance chair backs $1 billion Enable sale ahead of council debate", 20 November 2026; The Kākā (Bernard Hickey), "Early Bird", 20 November 2026, summarising The Press (Tina Law and Amber Allott), 20 November 2026; Otago Daily Times, "Could a rates cap mean asset sales?", 9 December 2025; Electoral Commission, 2013 citizens-initiated referendum results.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/christchurch-enable-fibre-sale-keep-public-assets-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'australia-household-debt-stress-financial-counselling-2026',
+    publishedAt: '2026-11-22T21:20:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Australians already feel like they are in a recession. The debt helplines are the warning light Canberra should not ignore`,
+    summary: `Calls to the National Debt Helpline are up almost 12 per cent and more than four in ten callers have jobs. With interest rates at an 18-year high, the Albanese Government should protect financial counselling and renters in its December update.`,
+    body: `Economists may argue about whether Australia is heading into a recession. Many households are not waiting for the official verdict. "It's as if we are in a recession but without that big, scary word," Queensland mother of three Crissy McDonald told the ABC in a report published on 20 November.
+
+The numbers behind that feeling
+
+The Reserve Bank lifted the cash rate by 25 basis points to 4.85 per cent on 3 November, its fifth rise this year and the highest level since 2008, SBS News reported. The board was split six votes to three. Unemployment has climbed to 4.9 per cent, its highest since the pandemic, and Roy Morgan polling shows consumer confidence at a seven-month low, the ABC reported on 20 November. Large employers including Bunnings, Canva, NAB, ING and Qantas have announced job cuts.
+
+The ABC's 20 November report also noted that real GDP per person fell slightly in the March quarter before edging up in the June quarter. Even RBA governor Michele Bullock has acknowledged people will feel like it is a recession because they feel poorer, the ABC reported.
+
+The warning light
+
+The clearest signal comes from the front line. The National Debt Helpline, run by Financial Counselling Australia, handled 187,905 calls and chats in the 12 months to the end of August, up 11.76 per cent on the year before, the ABC reported on 4 November. The share of callers in mortgage stress rose from about 10 to 11 per cent to 14 to 15 per cent, and more than four in ten callers were in paid work.
+
+Uniting Church spokeswoman Aileen Muldoon told the ABC: "we are seeing more people in paid work whose income is no longer sufficient". Roy Morgan estimates more than 1.82 million borrowers could be in mortgage stress after the latest rise, and a Canstar survey found 68 per cent of renters were worried about rent or living costs, the same ABC report said.
+
+These are not people who have made reckless choices. They are workers, renters and small business owners caught between higher rates, higher rents and a softening job market.
+
+What Canberra should do
+
+Treasurer Jim Chalmers has said the government will look for further budget savings in December's mid-year update, SBS reported. Labor is right to take inflation seriously. But savings must not come from the services that keep families from falling over the edge.
+
+First, guarantee multi-year funding for the National Debt Helpline and community financial counsellors. When demand is rising this fast, waiting lists are the last thing a family in crisis needs.
+
+Second, give renters real help. A household that has just seen its rent rise sharply has no mortgage relief package to call on. A stronger Commonwealth Rent Assistance payment, and pressure on the states for national limits on how often and how much rents can rise, would do more for struggling tenants than any amount of talk about patience.
+
+Third, keep the focus on jobs. If the RBA keeps raising rates, the government's job is to make sure the pain does not fall only on those with the least room to absorb it.
+
+The other side
+
+The Coalition's treasury spokesperson Tim Wilson argues that overseas conflicts cannot explain all of Australia's inflation, SBS reported, suggesting government spending is part of the problem. Economists are also divided on the outlook: Capital Economics' Abhijit Surya told the ABC Australia has not yet entered a per-person recession, and Oxford Economics' Ben May called a recession possible but not inevitable. Those are fair points, and spending should be well targeted.
+
+But targeted support for people in debt stress is exactly the kind of spending that makes sense in a downturn. The debt helplines are telling Canberra something important. The mid-year update is the moment to show it is listening.
+
+This is an opinion column.
+
+Sources: ABC News (Hanan Dervisevic), "For these Australians, the recession has already arrived", 20 November 2026; ABC News (David Taylor and Nassim Khadem), "RBA's fifth rate hike a huge blow to mortgage borrowers", 4 November 2026; SBS News (Alexandra Koster), "RBA's Cup Day call takes rates to 18-year high; board divided over decision", 3 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/australia-household-debt-stress-financial-counselling-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'mmp-overhang-131-seats-fix-before-2029-2026',
     publishedAt: '2026-11-21T21:20:00.000Z',
     category: 'editorial-view',
