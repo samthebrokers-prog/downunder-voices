@@ -1,0 +1,14 @@
+# Downunder Voices on its own BinaryLane server.
+# Internal Supabase-style API for the site (never public)
+:8080 {
+	bind 127.0.0.1
+	handle_path /rest/v1/* {
+		reverse_proxy 127.0.0.1:3001
+	}
+}
+
+# Public website (plain http by IP until the domain is moved here)
+:80 {
+	encode gzip
+	reverse_proxy 127.0.0.1:3000
+}
