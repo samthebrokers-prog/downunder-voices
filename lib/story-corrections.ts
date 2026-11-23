@@ -211,6 +211,13 @@ export function removeDuplicateStories<T extends { title: string; image?: string
 /* ---------- headline typos and messy feed text ---------- */
 
 // Known typos copied from source headlines (owner request, 14 Nov 2026 health check).
+const SPLIT_DECIMAL = /([$€£]?\d)\. (\d+)(?=\s?(?:%|per ?cent\b|m\b|bn\b|b\b|k\b|million|billion|trillion|km\b|kg\b|tonnes?\b))|(\$\d+)\. (\d+)/gi
+
+// Decimal numbers split by feeds: "$1. 8m" → "$1.8m", "1. 4 million" → "1.4 million".
+function joinDecimals(text: string): string {
+  return text.replace(SPLIT_DECIMAL, (_m, a, b, c, d) => (a ? `${a}.${b}` : `${c}.${d}`))
+}
+
 const HEADLINE_FIXES: Array<[RegExp, string]> = [
   [/\b(grounds?|grounded|grounding|cancels?|cancelled|delays?|delayed) all fights\b/gi, '$1 all flights'],
   [/\bfights (grounded|cancelled|delayed|halted)\b/gi, 'flights $1'],
@@ -220,12 +227,12 @@ const HEADLINE_FIXES: Array<[RegExp, string]> = [
 export function fixHeadline(title: string): string {
   let fixed = title
   for (const [pattern, replacement] of HEADLINE_FIXES) fixed = fixed.replace(pattern, replacement)
-  return fixed
+  return joinDecimals(fixed)
 }
 
 /** Removes feed leftovers ("The post … appeared first on …", "Read more") and trims a summary cut off mid-sentence. */
 export function cleanSummary(summary: string | null | undefined): string {
-  let text = (summary ?? '').replace(/\s+/g, ' ').trim()
+  let text = joinDecimals((summary ?? '').replace(/\s+/g, ' ').trim())
   if (!text) return ''
   text = text
     .replace(/\s*The post .{0,300}? appeared first on .{0,80}?(\.|$)/gi, ' ')
