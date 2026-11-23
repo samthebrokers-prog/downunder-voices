@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '24 November 2026',
+    image: '/editorial-cartoons/2026-11-24-wellington-big-dog-carrier.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon at a windy Wellington bus stop with villas on the hillside behind, where a fictional bus driver points to a door sign reading pets fully enclosed in a carrier and says fully enclosed, mate, while a hopeful fictional man in a beanie holds a small pet carrier jammed over the head of an enormous shaggy dog whose whole body stays outside, saying he is, well, the end that gets on first is; in the shelter a woman sits with a tiny dog in a carrier beside a poster asking council vote: bigger dogs on buses?',
+    headline: 'Fully enclosed — well, the front end',
+    summary:
+      'Greater Wellington Regional Council is set to decide whether to relax or keep Metlink’s rules for pets on buses, trains and ferries. Metlink currently has the strictest pet rules of New Zealand’s three biggest public transport networks, with pets allowed off-peak only and fully enclosed in a carrier — which rules out most big dogs.',
+    sourceUrl:
+      'https://www.rnz.co.nz/news/ldr/2751966/all-aboard-for-good-boys-decision-looms-for-big-dogs-on-wellington-public-transport',
+    sourceLabel:
+      'RNZ — Wellington councillors to decide whether big dogs can ride Metlink buses and trains',
+    question: 'Should bigger dogs be allowed on buses and trains, and what rules would make it work? Tell us below.',
+  },
+  {
     date: '23 November 2026',
     image: '/editorial-cartoons/2026-11-23-spirit-autopilot-gone-fishing.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon on the bridge of a new Bass Strait ferry, where a relaxed fictional bearded captain sips from a Skipper mug with one hand on a big wooden ship’s wheel, saying relax folks, she’s got power steering, it’s called Shaz, while a fictional second officer with a ponytail strains and sweats as she hauls the wheel with both hands; the autopilot unit has a Gone Fishing card and a fishing rod poking out of an open window, and a Hand Steering Roster hangs on the wall',
