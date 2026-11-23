@@ -28,6 +28,152 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'foodstuffs-break-up-coalition-talks-act-veto-2026',
+    publishedAt: '2026-11-23T21:30:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Most of the new Parliament wants to fix the supermarket duopoly. One party should not be allowed to veto it`,
+    summary: `National, NZ First, Labour, the Greens and Opportunity all campaigned on taking on the grocery giants. As coalition talks continue, ACT says it will fight a Foodstuffs break-up. Shoppers deserve better than a deal that quietly drops the one thing most parties agreed on.`,
+    body: `There are not many things the parties in New Zealand's new Parliament agree on. Fixing the supermarket market is one of them. That is why the latest news from the coalition talks should worry every household that has winced at the checkout this year.
+
+According to a NZ Herald report by Michael Sergel, summarised in Bryce Edwards' Democracy Project briefing on 23 November, National is holding firm on its plan to break up Foodstuffs, and ACT is vowing to fight it. The briefing reports that ACT leader David Seymour told Newstalk ZB he would oppose the policy even if it worked, because of the signal it would send to investors.
+
+Read that again. A party that will hold a small share of the seats is saying it would block a policy that might lower grocery prices, not because it would fail, but because of how it might look to business. That is not a reasonable position to bring into coalition talks. It is a veto on the cost of living.
+
+What the parties promised
+
+During the campaign, the parties set out very different plans, but the direction was clear. Consumer NZ's guide to the parties' grocery policies, published on 1 October, laid them side by side.
+
+Labour would ban excessive prices on essentials such as food, fuel, power, banking and insurance, with penalties and repayment of excess profits. It would also force Foodstuffs and Woolworths to run their wholesale arms separately from their supermarkets, so independent grocers get a guaranteed right to buy on fair terms, as 1News reported on 20 September. Labour leader Chris Hipkins pointed to the Telecom split under Helen Clark as the model.
+
+The Greens would require the two big players to sell 120 stores and two distribution centres into public ownership to create KiwiMart, a public competitor. They also back an excessive-pricing ban and a pricing accuracy code with automatic compensation for shoppers who are overcharged, according to Consumer NZ.
+
+The Opportunity Party put the most weight on making the Commerce Commission stronger and more independent, with the powers and funding to pursue the break-up of the duopoly through the High Court, Consumer NZ reported.
+
+NZ First wants Foodstuffs split into two competing co-operatives. National, as 1News reported on 16 September, would amend the Grocery Industry Competition Act within 100 days, give the Commerce Commission six months to test separation, and legislate only if the Commission recommends it.
+
+So Labour, the Greens, Opportunity, NZ First and National all went to voters promising to intervene in some form. ACT went the other way. In a 1News report on 28 September, Mr Seymour called the break-up proposals "insane" and argued the real barrier to new supermarkets is government red tape. His party's plan was a one-stop consenting process for new stores and accepting food labelled for UK, EU and US rules without relabelling.
+
+Why it matters at the till
+
+This is not an argument about abstract market theory. The Commerce Commission's 2022 grocery market study called out excessive profits, Consumer NZ noted, and four years later the Commission's latest review of the wholesale market still found competition weak on price, range and access.
+
+The MBIE-commissioned modelling by Sense Partners, reported by 1News on 16 September, estimated prices about 3.5 per cent lower on average in the first year after a separation. It put household gains at between $110 and $730 in the first year, rising to $200 to $1,320 a year by 2035, depending on income and family type. Its central estimate was a net benefit of $2.9 billion over 20 years.
+
+Those numbers are contested, and that is fair. A Foodstuffs-commissioned peer review by HoustonKemp, reported by RNZ's Giles Dexter on 1News on 4 October, argued the benefits looked too good to be true and questioned assumptions about costs. On the other side, the same report noted that the Sense Partners work had been peer-reviewed by former UK Competition Commission chief economist John Davies and by Motu.
+
+That is exactly why the right answer is to let an independent regulator test the options properly, rather than letting one minor party kill the idea before the evidence is in. Consumer NZ's Jon Duffy made the point in the Herald report, as summarised by the Democracy Project: he does not think it is "particularly democratic" for one party to block it.
+
+The centre-left case
+
+Our view is that Labour has the strongest overall plan. A ban on excessive prices goes after the problem shoppers actually feel. Separating wholesale from retail gives independent grocers, the dairies and the regional stores, a fair shot at stock and prices. It is also less disruptive than tearing a co-operative in half, and it builds on a model New Zealand has used before with telecommunications.
+
+The Greens' KiwiMart is bolder, and it would give families a public option in the same way Kiwibank did for banking. Opportunity's emphasis on a stronger, better-funded Commerce Commission is the backbone any reform needs: without a regulator with real teeth, every promise ends in another review. As Mr Hipkins put it in September, "New Zealanders can't eat a review."
+
+The government's case
+
+National's position deserves to be stated fairly. Its finance spokesperson Nicola Willis has said she does not want politicians making decisions that belong to the Commerce Commission, and National's plan only legislates if the Commission recommends a split. ACT argues that splitting a complex business would add costs, discourage investment and deter new competitors, and that faster consents for new stores are a quicker fix. Foodstuffs says losing shared infrastructure could raise costs through separate warehousing and technology, Consumer NZ reported. Those are real concerns, and any reform should be designed so the savings reach shoppers rather than disappearing into restructuring costs.
+
+What should happen now
+
+Whatever shape the next government takes, the supermarket promise must survive the talks. If National forms a government, it should not trade away its own flagship cost-of-living policy to keep ACT on board. If a centre-left arrangement emerges, Labour, the Greens and Opportunity should make an excessive-pricing ban, a wholesale split and a stronger Commerce Commission bottom lines.
+
+Most voters backed parties that promised to take on the duopoly. A deal that quietly drops that promise would be a betrayal of the people standing in the checkout queue.
+
+This is an opinion column.
+
+Sources: The Democracy Project (Bryce Edwards), "News Briefing: 24 November 2026", 23 November 2026 (summarising NZ Herald, Michael Sergel, "Foodstuffs break-up: National holds firm as Act vows to fight plan"); 1News (Justin Hu), "National to 'pursue' Pak'nSave and New World break-up", 16 September 2026; 1News (Justin Hu), "It's breakup season: Labour, National clash on tearing up grocery duopoly", 20 September 2026; 1News (Justin Hu), "ACT reveals supermarkets policy, decries 'insane' break-up proposals", 28 September 2026; Consumer NZ (Gemma Rasmussen), "Election 2026: How the main parties plan to improve the grocery sector", 1 October 2026; 1News/RNZ (Giles Dexter), "Foodstuffs-commissioned review criticises break-up modelling", 4 October 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/foodstuffs-break-up-coalition-talks-act-veto-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'nz-child-poverty-bottom-line-coalition-talks-2026',
+    publishedAt: '2026-11-23T21:25:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: One child in seven is going without. Child poverty must be a bottom line in the coalition talks`,
+    summary: `New Zealand is officially off track for the child poverty targets written into law, and 47,500 more children fell into hardship in three years. Whoever forms the next government must put the Child Poverty Reduction Act back at the centre of the deal.`,
+    body: `While the parties bargain over ministries and policy wins, there is a group with no seat at the coalition table: the 169,300 New Zealand children living in material hardship.
+
+That figure comes from the Child Poverty Action Group (CPAG), which launched its Manifesto to Reduce Child Poverty on 27 August. CPAG says material hardship now affects 14.3 per cent of children, about one in every seven. For tamariki Māori and disabled children it is one in four. For Pacific children it is one in three. More than 350,000 children live in households CPAG describes as financially insecure.
+
+The direction of travel is the real alarm. Citing the government's own Budget 2026 Child Poverty Report, CPAG says 47,500 more children fell into hardship over the past three years, and that New Zealand is now "officially off track" for the targets set in law.
+
+A law both big parties signed up to
+
+The Child Poverty Reduction Act 2018 set a goal of halving child poverty by 2028, with material hardship down to 6 per cent. According to CPAG, the leaders of both Labour and National reaffirmed that commitment in 2023.
+
+It is worth remembering what happened when the law was taken seriously. The manifesto's lead author, Professor Emeritus Innes Asher of the University of Auckland, says child poverty fell between 2019 and 2022 because of deliberate policy changes. Those were years of a Labour-led government. The lesson is simple: child poverty moves when governments choose to move it.
+
+On 17 October, CPAG and the New Zealand Council of Christian Social Services released a pre-election update, reported by Waatea News. It found hardship is now worse than when the Act was passed, despite the early gains. NZCCSS chief executive Alicia Sudden described children arriving at services in shoes that no longer fit. When the manifesto was launched, CPAG's executive officer Lyn Amos put it bluntly: "Child poverty is a political choice, not an inevitability."
+
+What a serious plan looks like
+
+CPAG's manifesto, written by 11 researchers and advocates and backed by groups including the Paediatric Society, Save the Children, KidsCan, the Nurses Organisation and the Council of Trade Unions, sets out a practical path.
+
+On incomes: lift the minimum wage to the Living Wage, raise benefits and index them to wages, and replace Working for Families with a single, non-discriminatory Child Tax Credit. It also wants to remove poverty traps in which families can lose up to 96 cents of each extra dollar earned.
+
+On housing: build 3,500 to 4,000 social homes a year and end no-fault evictions. On health: free GP and after-hours care for all children up to 18. On education: properly fund the Equity Index so schools in poorer communities get more.
+
+These are the kinds of measures Labour, the Greens and the Opportunity Party should insist on in any negotiations they are part of. The 2018 Act was passed under a Labour-led government, and Labour has the track record of 2019 to 2022 to point to. The Greens have long campaigned on liveable incomes. Opportunity, if it ends up as a kingmaker, has a rare chance to make a child poverty commitment the price of its support. Any party that goes into government without one is choosing to let the 2028 targets fail.
+
+The government's case
+
+National and its partners argue that the best route out of poverty is work, and that a stronger economy, lower inflation and tax relief help families more than higher benefits. They point to the cost of welfare at a time of tight budgets. Getting more parents into good jobs does matter. But the figures CPAG cites show hardship rising over the last three years, not falling, and CPAG's own analysis, as reported by Waatea News, notes that child poverty has risen and fallen under governments of both colours. The difference is policy.
+
+The ask
+
+The coalition agreements will be written in the next few weeks. Every one of them should include a costed plan to get back on track for the 2028 targets, with progress reported to Parliament each year. One child in seven going without is not a number any government should be willing to sign off on.
+
+This is an opinion column.
+
+Sources: Child Poverty Action Group, "A Manifesto to Reduce Child Poverty (2026)", 27 August 2026 (citing the Budget 2026 Child Poverty Report); Waatea News (Matthew Tukaki), "One in Seven Children Living in Hardship: Poverty Groups Demand Urgent Action Ahead of Election", 17 October 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/nz-child-poverty-bottom-line-coalition-talks-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'australia-rental-affordability-crisis-rent-caps-public-housing-2026',
+    publishedAt: '2026-11-23T21:20:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Australia's rent crisis is spreading to the regions. Canberra's rent guardrails show what works`,
+    summary: `New SGS Economics figures reported by the ABC show rentals unaffordable for average households across much of Australia, with Perth the worst capital and regional Queensland the worst region. Rent increase guardrails, higher income support and a big public housing build should be the response.`,
+    body: `If you rent in Australia, you already know the numbers are bad. New figures show they are getting worse in more places, and for more people.
+
+The ABC on 24 November reported the latest SGS Economics and Planning Rental Affordability Index, which compares median rents with household incomes. A score under 100 means an average-income household is paying more than 30 per cent of its income in rent, the standard line for housing stress. Affordability has worsened or stayed at crisis levels across most of the country, in the cities and the regions.
+
+Perth is now the least affordable capital, with average households paying more than 30 per cent of income on rent after rents soared following the pandemic. Hobart had the steepest fall over the past year. Regional Queensland is the least affordable region, with rent taking more than 32 per cent of the average renting household's income, and regional South Australia and Tasmania have also gone backwards.
+
+For people on low incomes, the picture is brutal. In Sydney, the ABC reported, median rent takes 84 per cent of a single pensioner's income, and a single person on income support faces rent higher than their entire income. Childcare workers could spend nearly half their wage on rent. Jackson Hills of National Shelter, which commissioned the research, said the squeeze is now spreading to higher-income groups and outside the big cities.
+
+The place that bucked the trend
+
+There is one striking exception. The Australian Capital Territory is the most affordable capital. SGS principal Ellen Witte told the ABC this was down to higher incomes, more supply, and the fact that the ACT is the only jurisdiction to have put guardrails around rent increases.
+
+That should end the argument that nothing can be done about rent rises. In the ACT, a landlord who wants to lift rent by more than a set benchmark linked to rental inflation has to justify it, as the Grattan Institute has described. It has not stopped people building or renting out homes there. Melbourne, second most affordable behind the ACT, has also benefited from Victorian policy changes and a push to build more homes, according to Ms Witte.
+
+What should happen
+
+The Australian Greens want a two-year rent freeze coordinated through National Cabinet, followed by a cap of 2 per cent every two years, enforced by a National Renters Protection Authority, plus a large public housing build through a public developer. At minimum, every state should adopt ACT-style limits on rent increases now. Renters cannot wait for supply alone to catch up.
+
+Income support also has to rise. UNSW City Futures researcher Alistair Sisson told the ABC that capping rent increases, lifting income support and investing in public housing were all needed, noting that "Australia has comparatively very, very low levels of public housing". Mr Hills said there are no overnight fixes and that sustained investment over about 20 years is required. The Albanese Government's Housing Australia Future Fund is a start, but at this scale of crisis it needs to be much bigger, and Commonwealth Rent Assistance needs a substantial boost for those already priced out.
+
+The other side
+
+Critics of rent controls, including the Grattan Institute's Joey Moloney, argue a hard freeze could reduce the supply of rentals, discourage new building and make it harder for newcomers and people in crisis to find a home. Grattan instead backs the ACT model, a larger increase in Rent Assistance and more housing in established suburbs. Those are serious points, and they are a strong argument for well-designed guardrails rather than doing nothing. The ACT's results suggest limits on rent increases and new supply can work side by side.
+
+Australia's renters are no longer only the young or the poor. They are nurses, childcare workers, pensioners and families in regional towns. The evidence of what helps is in front of us. Governments now need the will to act on it.
+
+This is an opinion column.
+
+Sources: ABC News (Madi Chwasta, Georgie Hewson, Jessica Riga, Simon Elvery and Emma Machan), "Rental affordability remains at crisis levels across Australia", 24 November 2026 (reporting the SGS Economics and Planning Rental Affordability Index, commissioned by National Shelter); Australian Greens, "Rent Freeze Now" campaign page, accessed 24 November 2026; Grattan Institute (Joey Moloney), "Why freezing rents would do more harm than good", accessed 24 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/australia-rental-affordability-crisis-rent-caps-public-housing-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'nz-dental-care-cost-free-public-dental-2026',
     publishedAt: '2026-11-22T21:30:00.000Z',
     category: 'editorial-view',
