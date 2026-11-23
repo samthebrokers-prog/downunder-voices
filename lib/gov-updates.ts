@@ -5,6 +5,8 @@
 // with no AI or API cost. If every source fails, the box simply shows the
 // agency's normal description and link, so nothing ever breaks.
 
+import { resolveGoogleNewsLink } from './google-news-link'
+
 export type GovHeadline = { title: string; link: string; source: string; publishedAt: string }
 
 export type GovAgency = {
@@ -144,7 +146,8 @@ export async function latestForAgency(agency: GovAgency, limit = 2): Promise<Gov
       })
       .map(item => ({ ...item, source: item.source || hostLabel(item.link) }))
       .sort(trustedFirst)
-    return items.slice(0, limit)
+    // Link straight to the publisher's article, not a Google News redirect.
+    return Promise.all(items.slice(0, limit).map(async item => ({ ...item, link: await resolveGoogleNewsLink(item.link) })))
   } catch {
     return []
   }
