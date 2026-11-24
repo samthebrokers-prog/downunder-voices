@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '25 November 2026',
+    image: '/editorial-cartoons/2026-11-25-buntine-population-nine.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of a tiny Wheatbelt town with grain silos, a farm windmill and wheat paddocks, where a long queue of city house-hunters with suitcases, laptop bags and takeaway coffees stretches down a gravel road to an old weatherboard hall with a For Sale by the Shire $24,000 sign marked Sold; a fictional farmer in a wide-brimmed hat stands with his kelpie beside a town sign reading Buntine, population 51 crossed out and 9 written in, saying first town meeting in years and we’ve sold the hall, while a city woman with a coffee asks is it walkable to a flat white',
+    headline: 'Population: nine. Queue: one hundred and fifty.',
+    summary:
+      'The Shire of Dalwallinu has sold two old buildings in the Wheatbelt town of Buntine, about 280 kilometres north-east of Perth, for under $100,000 combined — including the former CWA building for $24,000. The shire priced them low to attract new residents, and says it fielded more than 150 enquiries after the cheap sale made national news.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-25/cheap-housing-in-dalwallinu-buntine-wa/107412468',
+    sourceLabel:
+      'ABC News — Wheatbelt shire sells two Buntine buildings for less than $100,000 combined',
+    question: 'Would you move to a tiny country town if you could buy a home there for the price of a car? Tell us below.',
+  },
+  {
     date: '24 November 2026',
     image: '/editorial-cartoons/2026-11-24-rat-marketing-funnel.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of an original black rat wearing a shopper badge at the entrance to a literal marketing funnel marked phantom decoy, where an unreachable jar of peanut butter is advertised as sold out and plain bread waits inside a tracking tunnel; a fictional pest researcher with a clipboard says the campaign lifted foot traffic by 83 per cent',
