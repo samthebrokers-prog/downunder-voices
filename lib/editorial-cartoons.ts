@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '24 November 2026',
+    image: '/editorial-cartoons/2026-11-24-rat-marketing-funnel.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of an original black rat wearing a shopper badge at the entrance to a literal marketing funnel marked phantom decoy, where an unreachable jar of peanut butter is advertised as sold out and plain bread waits inside a tracking tunnel; a fictional pest researcher with a clipboard says the campaign lifted foot traffic by 83 per cent',
+    headline: 'The sales funnel is now literal',
+    summary:
+      'University of Sydney researchers found that black rats entered tracking tunnels containing ordinary bread 83 per cent more often when an inaccessible peanut-butter lure was placed at the entrance. The “phantom decoy” borrows the same nudge-marketing tactic used to steer shoppers from an unavailable premium product toward a less desirable option.',
+    sourceUrl:
+      'https://www.abc.net.au/news/science/2026-11-23/tricking-rats-into-traps-with-human-marketing-psychology/107409412',
+    sourceLabel:
+      'ABC News — researchers use human marketing psychology to lure invasive rats into traps',
+    question: 'What marketing trick catches your attention even when you know how it works? Tell us below.',
+  },
+  {
+    date: '24 November 2026',
     image: '/editorial-cartoons/2026-11-24-wellington-big-dog-carrier.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon at a windy Wellington bus stop with villas on the hillside behind, where a fictional bus driver points to a door sign reading pets fully enclosed in a carrier and says fully enclosed, mate, while a hopeful fictional man in a beanie holds a small pet carrier jammed over the head of an enormous shaggy dog whose whole body stays outside, saying he is, well, the end that gets on first is; in the shelter a woman sits with a tiny dog in a carrier beside a poster asking council vote: bigger dogs on buses?',
     headline: 'Fully enclosed — well, the front end',

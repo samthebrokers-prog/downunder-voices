@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <defs>
+    <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#111" stroke-width="1.4"/>
+    </pattern>
+    <pattern id="cross" width="10" height="10" patternUnits="userSpaceOnUse">
+      <path d="M0 0L10 10M10 0L0 10" stroke="#111" stroke-width=".8"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="760" fill="#fff"/>
+  <rect x="11" y="11" width="1178" height="738" fill="none" stroke="#111" stroke-width="3"/>
+  <text x="600" y="72" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="42" font-weight="700" textLength="1080" lengthAdjust="spacingAndGlyphs">DOWNUNDER VOICES — CARTOON OF THE DAY</text>
+  <line x1="30" y1="91" x2="1170" y2="91" stroke="#111" stroke-width="3"/>
+  <rect x="31" y="100" width="1138" height="523" fill="none" stroke="#111" stroke-width="2.5"/>
+  <rect x="1063" y="110" width="95" height="31" fill="#fff" stroke="#111" stroke-width="2"/>
+  <text x="1110" y="132" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="16" font-weight="700">SATIRE</text>
+
+  <!-- reserve backdrop -->
+  <path d="M31 470 Q190 420 345 461 T664 452 T989 463 T1169 435 V623 H31Z" fill="url(#hatch)" opacity=".32"/>
+  <path d="M31 500 Q170 454 320 487 T625 480 T940 490 T1169 465" fill="none" stroke="#111" stroke-width="2"/>
+  <path d="M50 595l10-38 8 38m28 0 9-26 7 26m40 0 12-42 7 42m710 0 11-40 8 40m45 0 9-30 8 30m48 0 12-37 7 37" fill="none" stroke="#111" stroke-width="2"/>
+  <path d="M65 424q42-56 84 0q35-68 80 0q41-54 80 0" fill="none" stroke="#111" stroke-width="3"/>
+  <path d="M886 414q40-58 82 0q38-72 83 0q40-51 78 0" fill="none" stroke="#111" stroke-width="3"/>
+
+  <!-- tracking tunnel and literal funnel -->
+  <path d="M520 285 L917 285 L1040 555 L520 555 Z" fill="#fff" stroke="#111" stroke-width="5"/>
+  <path d="M520 285 L690 355 L690 485 L520 555" fill="url(#cross)" opacity=".35" stroke="#111" stroke-width="3"/>
+  <path d="M917 285v270" stroke="#111" stroke-width="4"/>
+  <text x="808" y="326" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="20" font-weight="700">TRACKING TUNNEL</text>
+  <path d="M991 456h70v58h-70z" fill="#fff" stroke="#111" stroke-width="3"/>
+  <path d="M1003 485q23-22 46 0q-18 24-46 0z" fill="url(#hatch)" stroke="#111" stroke-width="2"/>
+  <text x="1026" y="538" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="16" font-weight="700">PLAIN BREAD</text>
+
+  <!-- phantom decoy display -->
+  <rect x="430" y="185" width="195" height="99" rx="8" fill="#fff" stroke="#111" stroke-width="3"/>
+  <text x="527" y="214" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="15" font-weight="700">PREMIUM PEANUT</text>
+  <text x="527" y="237" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="15" font-weight="700">BUTTER EXPERIENCE</text>
+  <rect x="467" y="247" width="120" height="29" fill="#111"/>
+  <text x="527" y="268" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="18" font-weight="700" fill="#fff">SOLD OUT</text>
+  <path d="M511 285v83m33-83v83" stroke="#111" stroke-width="4"/>
+  <ellipse cx="527" cy="382" rx="48" ry="14" fill="#fff" stroke="#111" stroke-width="3"/>
+  <path d="M493 340q34-29 68 0v43h-68z" fill="url(#hatch)" stroke="#111" stroke-width="3"/>
+  <text x="527" y="356" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="700">PB</text>
+  <path d="M469 394q58 18 116 0" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="527" y="419" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="15" font-style="italic">PHANTOM DECOY</text>
+
+  <!-- original rat shopper -->
+  <path d="M258 471q-43-66 11-109q57-42 119 2q43 32 33 95q-9 60-71 92q-74 19-92-80z" fill="#fff" stroke="#111" stroke-width="4"/>
+  <ellipse cx="303" cy="354" rx="34" ry="31" fill="#fff" stroke="#111" stroke-width="4"/>
+  <ellipse cx="361" cy="351" rx="34" ry="31" fill="#fff" stroke="#111" stroke-width="4"/>
+  <path d="M286 368q52-42 102 5q31 30-5 67q-47 34-96-2q-38-31-1-70z" fill="url(#hatch)" stroke="#111" stroke-width="4"/>
+  <circle cx="313" cy="391" r="7" fill="#111"/><circle cx="366" cy="390" r="7" fill="#111"/>
+  <path d="M337 408l16 9-17 9z" fill="#111"/>
+  <path d="M337 426q-9 16-24 8m24-8q8 16 24 8" fill="none" stroke="#111" stroke-width="2"/>
+  <path d="M286 413l-70-20m73 35-80 6m83 9-73 28m169-58 65-21m-64 37 71 8m-75 7 67 26" fill="none" stroke="#111" stroke-width="2"/>
+  <path d="M268 511q-44 35-72 8m183 20q31 20 54 5" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+  <path d="M258 476q-72 22-101 72q-25 42-70 8" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+  <rect x="296" y="466" width="88" height="52" rx="7" fill="#fff" stroke="#111" stroke-width="3"/>
+  <text x="340" y="489" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="700">SHOPPER</text>
+  <text x="340" y="507" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="700">LOYALTY CARD</text>
+  <path d="M396 454q54-23 91-62" fill="none" stroke="#111" stroke-width="4"/>
+  <path d="M478 391l-8-18 23 8z" fill="#111"/>
+
+  <!-- researcher -->
+  <circle cx="107" cy="250" r="42" fill="#fff" stroke="#111" stroke-width="3"/>
+  <path d="M67 245q36-55 78 0" fill="url(#hatch)" stroke="#111" stroke-width="3"/>
+  <path d="M83 258q25 22 50 0m-38-8h8m18 0h8" fill="none" stroke="#111" stroke-width="2"/>
+  <path d="M74 296q34-29 68 0l24 127H49z" fill="#fff" stroke="#111" stroke-width="4"/>
+  <path d="M80 305l26 30 27-30" fill="none" stroke="#111" stroke-width="3"/>
+  <rect x="37" y="359" width="119" height="111" fill="#fff" stroke="#111" stroke-width="3" transform="rotate(-5 96 414)"/>
+  <text x="96" y="389" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700">CAMPAIGN</text>
+  <text x="96" y="411" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700">RESULTS</text>
+  <text x="96" y="449" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="30" font-weight="700">+83%</text>
+
+  <!-- dialogue -->
+  <path d="M80 141h335q23 0 23 23v68q0 23-23 23H210l-42 38 12-38H80q-23 0-23-23v-68q0-23 23-23z" fill="#fff" stroke="#111" stroke-width="3"/>
+  <text x="247" y="178" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="22" font-weight="700">“THE CAMPAIGN LIFTED</text>
+  <text x="247" y="207" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="22" font-weight="700">FOOT TRAFFIC BY 83%.”</text>
+
+  <path d="M659 152h361q22 0 22 22v65q0 22-22 22H821l-30 35 8-35H659q-22 0-22-22v-65q0-22 22-22z" fill="#fff" stroke="#111" stroke-width="3"/>
+  <text x="839" y="190" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="18" font-weight="700">“I CAME FOR THE PEANUT BUTTER.</text>
+  <text x="839" y="218" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="18" font-weight="700">APPARENTLY I’M A LEAD.”</text>
+
+  <text x="600" y="680" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="35" font-weight="700">THE SALES FUNNEL IS NOW LITERAL.</text>
+  <text x="600" y="718" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="14"><tspan font-weight="700">Source:</tspan> ABC News, 23 November 2026 — Researchers used a “phantom decoy” to increase rat tunnel entries by 83%.</text>
+  <text x="1156" y="727" text-anchor="end" font-family="Georgia,'DejaVu Serif',serif" font-size="21" font-weight="700">DV</text>
+</svg>
