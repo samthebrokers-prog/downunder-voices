@@ -28,6 +28,156 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'maori-seats-not-a-bargaining-chip-referendum-2026',
+    publishedAt: '2026-11-24T21:30:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: The Māori seats are not a bargaining chip. Abolition must stay off the table`,
+    summary: `ACT says it may seek a binding referendum on scrapping the seven Māori electorates in talks with National and NZ First. The overhang has a simple fix that does not tear up an arrangement that has stood since 1867.`,
+    body: `Every negotiation needs a price, and ACT appears to have found one. Days before the final count, its leader David Seymour has floated a binding referendum on abolishing the seven Māori electorates, and says it may well become part of what his party asks for in exchange for supporting a National-led government.
+
+It is the wrong answer to a real problem, and it should be ruled out before anyone sits down to sign anything.
+
+What ACT is proposing
+
+According to 1News on 24 November, Mr Seymour wants the Māori seats scrapped through a binding referendum, and argues the seats are behind the large overhang projected in the new Parliament. Any vote would need to be held by November 2027 for a change to apply at the 2029 election. Speaking on RNZ's Midday Report the same day, as reported by Te Ao Māori News, he said ACT might push for the referendum in coalition talks, adding: "we may well do that."
+
+1News reported that NZ First also supports a binding referendum on the seats, and that ACT's 2022 policy described them as an anachronism. Mr Seymour, who is Māori and enrolled on the general roll, told 1News the seats were "the proximal cause of the current overhang".
+
+The overhang is real. Fixing it is easy
+
+There is no dispute that this election produced an awkward result. On preliminary figures reported by 1News, Parliament will have 131 seats, 11 more than the usual 120. According to the RNZ report carried by Te Ao Māori News, National holds seven overhang seats and Te Pāti Māori four.
+
+Look at those two numbers again. The largest share of the overhang belongs to National, which won more electorates than its party vote entitled it to. 1News reported that Labour narrowly won the preliminary party vote, 29.4 per cent to National's 29.2 per cent, yet National is projected to hold 42 seats to Labour's 36. If the goal were simply to make Parliament match the party vote, the first question would be about how electorate wins are counted, not about who gets to vote in which electorate.
+
+Te Pāti Māori ran a candidate-only campaign. Its party vote fell to about 0.6 per cent while it won five electorates, 1News reported. You can argue that tactic stretched MMP. Many people did, and a group of 46 academics and experts has urged party leaders to change the rules so overhangs stop happening, according to RNZ's report in the Otago Daily Times. But the fix they are talking about is a change to how overhang seats are treated. It does not require removing anyone's representation.
+
+That is also Te Pāti Māori's answer. As reported by 1News, the party says the right is blaming the seats for its own failed overhang campaign, and that the remedy lies in the overhang rule itself.
+
+The seats are about more than arithmetic
+
+The Māori electorates have existed since 1867. They are one of the ways the Crown has given practical effect to its relationship with Māori under Te Tiriti o Waitangi. Te Pāti Māori co-leader Debbie Ngarewa-Packer told 1News that removing the seats would breach Te Tiriti. The party's response, carried by Te Ao Māori News, is that the seats are part of how the Crown meets its Treaty obligations.
+
+Whatever view anyone takes of that argument, it is not one that should be settled as a side deal in a coalition agreement struck behind closed doors. A party that won a modest share of the vote should not be able to put the representation of hundreds of thousands of Māori voters on the table as the price of its support.
+
+Nor is it a decision for a simple majority of the wider population to impose on a minority. The whole point of the Māori roll is that Māori voters choose for themselves whether to be on it. Every five years, at the Māori Electoral Option, they make that choice. That is the right place for this decision to sit: with the people the seats belong to.
+
+It may not even work for the right
+
+There is a practical problem with ACT's plan too. Political scientist Dr Lara Greaves of Victoria University of Wellington, one of the 46 signatories, told RNZ that about 90 per cent of party votes in the Māori electorates go to left-bloc parties. She cited pollster David Farrar's figures suggesting National could have lost between nine and 14 seats had the Māori seats been abolished before this election, because Māori voters would move onto the general roll in electorates such as Northland, Rotorua and the East Coast. "Strategically, it could be quite a silly move for them," she told RNZ.
+
+Dr Greaves also warned of significant protest if the seats were removed. Anyone who remembers the hīkoi against the Treaty Principles Bill should take that seriously. New Zealand does not need another three years of division staged for political advantage.
+
+What the left should say now
+
+Labour, the Greens and The Opportunity Party should be clear before the final count on Friday: they will not support any referendum on abolishing the Māori seats, and they will support a straightforward change to the overhang rules so that the size of Parliament reflects the party vote. That is a fix that deals with the problem everyone has noticed, without making Māori representation the scapegoat.
+
+Labour, with the largest preliminary party vote, has a particular responsibility here. The party has long counted on the support of Māori voters. It should say plainly that their seats are not up for negotiation, whoever forms the government.
+
+The government's case
+
+ACT's case, as put by Mr Seymour to 1News, is that a separate roll creates division, that every citizen should have an equal vote in the same kind of electorate, and that any change would only happen if voters approved it in a binding referendum. He told RNZ he could not see what purpose a separate Māori roll now serves. NZ First shares the referendum position. Those are arguments that deserve a fair hearing in a proper national conversation, led by Māori, not a clause in a coalition document.
+
+The bottom line
+
+The overhang is a technical problem with a technical solution. The Māori seats are not a technical problem. They are part of the deal at the heart of this country. National should rule out any referendum on abolishing them as a condition of forming a government, and the parties of the left should make clear they will defend them.
+
+This is an opinion column.
+
+Sources: 1News Reporters, "ACT calls for Māori seats to go as MMP overhang fight heats up", 24 November 2026; Te Ao Māori News / RNZ Midday Report, "ACT eyes referendum on abolishing Māori seats in coalition talks", 24 November 2026; Otago Daily Times / RNZ (Tuwhenuaroa Natanahira), "Māori seat referendum could backfire on right bloc - political expert", 24 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/maori-seats-not-a-bargaining-chip-referendum-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'nz-lng-terminal-wrong-bet-shelve-it-2026',
+    publishedAt: '2026-11-24T21:25:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: A billion-dollar LNG terminal is the wrong bet for New Zealand's electricity. Shelve it for good`,
+    summary: `The Taranaki LNG plan was parked before polling day and still awaits a final call. Cheaper, cleaner ways to cover dry years already exist, and New Zealand should take them.`,
+    body: `One of the most expensive energy decisions in years is sitting in a drawer in Wellington, waiting for whoever forms the next government. It should stay there.
+
+The plan is to bring liquefied natural gas into Taranaki so New Zealand has extra fuel for power stations in dry years, when the hydro lakes run low. Port Taranaki says the government confirmed in October that it would not sign a contract before the 7 November election, and that a decision is now expected after a new government is formed. The preferred provider's identity has not been made public, the port says, because it is commercially sensitive.
+
+How we got here
+
+The case for the terminal grew out of the winter of 2024. As The Spinoff's Joel MacManus explained on 21 October, wholesale electricity prices that winter averaged about $820 per megawatt hour, against roughly $180 in previous winters. It was a genuine shock for businesses and households.
+
+But the answer the government chose is costly. A feasibility study by the big power companies and Firstgas put construction at upwards of $1 billion and running costs at up to $210 million a year, The Spinoff reported. When Energy Minister Simon Watts announced the plan in February, he told interest.co.nz the cost would be "north of a billion dollars". The terminal would supply about 12 petajoules over a winter.
+
+The first plan was to fund it with a levy of $2 to $4 per megawatt hour on electricity. Consumer NZ estimated that at $15 to $30 a year on most power bills, according to The Spinoff, while the Taxpayers' Union put it at $40 to $90 per household, interest.co.nz reported. The levy was later dropped, and the Ngāmotu Advocate reported in October that the plan shifted to industry paying, leaving the power companies unhappy.
+
+There are better options
+
+The people who know the electricity system best are not convinced. Meridian chief executive Mike Roan told a select committee in May that the terminal was not necessary for electricity, The Spinoff reported. A Sapere report for Rewiring Aotearoa pointed to alternatives such as diesel backup and more renewables.
+
+The four big generators, Genesis, Meridian, Mercury and Contact, put forward their own package to cover dry years: making the most of the Huntly power station, better use of hydro storage, a new peaking plant, more flexible demand from big industrial users, and greater use of gas storage, according to the Ngāmotu Advocate.
+
+Parliamentary Commissioner for the Environment Simon Upton warned that the plan risked "the worst of both worlds", meaning higher emissions and higher costs, The Spinoff reported. That is the heart of the problem. Port Taranaki notes that around 60 per cent of our electricity already comes from hydro and about 30 per cent from other renewables. Locking in a billion-dollar fossil fuel facility for more than 15 years, as interest.co.nz reported, is a bet against the direction the system is already moving.
+
+Where the parties stand
+
+Labour, the Greens and The Opportunity Party all oppose the terminal, according to The Spinoff. Labour leader Chris Hipkins has said Labour would not go ahead with the facility. That is the right call. The money is better spent on storage, demand response and more renewable generation, which protect households in dry years without tying the country to imported fossil gas.
+
+The other side
+
+Supporters argue the terminal is insurance. Mr Watts told interest.co.nz it would cut wholesale prices and protect around 2,000 jobs, with benefits the government put at about $265 million a year. Gas Industry Co chief executive David Prentice called it critical to energy security, and Pan Pac said it would help keep the company in New Zealand, The Spinoff reported. Those concerns about industrial users are real, and any alternative plan must answer them.
+
+But insurance should not cost more than the risk it covers. A billion-dollar gas terminal that may sit idle in wet years, while adding to emissions in dry ones, is not prudent planning. Whoever forms the next government should shelve it for good and back the cheaper, cleaner plan the industry has already put on the table.
+
+This is an opinion column.
+
+Sources: The Spinoff (Joel MacManus), "The government's controversial plan to build an LNG terminal in Taranaki, explained", 21 October 2026; interest.co.nz (Mandy Te), "LNG import terminal could be operating as soon as 2027 or early 2028", 9 February 2026; Ngāmotu Advocate (Richard Woodd), "Importing LNG stalled: what happened and what comes next?", 6 October 2026; Port Taranaki, "LNG at Port Taranaki", accessed 25 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/nz-lng-terminal-wrong-bet-shelve-it-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'cop31-antalya-failure-australia-no-new-coal-gas-2026',
+    publishedAt: '2026-11-24T21:20:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: The Antalya climate talks failed with Australia in the chair. Credibility starts with no new coal and gas at home`,
+    summary: `COP31 ended on 22 November without an agreed deal after Australia co-led the talks. If Canberra wants to be taken seriously on fossil fuels, it has to stop approving new coal and gas projects.`,
+    body: `Australia wanted COP31 to show the world, and the Pacific, that it had become a serious climate partner. Instead, the talks in Antalya ended without an agreed deal, and the final week of Parliament has opened with that disappointment hanging over the Albanese government.
+
+What happened
+
+According to UN News, COP31 in Antalya, Türkiye, closed on Sunday 22 November without a climate pact, after two weeks of talks and two days of overtime. Language on fossil fuels was the main sticking point. Several countries formally objected to the final text, and COP31 President Murat Kurum said that because there was no agreement on it, the decisions had not been adopted.
+
+Australia was not a bystander. Under the arrangement agreed in Belém last year, Türkiye hosted COP31 and Australia's Climate Change and Energy Minister Chris Bowen served as President of Negotiations, as law firm Clayton Utz explained on 4 November. UN News reported that compromise drafts were circulated by the co-presidents, Australia and Türkiye.
+
+The European Union said it could not accept a text that left out fossil fuels, UN News reported. The Marshall Islands, one of our Pacific neighbours, said accepting the text would amount to a betrayal of its people. UN Secretary-General António Guterres said he was deeply disappointed, and put it plainly: "There is no ambiguity in the science."
+
+On 24 November, the ABC's 7.30 described a government under pressure on several fronts, including deep disappointment at the COP31 talks and the affordability crisis.
+
+Why this lands at home
+
+The failure was not Australia's alone. Consensus rules give any determined country a veto. At COP30 in Belém last year, SBS reported, Saudi Arabia, Russia and others treated any mention of fossil fuels as off limits. But Australia's ability to lead was weakened by its own record. Clayton Utz noted that while renewables generated more than half of Australia's power by the end of 2025, the country continues to approve new gas and expanded coal projects, and that this remains a point of criticism.
+
+It is hard to ask the world to move away from coal, oil and gas while signing off on more of them. At COP30 last year, Australia was one of about two dozen countries to sign the Belém Declaration on the Transition Away from Fossil Fuels, SBS reported. That signature has to mean something in Australian approvals, not only in conference halls.
+
+The Pacific is watching too. Clayton Utz reported that more than US$5 billion of over US$16 billion committed to the Pacific for climate action since the Paris Agreement remains undisbursed. Our neighbours need that money delivered, not announced again.
+
+What should change
+
+Antalya shows why new coal and gas approvals have to end. A credible plan would stop new fossil fuel project approvals, put the 2035 target of a 62 to 70 per cent cut below 2005 levels on a firm path, and speed up the money Australia and others have promised the Pacific. That would give Australia something solid to bring to the next round of talks.
+
+There is also a cost-of-living case. Every extra dollar of clean, cheap renewable power and home electrification takes pressure off household bills. Climate action and affordability are not rivals.
+
+The government's case
+
+Mr Bowen and the government can fairly say they took on a hard job, that consensus was blocked by countries determined to resist fossil fuel language, and that Australia's renewable share has grown quickly. Gas is still used to firm the grid and supports jobs in some regions. Those points are real. But leadership abroad is easier when the record at home matches the words, and right now it does not.
+
+This is an opinion column.
+
+Sources: UN News, "COP31 ends without climate pact as UN chief warns there is 'no ambiguity in the science'", 22 November 2026; Clayton Utz (Brendan Bateman), "COP31 in Antalya – Australia takes the gavel at the 'Implementation COP'", 4 November 2026; ABC News (7.30), "Federal government under pressure over COP31 and cost of living", 24 November 2026; SBS News (Cheyne Anderson), "The two words missing from the world's most important climate conference agreement", 22 November 2025.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/cop31-antalya-failure-australia-no-new-coal-gas-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'foodstuffs-break-up-coalition-talks-act-veto-2026',
     publishedAt: '2026-11-23T21:30:00.000Z',
     category: 'editorial-view',
