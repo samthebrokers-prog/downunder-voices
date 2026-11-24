@@ -19,6 +19,7 @@ const legalLinks = [
   { label: 'Privacy', href: '/privacy' },
   { label: 'Terms', href: '/terms' },
   { label: 'Editorial Policy', href: '/editorial-policy' },
+  { label: 'Advertising Policy', href: '/advertising-policy' },
   { label: 'Corrections', href: '/corrections' },
   { label: 'Copyright', href: '/copyright' },
 ]

@@ -161,6 +161,10 @@ export default function Page() {
             commercial partners and external organisations do not receive the
             right to approve or control independent editorial coverage.
           </p>
+
+          <p>
+            <Link href="/advertising-policy">Read our Advertising Policy</Link>
+          </p>
         </section>
 
         <section>
