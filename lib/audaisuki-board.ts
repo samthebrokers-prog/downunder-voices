@@ -27,6 +27,7 @@ export const CATEGORIES = [
   'japanese', // 日本人を探しています
   'housing', // 住まい
   'sale', // 売ります・買います
+  'question', // お助け質問箱 / Q&A
 ] as const
 export type Category = (typeof CATEGORIES)[number]
 
