@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '26 November 2026',
+    image: '/editorial-cartoons/2026-11-26-fuel-gauge-quarter-tank.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon at a suburban service station under a canopy reading Kookaburra Fuel, where a fictional motorist in a bucket hat, checked work shirt and shorts holds up an empty open wallet as moths flutter out beside a fuel bowser and says a quarter tank, please — on lay-by; a station wagon with a kelpie in the back window is being filled, while a fictional attendant on a ladder holds up a new number 3 tile beside the fuel price board',
+    headline: 'The only thing going down is the fuel gauge',
+    summary:
+      'The Australian Bureau of Statistics says annual inflation rose to 4.9 per cent in the 12 months to October, up from 4.3 per cent in September. Transport and housing costs drove the rise, with automotive fuel and electricity prices both sharply higher than a year ago.',
+    sourceUrl:
+      'https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release',
+    sourceLabel:
+      'Australian Bureau of Statistics — Consumer Price Index, Australia, October 2026',
+    question: 'Which everyday cost has changed your routine the most this year? Tell us below.',
+  },
+  {
     date: '25 November 2026',
     image: '/editorial-cartoons/2026-11-25-cassie-chimp-branch-office.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of an original young chimpanzee at a fictional Monarto safari induction course, balancing confidently on a rope while holding a clipboard marked climbing, balancing and gripping; a fictional keeper in a safari hat points toward hammocks and fire hoses under a sign reading branch office orientation, and the chimp says the branch office has excellent onboarding',
