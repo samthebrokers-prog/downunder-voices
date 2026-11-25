@@ -28,6 +28,172 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'nz-final-count-special-votes-respect-the-result-2026',
+    publishedAt: '2026-11-25T21:30:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Friday's final count decides the government. Every party must respect it, and the left must be ready`,
+    summary: `The official result, including almost 400,000 special votes, lands on Friday. If the outgoing coalition holds on, it will govern on less than half the party vote; if the specials tilt, Labour, the Greens and Opportunity need a credible plan.`,
+    body: `On Friday afternoon, almost three weeks after polling day, New Zealand will finally learn who it voted for. The Electoral Commission releases the official count at 2pm, and this time it will include the special votes, close to 400,000 of them according to 1News. That is roughly one vote in every seven cast, and it is enough to change the shape of the next government.
+
+Until then, everything is provisional. But the preliminary numbers already tell us something important, and it should shape how every party behaves once the final figures are in.
+
+What election night actually showed
+
+On the preliminary count reported by interest.co.nz on 8 November, Labour won the most party votes, 29.36 per cent to National's 29.21 per cent. The Greens took 13.30 per cent, ACT 10.92 per cent, NZ First 9.78 per cent and The Opportunity Party 5.96 per cent. Te Pāti Māori won five electorates on 0.57 per cent of the party vote.
+
+Because of the overhang, those votes produced a Parliament of 131 seats, with 66 needed to govern. On election night the National, ACT and NZ First bloc had 67 seats, according to interest.co.nz, and the left bloc of Labour, the Greens, Opportunity and Te Pāti Māori had 64.
+
+Add up the right bloc's party votes on those same figures and you get just under 50 per cent. 1News made the same point on Thursday: if the outgoing coalition holds on, it would govern with a majority built on less than half of the party vote, something that has not happened under MMP with minor parties this large.
+
+That is not a technicality. MMP was designed so that the party vote decides the make-up of Parliament. A government that wins fewer votes than its opponents but more seats because of how electorates fell would be legal. It would also be a government with a thin claim to a mandate for anything radical.
+
+Why the specials matter
+
+Special votes are cast by people who enrolled late, voted outside their electorate, or were overseas. They have tended to lean towards the centre-left, and interest.co.nz noted on election night that specials usually add one or two seats to the left. Opportunity's share was also expected to rise.
+
+1News reported on Wednesday that several electorates are close enough to flip. In Wairarapa, National's Mike Butterick led Labour's Kieran McAnulty by just 139 votes. In Mt Roskill, Labour's Michael Wood was 262 votes ahead of National's Carlos Cheung. In Hamilton East, National's Ryan Hamilton led Labour's Georgie Dansey by 456 votes. In Te Tai Tokerau, Te Pāti Māori's Aperahama Edwards was 436 votes ahead of the Green Party's Hūhana Lyndon.
+
+Because National won more electorates than its party vote entitles it to, it has no list MPs. As 1News explained, every electorate National loses now costs it a seat outright. A shift in Wairarapa alone would change the arithmetic.
+
+On election night, Labour leader Chris Hipkins put it simply: "Every vote matters and every vote must now be counted." He was right, and that principle should hold all the way through any recounts that follow.
+
+The four ways this could go
+
+1News laid out four scenarios on Thursday. The outgoing coalition could hold its majority. Opportunity could end up holding the balance of power. Parliament could be hung, with neither bloc able to pass a confidence vote. Or the result could drag on for another week or two while judges conduct recounts, which candidates can request within three working days of the declaration.
+
+Each of those outcomes asks something different of the parties. Here is what we think the parties of the centre-left should do in each.
+
+If the right holds on, Labour, the Greens and Opportunity should accept the result with grace and hold the new government hard to account. A coalition elected on under half the vote should not treat its majority as permission to fast-track divisive changes, and the opposition should say so loudly every time it tries.
+
+If Opportunity becomes the kingmaker, it faces the biggest decision in its short history. Its leader Qiulae Wong has said she would talk to the largest party first. Before the election she told 1News of National: "We will negotiate in good faith with them." That is a fair and honest starting point. But Opportunity's voters backed a party that wants tax reform, serious climate action and a fairer deal for young people and renters. Mr Luxon has ruled Opportunity out, 1News reports, and its five bottom lines should be treated as exactly that. If National will not move, Opportunity should be ready to work with Labour and the Greens, who are closer to its agenda on tax, housing and climate.
+
+If Parliament is hung, nobody should rush back to the polls. A fresh election would cost money, test voters' patience, and very likely produce something similar. The responsible path is long, patient negotiation, including across the blocs on a limited agreement if that is what it takes.
+
+If the count drags on, so be it. Recounts are part of a healthy democracy. 1News reported that in 2020 the writ was not returned until two weeks after the official results. Nobody was harmed by waiting.
+
+What a centre-left government could do
+
+A Labour-led government with the Greens and Opportunity would have a real chance to tackle problems that have festered. Housing affordability, child poverty, health workforce shortages and climate adaptation all need long-term plans that outlast a single term. Labour brings experience of government. The Greens bring a clear programme on climate and poverty. Opportunity brings fresh thinking on tax and on making the system fairer between generations.
+
+These parties will not agree on everything, and they should be honest with voters about where they differ. But they share a basic view that government has a job to do in making life fairer, and that public services and public assets are worth protecting.
+
+The other side
+
+National, ACT and NZ First argue that they won the most seats on election night and that their coalition delivered stability for three years. National's leader Christopher Luxon said on election night that it appeared National had a path to form government, while noting the result was too close to call. The coalition parties say voters endorsed their focus on the economy, law and order and lower spending, and that a seat majority is how MMP works. Those are legitimate arguments, and if the final count confirms their majority, they will have every right to govern.
+
+The bottom line
+
+Friday's count is the result. Not election night, not the commentary, not the polls. Every party should wait for it, respect it, and then negotiate in good faith. If the special votes tilt the balance, as they often do, Labour, the Greens and Opportunity should be ready, with a credible plan, to offer New Zealand a government that reflects how most people actually voted.
+
+This is an opinion column.
+
+Sources: 1News (Justin Hu), "It's time: Four election scenarios that could play out tomorrow", 26 November 2026; 1News (Justin Hu), "Close election races hold key to govt, but waiting game may still go on", 25 November 2026; interest.co.nz (Anna Whyte), "The wait begins as Opportunity knocks, as election 2026 delivers upsets, overhangs and a three week question mark", 8 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/nz-final-count-special-votes-respect-the-result-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'kainga-ora-manderson-grove-sale-pause-state-house-sales-2026',
+    publishedAt: '2026-11-25T21:25:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Kāinga Ora is selling a street of state homes to land bankers. The next government should stop it`,
+    summary: `Homes in Lower Hutt's Manderson Grove are being marketed for land banking while 339 local households wait for public housing. Sales should be paused and the programme reviewed.`,
+    body: `In Lower Hutt, almost an entire street of state houses is up for sale. According to B2B News on 25 November, Kāinga Ora has put homes in Manderson Grove on the market through Bayleys, with about 80 bedrooms between them. The marketing pitches them for investment, development and land banking. Buyers can take one house or the lot, and bids close on 8 December.
+
+At the same time, B2B News reports, 339 households were on the public housing waitlist in Lower Hutt as at September.
+
+Those two facts sit very uncomfortably side by side. While the country waits for a final election result, the next government should put a hold on sales like this one and review the whole programme.
+
+A pattern, not a one-off
+
+Manderson Grove is not the first. In October, ten community and church organisations, including Wellington City Mission and Renters United, wrote an open letter asking Kāinga Ora to halt the sale of 36 empty state homes on Nuku Street in Strathmore, Wellington, CathNews New Zealand reported on 20 October. The deadline sale fell about two weeks before the election. CathNews, citing other reporting, said more than 600 Wellington households were waiting for public housing.
+
+Kāinga Ora's own figures show how steady the selling has become. Its property sales page, as at 20 November, lists 82 Wellington-region properties currently for sale and 48 sold there in the past 12 months. In Auckland, 244 have been sold in the past year; in Canterbury, 120.
+
+B2B News reports that in Christchurch nearly 150 homes have been sold since July 2025 for at least $65 million, with a net loss of 86 public housing units in the second half of 2025.
+
+Why this matters
+
+Kāinga Ora is the country's biggest landlord, and for many families it is the only landlord they can afford. Every house sold into the private market is a house that will not be available the next time a family is put up in a motel or a car.
+
+The argument that each sale funds a new build elsewhere sounds tidy. But it depends on the new homes actually being built, in the places where people need them, at the pace the waitlist demands. Housing advocate Vanessa Cole of Public Housing Futures said earlier this year that about 3,500 planned homes had been cancelled, B2B News reports. When pipelines shrink while sales continue, the net effect on families waiting is hard to see as anything but negative.
+
+Marketing public homes as a land-banking opportunity also sends the wrong message. Land banking means buying land and holding it while values rise. Public land is a long-term asset. Selling it to people whose business model is to wait is the opposite of what a housing crisis calls for.
+
+What the next government should do
+
+Labour, the Greens and The Opportunity Party have all argued for more public and affordable housing, not less. Whoever forms the next government, there are three sensible steps.
+
+First, pause sales of homes that could be repaired or redeveloped for public housing, particularly in areas with long waitlists like Lower Hutt and Wellington.
+
+Second, publish a clear rule: no net loss of public homes in any region where the waitlist is growing. If a house is sold, its replacement should be built nearby, and the public should be able to check.
+
+Third, look again at how redevelopment is judged. A site that does not pay its way on a narrow financial test may still be the cheapest way to house a family over thirty years once motel bills and health costs are counted.
+
+The government's case
+
+Kāinga Ora says the homes it sells do not meet its long-term needs. According to B2B News, it sells about 900 homes a year, roughly 1 per cent of a portfolio of about 78,000, and replaces or renovates around 2,000 a year. It says homes have sold on average 5 per cent above market value and that proceeds are reinvested. On Strathmore, regional director Sarah Willson said "it was not financially viable to deliver new social housing there", CathNews reported. Chris Bishop, as housing minister, called the programme "sensible asset management" and said overall supply was still growing, B2B News reports. Some economists also argue the Manderson Grove sale is not classic land banking.
+
+The bottom line
+
+Selling a street of public homes while hundreds of local families wait is a choice, not a necessity. The next government should stop it, count the homes, and make sure that public housing in New Zealand grows rather than quietly shrinks.
+
+This is an opinion column.
+
+Sources: B2B News, "Kāinga Ora pitches Lower Hutt street to land bankers", 25 November 2026; CathNews New Zealand (from RNZ reporting), "Church group calls for halt of capital state housing sale", 20 October 2026; Kāinga Ora, "Property sales" (data as at 20 November 2026), page updated 16 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/kainga-ora-manderson-grove-sale-pause-state-house-sales-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'australia-inflation-4-9-per-cent-power-bills-not-rate-pain-2026',
+    publishedAt: '2026-11-25T21:20:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Australian inflation has hit 4.9 per cent. Cut power, fuel and housing costs instead of piling on rate pain`,
+    summary: `Electricity prices are up 25 per cent in a year as last year's rebates drop out of the figures. Direct help on the costs driving inflation would do more than higher interest rates.`,
+    body: `Australian inflation has jumped again. The Australian Bureau of Statistics reported on 25 November that "CPI annual inflation was 4.9 per cent in the 12 months to October 2026", up from 4.3 per cent in September. That is the highest rate since 2023, according to CommBank's analysis published the same day.
+
+Behind that number are households paying a lot more for the basics. The fix should not be another round of pain through interest rates. It should be targeted help on the costs that are actually driving prices up.
+
+Where the rises are
+
+The biggest drivers are things people cannot easily cut back on. The ABS figures show transport prices up 10.6 per cent over the year and housing up 6.4 per cent. Within those, CommBank reports electricity up 25.2 per cent over the year, new home building costs up 5.1 per cent and rents up 3.5 per cent. Fuel prices rose 6.3 per cent in October alone, CommBank says, after big rises in August and September.
+
+Food and non-alcoholic drinks were up 3.5 per cent, the ABS says. Underlying inflation, measured by the trimmed mean, rose to 3.8 per cent from 3.6 per cent.
+
+The power bill problem
+
+The electricity number needs explaining. CommBank economist Trent Saunders said the jump "mainly reflected the large fall in electricity prices in October last year", when households received extra government rebates. In other words, the rebates held bills down last year, and now that support has wound back, the annual comparison looks dramatic.
+
+That does not make the pain any less real. A household that relied on the rebate is now paying the full bill. But it does tell us something useful: direct help on power bills worked. When the rebates were there, measured inflation was lower and families had more breathing space.
+
+The lesson is not that support should be withdrawn because it shows up in the statistics later. It is that temporary help is not enough. Households need power bills that stay lower, which means faster investment in cheap renewable generation, help for renters and low-income homeowners to install solar and batteries, and stronger action on energy retailers who keep loyal customers on poor deals.
+
+Interest rates are a blunt tool
+
+CommBank notes the Reserve Bank lifted the cash rate to 4.85 per cent on 3 November. Rate rises work by squeezing spending across the economy, and they land hardest on people with mortgages and on renters whose landlords pass costs on. They do nothing to make petrol, power or building materials cheaper.
+
+If inflation is being driven by fuel, electricity and housing costs, then the most effective response is to tackle those costs directly. That means more public and community housing to take pressure off rents, support for efficient and electric transport so families are less exposed to petrol price spikes, and a sharper look at whether price rises in concentrated markets are justified.
+
+The other side
+
+There is a fair counter-argument that government spending, including rebates, can add to demand and make the Reserve Bank's job harder. CommBank also notes that the end of card surcharges on 1 October gave October prices a temporary push, and that the bank expects the Reserve Bank to hold rates at its December meeting. Those points deserve weight: not every part of this rise will last.
+
+The bottom line
+
+A 4.9 per cent inflation rate is a real hit to household budgets. The answer is not to wait for higher interest rates to grind demand down. It is to bring down the specific costs, especially power, fuel and housing, that are hurting ordinary Australians most.
+
+This is an opinion column.
+
+Sources: Australian Bureau of Statistics, "Consumer Price Index, Australia, October 2026", 25 November 2026; CommBank Newsroom, "Inflation hits 4.9%, its highest since 2023, as fuel, power and building costs climb", 25 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/australia-inflation-4-9-per-cent-power-bills-not-rate-pain-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'maori-seats-not-a-bargaining-chip-referendum-2026',
     publishedAt: '2026-11-24T21:30:00.000Z',
     category: 'editorial-view',
