@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '25 November 2026',
+    image: '/editorial-cartoons/2026-11-25-cassie-chimp-branch-office.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon of an original young chimpanzee at a fictional Monarto safari induction course, balancing confidently on a rope while holding a clipboard marked climbing, balancing and gripping; a fictional keeper in a safari hat points toward hammocks and fire hoses under a sign reading branch office orientation, and the chimp says the branch office has excellent onboarding',
+    headline: 'Cassie’s first week at the branch office',
+    summary:
+      'ABC’s BTN reported that infant chimpanzee Cassie is settling in at Monarto Safari Park in South Australia after moving from Rockhampton Zoo earlier this year. Keepers say she is building climbing, balancing and gripping skills while exploring swings, hammocks, ropes and other parts of the habitat she will eventually share with the park’s chimpanzee family.',
+    sourceUrl:
+      'https://www.abc.net.au/btn/newsbreak/btn-newsbreak-20261124/107420508',
+    sourceLabel:
+      'ABC BTN — Cassie the chimp develops new skills at Monarto Safari Park',
+    question: 'What skill would you put first on a young chimpanzee’s training checklist? Tell us below.',
+  },
+  {
+    date: '25 November 2026',
     image: '/editorial-cartoons/2026-11-25-buntine-population-nine.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon of a tiny Wheatbelt town with grain silos, a farm windmill and wheat paddocks, where a long queue of city house-hunters with suitcases, laptop bags and takeaway coffees stretches down a gravel road to an old weatherboard hall with a For Sale by the Shire $24,000 sign marked Sold; a fictional farmer in a wide-brimmed hat stands with his kelpie beside a town sign reading Buntine, population 51 crossed out and 9 written in, saying first town meeting in years and we’ve sold the hall, while a city woman with a coffee asks is it walkable to a flat white',
     headline: 'Population: nine. Queue: one hundred and fifty.',

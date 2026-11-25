@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <defs>
+    <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#111" stroke-width="1.2"/>
+    </pattern>
+    <pattern id="cross" width="10" height="10" patternUnits="userSpaceOnUse">
+      <path d="M0 0L10 10M10 0L0 10" stroke="#111" stroke-width=".7"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="760" fill="#fff"/>
+  <rect x="11" y="11" width="1178" height="738" fill="none" stroke="#111" stroke-width="3"/>
+  <text x="600" y="72" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="42" font-weight="700" textLength="1080" lengthAdjust="spacingAndGlyphs">DOWNUNDER VOICES — CARTOON OF THE DAY</text>
+  <line x1="30" y1="91" x2="1170" y2="91" stroke="#111" stroke-width="3"/>
+  <rect x="31" y="100" width="1138" height="523" fill="none" stroke="#111" stroke-width="2.5"/>
+  <rect x="1063" y="110" width="95" height="31" fill="#fff" stroke="#111" stroke-width="2"/>
+  <text x="1110" y="132" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="16" font-weight="700">SATIRE</text>
+
+  <!-- habitat -->
+  <path d="M31 496q178-48 348 0t335 0t455 0v127H31z" fill="url(#hatch)" opacity=".28"/>
+  <path d="M31 506q178-48 348 0t335 0t455 0" fill="none" stroke="#111" stroke-width="3"/>
+  <path d="M58 578l12-46 8 46m42 0 10-31 8 31m55 0 13-38 8 38m765 0 11-43 9 43m54 0 12-32 8 32m45 0 13-40 8 40" fill="none" stroke="#111" stroke-width="2"/>
+  <path d="M58 394q30-90 65-198q37 104 72 199" fill="none" stroke="#111" stroke-width="14" stroke-linecap="round"/>
+  <path d="M90 265q-34-36-52-3m72-31q-40-43-62-14m95 65q37-46 69-12m-51-58q32-38 57-9" fill="none" stroke="#111" stroke-width="5"/>
+  <path d="M1080 397q-24-93-48-190q-34 96-68 190" fill="none" stroke="#111" stroke-width="14" stroke-linecap="round"/>
+  <path d="M1044 263q34-45 62-13m-82-36q31-39 57-10m-83 82q-34-42-66-10" fill="none" stroke="#111" stroke-width="5"/>
+
+  <!-- branch office orientation sign -->
+  <rect x="780" y="183" width="272" height="106" fill="#fff" stroke="#111" stroke-width="4"/>
+  <text x="916" y="220" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="22" font-weight="700">BRANCH OFFICE</text>
+  <text x="916" y="252" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="22" font-weight="700">ORIENTATION</text>
+  <path d="M916 289v112" stroke="#111" stroke-width="6"/>
+
+  <!-- hammock, ropes and fire hose -->
+  <path d="M747 387q115 100 231 0" fill="none" stroke="#111" stroke-width="8"/>
+  <path d="M761 397q101 62 203 0q-38 90-101 92q-62-2-102-92z" fill="url(#cross)" stroke="#111" stroke-width="3"/>
+  <path d="M847 305v83m72-83v83" stroke="#111" stroke-width="5"/>
+  <path d="M751 172q70 35 140 0t145 0" fill="none" stroke="#111" stroke-width="7"/>
+
+  <!-- balance rope -->
+  <path d="M309 484q178 52 360 0" fill="none" stroke="#111" stroke-width="9" stroke-linecap="round"/>
+  <path d="M312 486v85m355-85v85" stroke="#111" stroke-width="8"/>
+  <rect x="270" y="565" width="84" height="18" rx="8" fill="#fff" stroke="#111" stroke-width="3"/>
+  <rect x="624" y="565" width="84" height="18" rx="8" fill="#fff" stroke="#111" stroke-width="3"/>
+
+  <!-- original infant chimp -->
+  <circle cx="495" cy="315" r="65" fill="url(#hatch)" stroke="#111" stroke-width="4"/>
+  <ellipse cx="494" cy="329" rx="48" ry="44" fill="#fff" stroke="#111" stroke-width="3"/>
+  <circle cx="430" cy="318" r="27" fill="#fff" stroke="#111" stroke-width="4"/>
+  <circle cx="559" cy="318" r="27" fill="#fff" stroke="#111" stroke-width="4"/>
+  <path d="M463 308q31-24 63 0m-48 8h8m20 0h8" fill="none" stroke="#111" stroke-width="3"/>
+  <path d="M481 340q14 11 28 0m-27 18q13 13 27 0" fill="none" stroke="#111" stroke-width="3"/>
+  <path d="M459 384q36-32 71 0q30 44 17 105q-8 43-53 45q-46-3-53-45q-12-61 18-105z" fill="url(#hatch)" stroke="#111" stroke-width="4"/>
+  <path d="M453 403q-94 31-112 93m181-93q90 29 113 89" fill="none" stroke="#111" stroke-width="18" stroke-linecap="round"/>
+  <path d="M447 489q-48 35-94 13m193-13q45 33 90 11" fill="none" stroke="#111" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="342" cy="497" r="13" fill="#fff" stroke="#111" stroke-width="3"/>
+  <circle cx="640" cy="496" r="13" fill="#fff" stroke="#111" stroke-width="3"/>
+
+  <!-- checklist -->
+  <rect x="558" y="344" width="164" height="139" rx="7" fill="#fff" stroke="#111" stroke-width="3" transform="rotate(5 640 414)"/>
+  <text x="640" y="376" text-anchor="middle" font-family="Arial,sans-serif" font-size="17" font-weight="700">NEW SKILLS</text>
+  <path d="M582 397l8 8 14-18m-22 43 8 8 14-18m-22 43 8 8 14-18" fill="none" stroke="#111" stroke-width="3"/>
+  <text x="616" y="405" font-family="Arial,sans-serif" font-size="16">CLIMB</text>
+  <text x="616" y="438" font-family="Arial,sans-serif" font-size="16">BALANCE</text>
+  <text x="616" y="471" font-family="Arial,sans-serif" font-size="16">GRIP</text>
+
+  <!-- keeper -->
+  <circle cx="206" cy="310" r="42" fill="#fff" stroke="#111" stroke-width="3"/>
+  <path d="M165 303q38-57 80 0" fill="url(#hatch)" stroke="#111" stroke-width="3"/>
+  <path d="M153 299q53-32 106 0" fill="none" stroke="#111" stroke-width="6"/>
+  <path d="M185 318h9m23 0h9m-36 20q17 13 34 0" fill="none" stroke="#111" stroke-width="2"/>
+  <path d="M169 353q37-27 73 0l31 157H138z" fill="#fff" stroke="#111" stroke-width="4"/>
+  <path d="M180 361l26 31 25-31" fill="none" stroke="#111" stroke-width="3"/>
+  <path d="M236 379q77-18 131-58" fill="none" stroke="#111" stroke-width="9" stroke-linecap="round"/>
+  <path d="M360 321l-13-13 27 4z" fill="#111"/>
+  <path d="M163 395q-45 31-62 82" fill="none" stroke="#111" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- dialogue -->
+  <path d="M337 133h443q24 0 24 24v73q0 24-24 24H565l-39 39 10-39H337q-24 0-24-24v-73q0-24 24-24z" fill="#fff" stroke="#111" stroke-width="3"/>
+  <text x="559" y="177" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="22" font-weight="700">“THE BRANCH OFFICE HAS</text>
+  <text x="559" y="208" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="22" font-weight="700">EXCELLENT ONBOARDING.”</text>
+
+  <path d="M741 332h382q21 0 21 21v62q0 21-21 21H943l-28 32 7-32H741q-21 0-21-21v-62q0-21 21-21z" fill="#fff" stroke="#111" stroke-width="3"/>
+  <text x="932" y="369" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="18" font-weight="700">“NEXT LESSON: LOOKING BUSY</text>
+  <text x="932" y="396" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="18" font-weight="700">WHILE SITTING IN THE SUN.”</text>
+
+  <text x="600" y="680" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="34" font-weight="700">CASSIE’S FIRST WEEK AT THE BRANCH OFFICE.</text>
+  <text x="600" y="718" text-anchor="middle" font-family="Georgia,'DejaVu Serif',serif" font-size="14"><tspan font-weight="700">Source:</tspan> ABC BTN, 24 November 2026 — Cassie is building climbing, balancing and gripping skills at Monarto Safari Park.</text>
+  <text x="1156" y="727" text-anchor="end" font-family="Georgia,'DejaVu Serif',serif" font-size="21" font-weight="700">DV</text>
+</svg>
