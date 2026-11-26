@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '27 November 2026',
+    image: '/editorial-cartoons/2026-11-27-black-friday-savings-tower.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon in a suburban front yard on Black Friday, where a fictional courier staggers up the garden path behind a wobbling tower of parcels labelled 50% off, Sale, Fragile and Buy 2 Save, while a fictional shopper on the verandah holds up her phone and says another $920 saved, love, and her weary partner watches from the doorway with a mug of tea',
+    headline: 'We can’t afford to save any more',
+    summary:
+      'The Australian Retailers Association and Roy Morgan expect shoppers to spend a record $7.2 billion over the four-day Black Friday to Cyber Monday weekend, up 5.5 per cent on last year. Slightly fewer people plan to shop, but those who do expect to spend about $920 each, with low prices and Christmas savings the main reasons.',
+    sourceUrl:
+      'https://www.roymorgan.com/findings/10368-arc-roy-morgan-black-friday-cyber-monday-spending-forecasts-2026',
+    sourceLabel:
+      'ARC–Roy Morgan — record $7.2 billion Black Friday weekend spending forecast',
+    question: 'Are you shopping the Black Friday sales this year, or sitting them out? Tell us below.',
+  },
+  {
     date: '26 November 2026',
     image: '/editorial-cartoons/2026-11-26-shark-bay-dolphin-social-club.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon at a fictional Shark Bay dolphin social club, where three original bottlenose dolphins swim together beneath a hand-painted same pod, same time sign; one dolphin says I joined for the fish and stayed for the friendships, while a fictional marine researcher in a small boat says attendance has been remarkably consistent',
