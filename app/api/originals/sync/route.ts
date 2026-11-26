@@ -35,7 +35,7 @@ export async function GET() {
           author: a.author,
           status: 'published',
           published_at: a.publishedAt,
-          import_method: 'manual',
+          import_method: a.importMethod ?? 'manual',
         },
         prefer: 'return=minimal',
       })

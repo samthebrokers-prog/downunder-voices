@@ -24,9 +24,45 @@ export type DvOriginal = {
   body: string // full article, ends with "Sources: …" and "Photo: … via Wikimedia Commons (licence)."
   imageUrl: string // https://commons.wikimedia.org/wiki/Special:FilePath/<File>?width=1280
   author: string // e.g. 'Downunder Voices Desk'
+  // Optional: 'automated-editorial' makes it eligible for the homepage
+  // Editorial of the Day slider. Defaults to 'manual'.
+  importMethod?: 'manual' | 'automated-editorial'
 }
 
 export const DV_ORIGINALS: DvOriginal[] = [
+  {
+    slug: 'nz-election-prediction-the-woman-who-could-decide-luxons-fate-2026',
+    publishedAt: '2026-11-26T13:05:00.000Z',
+    category: 'editorial-view',
+    title: `NZ Election Prediction: The Woman Who Could Decide Luxon's Fate`,
+    summary: `My prediction is that Christopher Luxon's existing coalition will lose its outright majority when the final election results are announced today. But that does not necessarily mean Chris Hipkins will become the next Prime Minister.`,
+    body: `My prediction is that Christopher Luxon's existing coalition will lose its outright majority when the final election results are announced today.
+
+But that does not necessarily mean Chris Hipkins will become the next Prime Minister.
+
+The biggest political winner could be Qiulae Wong, a political newcomer who may suddenly find herself negotiating the future of New Zealand with some of its most experienced politicians.
+
+Luxon once ruled out working with Opportunity. He has since met Wong. Politics has a remarkable way of turning yesterday's rejection into tomorrow's handshake.
+
+Neither National nor Labour secured even 30 per cent of the party vote on election night. That alone should send a powerful message to both parties.
+
+New Zealanders are struggling with the cost of living, healthcare, housing and employment. They cannot afford weeks of politicians bargaining over ministerial positions while ordinary families struggle to pay their bills.
+
+My prediction is that Luxon may remain Prime Minister, but with significantly less political freedom and greater dependence on smaller parties.
+
+Today may not decide who governs New Zealand. It may decide who gets to negotiate the price of power.
+
+The real question is whether the politicians will put the country before their own political survival.
+
+This is an opinion column.
+
+Sources: New Zealand Electoral Commission preliminary results, 7 November 2026; Stuff, "The Opportunity Party could hold the keys to power on Friday", November 2026; 1News, "It's time: Four election scenarios that could play out tomorrow", 26 November 2026.
+
+Image: Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/editorial/nz-election-final-count-today-2026.jpg',
+    author: 'Downunder Voices Editorial',
+    importMethod: 'automated-editorial',
+  },
   {
     slug: 'nz-final-count-special-votes-respect-the-result-2026',
     publishedAt: '2026-11-25T21:30:00.000Z',
