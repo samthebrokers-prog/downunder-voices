@@ -72,8 +72,11 @@ export async function putObject(path: string, body: Uint8Array | string, content
 
 export async function getJson<T>(path: string, fallback: T): Promise<T> {
   try {
-    const response = await fetch(`${supabaseUrl}/storage/v1/object/${BUCKET}/${path}`, {
-      headers: storageHeaders(),
+    // Unique query string so the storage CDN never hands back a stale copy.
+    // Without it, read-then-write files (e.g. the Audaisuki board) lost posts
+    // that arrived within a minute of each other.
+    const response = await fetch(`${supabaseUrl}/storage/v1/object/${BUCKET}/${path}?fresh=${Date.now()}`, {
+      headers: storageHeaders({ 'Cache-Control': 'no-cache' }),
       cache: 'no-store',
     })
     if (!response.ok) return fallback
