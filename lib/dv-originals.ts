@@ -31,6 +31,150 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'rnz-58-roles-pause-cuts-until-review-protect-public-broadcasting-2026',
+    publishedAt: '2026-11-26T21:30:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Staff did not cause RNZ's $11.8m hole. Pause the 58 redundancies until the review is done`,
+    summary: `RNZ wants to shed 58 full-time roles after a loss more than 25 times bigger than forecast. Newsrooms should not pay first for a failure of financial controls, and the next administration must put public broadcasting on a stable footing.`,
+    body: `Radio New Zealand is about to lose one in six of its staff, and the people being shown the door are not the ones who lost track of the money.
+
+That is the uncomfortable core of the crisis at the public broadcaster. On 17 November 1News reported that RNZ had recorded an $11.8 million loss for the year to June, more than 25 times the $470,000 it had forecast, and that the organisation blamed inaccurate internal financial reporting. The board has approved a revised plan that proposes cutting 58 full-time roles, out of roughly 350, with affected people leaving progressively between December and 31 March 2027. The restructure itself is expected to cost $2.5 million, on top of an expected $7.8 million deficit for 2026/27.
+
+Those are big numbers for a small organisation. But the right response to a failure of financial controls is to fix the controls and find out who was responsible, not to strip out reporters and producers before anyone knows what went wrong.
+
+What we know about how it happened
+
+The Spinoff's Hayden Donnell, writing on 17 November after speaking to six RNZ staff, set out the components of the blowout as staff understand them: a $2 million land sale wrongly booked as income, staff costs $3.2 million over budget (including $1.4 million in redundancy payments), and running costs $6.4 million over budget, including overruns on a new Auckland office. HRD New Zealand reported on 12 November that The Post had revealed the board approved a $5 million loan facility that broke the law, prompting calls for directors to resign.
+
+Outgoing chief executive Paul Thompson has said he takes responsibility, and brought his departure forward. The board has commissioned an independent review into what RNZ itself has described as its financial controls, escalation, assurance and governance arrangements. That review has not yet started.
+
+So here is the sequence RNZ is proposing: decide on the cuts first, consult on them over the summer holidays, start moving people out in December, and learn what actually went wrong later. That is backwards.
+
+Why the timing is wrong
+
+The unions representing RNZ staff, E tū and the PSA, have asked for exactly one thing: pause the redundancy process until the independent review is finished and a new government is in place. That is not an unreasonable demand. According to RNZ copy republished by the Otago Daily Times, E tū national secretary Rachel Mackintosh said more than 200 people protested outside RNZ's Auckland and Wellington offices on 17 November, and that the union still had not seen the business case behind the figure of 58. "We've asked for the business case behind the 58 again and again," she said.
+
+PSA national secretary Fleur Fitzsimons made the other obvious point: New Zealand is between governments. The official election result is due today, and whoever forms the next administration, RNZ will answer to a new media minister. Locking in permanent damage to a public institution during a caretaker period, when the review that is meant to explain the mess has not even begun, is poor governance.
+
+There is also a fairness problem. Staff told The Spinoff they want redundancies to start in management, and that lower-paid workers are being asked to carry the cost while the people at the top walk away. RNZ's statement in response said the cuts were about financial sustainability, but did not commit to focusing them on management. When union delegate Phil Pennington asked RNZ to list alternatives, including cutting executive pay, he was asking a fair question. Every New Zealander who funds RNZ through their taxes deserves an answer to it.
+
+This did not start with one bad year
+
+It would be convenient to treat RNZ's troubles as a one-off accounting failure. They are not. In August 1News reported that RNZ was already planning to cut 25 to 30 roles, about 10 per cent of its workforce, because of a further funding reduction, with more reductions signalled for the following two years. Acting chief executive Mark Stevens told staff in November that "RNZ funding has reduced by 9% over two years."
+
+In other words, the current government was already squeezing the public broadcaster before the accounting problems surfaced. According to The Spinoff, Prime Minister Christopher Luxon and outgoing broadcasting minister Paul Goldsmith have ruled out a bailout. That is their right, but it means the cost of the board's failures, layered on top of deliberate funding cuts, now falls on newsrooms that serve the whole country.
+
+The damage will be felt well beyond Wellington. RNZ is where many New Zealanders turn in an earthquake, a flood or a cyclone, and where rural and regional communities get news that commercial outlets have long since stopped covering. RNZ says change proposals will be guided by its Charter and by audience needs, and Stevens has said no part of the organisation will be protected. That should worry anyone who relies on RNZ for coverage of their region, of Māori and Pacific communities, or of Parliament itself.
+
+What should happen now
+
+First, the board should pause the redundancies until the independent review reports. If the review finds that senior decisions caused the loss, accountability should start there, not with reporters, producers and technicians.
+
+Second, the review should be made public in full. RNZ is publicly owned. New Zealanders are entitled to know how a forecast loss of under half a million dollars turned into almost $12 million.
+
+Third, whoever forms the next government should commit to stable, multi-year funding for public media. Labour, the Greens and The Opportunity Party should make this an explicit priority in any negotiations. Public broadcasting is not a luxury to be trimmed every budget round; it is part of the infrastructure of a democracy, as essential in an emergency as roads and power lines. A modest, predictable funding settlement, tied to clear reporting and proper financial controls, would cost far less than rebuilding newsrooms once they are gone.
+
+Finally, governance needs to change. A public broadcaster's board must be appointed for competence and must be answerable when things go wrong. Staff should not be the only people asked to leave.
+
+The government's case
+
+The outgoing government and RNZ's management argue that RNZ has to live within its means like any other organisation, that taxpayers should not be asked to cover losses caused by internal failures, and that delaying the cuts would only deepen the deficit. RNZ says the staffing reduction is about making the broadcaster financially sustainable. Those are legitimate concerns. But sustainability built on cutting first and investigating later is not sustainability; it is damage control that lands on the wrong people.
+
+The bottom line
+
+RNZ's journalists did not book a land sale as income, sign off an unlawful overdraft or miss a loss by a factor of 25. Pause the cuts, publish the review, fix the governance, and give public media funding that does not shrink every year. A new Parliament is about to sit. It should not inherit a gutted public broadcaster as a fait accompli.
+
+This is an opinion column.
+
+Sources: 1News (Justin Hu), "RNZ's job cuts to cost $2.5m, staff face news of cuts within days", 17 November 2026; The Spinoff (Hayden Donnell), "You first: RNZ staff want the redundancies to start in management", 17 November 2026; RNZ via Otago Daily Times, "Show us the alternatives: RNZ staff protest job cuts outside offices", 17 November 2026; HRD New Zealand (Jack Campbell), "RNZ staff to protest job cuts after $11.8m budget blowout", 12 November 2026; 1News, "RNZ to cut around 10% of staff amid further funding reductions", 14 August 2026; Electoral Commission, "Progress on official count", 18 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/rnz-58-roles-pause-cuts-until-review-protect-public-broadcasting-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'nz-55000-special-votes-thrown-out-restore-election-day-enrolment-2026',
+    publishedAt: '2026-11-26T21:25:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Tens of thousands of votes will not count in today's final result. Bring back election-day enrolment`,
+    summary: `The Electoral Commission expects around 55,000 special votes to be thrown out this election, about five times more than last time, after enrolment closed 13 days before polling day. The next Parliament should restore the right to enrol and vote on the same day.`,
+    body: `When the Electoral Commission releases the official 2026 election result today, the count will be missing tens of thousands of New Zealanders who turned up, cast a vote and were turned away by a rule change.
+
+According to the Commission's media release of 18 November, official results are due on Friday 27 November. Behind the seat totals is a quieter story. As 1News reported on 16 October, the Electoral Commission estimated that about 55,000 special votes would be disallowed this election, roughly five times more than last time. It also estimated that more than 72,000 electorate votes could be thrown out, up from more than 42,000 in 2023, mainly because of out-of-date addresses.
+
+What changed
+
+Before this year, New Zealanders could enrol right up to and on election day, casting a special vote at the same time. That option is gone. Under electoral law changes passed by December 2025, enrolment for the 7 November election closed at midnight on 25 October, 13 days before polling day. The same changes reinstated a total ban on voting by prisoners sentenced after December 2025.
+
+The scale of what that removes is striking. 1News reported that in 2023 more than 600,000 people cast special votes, and that 450,000 of them enrolled in the final two weeks before the election, including 110,000 who enrolled on election day itself. Under this year's rules, that is close to half a million votes that would not have counted.
+
+Who pays the price
+
+Late enrolers are not a random slice of the country. 1News reported that Electoral Commission data indicates the early cut-off is likely to disenfranchise Māori, Asian and Pasifika communities and young people. These are people who move house more often, rent rather than own, and are more likely to engage with politics late in a campaign. Those are not reasons to shut them out. They are reasons to make voting easier for them.
+
+In a close election, the effect is not abstract. Analysts have been watching tight electorate races and a possible overhang that could shift the balance of the next Parliament. A democracy that discards tens of thousands of good-faith votes on a technicality, when the margins between blocs are this fine, has made a choice about whose voices matter.
+
+The government's case
+
+Supporters of the change argue that closing enrolment earlier speeds up the official count and reduces pressure on election staff. That point has substance: 1News reported that special votes take about ten times longer to process than ordinary votes, and that the 2023 surge in specials was 46 per cent above 2020 and about 100,000 above the Commission's projections. A faster, cleaner count is a reasonable goal.
+
+But the answer to slow counting is more resources and better systems, not fewer voters. Election-day enrolment worked in 2020 and 2023. If the Commission needs more staff or better technology to process specials quickly, fund it. The trade-off between a count that takes three weeks and one that takes two should never be settled by disqualifying people.
+
+What the next Parliament should do
+
+Labour, the Greens and The Opportunity Party should make restoring same-day enrolment a clear commitment in any coalition or support agreement. It should sit alongside proper funding for the Electoral Commission, so that results come faster without anyone losing their vote. The next government should also ask the Commission to publish, electorate by electorate, how many special votes were disallowed this year and why, so that the public can see the real cost of the change.
+
+Voting is the one moment when every adult citizen is equal. A rule that tells someone at the booth that they are a fortnight too late does not protect that equality. It erodes it. Whoever governs after today should put it right before 2029.
+
+This is an opinion column.
+
+Sources: Electoral Commission, "Progress on official count", 18 November 2026; 1News (Indira Stewart), "How the new enrolment rules could affect the election result", 16 October 2026; Democracy Project (Bryce Edwards), "News Briefing: 26 November 2026", 26 November 2026.
+
+Photo: the Beehive and Bowen House, Wellington, via Wikimedia Commons (free licence, as listed on the Commons file page).`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/nz-55000-special-votes-thrown-out-restore-election-day-enrolment-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'australia-labor-greens-trust-tax-private-jets-parliament-deal-2026',
+    publishedAt: '2026-11-26T21:20:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: The Labor–Greens trust tax deal in Parliament is fair. Wealthy families and private jet owners should pay their share`,
+    summary: `With inflation at 4.9 per cent, Labor and the Greens have agreed a 30 per cent minimum tax on discretionary trust distributions and higher fees for some private jet owners. Asking those at the top to pay more is the right call while ordinary households struggle.`,
+    body: `Australian households are paying more for almost everything. The ABC reported on 25 November that annual inflation rose to 4.9 per cent in the year to October, a three-year high. In that climate, a tax system that lets some of the country's wealthiest families shift income through trusts at low rates, and lets private jet owners pay a fraction of the fuel tax motorists pay, is hard to defend.
+
+That is why the deal struck in Canberra this week deserves support.
+
+What has been agreed
+
+According to the ABC's federal politics coverage on 25 November, the Greens will support Labor's 30 per cent minimum tax on discretionary trusts in return for extra integrity measures, including more resources for the charities regulator and the Australian Taxation Office. The Greens dropped their push to tax payments from trusts to private schools, sporting clubs and religious organisations at 30 per cent; those remain within a broad carve-out for charitable donations. Earlier, Smart Property Investment reported on 17 November that the Greens had also dropped a demand for a public register naming around a million trust beneficiaries.
+
+The deal also addresses private aviation. The ABC reported that private jet fuel is taxed at about 3.556 cents a litre, compared with 53.7 cents a litre paid by motorists, and that Treasurer Jim Chalmers said Labor had committed to "eliminate" that difference. The fuel tax itself will not change; instead, annual registration fees for some private aircraft will rise from July, with medical, aerial work, tourism, training and recreational flying excluded, according to people involved in the negotiations who spoke to the ABC. AAP, reported by The Canberra Times, said Parliamentary Budget Office analysis commissioned by the Greens costed the private jet fuel concession at $640 million in 2027 and $1.5 billion over the forward estimates.
+
+Why it matters to ordinary people
+
+Discretionary trusts have legitimate uses, but they have also long allowed higher-income families to split income among relatives on lower tax rates. A minimum rate of 30 per cent does not abolish trusts. It simply narrows the gap between what a wage earner pays on each extra dollar and what a family trust can arrange.
+
+The private jet issue is smaller in dollars but large in principle. A nurse filling up a hatchback should not be paying a far higher effective fuel tax than the owner of a business jet. Fixing that, while protecting medical, regional and training flights, is common sense.
+
+The money matters too. Every dollar of revenue that comes from those most able to pay is a dollar that does not have to come from cuts to services that lower-income Australians rely on, at a time when inflation is already squeezing budgets.
+
+The other side
+
+Opposition Leader Angus Taylor called the arrangement a "dirty deal". Accountants Daily reported on 17 November that Coalition senators on the Senate economics committee recommended against passing the trust bill unless the minimum tax was removed, warning of serious costs for small business and calling for a further inquiry. Those concerns deserve a proper hearing: the trust changes are complex, and genuine small family businesses need clear rules and time to adjust. Under the bill, the minimum tax is not due to start until 1 July 2028, according to the committee report, which leaves time for detailed guidance.
+
+The bottom line
+
+Australians have accepted real restraint during a cost-of-living crunch. It is fair to ask those with the most to contribute more, and it is good to see Labor and the Greens working together to get reform through the Senate. Labor should hold the line on integrity, resist any further carve-outs, and use the revenue to ease pressure on households rather than to fund more concessions at the top.
+
+This is an opinion column.
+
+Sources: ABC News (Courtney Gould, Joshua Boscaini), "Federal politics: Greens to support Labor trust tax in exchange for higher fees for some private jet owners", 25 November 2026; Accountants Daily (Malavika Santhebennur), "Coalition senators refuse to support trust tax bill", 17 November 2026; Smart Property Investment (Gemma Crotty), "Investors spared from public register as Greens drop trust bill demand", 17 November 2026; AAP via The Canberra Times, "Greens call for an end to jet fuel tax breaks for rich", 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/australia-labor-greens-trust-tax-private-jets-parliament-deal-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'nz-election-prediction-the-woman-who-could-decide-luxons-fate-2026',
     publishedAt: '2026-11-26T13:05:00.000Z',
     category: 'editorial-view',
