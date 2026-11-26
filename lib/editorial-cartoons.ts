@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '26 November 2026',
+    image: '/editorial-cartoons/2026-11-26-shark-bay-dolphin-social-club.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon at a fictional Shark Bay dolphin social club, where three original bottlenose dolphins swim together beneath a hand-painted same pod, same time sign; one dolphin says I joined for the fish and stayed for the friendships, while a fictional marine researcher in a small boat says attendance has been remarkably consistent',
+    headline: 'Shark Bay’s longest-running social club',
+    summary:
+      'University of Queensland researchers analysed 40 years of observations of 400 wild Indo-Pacific bottlenose dolphins at Shark Bay in Western Australia. Dolphins that consistently preferred a particular group size appeared more socially successful, and maintaining lifelong friendships may provide survival benefits.',
+    sourceUrl:
+      'https://news.uq.edu.au/2026-11-making-and-keeping-friends-could-help-dolphins-live-longer',
+    sourceLabel:
+      'University of Queensland — making and keeping friends could help dolphins live longer',
+    question: 'Which friendship has lasted longest in your life? Tell us below.',
+  },
+  {
+    date: '26 November 2026',
     image: '/editorial-cartoons/2026-11-26-fuel-gauge-quarter-tank.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon at a suburban service station under a canopy reading Kookaburra Fuel, where a fictional motorist in a bucket hat, checked work shirt and shorts holds up an empty open wallet as moths flutter out beside a fuel bowser and says a quarter tank, please — on lay-by; a station wagon with a kelpie in the back window is being filled, while a fictional attendant on a ladder holds up a new number 3 tile beside the fuel price board',
     headline: 'The only thing going down is the fuel gauge',

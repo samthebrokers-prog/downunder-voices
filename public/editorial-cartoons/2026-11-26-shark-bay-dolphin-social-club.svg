@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#fff"/>
+  <rect x="10" y="10" width="1180" height="740" fill="none" stroke="#111" stroke-width="3"/>
+  <text x="600" y="70" text-anchor="middle" font-family="Georgia, serif" font-size="44" font-weight="700" letter-spacing="1">DOWNUNDER VOICES — CARTOON OF THE DAY</text>
+  <line x1="28" y1="91" x2="1172" y2="91" stroke="#111" stroke-width="3"/>
+  <rect x="1060" y="108" width="100" height="34" fill="#fff" stroke="#111" stroke-width="2"/>
+  <text x="1110" y="132" text-anchor="middle" font-family="Georgia, serif" font-size="18" font-weight="700">SATIRE</text>
+  <rect x="30" y="101" width="1140" height="522" fill="none" stroke="#111" stroke-width="2.5"/>
+
+  <!-- Shark Bay horizon and water -->
+  <path d="M31 250 C155 225 255 245 375 225 C500 205 620 238 744 220 C875 202 1010 230 1169 208" fill="none" stroke="#111" stroke-width="3"/>
+  <path d="M31 272 C145 252 260 285 380 260 C500 238 625 274 742 250 C878 225 1015 260 1169 238" fill="none" stroke="#777" stroke-width="1.6"/>
+  <g stroke="#888" stroke-width="1.3" fill="none">
+    <path d="M55 330 Q120 310 185 330 T315 330 T445 330"/>
+    <path d="M760 320 Q830 300 900 320 T1040 320 T1160 320"/>
+    <path d="M36 505 Q110 485 184 505 T332 505 T480 505"/>
+    <path d="M680 520 Q760 500 840 520 T1000 520 T1160 520"/>
+    <path d="M70 570 q55 -18 110 0 t110 0 t110 0"/>
+    <path d="M760 575 q60 -18 120 0 t120 0 t120 0"/>
+  </g>
+
+  <!-- Fictional research boat -->
+  <path d="M70 168 L315 168 L280 245 L105 245 Z" fill="#fff" stroke="#111" stroke-width="5"/>
+  <path d="M132 168 L148 120 L237 120 L270 168" fill="#fff" stroke="#111" stroke-width="4"/>
+  <line x1="190" y1="119" x2="190" y2="87" stroke="#111" stroke-width="4"/>
+  <path d="M190 88 q26 10 42 28" fill="none" stroke="#111" stroke-width="3"/>
+  <text x="192" y="217" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="700">SHARK BAY RESEARCH</text>
+
+  <!-- Researcher -->
+  <circle cx="350" cy="177" r="29" fill="#fff" stroke="#111" stroke-width="4"/>
+  <path d="M320 166 Q350 135 381 165" fill="#fff" stroke="#111" stroke-width="4"/>
+  <path d="M331 185 q18 15 37 0" fill="none" stroke="#111" stroke-width="2.5"/>
+  <path d="M335 207 L319 294 L396 294 L379 207" fill="#fff" stroke="#111" stroke-width="4"/>
+  <path d="M382 220 Q402 236 420 247" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Sign -->
+  <rect x="821" y="154" width="273" height="92" fill="#fff" stroke="#111" stroke-width="4"/>
+  <line x1="851" y1="246" x2="838" y2="319" stroke="#111" stroke-width="5"/>
+  <line x1="1065" y1="246" x2="1078" y2="319" stroke="#111" stroke-width="5"/>
+  <text x="958" y="191" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-weight="700">DOLPHIN SOCIAL CLUB</text>
+  <text x="958" y="224" text-anchor="middle" font-family="Georgia, serif" font-size="21" font-weight="700">SAME POD · SAME TIME</text>
+
+  <!-- Three original dolphins -->
+  <g fill="#fff" stroke="#111" stroke-width="5" stroke-linejoin="round">
+    <path d="M235 426 C310 345 440 346 520 402 C561 431 578 466 555 488 C528 514 479 487 446 468 C402 513 330 535 270 510 C242 498 219 474 211 449 C207 437 216 431 235 426 Z"/>
+    <path d="M385 365 L418 315 L445 379 Z"/>
+    <path d="M228 432 L183 399 L194 448 L164 481 L226 466 Z"/>
+    <path d="M428 469 Q453 514 480 528 Q459 472 446 450"/>
+
+    <path d="M500 514 C580 425 720 430 803 488 C842 516 855 551 830 571 C803 593 757 567 718 548 C674 595 602 611 548 583 C519 568 492 542 482 526 C476 516 486 512 500 514 Z"/>
+    <path d="M652 445 L681 399 L712 462 Z"/>
+    <path d="M496 519 L449 491 L462 534 L432 566 L494 552 Z"/>
+    <path d="M704 548 Q733 589 762 601 Q739 548 721 531"/>
+
+    <path d="M782 402 C855 330 976 336 1045 389 C1081 417 1094 449 1071 470 C1044 495 1001 472 968 453 C928 495 862 510 810 488 C783 477 758 455 748 435 C742 421 758 410 782 402 Z"/>
+    <path d="M912 348 L940 302 L969 364 Z"/>
+    <path d="M776 406 L733 377 L745 420 L717 449 L775 438 Z"/>
+    <path d="M959 451 Q984 490 1014 501 Q989 450 973 435"/>
+  </g>
+  <g fill="#111">
+    <circle cx="520" cy="423" r="5"/><circle cx="802" cy="508" r="5"/><circle cx="1044" cy="408" r="5"/>
+  </g>
+  <g fill="none" stroke="#111" stroke-width="3">
+    <path d="M532 441 q15 9 27 -1"/><path d="M813 526 q14 9 27 -1"/><path d="M1054 426 q14 8 26 -1"/>
+  </g>
+
+  <!-- Speech bubbles -->
+  <path d="M448 110 H770 Q793 110 793 133 V214 Q793 237 770 237 H597 L558 277 L566 237 H448 Q425 237 425 214 V133 Q425 110 448 110 Z" fill="#fff" stroke="#111" stroke-width="3"/>
+  <text x="609" y="155" text-anchor="middle" font-family="Georgia, serif" font-size="19" font-weight="700">“I JOINED FOR THE FISH.</text>
+  <text x="609" y="187" text-anchor="middle" font-family="Georgia, serif" font-size="19" font-weight="700">I STAYED FOR THE FRIENDSHIPS.”</text>
+
+  <path d="M54 316 H375 Q395 316 395 337 V388 Q395 409 375 409 H367 L390 439 L354 409 H54 Q34 409 34 388 V337 Q34 316 54 316 Z" fill="#fff" stroke="#111" stroke-width="3"/>
+  <text x="215" y="352" text-anchor="middle" font-family="Georgia, serif" font-size="19" font-weight="700">“ATTENDANCE HAS BEEN</text>
+  <text x="215" y="380" text-anchor="middle" font-family="Georgia, serif" font-size="19" font-weight="700">REMARKABLY CONSISTENT.”</text>
+
+  <text x="600" y="672" text-anchor="middle" font-family="Georgia, serif" font-size="35" font-weight="700">SHARK BAY’S LONGEST-RUNNING SOCIAL CLUB.</text>
+  <text x="600" y="716" text-anchor="middle" font-family="Georgia, serif" font-size="15.5">Source: University of Queensland, 25 November 2026 — consistent dolphin friendships may support longer lives.</text>
+  <text x="1155" y="728" text-anchor="end" font-family="Georgia, serif" font-size="20" font-weight="700">DV</text>
+</svg>
