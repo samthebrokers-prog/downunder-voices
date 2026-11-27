@@ -31,6 +31,160 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'nz-final-result-coalition-lost-majority-top-must-drive-hard-bargain-2026',
+    publishedAt: '2026-11-27T21:30:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: The coalition lost its majority and Labour won the party vote. TOP should drive a hard bargain`,
+    summary: `The final count leaves National, ACT and NZ First one seat short and Labour ahead on the party vote. The Opportunity Party now holds the balance, and it should not prop up the old government on the old terms.`,
+    body: `New Zealand has now counted every vote, and the verdict is clearer than the arithmetic. The National, ACT and New Zealand First government asked voters for another three years with a majority. Voters said no.
+
+The Electoral Commission declared the official result by Gazette notice on 27 November. Once almost 485,000 special votes were added, the coalition finished on 65 seats in a 130-seat Parliament, one short of the 66 it needs to govern alone. On election night it had looked like a two-seat majority, as ABC News noted in its report the same day. The specials did what specials usually do, and the picture changed.
+
+What the final count actually says
+
+Start with the number that matters most under MMP: the party vote. According to the Electoral Commission, Labour won 29.88 per cent of the party vote, ahead of National on 28.35 per cent. More New Zealanders gave their party vote to Labour than to any other party. National still ends up with more seats, 40 to Labour's 36, because it won 40 electorates and its electorate haul exceeds what its party vote alone would deliver. The Commission says the House has an overhang of 10 seats, six of them National's and four Te Pāti Māori's.
+
+The Greens finished on 14.06 per cent and 17 seats, gaining one on specials. ACT has 13 seats, New Zealand First 12, The Opportunity Party seven and Te Pāti Māori five. The Commission also confirmed that Labour's Kieran McAnulty took Wairarapa by 81 votes and Georgie Dansey took Hamilton East by 173, both from National, while the Greens' Julie Anne Genter won Wellington Bays.
+
+Read those numbers together and the story is not a narrow win for the status quo. It is a government that lost ground, a Labour Party that topped the party vote, a Green Party that grew, and a new force, TOP, that now holds the balance.
+
+What the numbers do not say
+
+Honesty matters here, because the left has no easy road either. As The Spinoff's Joel MacManus set out on 27 November, Labour, the Greens and Te Pāti Māori together hold 58 seats. Even with TOP's seven that is 65, also one short. There is no simple path for a Labour-led government, and pretending otherwise would be wishful thinking.
+
+That makes TOP's seven seats decisive, and it makes the terms TOP sets the most important political decision of the summer.
+
+Why TOP should drive a hard bargain
+
+The Opportunity Party did not win more than 175,000 party votes to keep the outgoing government in office on the same terms. Its voters backed a party built on evidence-based policy: fairer tax on wealth and land rather than wages, serious climate action, and a better deal for young New Zealanders locked out of housing. Those are not small asks, and nothing in the last three years suggests a National-ACT-NZ First government would deliver them unprompted.
+
+The Spinoff described TOP leader Qiulae Wong as "in the driver's seat", and ABC reported that she has said she will talk first with the party holding the most seats. That is a fair and transparent process. But talking first is not the same as agreeing at any price. If National wants TOP's votes, the price should be measurable change: a credible plan to cut emissions rather than slow-walk them, tax reform that shifts the load off working people, and real investment in public housing, health and child poverty.
+
+The form of any deal matters too. The Spinoff notes that one option is a confidence-and-supply arrangement that would leave TOP on the crossbench. For a small party with distinctive policies, that is the safer route. It lets TOP secure written policy gains while keeping its freedom to vote against measures it opposes, such as cuts to public services or reversals on climate. Full coalition, with ministers bound by collective responsibility, risks TOP becoming the fourth wheel of a government its voters did not choose.
+
+Luxon has boxed himself in
+
+National's difficulty is partly of its own making. During the campaign Christopher Luxon repeatedly ruled out working with TOP, as The Spinoff recorded. He now needs exactly that party to keep his job. Voters are entitled to notice the change of heart, and TOP is entitled to ask what National is offering that it was not offering a month ago.
+
+There is also the question of the coalition partners. ACT and New Zealand First were elected on platforms that sit uneasily with TOP's approach to climate and tax. Any arrangement that leaves ACT's agenda intact and asks TOP merely to supply the 66th vote would be a poor deal for TOP's voters and for the country.
+
+Labour and the Greens should be ready
+
+Labour and the Greens are not spectators. They won more than 43 per cent of the party vote between them. They should make clear, publicly, what a Labour-led arrangement would offer TOP if the numbers ever allowed it, and what they will support from opposition: action on the cost of living, stable funding for health and public broadcasting, and climate policy that matches the science. A constructive opposition that sets out workable policy is the best preparation for the next election, whenever it comes.
+
+And it might come soon. ABC reported analysts' view that if National cannot reach a deal with TOP, a fresh election is likely, and quoted chief electoral officer Karl Le Quesne: "We always need to be ready for another election." The Spinoff observed that no party appears to have much appetite for that. Nobody should want a second election for its own sake. But nobody should fear one either. A second vote is the system working, not failing, if the alternative is a government built on a deal that does not reflect what people voted for.
+
+The government's case
+
+National argues that it remains the largest party in Parliament, that its coalition is only one seat short, and that stability is best served by continuing the current arrangement with the smallest necessary addition. ACT and New Zealand First say the country voted for a centre-right direction. Those points carry weight: 65 seats is a large bloc, and continuity has value in uncertain economic times.
+
+But stability is not the same as a mandate. The outgoing coalition lost its majority, lost two electorates on the final count and finished second on the party vote. A government formed from that result should look different from the last one.
+
+What comes next
+
+The Electoral Commission says parties have until 2 December to seek judicial recounts. If none are filed, the writ will be returned on 3 December and list MPs declared. After that, the bargaining begins in earnest.
+
+TOP should use its leverage fully and in the open. Labour and the Greens should keep presenting a credible alternative. And every party should remember that New Zealanders turned out in their millions, 77.2 per cent of those enrolled, to change the direction of their country. The deal that emerges must respect that.
+
+This is an opinion column.
+
+Sources: Electoral Commission, "2026 General Election official results", 27 November 2026; The Spinoff (Joel MacManus), "The final 2026 election results are in, but who actually won?", 27 November 2026; ABC News (Stephen Dziedzic, with wires), "New Zealand's incumbent government fails to secure majority from election result", 27 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/nz-final-result-coalition-lost-majority-top-must-drive-hard-bargain-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'health-nz-rehired-166-redundant-staff-public-good-test-2026',
+    publishedAt: '2026-11-27T21:25:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Health NZ paid people to leave, then hired at least 166 back. Restructures need a public good test`,
+    summary: `Union figures show Health New Zealand has rehired at least 166 people it made redundant, and cannot say what the churn has cost. The next government should require a public good test before any more cuts.`,
+    body: `Health New Zealand has been paying people to leave, and then hiring some of them back. That is not reform. It is waste, and the next government should put a stop to it.
+
+The numbers come from the Public Service Association, which obtained them from Health NZ under the Official Information Act and were reported by RNZ on 26 November. They show that at least 166 people made redundant by Health NZ since it was created in 2022 have since been rehired. The real figure is likely higher, because the data does not count people who came back as contractors.
+
+The scale of the churn
+
+The same information shows 1,907 redundancy payments logged since July 2022, drawn from more than 20 separate payroll systems inherited from the old district health boards. Some 292 of those redundancies were in data and digital roles. Health NZ could not say how many former staff returned as contractors, or how much the redundancy payouts have cost in total. It told the union those follow-up questions would be treated as new information requests, with up to 20 working days to answer.
+
+Think about what that means. The country's largest employer cannot readily tell the public what it has spent on getting rid of people, or how many of them it is now paying again through another door. Every redundancy cheque comes out of the health budget. Every rehire after a payout means the taxpayer has paid twice for the same skills, and patients have lived with the disruption in between.
+
+Cuts first, questions later
+
+Ministers in the outgoing government have argued that money saved behind the scenes goes to the frontline. But when the same roles turn out to be needed, the savings evaporate, and the expertise lost in the meantime is hard to rebuild.
+
+It is not as if the frontline has been transformed either. RNZ has reported that Health NZ added just 54 full-time-equivalent nurses over two years, before a September announcement of 380 extra nurses, midwives and healthcare assistants. Caretaker Health Minister Simeon Brown's office has also had to deny that he ordered nursing workforce figures held back until after the 7 November election. Whatever the truth of that, the episode shows how much the public still has to fight to get basic facts about its own health system.
+
+A test before the next restructure
+
+PSA national secretary Fleur Fitzsimons has called the pattern "a senseless merry-go-round where health workers lose their jobs". Her union wants a public good test applied before any major restructure in the public service: a clear, published case showing that the change will improve services and save money once redundancy costs and rehiring are counted.
+
+That is a modest, sensible idea, and Labour, the Greens and TOP should all back it in the coming negotiations and in Parliament. It would not stop genuine reform. It would simply require managers and ministers to show their working before cutting jobs, and to be accountable when the numbers do not add up.
+
+The next government should go further. It should ask Health NZ to publish the full cost of restructuring since 2022, including contractor spending. It should stabilise the workforce, so staff are not facing their third or fourth change proposal in as many years. And it should fund the health system properly, so that frontline gains do not depend on stripping out the people who keep the payroll, data and IT systems running.
+
+Health NZ's case
+
+Health NZ's people and culture director Robyn Shearer has defended its record, saying the agency continues to actively recruit to frontline clinical and support roles. Defenders of the reforms point out that merging 20 district health boards into one organisation was always going to involve duplicated roles, and that some people rehired may have returned to quite different jobs. The outgoing government argues that cutting back-office costs is necessary to protect spending on patients. Those are fair points, but they do not explain why the true costs are so hard to find.
+
+The bottom line
+
+Good health care depends on stable, experienced teams. Paying people to go and then paying again to bring them back serves nobody: not the workers, not the taxpayer, and above all not patients. A public good test is the least New Zealanders should expect.
+
+This is an opinion column.
+
+Sources: RNZ, 26 November 2026, reporting PSA figures obtained under the Official Information Act, as summarised by NEWS WIRE, "Health New Zealand has rehired at least 166 workers it made redundant, union figures show", 26 November 2026.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/health-nz-rehired-166-redundant-staff-public-good-test-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
+    slug: 'australia-gas-reservation-law-good-start-electrify-homes-2026',
+    publishedAt: '2026-11-27T21:20:00.000Z',
+    category: 'editorial-view',
+    title: `Opinion: Australia's new gas reservation law puts households first. Keep it at 20 per cent and electrify homes`,
+    summary: `Parliament has passed a scheme making LNG exporters reserve up to 20 per cent of their gas for Australians from 2028. It is overdue and welcome, but it should not be watered down, and it should come with a push to cut household gas use.`,
+    body: `For years Australians have lived with an absurdity: one of the world's biggest gas exporters, with households and factories on the east coast warned of shortages and paying prices set by overseas markets. This week Parliament finally did something about it.
+
+According to ABC News's business coverage on 27 November, Parliament has passed a scheme requiring LNG exporters to reserve up to 20 per cent of their production for the domestic market from 2028, with Western Australia exempt. Oilprice.com, in a report republished by Yahoo News the same day, said the Albanese government first announced the policy last December and set out the model in May.
+
+It is a good law, and a long overdue one. It should be the start of a fairer energy deal, not the end.
+
+Why it matters to ordinary people
+
+Gas is not an abstract export commodity. Prime Minister Anthony Albanese, quoted by Reuters, put it plainly: "Gas heats Australian homes, it firms renewable energy, it is essential to manufacturing". When east coast supply gets tight, those costs flow straight into power bills, heating bills and the price of goods made in Australian factories.
+
+The risk was real. Oilprice.com reported that the competition regulator warned last year that the east coast market could tip into deficit, a gap only closed by stopgap agreements with exporters. Relying on voluntary deals with a handful of large companies is no way to secure a basic household need. A legislated reservation puts Australians first in the queue for a resource that belongs to them.
+
+The timing matters too. ABC reported on 27 November that the Reserve Bank has raised interest rates five times. Families squeezed by mortgage rises and grocery prices cannot also be left exposed to gas shortages. Anything that steadies energy costs takes some pressure off household budgets and, eventually, off inflation itself.
+
+Where it falls short
+
+The law has been weakened on the way through. Oilprice.com reported that the original fixed 20 per cent mandate became a requirement of up to 20 per cent. That gives room for the share to be set lower, and the government must not let industry lobbying whittle it down in practice. The scheme also does not start until 2028, which offers little to households facing winter bills in 2027.
+
+And reserving gas is only one half of the job. The other half is cutting how much gas we need. Every home that switches from gas heating to an efficient electric heat pump, and every factory that electrifies, reduces both bills and emissions. Labor should pair the reservation scheme with stronger support for household electrification, while the Greens are right to keep pushing for the transition to be faster. Gas should be the backup for a renewable grid, not an excuse to approve new fields that lock in decades of emissions.
+
+The other side
+
+The gas industry opposed the scheme, arguing, as Oilprice.com reported, that it could change investment decisions and lead producers to spend less. Western Australia, which Oilprice says accounts for about two-thirds of the nation's LNG exports, already runs its own 15 per cent reservation and has no pipeline to the east, which is why it was exempted.
+
+These are concerns worth monitoring, and the government should report regularly on supply and prices once the scheme starts. But Western Australia's experience suggests a reservation and a strong export industry can coexist. Producers who profit from Australian resources can reasonably be asked to keep enough at home to supply Australians at fair prices.
+
+The bottom line
+
+Albanese has described the law as preserving Australian gas for Australians. That is the right principle. Now Labor should keep the share at the full 20 per cent, bring forward relief where it can, and back it with a serious push to electrify homes so that families are not tied to gas in the first place. Cheaper, more secure energy is a cost-of-living measure, a jobs measure and a climate measure all at once.
+
+This is an opinion column.
+
+Sources: ABC News (Lin Lin, Katie Silver and others), "ACCC issues Black Friday AI warning, Sequoia gets Senate grilling - as it happened", 27 November 2026; Oilprice.com (Irina Slav) via Yahoo News, "Australia Passes Landmark Law to Reserve Gas for Domestic Consumers", 27 November 2026, including Prime Minister Anthony Albanese's remarks as quoted by Reuters.
+
+Photo: public-domain photograph via Wikimedia Commons (public domain / CC0), selected by Downunder Voices.`,
+    imageUrl: 'https://www.downundervoices.com/api/editorial-image/australia-gas-reservation-law-good-start-electrify-homes-2026',
+    author: 'Downunder Voices Opinion',
+  },
+  {
     slug: 'three-parties-one-pm-two-deputy-pms-now-a-fourth-party-2026',
     publishedAt: '2026-11-27T04:05:00.000Z',
     category: 'editorial-view',
