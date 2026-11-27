@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#fff"/>
+  <rect x="10" y="10" width="1180" height="740" fill="none" stroke="#111" stroke-width="3"/>
+  <text x="600" y="70" text-anchor="middle" font-family="Georgia, serif" font-size="44" font-weight="700" letter-spacing="1">DOWNUNDER VOICES — CARTOON OF THE DAY</text>
+  <line x1="28" y1="91" x2="1172" y2="91" stroke="#111" stroke-width="3"/>
+  <rect x="1060" y="108" width="100" height="34" fill="#fff" stroke="#111" stroke-width="2"/>
+  <text x="1110" y="132" text-anchor="middle" font-family="Georgia, serif" font-size="18" font-weight="700">SATIRE</text>
+  <rect x="30" y="101" width="1140" height="522" fill="none" stroke="#111" stroke-width="2.5"/>
+
+  <!-- Pier and underwater setting -->
+  <line x1="31" y1="177" x2="1169" y2="177" stroke="#111" stroke-width="4"/>
+  <path d="M31 199 Q115 181 199 199 T367 199 T535 199 T703 199 T871 199 T1039 199 T1169 199" fill="none" stroke="#777" stroke-width="1.5"/>
+  <g stroke="#111" stroke-width="14">
+    <line x1="110" y1="102" x2="132" y2="420"/><line x1="996" y1="102" x2="973" y2="395"/>
+  </g>
+  <g stroke="#777" stroke-width="1.4" fill="none">
+    <path d="M34 335 Q110 317 186 335 T338 335"/><path d="M760 320 Q840 300 920 320 T1080 320 T1165 320"/>
+    <path d="M40 540 Q120 520 200 540 T360 540"/><path d="M760 550 Q840 530 920 550 T1080 550 T1160 550"/>
+  </g>
+  <g fill="none" stroke="#111" stroke-width="4">
+    <path d="M70 620 Q48 535 78 455 Q110 520 96 620"/>
+    <path d="M135 620 Q115 520 150 435 Q180 510 163 620"/>
+    <path d="M1080 620 Q1050 505 1086 420 Q1120 505 1102 620"/>
+    <path d="M1140 620 Q1118 535 1146 455 Q1170 520 1160 620"/>
+  </g>
+
+  <!-- Speech bubble -->
+  <path d="M232 118 H775 Q800 118 800 143 V223 Q800 248 775 248 H564 L527 286 L535 248 H232 Q207 248 207 223 V143 Q207 118 232 118 Z" fill="#fff" stroke="#111" stroke-width="3"/>
+  <text x="503" y="151" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-weight="700">“I SPENT MILLIONS OF YEARS</text>
+  <text x="503" y="181" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-weight="700">PERFECTING CAMOUFLAGE.</text>
+  <text x="503" y="211" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-weight="700">THEN EVERYONE GOT A CAMERA.”</text>
+
+  <!-- Original seadragon -->
+  <g fill="#fff" stroke="#111" stroke-width="4" stroke-linejoin="round">
+    <path d="M418 287 C470 250 552 266 584 322 C606 360 584 405 551 433 C515 464 504 501 529 530 C552 556 593 550 601 521 C610 489 580 476 562 491 C549 501 553 516 567 519"/>
+    <path d="M418 287 L362 270 L384 298 L347 315 L408 324"/>
+    <path d="M442 278 L421 230 L467 267 Z"/>
+    <path d="M480 278 L499 226 L516 289 Z"/>
+    <path d="M526 300 L559 254 L557 325 Z"/>
+    <path d="M568 340 L618 319 L580 368 Z"/>
+    <path d="M565 390 L615 412 L555 416 Z"/>
+    <path d="M535 438 L568 476 L518 459 Z"/>
+    <path d="M466 323 L430 362 L481 352 Z"/>
+    <path d="M492 383 L449 410 L503 417 Z"/>
+  </g>
+  <circle cx="398" cy="294" r="5" fill="#111"/>
+  <g fill="none" stroke="#777" stroke-width="2">
+    <circle cx="474" cy="311" r="6"/><circle cx="528" cy="334" r="5"/><circle cx="504" cy="398" r="6"/>
+    <path d="M462 346 q18 14 38 0"/><path d="M520 365 q17 13 33 1"/>
+  </g>
+
+  <!-- ID marker and camera -->
+  <rect x="305" y="404" width="125" height="68" fill="#fff" stroke="#111" stroke-width="3"/>
+  <text x="367" y="432" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700">PHOTO ID</text>
+  <text x="367" y="457" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700">DRAGON 042</text>
+  <rect x="655" y="335" width="112" height="78" rx="8" fill="#fff" stroke="#111" stroke-width="4"/>
+  <circle cx="711" cy="374" r="25" fill="none" stroke="#111" stroke-width="4"/>
+  <circle cx="711" cy="374" r="9" fill="#fff" stroke="#111" stroke-width="3"/>
+  <rect x="680" y="319" width="44" height="18" fill="#fff" stroke="#111" stroke-width="3"/>
+
+  <!-- Fictional diver and AI slate -->
+  <circle cx="906" cy="379" r="43" fill="#fff" stroke="#111" stroke-width="4"/>
+  <rect x="869" y="359" width="75" height="30" rx="12" fill="#fff" stroke="#111" stroke-width="3"/>
+  <circle cx="890" cy="374" r="5" fill="#111"/><circle cx="923" cy="374" r="5" fill="#111"/>
+  <path d="M948 374 h32 q18 0 18 -16" fill="none" stroke="#111" stroke-width="5"/>
+  <path d="M873 418 Q845 472 852 545 L962 545 Q968 474 938 418" fill="#fff" stroke="#111" stroke-width="4"/>
+  <path d="M862 441 Q814 434 779 416" fill="none" stroke="#111" stroke-width="9" stroke-linecap="round"/>
+  <rect x="747" y="431" width="183" height="105" rx="5" fill="#fff" stroke="#111" stroke-width="3" transform="rotate(-3 747 431)"/>
+  <text x="837" y="461" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700">AI PHOTO MATCH</text>
+  <text x="837" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700">MATCH FOUND:</text>
+  <text x="837" y="519" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700">STILL A DRAGON ✓</text>
+  <path d="M950 446 Q990 460 1015 492" fill="none" stroke="#111" stroke-width="9" stroke-linecap="round"/>
+  <g fill="none" stroke="#111" stroke-width="3"><circle cx="885" cy="337" r="8"/><circle cx="946" cy="325" r="5"/><circle cx="1000" cy="304" r="9"/></g>
+
+  <text x="600" y="672" text-anchor="middle" font-family="Georgia, serif" font-size="35" font-weight="700">CAMOUFLAGE MEETS THE CAMERA ROLL.</text>
+  <text x="600" y="716" text-anchor="middle" font-family="Georgia, serif" font-size="15.5">Source: Australian Geographic, 26 November 2026 — citizen photos and AI identify Australia’s seadragons.</text>
+  <text x="1155" y="728" text-anchor="end" font-family="Georgia, serif" font-size="20" font-weight="700">DV</text>
+</svg>

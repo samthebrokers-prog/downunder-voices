@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '27 November 2026',
+    image: '/editorial-cartoons/2026-11-27-seadragon-photo-id.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon beneath an Australian pier, where an original leafy seadragon poses beside kelp for a fictional underwater identification camera and says I spent millions of years perfecting camouflage, then everyone got a camera; a generic diver checks an AI identification screen reading match found, still a dragon',
+    headline: 'Camouflage meets the camera roll',
+    summary:
+      'Australian Geographic reports that SeadragonSearch is combining artificial intelligence with thousands of photographs contributed by citizen scientists. The project has assembled the largest collection of individually identified seadragons, helping researchers study populations found only along Australia’s temperate coastline.',
+    sourceUrl:
+      'https://www.australiangeographic.com.au/nature-wildlife/2026/11/secrets-of-seadragons/',
+    sourceLabel:
+      'Australian Geographic — citizen scientists and AI uncover the secrets of seadragons',
+    question: 'What Australian animal would you most like to help scientists photograph? Tell us below.',
+  },
+  {
+    date: '27 November 2026',
     image: '/editorial-cartoons/2026-11-27-black-friday-savings-tower.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon in a suburban front yard on Black Friday, where a fictional courier staggers up the garden path behind a wobbling tower of parcels labelled 50% off, Sale, Fragile and Buy 2 Save, while a fictional shopper on the verandah holds up her phone and says another $920 saved, love, and her weary partner watches from the doorway with a mug of tea',
     headline: 'We can’t afford to save any more',
