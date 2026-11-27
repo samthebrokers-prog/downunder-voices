@@ -31,6 +31,53 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'three-parties-one-pm-two-deputy-pms-now-a-fourth-party-2026',
+    publishedAt: '2026-11-27T04:05:00.000Z',
+    category: 'editorial-view',
+    title: `Three Parties, One Prime Minister, Two Deputy Prime Ministers — Now a Fourth Party?`,
+    summary: `New Zealand has spoken. Will its political leaders put the country before their personal ambitions?`,
+    body: `New Zealand has spoken. Will its political leaders put the country before their personal ambitions?
+
+The final election results have delivered a powerful message to National, ACT and New Zealand First.
+
+After three years in government, the coalition has fallen short of a parliamentary majority, leaving the Opportunity Party and its leader, Qiulae Wong, in a potentially decisive position.
+
+New Zealand has already experienced a three-party government with one Prime Minister and two politicians sharing the position of Deputy Prime Minister at different stages of the parliamentary term.
+
+Are we now heading towards a four-party government, with even more political compromises, ministerial portfolios and competing demands?
+
+New Zealanders deserve better than another round of negotiations dominated by political egos.
+
+Christopher Luxon, David Seymour and Winston Peters must recognise that the election result is a verdict on their collective leadership.
+
+The cost of living, housing affordability, business confidence, unemployment and the weakness of the New Zealand dollar demand urgent attention.
+
+Ordinary New Zealanders do not have the luxury of negotiating ministerial positions, salaries, allowances and political privileges. They are negotiating with their household budgets, mortgage repayments and supermarket bills.
+
+Meanwhile, the Opportunity Party's emergence represents a significant change in New Zealand's political landscape. Its supporters have placed their confidence in an alternative political voice.
+
+That democratic decision must be respected.
+
+The question is not who gets the biggest office, the most prestigious ministerial title or the greatest political influence.
+
+The question is who can deliver a stable, responsible and economically credible government.
+
+To the leaders of National, ACT and New Zealand First: forget your personal ambitions. Put aside your political egos.
+
+New Zealand belongs to its people, not its politicians.
+
+The voters have delivered their message. It is now time for the politicians to listen.
+
+Downunder Voices — Independent editorial opinion.
+
+Sources: New Zealand Electoral Commission official election results, 27 November 2026.
+
+Image: Supplied.`,
+    imageUrl: 'https://www.downundervoices.com/editorial/four-party-government-nz-2026.jpg',
+    author: 'Downunder Voices Editorial',
+    importMethod: 'automated-editorial',
+  },
+  {
     slug: 'rnz-58-roles-pause-cuts-until-review-protect-public-broadcasting-2026',
     publishedAt: '2026-11-26T21:30:00.000Z',
     category: 'editorial-view',
