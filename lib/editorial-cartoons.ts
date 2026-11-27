@@ -11,6 +11,19 @@ export type EditorialCartoon = {
 
 export const editorialCartoons: EditorialCartoon[] = [
   {
+    date: '28 November 2026',
+    image: '/editorial-cartoons/2026-11-28-parliament-rises-for-summer.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon on the steps of a fictional colonnaded parliament building, where two fictional MPs from opposite sides walk arm in arm with sunglasses on their heads, one carrying a surfboard and a briefcase stuffed with a beach towel and the other a picnic esky, saying see? we can agree on something; an usher stands by a sign reading adjourned, Parliament returns 2 Feb 2027, gone to the beach, and a weary cleaner wheels away a trolley piled with papers tagged 123 bills passed',
+    headline: 'The only motion that always passes unanimously',
+    summary:
+      'Federal Parliament wrapped up its final sitting week of 2026 on Friday, with the gas reservation scheme among the last bills to pass. The Senate passed 123 bills this year, and Parliament is adjourned until 2 February 2027.',
+    sourceUrl:
+      'https://www.abc.net.au/news/2026-11-27/federal-politics-live-blog-november-27/107431796',
+    sourceLabel:
+      'ABC News — Federal Parliament wraps up its sitting year until February',
+    question: 'What would you most like Parliament to tackle when it returns in February? Tell us below.',
+  },
+  {
     date: '27 November 2026',
     image: '/editorial-cartoons/2026-11-27-seadragon-photo-id.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon beneath an Australian pier, where an original leafy seadragon poses beside kelp for a fictional underwater identification camera and says I spent millions of years perfecting camouflage, then everyone got a camera; a generic diver checks an AI identification screen reading match found, still a dragon',
