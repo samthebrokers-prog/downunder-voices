@@ -12,6 +12,19 @@ export type EditorialCartoon = {
 export const editorialCartoons: EditorialCartoon[] = [
   {
     date: '28 November 2026',
+    image: '/editorial-cartoons/2026-11-28-adelaide-cane-toad-welcome-committee.svg',
+    alt: 'Black-and-white pen-and-ink newspaper cartoon at night in the Grange wetlands, where an original cane toad with a tiny suitcase covered in travel stickers crouches in a spotlight beside a South Australia border sign reading declare fruit, vegetables and amphibians; two fictional biosecurity officers approach with a humane collection container and the toad says so the welcome committee was a trap',
+    headline: 'South Australia’s least welcome hitchhiker',
+    summary:
+      'South Australian biosecurity officers found and removed a lone cane toad from wetlands at Grange after several nights of searching. PIRSA says the invasive pest was the state’s second detection in two months and reminded travellers to check vehicles, caravans and luggage for accidental amphibian stowaways.',
+    sourceUrl:
+      'https://pir.sa.gov.au/news/biosecurity/cane-toad-found-overnight',
+    sourceLabel:
+      'PIRSA — cane toad found and removed from Grange wetlands overnight',
+    question: 'What is the strangest accidental hitchhiker you have ever found in a car or suitcase? Tell us below.',
+  },
+  {
+    date: '28 November 2026',
     image: '/editorial-cartoons/2026-11-28-parliament-rises-for-summer.svg',
     alt: 'Black-and-white pen-and-ink newspaper cartoon on the steps of a fictional colonnaded parliament building, where two fictional MPs from opposite sides walk arm in arm with sunglasses on their heads, one carrying a surfboard and a briefcase stuffed with a beach towel and the other a picnic esky, saying see? we can agree on something; an usher stands by a sign reading adjourned, Parliament returns 2 Feb 2027, gone to the beach, and a weary cleaner wheels away a trolley piled with papers tagged 123 bills passed',
     headline: 'The only motion that always passes unanimously',
