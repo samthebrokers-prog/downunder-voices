@@ -26,6 +26,15 @@ export const revalidate = 300
 
 const siteUrl = 'https://www.downundervoices.com'
 
+// Extra charts shown inside particular articles, after the main text.
+const STORY_FIGURES: Record<string, { src: string; alt: string; caption: string }> = {
+  'billions-in-profits-thousands-of-jobs-lost-canberra-must-act-2026': {
+    src: '/editorial/bank-profits-vs-job-cuts-2026.png',
+    alt: 'Bar chart: NAB cash earnings fell from $7.09bn in FY2025 to $6.14bn in FY2026 with up to 2,500 jobs cut; ANZ cash profit rose from $5.79bn to $7.59bn with about 3,500 redundancies.',
+    caption: 'Bank profits vs job cuts. Sources: NAB and ANZ 2026 full-year results.',
+  },
+}
+
 function getSocialImageUrl(
   image: string | null | undefined,
   slug: string,
@@ -466,9 +475,17 @@ export default async function StoryPage({
           <div className="mt-10 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
             <div className="min-w-0">
               {story.summary && (
-                <p className="font-serif text-xl font-medium leading-9 text-foreground/90 sm:text-2xl sm:leading-10">
+                <p className="whitespace-pre-line font-serif text-xl font-medium leading-9 text-foreground/90 sm:text-2xl sm:leading-10">
                   {story.summary}
                 </p>
+              )}
+
+              {STORY_FIGURES[slug] && (
+                <figure className="mt-9 overflow-hidden rounded-xl border border-border bg-white p-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={STORY_FIGURES[slug].src} alt={STORY_FIGURES[slug].alt} className="h-auto w-full" loading="lazy" />
+                  <figcaption className="mt-2 px-1 text-sm text-muted-foreground">{STORY_FIGURES[slug].caption}</figcaption>
+                </figure>
               )}
 
               {story.communityAngle && (
