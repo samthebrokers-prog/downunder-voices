@@ -31,6 +31,65 @@ export type DvOriginal = {
 
 export const DV_ORIGINALS: DvOriginal[] = [
   {
+    slug: 'winston-peters-no-longer-sole-kingmaker-2026',
+    publishedAt: '2026-11-27T13:05:00.000Z',
+    category: 'editorial-view',
+    title: `Winston Peters No Longer the Sole Kingmaker: New Zealand's Balance of Power Has Changed`,
+    summary: `Political donations can finance an election campaign, but the ultimate authority to determine a country's future remains with its people.`,
+    body: `Political donations can finance an election campaign, but the ultimate authority to determine a country's future remains with its people.
+
+For decades, Winston Peters has been one of the most influential figures in New Zealand's coalition politics. Governments have been formed through negotiations with him, and smaller parties have shown how much influence they can exercise under MMP.
+
+But the final results of the 2026 general election have changed the political landscape.
+
+National, ACT and New Zealand First together hold 65 seats in a Parliament of 130. They are one seat short of an outright majority. The Opportunity Party, led by Qiulae Wong, now holds seven seats and occupies a pivotal position in government formation.
+
+Peters remains influential, but he is no longer the sole political figure upon whom the existing coalition's future depends.
+
+Money cannot guarantee political power
+
+New Zealand First reportedly received nearly $1 million in large political donations during the election campaign. ACT and National received even larger sums, more than $2 million each in declared major donations, so the question applies across the political spectrum.
+
+Political donations are a legitimate part of democracy when properly disclosed and regulated. Nevertheless, this election raises important questions about the relationship between private wealth, political influence and public accountability.
+
+What do major political donors expect in return for their financial support? How transparent should those relationships be? Should New Zealand introduce stronger limits on political donations?
+
+These questions deserve serious public discussion, regardless of which political party receives the money.
+
+One country, many communities
+
+New Zealand belongs to all its people, regardless of their ethnicity, religion, birthplace or financial circumstances.
+
+Immigration, Māori rights, economic policy and national identity are legitimate subjects of political debate. But such debates should be conducted with respect for the people whose lives are affected by them.
+
+New Zealand's strength has always depended on its ability to bring different communities together.
+
+The responsibility now facing political leaders
+
+Christopher Luxon, David Seymour, Winston Peters, Chris Hipkins and Qiulae Wong face a parliamentary landscape that requires negotiation and compromise.
+
+Meanwhile, ordinary New Zealanders continue to face rising living costs, housing pressures, employment uncertainty and challenges accessing public services.
+
+Those concerns cannot be resolved through political personalities or prolonged arguments over ministerial positions alone.
+
+Nearly three million people participated in this election, including more than 484,000 special voters. Their participation deserves recognition.
+
+The final count serves as a reminder of a fundamental democratic principle: political authority comes from citizens, not campaign contributions, personal ambitions or longstanding political influence.
+
+Whatever government emerges from the negotiations, its responsibility will be to serve the whole of New Zealand.
+
+Governments may change. Political influence may shift. But democracy belongs to the people.
+
+Downunder Voices — Community First.
+
+Sources: New Zealand Electoral Commission official election results and 2026 donations register, 27 November 2026; 1News, "The special votes are in — what's changed since election night?", 27 November 2026; RNZ political donations tracker, 2026.
+
+Image: Supplied.`,
+    imageUrl: 'https://www.downundervoices.com/editorial/winston-peters-no-longer-sole-kingmaker-2026.jpg',
+    author: 'Downunder Voices Editorial',
+    importMethod: 'automated-editorial',
+  },
+  {
     slug: 'nz-final-result-coalition-lost-majority-top-must-drive-hard-bargain-2026',
     publishedAt: '2026-11-27T21:30:00.000Z',
     category: 'editorial-view',
